@@ -1,0 +1,840 @@
+ _   _ _     _                      __
+| | | (_)___| |_ ___  _ __ _   _   / _| ___  _ __
+| |_| | / __| __/ _ \| '__| | | | | |_ / _ \| '__|
+|  _  | \__ \ || (_) | |  | |_| | |  _| (_) | |
+|_| |_|_|___/\__\___/|_|   \__, | |_|  \___/|_|
+                           |___/
+       __       ____  _     _             _   _____
+  ___ / _| __ _|___ \| |__ | |_ _ __ ___ | | |___ / __  __
+ / __| |_ / _` | __) | '_ \| __| '_ ` _ \| |   |_ \ \ \/ /
+| (__|  _| (_| |/ __/| | | | |_| | | | | | |  ___) | >  <
+ \___|_|  \__, |_____|_| |_|\__|_| |_| |_|_| |____(_)_/\_\
+          |___/
+
+@(#) $Id: history_hpux_v3.txt,v 5.10.1.1 2011-02-15 14:29:05 ralproth Exp $
+---------------------------------------------------------------------------
+
+2009-04-28  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/html/allhosts.htm, release/html/info.htm, release/html/make_index.sh:
+	cfg3.75: MakeIndex bug fixing from 4.xx
+
+	* release/contrib/getfcmini.sh, release/contrib/sg_cluster_conf_checker.sh, release/doc/FAQ_hpux.txt, release/contrib/MakeRelease.sh, release/contrib/check_errors_hpux.sh:
+	cfg3.75: cfg2html 4.30 backports
+
+2009-03-18  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/firmware_collect.sh, release/plugins/get_sap.sh, release/plugins/get_xpsum.sh, release/plugins/head01.html, release/doc/cfg2html.html, release/html/make_index.sh, release/contrib/vparcreate_reconstruct.sh, release/contrib/check_errors_hpux.sh, release/contrib/sg_cluster_conf_checker.sh:
+	4.23 upstream
+
+2008-12-29  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/get_mptinfo.sh, release/contrib/sg_cluster_conf_checker.sh, release/contrib/getfcmini.sh, release/contrib/check_errors_hpux.sh:
+	cfg3.75:
+
+2008-12-18  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh:
+	cfg3.74: Split into 3xx stream for HP-UX 10.xx, 11.00 and 11.11
+
+	* release/html/info.htm, release/html/make_index.sh, release/contrib/sg_cluster_conf_checker.sh, release/doc/README_hpux.txt, release/html/allhosts.htm:
+	cfg3.74: HP-UX 4.18 backports
+
+2008-12-11  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html, release/doc/FAQ_hpux.txt, release/doc/ToDo_hpux.txt, release/doc/cfg2html.html:
+	cfg3.74: svn/cfg 4.18 backports
+
+	* release/plugins/head03.html, release/plugins/list_filesystems.sh, release/plugins/oracle_collect.sh, release/plugins/qlan.sh, release/plugins/get_sptool.sh, release/plugins/get_vg.sh, release/plugins/get_xpluns.sh, release/plugins/get_xpsum.sh, release/plugins/getlp.sh, release/plugins/head01.html, release/plugins/head02.html, release/plugins/get_ministat.sh, release/plugins/get_mirror_missmatch.sh, release/plugins/get_mptinfo.sh, release/plugins/get_path_1131.sh, release/plugins/get_sap.sh, release/plugins/get_sasinfo.sh, release/plugins/get_efi.sh, release/plugins/get_emcluns.sh, release/plugins/get_fc.sh, release/plugins/get_fcold.sh, release/plugins/get_hpvm.sh, release/plugins/get_lan_desc.sh, release/plugins/get_lvm_info.sh, release/plugins/crontab_collect.sh, release/plugins/find_non_lvm_luns.sh, release/plugins/firmware_collect.sh, release/plugins/getVAlogs.sh, release/plugins/get_bootdisk.sh, release/plugins/get_cellinfo.sh, release/plugins/get_cputype.sh, release/plugins/VxVM_collect.sh, release/plugins/bdf_collect.sh, release/plugins/check_elroy.sh, release/plugins/check_space.sh:
+	cfg3.74: svn/cfg 4.18 backports (plugins)
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/getfcmini.sh, release/contrib/sg_cluster_conf_checker.sh, release/doc/ToDo_hpux.txt, release/doc/cfg2html_Development_Tree.png:
+	cfg3.74: svn/cfg 4.18 backports
+
+2008-11-04  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/firmware_collect-11i.sh, release/plugins/firmware_collect.sh, release/plugins/get_hpvm.sh:
+	new stuff from martin
+
+2008-10-28  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh: cfg3.73: hpux 11.31 fixes
+
+2008-10-24  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh: cfg3.72: HPVM 4.0 enhancements
+
+	* release/contrib/sg_cluster_conf_checker.sh, release/contrib/check_errors_hpux.sh, release/contrib/getfcmini.sh:
+	cfg3.72: misc. onsite enhancements
+
+	* release/plugins/get_lan_desc.sh, release/plugins/get_sasinfo.sh, release/plugins/check_space.sh, release/plugins/firmware_collect.sh:
+	cfg3.72: Fixes for HP-UX 11.31
+
+2008-10-14  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/doc/cfg2html.html, release/contrib/getfcmini.sh, release/contrib/sg_cluster_conf_checker.sh, release/doc/README_hpux.txt, release/contrib/check_errors_hpux.sh:
+	cfg3.72: svn.14102008 upstream release
+
+2008-08-14  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/sg_cluster_conf_checker.sh, release/cfg2html_hpux.sh, release/contrib/check_errors_hpux.sh:
+	cfg3.71: icap stuff added, nPar/vPar stuff, 11.31 fixes
+
+2008-08-06  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/getfcmini.sh, release/contrib/sg_cluster_conf_checker.sh, release/cfg2html_hpux.sh:
+	cfg3.70: svn upstream merge, WBEM, SFM enhancements
+
+2008-07-25  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh, release/contrib/MakeRelease.sh:
+	cfg3.68: misc onsite changes
+
+2008-07-22  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/check_errors_hpux.sh, release/cfg2html_hpux.sh:
+	added sas and mpt stuff, svn.339 merge
+
+	* release/plugins/get_mptinfo.sh, release/plugins/get_sasinfo.sh, release/plugins/get_mirror_missmatch.sh:
+	added sas and mpt plugins
+
+2008-07-21  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/sg_cluster_conf_checker.sh, release/plugins/get_mirror_missmatch.sh:
+	cfg3.68: svn stream: update (check_errors, sgcc etc.)
+
+2008-07-11  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/sg_cluster_conf_checker.sh, release/cfg2html_hpux.sh:
+	cfg3.67: svn 323 upstream: Serviceguard enhancements
+
+2008-07-09  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/sg_cluster_conf_checker.sh, release/cfg2html_hpux.sh:
+	cfg3.66: svn.318 merge
+
+2008-07-08  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh:
+	cfg3.65: Enhancements for HPUX 11.31 by Marc Heinrich
+
+2008-07-07  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/doc/cfg2html.html: added MH as contributor
+
+	* release/plugins/get_path_1131.sh:
+	get_path_1131.sh from Marc Heinrich added
+
+	* release/contrib/check_errors_hpux.sh:
+	cfg3.65: check4errors: svn upstream
+
+2008-06-19  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/doc/cfg2html.html: svn upstream merge (html)
+
+2008-05-28  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/getfcmini.sh, release/cfg2html_hpux.sh:
+	cfg3.62: misc. onsite enhancements
+
+	* release/plugins/qlan.sh, release/doc/README_hpux.txt:
+	cfg3.63: misc. onsite enhancements
+
+	* release/cfg2html_hpux.sh: cfg3.62: misc. onsite enhancements
+
+2008-05-08  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/getfcmini.sh, sd/prodspec.template, release/contrib/check_errors_hpux.sh:
+	cfg3.62: upstream (SVN) merge
+
+2008-04-29  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/getfcmini.sh, release/contrib/check_errors_hpux.sh:
+	cfg3.62: small onsite enhancements
+
+2008-04-16  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/getfcmini.sh:
+	cfg3.62: better FC collection, better error collecting
+
+2008-03-13  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/getfcmini.sh:
+	cfg3.62: misc. onsite enhancements
+
+2008-03-05  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/check_errors_hpux.sh:
+	cfg3.62: logger fixes, sshd breakin
+
+2008-03-04  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/getfcmini.sh:
+	cfg3.62: Enhancements for FibreChannel
+
+2008-02-28  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh, release/plugins/get_ministat.sh:
+	cfg3.61: netstat, misc. stuff
+
+2008-02-26  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/get_ministat.sh, release/cfg2html_hpux.sh:
+	cfg3.6: +0.01
+
+2008-02-15  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh:
+	cfg3.58: +swlist installation date, diag fixes, +MySQL, +ps
+
+	* release/cfg2html_hpux.sh: ps: top cpu+memory collection
+
+	* release/contrib/check_errors_hpux.sh:
+	cfg3.57: EMC path failures added
+
+	* release/contrib/check_errors_hpux.sh, release/cfg2html_hpux.sh:
+	cfg3.56: enhanced Diagnostics/ctsm stuff
+
+2008-02-07  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/MakeRelease.sh, release/doc/history_hpux.txt, release/doc/history_hpux_v2.txt, release/doc/history_hpux_v1.txt:
+	cfg3.56: fixes for new environment (history)
+
+	* sd/prodspec.template, release/contrib/MakeRelease.sh:
+	cfg3.56: fixes for new environment
+
+	* release/html/info.htm, release/html/make_index.sh:
+	3.56: added SUN support
+
+	* release/cfg2html_hpux.sh: 3.55: moved to hpmbhgr, y2k8, small changes
+
+	* release/cfg2html_hpux.sh: 3.54:
+
+	* cfg2html_Development_Tree.ppt, release/doc/cfg2html_Development_Tree.png:
+	moved to hpmbhgr
+
+2007-12-25  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/html/allhosts.htm, release/html/info.htm, release/plugins/head01.html, release/plugins/head02.html:
+	3.54 - Forced commit by cronjob at Tue Dec 25 02:01:01 MET 2007
+
+2007-12-14  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh, release/plugins/firmware_collect.sh, release/plugins/get_cputype.sh, release/plugins/get_fc.sh:
+	3.52: fixes for HP-UX 11.23/IA64, typo fixes
+
+2007-12-11  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh:
+	3.52 - Forced commit by cronjob at Tue Dec 11 02:01:00 MET 2007
+
+2007-12-10  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh: dos2ux, small enhancements (RAD/OLRAD) etc.
+
+2007-12-03  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh: broken cfg2html thx to DOS CR/LF
+
+2007-11-30  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/doc/README_hpux.txt, release/doc/cfg2html.html, release/cfg2html_hpux.sh:
+	typo fixes, generic enhancements
+
+2007-11-26  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/get_cellinfo.sh, release/plugins/get_cputype.sh:
+	Added Files:
+		get_cellinfo.sh get_cputype.sh
+
+2007-10-15  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh: 1x LVM bugfix, 2x PRM enhancements added
+
+2007-08-30  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh: 3.47: gWLM - first functions added
+
+2007-08-24  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh: 3.46: mpsched, icapstatus
+
+2007-08-08  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh: 3.45: fixes for hpux11i v3/found on honi
+
+	* release/plugins/get_lvm_info.sh, release/plugins/get_ministat.sh, release/plugins/get_efi.sh:
+	3.45: Small changes for troubleshooting
+
+2007-08-02  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/get_fc.sh, release/plugins/get_lan_desc.sh:
+	3.45: changes for big Superdomes
+
+2007-07-17  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/get_lvm_info.sh, release/cfg2html_hpux.sh, release/contrib/check_errors_hpux.sh:
+	3.44s2 - Forced commit by cronjob at Tue Jul 17 02:01:00 METDST 2007
+
+2007-07-11  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh: Fixes for HPUX 11.31 MSS
+
+	* release/plugins/find_non_lvm_luns.sh, release/plugins/get_bootdisk.sh, release/plugins/get_lvm_info.sh:
+	fixes for hpux11.31 mss
+
+2007-07-03  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/qlan.sh:
+	3.43 - Forced commit by cronjob at Tue Jul  3 02:01:00 METDST 2007
+
+2007-07-02  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh, release/plugins/get_ministat.sh, release/plugins/get_mirror_missmatch.sh:
+	fixes for HPUX11i v3
+
+2007-06-20  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/doc/README_hpux.txt: FAQ enhanced
+
+2007-06-19  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/minichecker.sh:
+	3.42 - Forced commit by cronjob at Tue Jun 19 02:01:00 METDST 2007
+
+2007-06-12  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh, release/plugins/find_non_lvm_luns.sh:
+	small enhancements and bug fixing
+
+	* release/plugins/get_ministat.sh: dos2ux
+
+	* release/plugins/get_ministat.sh, release/contrib/minichecker.sh:
+	Added minichecker, misc fixes for SD 64B
+
+2007-04-20  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh:
+	fixed commandline handling error, needs more improvment on the HTML stuff
+
+	* release/contrib/check_errors_hpux.sh: added ioscan check
+
+2007-03-20  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/get_ministat.sh:
+	3.40 - Forced commit by cronjob at Tue Mar 20 02:01:00 MET 2007
+
+2007-03-14  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh:
+	Fixes for wrong if/test statements. Put all variables together.
+
+	* release/cfg2html_hpux.sh: Again fixes for the fixes :-(
+
+2007-03-13  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh, release/contrib/MakeRelease.sh:
+	reformatted whole cfg2html, added option -M for MC/SG collection
+
+	* release/cfg2html_hpux.sh: Fixes
+
+	* release/cfg2html_hpux.sh: Mirror/UX bug fixes
+
+2007-03-06  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/check_errors_hpux.sh: ISEE check added
+
+	* release/cfg2html_hpux.sh: MirrorMissmatch/swlist check added!
+
+2007-02-20  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/html/allhosts.htm, release/html/info.htm, release/html/make_index.sh, release/doc/cfg2html.html:
+	3.34 - Forced commit by cronjob at Tue Feb 20 02:01:00 MET 2007
+
+2007-02-08  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/doc/cfg2html.html: added new stuff from wikipedia and emails
+
+2007-02-02  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh:
+	From this release on I skipped .gz compression of the distribution
+
+	* release/contrib/MakeRelease.sh: Misc. fixes
+
+2007-01-24  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* cfg2html_Development_Tree.ppt, release/contrib/MakeRelease.sh, release/doc/cfg2html_Development_Tree.png:
+	3.33 - Forced commit by cronjob at Wed Jan 24 12:55:38 MET 2007
+
+2007-01-18  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh: again bugfixing on test []
+
+	* release/cfg2html_hpux.sh: Fixed for test -e --> -x
+
+	* release/plugins/get_cpu_speed.hppa, release/plugins/head01.html:
+	Modified Files:
+	 	evainfo.hppa head01.html
+	Added Files:
+	 	get_cpu_speed.hppa
+
+	* release/doc/README_hpux.txt, release/doc/ToDo_hpux.txt:
+	Small changes and enhancemenst on the dox
+
+2006-12-20  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh: HPVM enhancements by Marc Heinrich
+
+2006-11-28  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/doc/FAQ_hpux.txt: misc. fixing
+
+	* release/contrib/MakeRelease.sh: Bug fixing
+
+2006-11-08  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/doc/README_hpux.txt: Misc changes/enhancements
+
+2006-09-14  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/MakeRelease.sh, release/contrib/check_errors_hpux.sh, release/cfg2html:
+	Misc onsite fixes/enhancements
+
+2006-09-07  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh: enhanced MC/SG QS stuff
+
+2006-08-01  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/doc/cfg2html.html: Changes on the documentation....
+
+2006-07-25  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh: bug fixes (pvdisplay), added netbackup
+
+	* release/contrib/check_errors_hpux.sh: added Dead keyword
+
+	* release/cfg2html_hpux.sh: Added EMC Powerpath by Mleo
+
+2006-07-14  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/getfcmini.sh: initial import
+
+2006-07-07  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/MakeRelease.sh, release/doc/FAQ_hpux.txt, release/doc/README_hpux.txt, release/cfg2html:
+	FAQ, dox and chmod +x fixes
+
+2006-05-15  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/doc/cfg2html_Development_Tree.jpg, release/doc/cfg2html_Development_Tree.png, release/doc/cfg2html.html:
+	Chanegd from jpg to png
+
+	* release/cfg2html_hpux.sh: uname/hostname fix
+	HP-UX 10.xx check+warning
+
+2006-05-14  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh: get_efi stuff
+
+	* release/plugins/get_efi.sh: added CVS keywords
+
+	* release/plugins/get_efi.sh: initial version
+
+	* release/contrib/check_errors_hpux.sh, release/cfg2html_hpux.sh:
+	Enhancements and fixes for IA64/EFI
+
+2006-05-10  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh: what update-ux
+
+2006-05-09  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/doc/cfg2html.html, release/doc/cfg2html_Development_Tree.jpg, cfg2html_Development_Tree.ppt:
+	Changed the Layout
+
+	* release/contrib/MakeRelease.sh: changed: cfg2html -> cfg2html_hpux
+
+	* release/contrib/MakeRelease.sh: tried to use win32 cvs
+
+	* release/cfg2html_hpux.sh: /usr/contrib/bin/machinfo added
+
+2006-05-03  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html: moved cfg2html wrapper to hpux directory
+
+2006-04-28  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/doc/cfg2html.html: cfg2html-HP124
+
+2006-04-26  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh:
+	misc fixes after accidental replace/change all
+
+	* cfg2html_Development_Tree.ppt: Added Files:
+		cfg2html_Development_Tree.ppt
+
+	* bin1100/dumplvmtab, bin1100/getpwd, bin1100/pvgfilter, release/doc/FAQ_hpux.txt:
+	added hp-ux 11.00 bins
+
+2006-04-10  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/html/info.htm, release/html/make_index.sh:
+	small chnages on the html contrib stuff
+
+2006-04-06  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/doc/README_hpux.txt, release/doc/cfg2html.html:
+	forced commit for cfg2html-linux 1.24
+
+2006-03-13  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/list_filesystems.sh: fixed some typos
+
+	* release/plugins/list_filesystems.sh: small fix provided by mk
+
+2006-02-07  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh, sd/prodspec.template:
+	fixes to compile on haegar + 11.23 issues
+
+	* release/contrib/MakeRelease.sh: fixes to compile on haegar
+
+2006-02-03  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/head02.html, release/cfg2html_hpux.sh:
+	Changed copyright+year etc.
+
+2006-02-02  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/bdf_collect.sh, release/plugins/firmware_collect.sh, release/plugins/get_fcold.sh, release/plugins/get_xpluns.sh, release/plugins/get_xpsum.sh, release/cfg2html_hpux.sh, release/doc/ToDo_hpux.txt:
+	Changed email adress
+
+2006-01-12  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/find_non_lvm_luns.sh: added pvcreate example
+
+	* release/plugins/find_non_lvm_luns.sh:
+	3.18 - Added some comments for better reading
+
+2006-01-09  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/doc/ToDo_hpux.txt, release/doc/cfg2html.html:
+	small enhancements on the dox
+
+2005-12-20  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/head01.html, release/plugins/head02.html: +- Google
+
+	* release/cfg2html_hpux.sh:
+	HP Virtual Machine Collector Version 2 by Mark Heinrich
+
+	* release/cfg2html_hpux.sh: HP VM by Mark, Version 1
+
+2005-10-12  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/doc/cfg2html.html:
+	Forced commit by cronjob at Wed Oct 12 10:22:00 METDST 2005
+
+	* release/doc/cfg2html.html:
+	Forced commit by cronjob at Wed Oct 12 09:55:00 METDST 2005
+
+2005-10-04  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html, release/cfg2html_hpux.sh: xitd03wg+/tmp fixes
+
+2005-09-29  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/postinstall.sh:
+	PVX_NOPV + 2.xx cleanup
+
+	* release/cfg2html, release/cfg2html_hpux.sh:
+	New exit code handling, fixes
+
+2005-09-23  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh, release/plugins/get_fc.sh:
+	fixes for ugly warnings
+
+	* release/contrib/MakeRelease.sh: Misc fixes
+
+2005-08-31  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh: + option -U (er)
+	+ get_lvm_info
+	+ get_mirror_missmatch
+
+	* release/doc/cfg2html.html, release/doc/cfg2html_Development_Tree.jpg:
+	documented 3.x changes
+
+	* release/plugins/get_lvm_info.sh, release/plugins/get_mirror_missmatch.sh:
+	added get_lvm_info.sh
+
+2005-08-19  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/MakeRelease.sh, release/cfg2html_hpux.sh:
+	fixed issues with cvs -kb switch and hppa binaries
+
+	* release/plugins/dumplvmtab.hppa, release/plugins/getpwd.hppa, release/plugins/pvgfilter.hppa:
+	There are two issues with using CVS to store binary files. The first is that CVS by default converts line endings between the canonical form in which they are stored in the repository (linefeed only), and the form appropriate to the operating system in use on the client (for example, carriage return followed by line feed for Windows NT).
+
+	The second is that a binary file might happen to contain data which looks like a keyword (see section Keyword substitution), so keyword expansion must be turned off.
+
+	The `-kb' option available with some CVS commands insures that neither line ending conversion nor keyword expansion will be done.
+
+	Here is an example of how you can create a new file using the `-kb' flag:
+
+	$ echo '$Id: history_hpux_v3.txt,v 5.10.1.1 2011-02-15 14:29:05 ralproth Exp $' > kotest
+	$ cvs add -kb -m"A test file" kotest
+	$ cvs ci -m"First checkin; contains a keyword" kotest
+
+	If a file accidentally gets added without `-kb', one can use the cvs admin command to recover.
+
+	* release/cfg2html_hpux.sh: New 3.xx stream, initial bug fixing :)
+
+	* sd/prodspec.template: Initial 3.x stream import
+
+	* sd/prodspec.template: New file.
+
+	* release/doc/history_hpux_v2.txt: Initial 3.x stream import
+
+	* release/doc/history_hpux_v2.txt: New file.
+
+	* release/plugins/get_mirror_missmatch.sh: Initial 3.x stream import
+
+	* release/plugins/get_mirror_missmatch.sh: New file.
+
+2005-08-16  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html_hpux.sh: Initial 3.x stream import
+
+	* release/cfg2html_hpux.sh: New file.
+
+	* release/plugins/get_emcluns.sh: Initial 3.x stream import
+
+	* release/plugins/get_emcluns.sh: New file.
+
+2005-07-28  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/cfg2html: Initial 3.x stream import
+
+	* release/cfg2html: New file.
+
+2005-07-14  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/get_fc.sh: Initial 3.x stream import
+
+	* release/plugins/get_fc.sh: New file.
+
+2005-06-27  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/doc/cfg2html.html: Initial 3.x stream import
+
+	* release/doc/cfg2html.html: New file.
+
+2005-05-17  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/doc/README_hpux.txt: Initial 3.x stream import
+
+	* release/doc/README_hpux.txt: New file.
+
+	* release/doc/FAQ_hpux.txt: Initial 3.x stream import
+
+	* release/doc/FAQ_hpux.txt: New file.
+
+2005-05-09  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/html/allhosts.htm, release/html/info.htm, release/html/make_index.sh:
+	Initial 3.x stream import
+
+	* release/html/allhosts.htm, release/html/info.htm, release/html/make_index.sh:
+	New file.
+
+2005-04-12  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/head01.html, release/plugins/head02.html:
+	Initial 3.x stream import
+
+	* release/plugins/head01.html, release/plugins/head02.html: New file.
+
+2005-03-21  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/BCS_Config/ReadMe-BCS_Config.txt:
+	Initial 3.x stream import
+
+	* release/contrib/BCS_Config/ReadMe-BCS_Config.txt: New file.
+
+2005-01-27  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/get_sap.sh: Initial 3.x stream import
+
+	* release/plugins/get_sap.sh: New file.
+
+2005-01-23  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/MakeRelease.sh: Initial 3.x stream import
+
+	* release/contrib/MakeRelease.sh: New file.
+
+2005-01-19  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/doc/ToDo_hpux.txt: Initial 3.x stream import
+
+	* release/doc/ToDo_hpux.txt: New file.
+
+2004-12-21  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/qlan.sh: Initial 3.x stream import
+
+	* release/plugins/qlan.sh: New file.
+
+2004-12-13  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/doc/cfg2html_Development_Tree.jpg: Initial 3.x stream import
+
+	* release/doc/cfg2html_Development_Tree.jpg: New file.
+
+2004-11-17  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/crontab_collect.sh: Initial 3.x stream import
+
+	* release/plugins/crontab_collect.sh: New file.
+
+2004-10-19  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/get_fcold.sh: Initial 3.x stream import
+
+	* release/plugins/get_fcold.sh: New file.
+
+2004-09-13  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/check_errors_hpux.sh: Initial 3.x stream import
+
+	* release/contrib/check_errors_hpux.sh: New file.
+
+2004-09-09  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/get_ministat.sh: Initial 3.x stream import
+
+	* release/plugins/get_ministat.sh: New file.
+
+2004-07-28  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/head03.html: Initial 3.x stream import
+
+	* release/plugins/head03.html: New file.
+
+2004-07-15  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/check_elroy.sh: Initial 3.x stream import
+
+	* release/plugins/check_elroy.sh: New file.
+
+	* release/plugins/VxVM_collect.sh: Initial 3.x stream import
+
+	* release/plugins/VxVM_collect.sh: New file.
+
+2004-07-07  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/get_xpluns.sh, release/plugins/get_xpsum.sh:
+	Initial 3.x stream import
+
+	* release/plugins/get_xpluns.sh, release/plugins/get_xpsum.sh:
+	New file.
+
+2004-03-08  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/find_non_lvm_luns.sh, release/plugins/list_filesystems.sh:
+	Initial 3.x stream import
+
+	* release/plugins/find_non_lvm_luns.sh, release/plugins/list_filesystems.sh:
+	New file.
+
+2004-02-16  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/get_sptool.sh: Initial 3.x stream import
+
+	* release/plugins/get_sptool.sh: New file.
+
+	* release/plugins/check_space.sh: Initial 3.x stream import
+
+	* release/plugins/check_space.sh: New file.
+
+2003-09-05  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/contrib/postinstall.sh: Initial 3.x stream import
+
+	* release/contrib/postinstall.sh: New file.
+
+2003-03-11  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/plugins/psi_collect.sh: Initial 3.x stream import
+
+	* release/plugins/psi_collect.sh: New file.
+
+	* release/plugins/get_vg.sh: Initial 3.x stream import
+
+	* release/plugins/get_vg.sh: New file.
+
+2003-01-21  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
+
+	* release/doc/history_hpux_v1.txt: Initial 3.x stream import
+
+	* release/doc/history_hpux_v1.txt: New file.
+
+	* release/doc/history_hpux.txt: Initial 3.x stream import
+
+	* release/doc/history_hpux.txt: New file.
+
+	* release/plugins/oracle_collect.sh, sd/prodspec.org:
+	Initial 3.x stream import
+
+	* release/plugins/oracle_collect.sh, sd/prodspec.org: New file.
+
+	* release/plugins/firmware_collect.sh, release/plugins/getVAlogs.sh, release/plugins/get_lan_desc.sh, release/plugins/getlp.sh:
+	Initial 3.x stream import
+
+	* release/plugins/firmware_collect.sh, release/plugins/getVAlogs.sh, release/plugins/get_lan_desc.sh, release/plugins/getlp.sh:
+	New file.
+
+	* release/plugins/bdf_collect.sh: Initial 3.x stream import
+
+	* release/plugins/bdf_collect.sh: New file.
+
+	* release/contrib/3rd_party/runcfg2html.txt: Initial 3.x stream import
+
+	* release/contrib/3rd_party/runcfg2html.txt: New file.
+
+	* release/contrib/3rd_party/ShowServerConfig.sh, release/contrib/3rd_party/runcfg2html.sh, release/contrib/do_cfg/hosts.do, release/contrib/do_cfg/mailadres.do:
+	Initial 3.x stream import
+
+	* release/contrib/3rd_party/ShowServerConfig.sh, release/contrib/3rd_party/runcfg2html.sh, release/contrib/do_cfg/hosts.do, release/contrib/do_cfg/mailadres.do:
+	New file.
+
+	* release/contrib/do_cfg/Why-do_cfg.txt, release/contrib/do_cfg/do_cfg.sh:
+	Initial 3.x stream import
+
+	* release/contrib/do_cfg/Why-do_cfg.txt, release/contrib/do_cfg/do_cfg.sh:
+	New file.
+
+	* release/cfg2html_back.jpg: Initial 3.x stream import
+
+	* release/cfg2html_back.jpg: New file.
+
+
+
+---------------------------------------------------------------------------
+__     __            _               ____    ___
+\ \   / /__ _ __ ___(_) ___  _ __   |___ \  / _ \
+ \ \ / / _ \ '__/ __| |/ _ \| '_ \    __) || | | |
+  \ V /  __/ |  \__ \ | (_) | | | |  / __/ | |_| |
+   \_/ \___|_|  |___/_|\___/|_| |_| |_____(_)___/
+
+
+See history_hpux_v2.txt
+
+/* end */
+
+---------------------------------------------------------------------------

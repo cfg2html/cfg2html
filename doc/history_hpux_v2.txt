@@ -1,0 +1,990 @@
+ _   _ _     _                      __
+| | | (_)___| |_ ___  _ __ _   _   / _| ___  _ __
+| |_| | / __| __/ _ \| '__| | | | | |_ / _ \| '__|
+|  _  | \__ \ || (_) | |  | |_| | |  _| (_) | |
+|_| |_|_|___/\__\___/|_|   \__, | |_|  \___/|_|
+                           |___/
+       __       ____  _     _             _   ____
+  ___ / _| __ _|___ \| |__ | |_ _ __ ___ | | |___ \  __  __
+ / __| |_ / _` | __) | '_ \| __| '_ ` _ \| |   __) | \ \/ /
+| (__|  _| (_| |/ __/| | | | |_| | | | | | |  / __/ _ >  <
+ \___|_|  \__, |_____|_| |_|\__|_| |_| |_|_| |_____(_)_/\_\
+          |___/
+
+@(#) $Id: history_hpux_v2.txt,v 5.10.1.1 2011-02-15 14:29:05 ralproth Exp $
+---------------------------------------------------------------------------
+
+2005-08-19  Ralph Roth  <ralproth@hpul80>
+
+	* release/plugins/get_mirror_missmatch.sh:
+	added get_mirror_missmatch.sh, last 2.xx stream
+
+2005-08-16  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	added EMC collector from Steve Riley. Small bug fixes
+
+	* release/plugins/get_emcluns.sh: added CVS keywords
+
+	* release/plugins/get_emcluns.sh: initial import
+
+2005-08-02  Ralph Roth  <ralproth@hpul80>
+
+	* /home/CVS/AddSourceCode/pvgfilter.lex, /home/CVS/AddSourceCode/pvgfilter.mak, /home/CVS/AddSourceCode/pvgfilter.txt:
+	pvgfilter updated
+
+	* /home/CVS/AddSourceCode/Makefile: Makefile updated
+
+	* /home/CVS/AddSourceCode/Makefile: makefile added
+
+2005-07-28  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html, release/cfg2html_hpux.sh:
+	added misc. DataProtector stuff and RCS keywords
+
+2005-07-25  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: onsite fixes, added misc. LIF stuff
+
+2005-07-15  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: model issue fixed
+
+2005-07-14  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh, release/plugins/get_fc.sh:
+	onsite fixes for /dev/fcd* FC devices
+
+2005-07-13  Ralph Roth  <ralproth@hpul80>
+
+	* release/plugins/get_fc.sh: more fixes :-8
+
+	* release/cfg2html_hpux.sh: brain dead version, rollback to 2.93
+
+2005-06-27  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/cfg2html.html: .deu/.bbn URL
+
+	* release/plugins/get_fc.sh: fcmsutil vpd (request)
+
+2005-05-19  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/cfg2html.html: needed changes for cfg2html-sun 1.12
+
+	* /home/CVS/cfg2html_sun/cfg2html_sun-VCS.sh:
+	fixed Log cvs keyword that contributors chnaged :)
+
+	* /home/CVS/cfg2html_sun/pack.sh, /home/CVS/cfg2html_sun/plugins/get_sap.sh, /home/CVS/cfg2html_sun/cfg2html_sun.sh:
+	+ pack: rcs2log, fixed Log cvs keyword that contributors chnaged :)
+
+	* /home/CVS/cfg2html_sun/pack.sh, /home/CVS/cfg2html_sun/plugins/VCS_plugin.sh, /home/CVS/cfg2html_sun/plugins/cluster_node_status.ksh:
+	New files provided by Keiran Sweet, (version 1.11)
+
+	* /home/CVS/cfg2html_sun/cfg2html_sun.sh:
+	SUN collector update by Keiran Sweet
+
+2005-05-17  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/README.txt, release/doc/FAQ_hpux.txt: Modified Files:
+		FAQ_hpux.txt README.txt
+
+2005-05-09  Ralph Roth  <ralproth@hpul80>
+
+	* release/html/allhosts.htm, release/html/info.htm, release/html/make_index.sh:
+	Fixed make_index for IA64 boxes
+
+2005-05-06  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: + model -d, Raid 4i
+
+2005-05-02  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh, release/doc/README.txt: Misc. docu changes
+
+2005-04-25  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: + /usr/sbin/kconfig
+
+2005-04-12  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh, /home/CVS/AddSourceCode/getpwd.c:
+	added users and groups
+
+	* release/plugins/getpwd: bin mode
+
+	* release/plugins/getpwd: bin mode failed
+
+	* release/plugins/getpwd, release/plugins/head01.html, release/plugins/head02.html, /home/CVS/AddSourceCode/getpwd.c, release/cfg2html_hpux.sh:
+	+ getpwd, changed sponsor, added enhancements from Kawamoto, Takaaki
+
+2005-04-06  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	+ QuorumServer collector, SecurePath enhancements
+
+2005-04-05  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh, release/plugins/get_fc.sh, release/cfg2html:
+	make_recovery behaviour documented
+
+2005-03-30  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/README.txt, release/plugins/get_fc.sh:
+	fc/td onsite enhancements
+
+2005-03-21  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html, release/cfg2html_hpux.sh, release/contrib/BCS_Config/ReadMe-BCS_Config.txt:
+	Jabber-ID added. online help enhanced
+
+2005-03-15  Ralph Roth  <ralproth@hpul80>
+
+	* release/contrib/BCS_Config/ReadMe-BCS_Config.txt, release/cfg2html_hpux.sh:
+	+added commandline print out
+
+	* release/cfg2html_hpux.sh, release/contrib/BCS_Config/ReadMe-BCS_Config.txt:
+	- removed BCS_Collector from the package
+
+	* release/contrib/BCS_Config/get_sap.sh, release/contrib/BCS_Config/sap.tpl, release/contrib/BCS_Config/BCS_config, release/contrib/BCS_Config/UKall.tpl, release/contrib/BCS_Config/collect.sh, release/contrib/BCS_Config/get_config:
+	Requested removel by maintainer
+
+2005-03-10  Ralph Roth  <ralproth@hpul80>
+
+	* release/contrib/BCS_Config/get_sap.sh, /home/CVS/brocade/ReadMe-Brocade.txt, /home/CVS/brocade/cfg2html-brocade:
+	Brocade 1.05 stream: sim + fixes
+
+2005-03-08  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: + Nodelock license
+	- typos
+
+2005-02-02  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/README.txt, release/cfg2html_hpux.sh:
+	Dmitry Kasilov, 24.01.2005 fix for 11.23 IA64 to show CPU speed correctly
+
+2005-01-27  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/README.txt, release/plugins/get_sap.sh:
+	updated SAP collector from Klaus Doemer
+
+2005-01-23  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh, release/contrib/MakeRelease.sh:
+	Added OV license collector
+
+2005-01-19  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh, release/contrib/MakeRelease.sh, release/doc/ToDo.txt, release/doc/cfg2html.html, release/html/make_index.sh, release/plugins/head01.html:
+	offsite changes for y2k5 etc., fixed license
+
+2005-01-03  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/ToDo.txt: y2k5, corrupt gzip package
+
+2004-12-21  Ralph Roth  <ralproth@hpul80>
+
+	* release/plugins/qlan.sh: ! Fixed for HPUX 11iv2
+
+	* release/cfg2html: + Added Linux
+
+2004-12-13  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/cfg2html.html, release/doc/cfg2html_Development_Tree.jpg:
+	initial import of .jpg
+
+	* /home/CVS/brocade/pack+go: pack+go fixes
+
+	* /home/CVS/brocade/pack+go: Added Files:
+		pack+go
+
+	* /home/CVS/brocade/cfg2html-brocade:
+	cfg2html-brocade 1.04 onsite fixes
+
+	* /home/CVS/brocade/ReadMe-Brocade.txt, /home/CVS/brocade/cfg2html-brocade, release/doc/cfg2html.html:
+	cfg2html-brocade 1.03 pre fixes
+
+2004-12-10  Ralph Roth  <ralproth@hpul80>
+
+	* /home/CVS/brocade/cfg2html-brocade, /home/CVS/brocade/ReadMe-Brocade.txt:
+	1st public version
+
+	* /home/CVS/brocade/ReadMe-Brocade.txt, /home/CVS/brocade/cfg2html-brocade:
+	Initial version made 10.12.2004, 10:22 modified by Ralph.Roth at hp.com  (HPS-TSG-MCPS) 
+
+	* /home/CVS/brocade/ReadMe-Brocade.txt, /home/CVS/brocade/cfg2html-brocade:
+	New file.
+
+2004-11-24  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: typo fixes etc.
+
+2004-11-19  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/FAQ_hpux.txt, release/cfg2html_hpux.sh: onsite fixes/shw
+
+2004-11-17  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/cfg2html.html, release/html/info.htm, release/html/make_index.sh, release/plugins/crontab_collect.sh, sd/prodspec.template:
+	Enhanced cron collector
+
+2004-10-22  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html, release/doc/cfg2html.html: small fixes/enhancements
+
+2004-10-21  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html, release/doc/README.txt: added cfg2html wrapper
+
+	* release/plugins/head02.html: small fixes
+
+2004-10-19  Ralph Roth  <ralproth@hpul80>
+
+	* release/plugins/get_fcold.sh, release/plugins/get_fc.sh:
+	Fixes by Marc Heinrich for new FC cards
+
+2004-09-13  Ralph Roth  <ralproth@hpul80>
+
+	* release/contrib/check_errors_hpux.sh, release/doc/README.txt, release/doc/ToDo.txt, release/cfg2html_hpux.sh:
+	-0, -1 options, zip, -z/-Z option
+
+2004-09-09  Ralph Roth  <ralproth@hpul80>
+
+	* release/plugins/get_ministat.sh, release/plugins/qlan.sh:
+	fixes for doall.sh (qlan.sh:perl) and get_ministat (vpars)
+
+	* release/plugins/get_ministat.sh, release/cfg2html_hpux.sh:
+	onsite vPars fixes. Enhancements by gw
+
+2004-09-06  Ralph Roth  <ralproth@hpul80>
+
+	* /home/CVS/AddSourceCode/ts/main.c, /home/CVS/AddSourceCode/ts/options.c, /home/CVS/AddSourceCode/ts/printpid.c, /home/CVS/AddSourceCode/ts/printthread.c, /home/CVS/AddSourceCode/ts/ts.h:
+	Thread Show
+
+	* release/plugins/get_ministat.sh, /home/CVS/AddSourceCode/getsn.c:
+	getsn.c//Software Serial Number
+
+2004-09-01  Ralph Roth  <ralproth@hpul80>
+
+	* release/plugins/head02.html: - Bluewin
+
+	* release/cfg2html_hpux.sh: + SSH
+	! vpar stuff
+	+ getprivgrp, /dev/async stuff
+
+2004-08-17  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/cfg2html.html: webspace + new email address
+
+2004-08-13  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: ! swlist fixes
+
+2004-08-12  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh, release/plugins/get_ministat.sh:
+	+ swlist, ! onsite fixes
+
+2004-08-04  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: Added SHC, small fixes
+
+2004-08-02  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: Informix enhancement request by Murat added
+
+2004-07-28  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/cfg2html.html, release/plugins/head01.html, release/plugins/head02.html, release/plugins/head03.html, /home/CVS/AddSourceCode/dumplvmtab.c:
+	Fixes for bugs that Frontpage introduced...
+
+2004-07-15  Ralph Roth  <ralproth@hpul80>
+
+	* release/contrib/MakeRelease.sh, release/plugins/check_elroy.sh:
+	more fixes for hpux 10.20
+
+	* release/cfg2html_hpux.sh: -0, -1 options
+
+	* /home/CVS/AddSourceCode/pvgfilter.lex, /home/CVS/AddSourceCode/pvgfilter.mak, /home/CVS/AddSourceCode/pvgfilter.txt:
+	 Added Files:
+	 	pvgfilter.lex pvgfilter.mak pvgfilter.txt
+
+	* release/contrib/MakeRelease.sh, release/plugins/dumplvmtab:
+	+ added import source codes, fixed dumplbmtab for hpux 10.20
+
+	* release/plugins/VxVM_collect.sh, release/plugins/head02.html:
+	Changed paths to documentation
+
+	* release/plugins/pvgfilter: ! pvgfilter 2.7
+
+2004-07-07  Ralph Roth  <ralproth@hpul80>
+
+	* release/contrib/check_errors_hpux.sh, release/doc/README.txt, release/doc/cfg2html.html, release/plugins/get_xpluns.sh, release/plugins/get_xpsum.sh, release/cfg2html_hpux.sh:
+	Fixes for get_xp*.sh and option -1/-2. Misc docu. enhancements
+
+2004-07-02  Ralph Roth  <ralproth@hpul80>
+
+	* release/contrib/check_errors_hpux.sh:
+	Misc. changes on check4errors.sh
+
+2004-06-24  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/License.txt, release/doc/cfg2html.html, release/doc/cfg2html_urls.htm, release/cfg2html_hpux.sh:
+	2.67: Replaced some text documents with cfg2html.html
+
+2004-06-18  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/License.txt, release/doc/cfg2html_urls.htm:
+	Changes: License, Readme and URLs
+
+2004-06-08  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/License.txt, release/doc/README.txt, release/doc/ToDo.txt:
+	ReadMe/lisence issues
+
+2004-06-03  Ralph Roth  <ralproth@hpul80>
+
+	* /home/CVS/cfg2html_sun/cfg2html_sun.sh: Small changes made by MVL
+
+2004-06-02  Ralph Roth  <ralproth@hpul80>
+
+	* /home/CVS/cfg2html_sun/plugins/VxVM_collect.sh, /home/CVS/cfg2html_sun/plugins/crontab_collect.sh, release/doc/README.txt, /home/CVS/cfg2html_sun/cfg2html_sun.sh:
+	Checked in new version from MVL, send back for testing
+
+2004-05-12  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh, release/contrib/MakeRelease.sh, release/html/make_index.sh:
+	! C.0?? format issues
+
+	* sd/prodspec.template: Changed from B.0 to C.0
+
+	* release/html/allhosts.htm, release/html/info.htm, release/html/make_index.sh:
+	y2k4 etc.
+
+	* release/doc/README.txt, release/doc/ToDo.txt:
+	Misc. changes e.g. C.0x, depot changes
+
+	* release/contrib/MakeRelease.sh: Misc. changes e.g. C.0x
+
+	* release/doc/README.txt: +HOWTO: cfg2html hangs
+
+	* release/contrib/MakeRelease.sh: .sd -> .depot
+	+ Date
+
+2004-05-05  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	2.65 Added /etc/fstab (for better troubleshooting)
+
+2004-04-29  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/cfg2html_urls.htm: Added www.cfg2html.com
+
+	* release/doc/FAQ_hpux.txt: Downgrading documented
+
+	* release/cfg2html_hpux.sh:
+	2.64 - Fixes for bugs option -1/-2 introduced
+
+	* release/doc/README.txt, release/cfg2html_hpux.sh:
+	2.63 - added options -1 and -2 to handle dates in fielnames
+
+	* /home/CVS/cfg2html_sun/cfg2html_sun.sh: Send to MVL
+
+2004-04-27  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh, release/doc/README.txt:
+	commit for onsite fixes (dm)
+
+2004-04-26  Ralph Roth  <ralproth@hpul80>
+
+	* /home/CVS/cfg2html_sun/plugins/VxVM_collect.sh, /home/CVS/cfg2html_sun/plugins/crontab_collect.sh, /home/CVS/cfg2html_sun/plugins/get_sap.sh:
+	+ ripped and added the plugisn from the HPUX stream
+
+	* /home/CVS/cfg2html_sun/cfg2html_sun.sh:
+	! Merged the enhancements from MVL
+
+2004-04-19  Ralph Roth  <ralproth@hpul80>
+
+	* /home/CVS/cfg2html_sun/plugins/get_sap.sh: New file.
+
+	* /home/CVS/cfg2html_sun/plugins/get_sap.sh: Version 1.6 from MVL
+	+ password
+	+ printers
+	- ibmdpo
+
+	* release/doc/README.txt, release/contrib/check_errors_hpux.sh:
+	Changes on the HPUX, SUN, contrib and ReadMe stuff
+
+	* /home/CVS/cfg2html_sun/plugins/get_sap.sh, release/contrib/check_errors_hpux.sh:
+	Onsite Fixes (aw)
+
+	* /home/CVS/cfg2html_sun/cfg2html_sun.sh: New file.
+
+	* /home/CVS/cfg2html_sun/cfg2html_sun.sh: Version 1.6 from MVL
+	+ password
+	+ printers
+	- ibmdpo
+
+2004-03-22  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: + dmesg/100 sr by JC
+
+2004-03-18  Ralph Roth  <ralproth@hpul80>
+
+	* release/plugins/check_elroy.sh: ! Initial Import
+	+ CheckElroy by MK
+
+	* release/cfg2html_hpux.sh: + Samba Version
+	+ CheckElroy by MK
+	+ Warning about old Predictive
+
+2004-03-08  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/README.txt, release/cfg2html_hpux.sh:
+	! New Diagnostics patches
+
+	* release/plugins/find_non_lvm_luns.sh, release/plugins/list_filesystems.sh:
+	! small onsite enhancements
+	+ added find_non_xp_luns.sh
+	 Modified Files:
+	 	list_filesystems.sh
+	 Added Files:
+	 	find_non_lvm_luns.sh
+
+	* release/doc/cfg2html_urls.htm, release/contrib/check_errors_hpux.sh:
+	! small onsite enhancements
+
+	* release/cfg2html_hpux.sh: + added find_non_xp_luns.sh
+	! small onsite enhancements
+
+2004-02-16  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: Messing around with CVS :-(
+
+2004-02-16  Samba Guest Account  <www@hpul80>
+
+	* release/cfg2html_hpux.sh: Maintenance release for ECU CD
+
+2004-02-16  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/README.txt: Enhancements on Linux etc. documentated.
+
+	* release/plugins/get_sptool.sh: Added new files...
+
+	* release/plugins/check_space.sh:
+	Updated version provided by martin kalmbach
+
+	* release/doc/README.txt: Misc. changes, e.g. documentation for Linux
+
+2004-01-21  Ralph Roth  <ralproth@hpul80>
+
+	* release/plugins/head02.html, release/cfg2html_hpux.sh, release/doc/cfg2html_urls.htm, release/plugins/head01.html:
+	! fixes for moved home page etc.
+
+2004-01-14  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: ! enhanced MC/SG what output
+
+2004-01-13  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/ToDo.txt, release/plugins/get_xpluns.sh, release/cfg2html_hpux.sh:
+	! Fixes for xplun stuff
+
+2003-12-18  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh, release/plugins/get_xpluns.sh, release/plugins/get_xpsum.sh:
+	+ Added get-xp*.sh
+
+	* release/cfg2html_hpux.sh: + changed xpinfo
+
+	* release/doc/cfg2html_urls.htm, release/plugins/get_xpluns.sh, release/plugins/get_xpsum.sh, release/plugins/head02.html:
+	Fixes for moved ASO web server
+
+	* release/plugins/get_xpsum.sh, release/plugins/get_xpluns.sh:
+	Initial import
+
+2003-12-14  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/README.txt: Misc. enhancements and fixes.
+
+2003-11-20  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh, release/plugins/qlan.sh: onsite fixes
+
+2003-11-19  Ralph Roth  <ralproth@hpul80>
+
+	* release/plugins/qlan.sh, release/cfg2html_hpux.sh:
+	RAD/OLRAD and qlan.sh fixes for HP-UX 11.23, sr by mh
+
+	* release/cfg2html_hpux.sh:
+	+ Changed all refereneces from OmniBack(up) to DataProtector
+	+ added more hints for swconfig/swverify
+
+	* release/contrib/MakeRelease.sh, release/doc/FAQ_hpux.txt:
+	Small bug fixing, small enhancements to the dox
+
+2003-11-17  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/cfg2html_urls.htm, release/doc/FAQ_hpux.txt:
+	Misc. enhancements on the FAQs etc.
+
+2003-11-06  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: Shoot the 2.46 with DOS CR/LF
+
+	* release/cfg2html_hpux.sh, release/html/allhosts.htm, release/html/info.htm:
+	Added hotplugd/doorbell logs, sr by tb
+
+2003-11-04  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/ToDo.txt, release/html/allhosts.htm, release/html/info.htm, release/plugins/head02.html:
+	Misc. HTML changes and stuff like that
+
+	* release/cfg2html_hpux.sh, release/doc/README.txt, release/doc/ToDo.txt:
+	2.45: + dumplvmtab by dk
+
+	* release/plugins/dumplvmtab, release/plugins/head02.html:
+	Modified Files:
+		head02.html
+	Added files:
+		dumplvmtab  (from Dietmar Konermann)
+
+	* /home/CVS/AddSourceCode/cpu_load.c:
+	Initial import of important source code!
+
+	* /home/CVS/AddSourceCode/cpu_load.c: New file.
+
+	* /home/CVS/AddSourceCode/getaddr.c:
+	Initial import of important source code!
+
+	* /home/CVS/AddSourceCode/getaddr.c: New file.
+
+	* /home/CVS/AddSourceCode/memband.c:
+	Initial import of important source code!
+
+	* /home/CVS/AddSourceCode/memband.c: New file.
+
+	* /home/CVS/AddSourceCode/dumplvmtab.c:
+	Initial import of important source code!
+
+	* /home/CVS/AddSourceCode/dumplvmtab.c: New file.
+
+2003-10-31  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh, release/doc/README.txt, release/plugins/head02.html:
+	2.44 - fixed CFG_DIAG init bug
+
+2003-10-16  Ralph Roth  <ralproth@hpul80>
+
+	* release/plugins/head01.html, release/plugins/head02.html, release/cfg2html_hpux.sh:
+	Fixes for c4p
+
+2003-10-15  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/cfg2html_urls.htm: new urls
+
+	* release/cfg2html_hpux.sh, release/plugins/get_ministat.sh:
+	Fixed spelling errors
+
+2003-10-09  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/FAQ_hpux.txt, sd/prodspec.template, release/cfg2html_hpux.sh:
+	Fix for -v option
+
+2003-09-05  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh, release/contrib/postinstall.sh, release/doc/FAQ_hpux.txt, release/html/make_index.sh:
+	Fixed DOS/UNIX CR/LF problem reported by GW
+
+	* release/doc/Cfg2html_integration_with_ServiceControl_Manager.txt, release/doc/FAQ_hpux.txt:
+	Removed Cfg2html_integration_with_ServiceControl_Manager.txt
+
+	* release/doc/FAQ_hpux.txt, release/doc/README.txt: Removed DE subdir
+
+	* release/doc/plugins.txt, release/doc/README.txt: Removed plugins.txt
+
+2003-09-04  Ralph Roth  <ralproth@hpul80>
+
+	* release/contrib/postinstall.sh, release/cfg2html_hpux.sh:
+	Enhanced DTC collector
+
+	* release/plugins/get_ministat.sh, release/contrib/xp2csv.awk, release/doc/License.txt:
+	Onsite DM fixes
+
+2003-09-01  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/cfg2html_urls.htm, release/plugins/head02.html, release/cfg2html_hpux.sh:
+	! fix for cut (fold), some URLS added etc.
+
+2003-08-22  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/README.txt, release/cfg2html_hpux.sh:
+	2.37 release - dox changed
+
+2003-08-08  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh, release/plugins/get_ministat.sh:
+	Fixes for a big keystone with 4000 disk devices
+
+2003-08-07  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: APA enhancements
+
+2003-08-06  Ralph Roth  <ralproth@hpul80>
+
+	* /home/CVS/AddSourceCode/lvmcompute.c:
+	Initial import of important source code!
+
+	* /home/CVS/AddSourceCode/lvmcompute.c: New file.
+
+2003-08-04  Ralph Roth  <ralproth@hpul80>
+
+	* release/plugins/head02.html, release/doc/cfg2html_urls.htm:
+	Updated html internal links
+
+2003-07-28  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh, release/plugins/head02.html:
+	2.34 release (small fixes to 2.33)
+
+2003-07-25  Ralph Roth  <ralproth@hpul80>
+
+	* release/plugins/get_fc.sh: Bug fixes by martin
+
+	* release/cfg2html_hpux.sh: Bug fixing broken 1.3x stream
+
+	* release/cfg2html_hpux.sh: + added new FC collector by Martin Kalmbach
+	- moved my own old FC collector to the plugin directory
+
+	* release/plugins/get_fcold.sh:
+	Old FibreChannel collector, initial import
+
+	* release/cfg2html_hpux.sh, release/plugins/check_space.sh:
+	Merged 2.29a (onsite enhancements done at DM)
+
+	* release/plugins/check_space.sh, release/plugins/get_fc.sh:
+	New+updated collectors by Martin Kalmbach
+
+	* release/doc/README.txt, release/contrib/check_errors_hpux.sh:
+	Onsite enhancements (DM)
+
+2003-07-18  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/README.txt, release/cfg2html_hpux.sh:
+	Send license file to the mailing list
+
+2003-07-17  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/FAQ_hpux.txt, release/doc/License.txt:
+	Changes on the license file
+
+2003-07-15  Ralph Roth  <ralproth@hpul80>
+
+	* release/plugins/head02.html, release/doc/License.txt:
+	Misc enhancements
+
+2003-07-11  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/License.txt: Changes, according to Michael Meifert
+
+	* release/cfg2html_hpux.sh: Fixed #fi that patch(1) inserted
+
+	* release/plugins/list_filesystems.sh:
+	Modified list_filesystems by Martin Kalmbach
+
+	* release/doc/FAQ_hpux.txt: Added tar ball description
+
+2003-07-10  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh, release/doc/License.txt:
+	Added Marc Heinrichs Secure Path patch
+
+2003-07-08  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: Ignite/UX Recovery Logs, sr by Thomas
+
+2003-06-23  Ralph Roth  <ralproth@hpul80>
+
+	* release/plugins/head02.html: ! Fixed blue color
+
+	* release/cfg2html_hpux.sh: + xpinfo -v, small enhancements
+
+2003-05-26  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/cfg2html_urls.htm: Added Files:
+		cfg2html_urls.htm
+
+	* release/plugins/head02.html, release/cfg2html_hpux.sh, release/plugins/head01.html:
+	Fixed dot in output
+
+2003-05-22  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	Added some suggestions from Guillermo Luis Rodrmguez
+
+2003-05-21  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: Added needs_config
+
+2003-05-20  Ralph Roth  <ralproth@hpul80>
+
+	* release/plugins/head02.html, release/plugins/head03.html, release/cfg2html_hpux.sh:
+	Working Mini Status, added head03.html
+
+	* release/doc/README.txt, release/plugins/get_ministat.sh, release/cfg2html_hpux.sh:
+	MiniStatus collector added
+
+	* release/plugins/get_ministat.sh, release/plugins/head02.html:
+	Modified Files:
+		head02.html
+	Added Files:
+		get_ministat.sh
+
+2003-05-08  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	Added hints and enhancements from the last training: sar, vxtunefs etc.
+
+	* release/doc/README.txt, release/plugins/head02.html, release/cfg2html_hpux.sh:
+	Enhanced VxVM collector by Thomas Brix
+
+2003-05-08  Samba Guest Account  <www@hpul80>
+
+	* release/cfg2html_hpux.sh: VxVM enhancements by Thomas Brix
+
+2003-05-05  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh, release/doc/README.txt, release/plugins/head02.html:
+	Changed email adress
+
+	* release/doc/ToDo.txt, release/doc/README.txt:
+	ReadMe  and ToDo enhanced
+
+2003-04-22  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: vParCollector by Mike Evans
+
+2003-04-16  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: fixes for removing the beta directory
+
+	* sd/prodspec.template: beta directory removed
+
+	* release/plugins/head02.html: Misc header changes (</center> etc.)
+
+	* release/plugins/head02.html: klamm
+
+2003-04-16  Samba Guest Account  <www@hpul80>
+
+	* release/cfg2html_hpux.sh, release/doc/ToDo.txt:
+	HTML plugins, second part
+
+2003-04-16  Ralph Roth  <ralproth@hpul80>
+
+	* release/plugins/head02.html, release/doc/ToDo.txt, release/plugins/head01.html, release/doc/README.txt:
+	HTML plugins
+
+2003-04-16  Samba Guest Account  <www@hpul80>
+
+	* release/doc/README.txt: HTML plugins
+
+2003-04-02  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/ToDo.txt, release/doc/plugins.txt, release/doc/FAQ_hpux.txt, release/doc/README.txt:
+	enhanced some dokuments
+
+2003-03-31  Samba Guest Account  <www@hpul80>
+
+	* release/cfg2html_hpux.sh: added HTML/sed filter
+
+2003-03-12  Samba Guest Account  <www@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	Updated collector from martin. Added option -D (debug)
+
+2003-03-11  Samba Guest Account  <www@hpul80>
+
+	* release/plugins/check_space.sh, release/plugins/psi_collect.sh:
+	Latest fixes by Martin Kalmbach
+
+	* release/cfg2html_hpux.sh: wc -l//patches//unconfigured
+
+	* sd/prodspec.template, release/contrib/postinstall.sh:
+	remove obsolete sap collector installation
+
+2003-03-11  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	Last fixes for getopts, send to beta testers
+
+	* release/cfg2html_hpux_sap.sh: Removed Files:
+		cfg2html_hpux_sap.sh
+
+	* release/cfg2html_hpux.sh, release/plugins/check_space.sh, release/plugins/get_vg.sh, release/plugins/list_filesystems.sh:
+	Added options -d, -t, -A, -b
+
+	* release/plugins/check_space.sh, release/plugins/list_filesystems.sh:
+	Fixes from Martin Kalmbach
+
+	* release/cfg2html_hpux.sh: Plugins from Martin Kalmbach
+
+	* release/plugins/check_space.sh, release/plugins/list_filesystems.sh:
+	Initial impor from Martin's sources
+
+2003-02-23  Ralph Roth  <ralproth@hpul80>
+
+	* sd/prodspec.template: Changed template for removed GIF file
+
+	* release/cfg2html_hpux.sh: Fixes for cmdline
+
+	* release/profbull.gif, release/cfg2html_hpux.sh: Modified Files:
+		cfg2html_hpux.sh
+		Applied changes from FMA: getopt like the linux version
+		Applied my patches (lftp etc.)
+	Removed Files:
+		profbull.gif
+
+2003-02-11  Samba Guest Account  <www@hpul80>
+
+	* release/contrib/check_errors_hpux.sh: + /etc/rc.log
+
+	* release/cfg2html_hpux.sh: + tftp and bootpd
+
+2003-02-04  Samba Guest Account  <www@hpul80>
+
+	* release/contrib/postinstall.sh: BCS_Config: chmod +x fixes
+
+2003-02-04  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	Small typo fixes. Fixes for TGV. Sheduled for release.
+
+2003-02-04  Samba Guest Account  <www@hpul80>
+
+	* release/plugins/get_vg.sh, release/cfg2html_hpux.sh, release/contrib/check_errors_hpux.sh:
+	Added get_vg.sh to collect TGV information
+
+2003-02-04  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/Cfg2html_integration_with_ServiceControl_Manager.txt:
+	Added new urls and documents
+
+2003-01-21  Ralph Roth  <ralproth@hpul80>
+
+	* release/plugins/pvgfilter: Checked in as BIN
+
+	* release/plugins/pvgfilter: added as ASCII
+
+	* release/cfg2html_hpux_sap.sh: Missspelled "c"//"C"
+
+2003-01-21  Samba Guest Account  <www@hpul80>
+
+	* release/doc/history_hpux_v1.txt: added figlet fonts
+
+2003-01-21  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux_sap.sh, release/cfg2html_hpux.sh:
+	Changed history and BCS_config
+
+	* release/html/info.htm, release/html/make_index.sh, release/html/allhosts.htm:
+	changed y2k3 etc.
+
+	* release/doc/history_hpux.txt, release/doc/history_hpux_v1.txt:
+	 Modified Files:
+	 	history_hpux.txt
+	 Added Files:
+	 	history_hpux_v1.txt
+
+	* sd/prodspec.template: Import from HPUX to cygwin
+
+	* sd/prodspec.template: New file.
+
+	* release/plugins/oracle_collect.sh, release/plugins/psi_collect.sh, release/plugins/pvgfilter, release/plugins/qlan.sh, sd/prodspec.org:
+	Import from HPUX to cygwin
+
+	* release/plugins/oracle_collect.sh, release/plugins/psi_collect.sh, release/plugins/pvgfilter, release/plugins/qlan.sh, sd/prodspec.org:
+	New file.
+
+	* release/plugins/firmware_collect.sh, release/plugins/getVAlogs.sh, release/plugins/get_lan_desc.sh, release/plugins/get_sap.sh, release/plugins/get_vg.sh, release/plugins/getlp.sh:
+	Import from HPUX to cygwin
+
+	* release/plugins/firmware_collect.sh, release/plugins/getVAlogs.sh, release/plugins/get_lan_desc.sh, release/plugins/get_sap.sh, release/plugins/get_vg.sh, release/plugins/getlp.sh:
+	New file.
+
+	* release/html/make_index.sh, release/plugins/VxVM_collect.sh, release/plugins/bdf_collect.sh, release/plugins/crontab_collect.sh:
+	Import from HPUX to cygwin
+
+	* release/html/make_index.sh, release/plugins/VxVM_collect.sh, release/plugins/bdf_collect.sh, release/plugins/crontab_collect.sh:
+	New file.
+
+	* release/doc/plugins.txt, release/html/allhosts.htm, release/html/info.htm:
+	Import from HPUX to cygwin
+
+	* release/doc/plugins.txt, release/html/allhosts.htm, release/html/info.htm:
+	New file.
+
+	* release/contrib/BCS_Config/sap.tpl, release/contrib/pvgfilter/pvgfilter.lex, release/contrib/pvgfilter/pvgfilter.txt, release/doc/FAQ_hpux.txt, release/doc/README.txt, release/doc/ToDo.txt, release/doc/history_hpux.txt:
+	Import from HPUX to cygwin
+
+	* release/contrib/BCS_Config/sap.tpl, release/contrib/pvgfilter/pvgfilter.lex, release/contrib/pvgfilter/pvgfilter.txt, release/doc/FAQ_hpux.txt, release/doc/README.txt, release/doc/ToDo.txt, release/doc/history_hpux.txt:
+	New file.
+
+	* release/contrib/BCS_Config/get_config, release/contrib/BCS_Config/get_sap.sh:
+	Import from HPUX to cygwin
+
+	* release/contrib/BCS_Config/get_config, release/contrib/BCS_Config/get_sap.sh:
+	New file.
+
+	* release/contrib/BCS_Config/UKall.tpl, release/contrib/BCS_Config/collect.sh:
+	Import from HPUX to cygwin
+
+	* release/contrib/BCS_Config/UKall.tpl, release/contrib/BCS_Config/collect.sh:
+	New file.
+
+	* release/contrib/3rd_party/runcfg2html.txt, release/contrib/BCS_Config/BCS_config:
+	Import from HPUX to cygwin
+
+	* release/contrib/3rd_party/runcfg2html.txt, release/contrib/BCS_Config/BCS_config:
+	New file.
+
+	* release/contrib/3rd_party/ShowServerConfig.sh, release/contrib/3rd_party/runcfg2html.sh, release/contrib/do_cfg/hosts.do, release/contrib/do_cfg/mailadres.do:
+	Import from HPUX to cygwin
+
+	* release/contrib/3rd_party/ShowServerConfig.sh, release/contrib/3rd_party/runcfg2html.sh, release/contrib/do_cfg/hosts.do, release/contrib/do_cfg/mailadres.do:
+	New file.
+
+	* release/contrib/do_cfg/Why-do_cfg.txt, release/contrib/do_cfg/do_cfg.sh, release/contrib/postinstall.sh:
+	Import from HPUX to cygwin
+
+	* release/contrib/do_cfg/Why-do_cfg.txt, release/contrib/do_cfg/do_cfg.sh, release/contrib/postinstall.sh:
+	New file.
+
+	* release/cfg2html_hpux_sap.sh, release/contrib/MakeRelease.sh, release/contrib/check_errors_hpux.sh, release/profbull.gif:
+	Import from HPUX to cygwin
+
+	* release/cfg2html_hpux_sap.sh, release/contrib/MakeRelease.sh, release/contrib/check_errors_hpux.sh, release/profbull.gif:
+	New file.
+
+	* release/cfg2html_back.jpg, release/cfg2html_hpux.sh:
+	Import from HPUX to cygwin
+
+	* release/cfg2html_back.jpg, release/cfg2html_hpux.sh: New file.
+
+2000-01-28  Ralph Roth  <ralproth@hpul80>
+
+	* /home/CVS/AddSourceCode/lvmhack.c:
+	Initial import of important source code!
+
+	* /home/CVS/AddSourceCode/lvmhack.c: New file.
+
+---------------------------------------------------------------------------
+__     __            _               _   ___
+\ \   / /__ _ __ ___(_) ___  _ __   / | / _ \
+ \ \ / / _ \ '__/ __| |/ _ \| '_ \  | || | | |
+  \ V /  __/ |  \__ \ | (_) | | | | | || |_| |
+   \_/ \___|_|  |___/_|\___/|_| |_| |_(_)___/
+
+
+See history_hpux_v1.txt
+
+/* end */

@@ -1,0 +1,389 @@
+  ___  __      ___ _   _         _   ___ _   ___
+ / __|/ _|__ _|_  ) |_| |_ _ __ | | | __/_\ / _ \
+| (__|  _/ _` |/ /| ' \  _| '  \| | | _/ _ \ (_) |
+ \___|_| \__, /___|_||_\__|_|_|_|_| |_/_/ \_\__\_\
+         |___/
+
+German (Deutsch) text at the end of the document!
+
+--------------------------------------------------------------------------
+Cfg2HTML/HP-UX FAQ/Misc documents etc...
+--------------------------------------------------------------------------
+@(#) $Id: FAQ_hpux.txt,v 5.12 2013-02-09 09:08:47 ralph Exp $
+--------------------------------------------------------------------------
+
+Q: Can the cfg2html report be used in place of nickel. Which of them is more
+comprehensive?
+
+A: Bill Hassell • Nickel is completely obsolete. It hasn't been updated for
+more than 10 years so it is useless for 11.31 and some of 11.23. cfg2html
+comes in two flavors for HP-UX: Version 3.76, the last version for 10.01
+through 11.00, and Version 5.25, the latest version for 11.11 and later.
+
+Unlike nickel which packages dozens of files together to make the report,
+cfg2html creates just 3 files: html, txt and err. Each file stands alone --
+the html file is ready to display with any file browser. The txt file is the
+same as the html but without html codes, perfect for searching and scripting
+reports on multiple systems. The err file is stderr from various commands,
+somewhat useful to see if there any issues. However, many of the error
+messages are cause by running non-existent or unconfigured processes and can
+be ignored.
+
+cfg2html is 10x more detailed and comprehensive than nickel. It has been used
+to manage information for almost 200 servers in one data center, and with a
+little scripting, a nice spreadsheet is created with every server, OS version,
+model, RAM, CPU count, etc.
+
+
+> > I cant update my cfg2html Version from 2.40 to 2.61
+> > whitout remove
+> > the old version first. Here is the error:
+> :
+> >        * "hxx0066:/":  1 filesets have a version
+> > with a higher revision  number already installed.
+> :
+> > After remove the old version 2.40 installation was
+> > OK. Whats wrong?
+
+  That's a recommended workaround. Also you can force
+  the installation.
+
+  Try "downgrading" by:
+  swinstall -x allow_downdate=true -s .......
+
+        -------------------------------------------------
+
+Q1
+>Hello, now I'm a new member of that group, but where can i
+>download the new version of cfg2html? Do i receive it via
+>email?
+
+A1: No, only when subscribing the first time you will automatic
+receive some files we have selected to be send out to new members.
+That includes e.g. recent cfg2html for HP-UX and some "ReadMe's".
+
+Q2:
+d> I looked in the archives for how to download cfg2html.  It stated
+d> there was a "members only" "files" section for downloading.  I do not
+d> see these sections. Somehow I received a copy of the HPUX version,
+d> but would also like the Solaris and Linux versions. Maybe I am being
+d> stupid, but download seems unclear (redirect to yahoo where no files
+d> exist) I don't mind joining the mailing list, but it would be nice if
+d> the download procedure for multiple platforms was clearer. Went to
+d> freshmeat.net and had the same encounter.
+
+A2:
+You may want to have a look at the file section of
+http://groups.yahoo.com/group/cfg2html/
+That will be
+http://groups.yahoo.com/group/cfg2html/files/
+(you need to login first)
+
+        -------------------------------------------------
+> I m using Cfg2Html/HPUX Version 2.67 on a 9000/800/rp3440 box and it
+> hangs on hardware part.
+
+Please update to always the latest version before reporting a bug (2.91/2.92 on HPUX).
+
+> Using CRTL-D solves the issue but I would like to know if there is an
+> other way to fix that without user interaction ?
+
+That's easy: Your diagnostics (stm - support tools manager) hangs. Updated or
+fix your diagnostics and your are done. A reboot may fix the problem as well.
+If you start mstm on the commandline, you will see that mstm has an error!
+
+
+> K+T Class Server panic when running cfg2html (cstm)....
+
+Try Patch PHKL_26087 - fixed reboot on our K570/4 HP-UX 11i
+(PHKL_26087 is the replacement for PHKL_25552)
+
+PHKL_25552: ( SR:8606219169 CR:JAGad88317 ) The system may HPMC or Data Page
+Fault when running the Support Tools Manager (STM) diagnostics "info"
+command to retrieve configuration information from HP-PB SE SCSI adapters.
+The defect has been observed on both K and T Class systems.
+
+
+>> In spite of your WARNING, do people use the tool on production systems ?
+
+If you are asking about the HPUX version: It is rock solid, I personally (and my
+co-workers) use it on production systems. One warning: If diagnostics is buggy
+then you might have a problem. So always make sure you have a good and actual
+diagnostic (stm/cstm) version installed. If you expect to have a buggy
+diagnostics version you can use the -d commandline option:
+-d disable: Diagnostics (cstm #)
+
+
+>Hi. There appears to be some problem with the download script from your page
+>http://members.tripod.de/rose_swe/cfg/cfg.html
+
+Please use http://www.cfg2html.com that redirect you to the new cfg2html
+home page. This page doesn't exist anymore!
+
+        -------------------------------------------------
+
+>The script for HP-UX that I download from here is truncated. I have tried it
+>several different ways, single click, right click - save as. Always
+
+I heard this issue from several source and therefore decided to put on the
+web site a gzip'ed tar archive in the hope that this fixes broken downloads.
+
+        -------------------------------------------------
+
+Thanks for an excellent program! But I have a problem with the
+cfg2html.sd depot file:
+# swlist -s /home/gratiend/src/cfg2html_hpux_B.1.53.sd
+# Initializing...
+# Contacting target "ipc1gr07"...
+ERROR:   tar: /home/gratiend/src/cfg2html_hpux_B.1.53.sd : This doesn't
+         look like a tar archive
+ERROR:   tar: /home/gratiend/src/cfg2html_hpux_B.1.53.sd : Skipping to
+         next file...
+ERROR:   Read from serial depot file failed.  Invalid argument (22).
+ERROR:   The INDEX file on the source did not exist or could not be
+         read.
+ERROR:   "ipc1gr07:/home/gratiend/src/cfg2html_hpux_B.1.53.sd":  An I/O
+         error occurred while performing this task.
+
+Is it me? or is there something wrong with the depot (I have the same
+behavior on HP-UX 10.20 and 11.0).
+
+> how big is your depot? If around 150 KB, then you have to rename it to *.sd.gz and
+> then gunzip it first... you should get then a file around with 500 KB...
+
+Yes,you were right! Thanks.
+
+        -------------------------------------------------
+
+Q>      Hi,
+Q>         does anyone know if you can still get the tar distributed version
+Q>      of cfg2html - I'm not a great fan of SD dervied stuff as I like to
+Q>      stick files where I want them....
+
+A>    you can use tar "tar xvf cfg2html_hpux_B.2.11-BETA.sd cfg2html" to
+A>    extract the files from the depot. This will extract only the
+A>    cfg2html files from the depot and will place them in a directory
+A>    called "cfg2html".
+A>    The depot file is a tar-archive including the files for the software
+A>    and all information's ("catalog") for swinstall.
+
+        -------------------------------------------------
+
+From:	WARDEN,JON
+Sent:	Freitag, 20. Dezember 2002 17:25
+To:	ROTH,RALPH
+Subject:	Cfg2html integration with ServiceControl Manager
+
+Ralph,
+
+   I am a development engineer on the ServiceControl manager product in
+   Fort Collins Colorado in the US. If you will take a look at:
+
+	http://software.hp.com/products/SCMGR/
+
+   and follow the "open source tools" link at the left, then look under
+   "configuration reporting tools" on this page, you will observe that
+   we have provided our customers with a way to integrate Cfg2html with
+   ServiceControl Manager. Our manager, Dean Stevenson, learned about
+   your product some time ago, and when with release 3.0 of SCM we
+   gained the capability to integrate Web Tools with our product, he saw
+   the value of combining the two products. Feel free to take a look at
+   the result and let me know if you have any comments or suggestions.
+   We are always looking for other tools to integrate with SCM, so if
+   you have any suggestions for other tools that would fit, please let
+   me know. Thanks for your useful tool!
+
+Jon Warden (and the rest of the ServiceControl Manager team)
+
+-----------------------------------------------------------------------------------
+
+Configuration reporting tools
+
+   » cfg2html.xml (Linux and HP-UX) These tools collect web pages
+   describing the operating system configuration of each managed node on
+   the CMS. One tool, Config Collect HPUX, gathers information from HP-
+   UX managed nodes. Another tool, Config Collect Linux, gathers
+   information from Red Hat Linux managed nodes. Both tools construct an
+   index page with links for each managed node. The Config Display tool
+   is a web-launch tool that displays the collected configuration
+   information in a browser.
+
+   To gather information from Linux managed nodes, the Linux version of
+   cfg2html must be installed on the CMS (even if the CMS is an HP-UX
+   system). There is no need to install it on the Linux managed nodes.
+   To gather information from HP-UX managed nodes, the HP-UX version of
+   cfg2html must be installed on the CMS and all the HP-UX managed nodes
+   the tool is to run on. If the CMS is a Linux system, the Linux
+   version of cfg2html must be installed there.
+
+   These tools are based on the Freeware utility cfg2html, available for
+   Linux and HP-UX platforms from htttp://www.cfg2html.com.  Right-click
+   on the xml file above and "Save Target As..." to save the file to a
+   convenient location.  Once you have downloaded the tool and xml file,
+   run '/opt/mx/bin/mxtool -af <filename>'.
+
+   This tool was tested with version 1.87 of cfg2html on HP-UX 11.11,
+   and with version 1.7 of cfg2html on Red Hat Linux 7.2.
+
+   Security Note: Java RMI transactions can be encrypted using the IP
+   Security Protocol (IPSec) to increase security on RMI transactions.
+   IPSec provides an infrastructure to allow secure communications
+   including authentication, integrity, confidentiality over IP-based
+   networks between systems and devices that implement the IPSec family
+   of protocol standards.  HP provides an IPSec software package for the
+   HP-UX operating system.  For more information on IPSec, search for
+   "IPSec" on www.hp.com.
+
+----------------------------------------------------------------------------
+
+Things not working on HP-UX 10.xx
+
+* getconf MACHINE_MODEL: Ung³ltiges Argument
+* getconf MACHINE_SERIAL: Ung³ltiges Argument
+
+------------------------------------------------------------------------------
+Q: How to add binaries to the CVS repository?
+
+A: cvs add: invalid RCS keyword expansion mode
+Valid expansion modes include:
+   -kkv Generate keywords using the default form.
+   -kkvl        Like -kkv, except locker's name inserted.
+   -kk  Generate only keyword names in keyword strings.
+   -kv  Generate only keyword values in keyword strings.
+   -ko  Generate the old keyword string (no changes from checked in file).
+   -kb  Generate binary file unmodified (merges not allowed) (RCS 5.7).
+(Specify the --help global option for a list of other help options)
+
+---------------------------------------------------------------------------
+
+Q: pvgfilter.hppa core dumpes on Itanium 64 servers, e.g.
+   [HP ARIES32]: Core file for 32 bit PA-RISC application
+
+A: We are working on this issue. Please make sure that you have the latest
+   ARIES patches installed and at least cfg2html_hpux 4.2x installed!
+
+HP ARIES product general release patches
+Release 	Latest patch 	Released on 	Is Critical? 	Supersedes
+11.23 (11i v2) 	PHSS_38526 	Nov. 11, 2008 	YES 	PHSS_37552 --> PHSS_41098
+11.31 (11i v3) 	PHSS_38527 	Nov. 11, 2008 	YES 	PHSS_37553 --> replaced by PHSS_39294 -> PHSS_41099
+
+Superseeded Patches:
+
+ 11.23          PHSS_29658 PHSS_30015 PHSS_30237 PHSS_30674 PHSS_30779 PHSS_31816 PHSS_32213 PHSS_32502 PHSS_34201 PHSS_35045 PHSS_35528 PHSS_36519 PHSS_37552 PHSS_38526 PHSS_39293 PHSS_39897
+ 11.31          PHSS_36311 PHSS_36520 PHSS_37553 PHSS_38527 PHSS_39294 PHSS_39898
+
+
+See also http://h21007.www2.hp.com/portal/site/dspp/menuitem.863c3e4cbcdc3f3515b49c108973a801/?ciid=0208713ba4f02110713ba4f02110275d6e10RCRD
+
+ # what /usr/lib/hpux??/aries??.so
+/usr/lib/hpux32/aries32.so:
+        HP ARIES (32-bit) B.11.23 (PHSS_38526) Ver: 2.0.00022 [Nov 3, 2008 13:27:0]
+/usr/lib/hpux64/aries64.so:
+        HP ARIES (64-bit) B.11.23 (PHSS_38526) Ver: 2.0.00022 [Nov 3, 2008 15:14:15]
+
+------------------------------------------------------------------------------
+Q: > Is this "core.pvgfilter.hppa"-problem solved in last (4.84)-depot ?
+
+A: No, thats an 11.23 and 11.31 issue I am currently not able to fix. This is due to the new agile devices and the arise emulator.
+The "PVG Filter" section will be skipped in the 5.xx release
+
+---------------------------------------------------------------------------
+
+
+   ____                                   _____ _    ___
+ / ___| ___ _ __ _ __ ___   __ _ _ __   |  ___/ \  / _ \
+| |  _ / _ \ '__| '_ ` _ \ / _` | '_ \  | |_ / _ \| | | |
+| |_| |  __/ |  | | | | | | (_| | | | | |  _/ ___ \ |_| |
+ \____|\___|_|  |_| |_| |_|\__,_|_| |_| |_|/_/   \_\__\_\
+
+Wie wird ein Software Spiegel (Mirror/UX) überprüft?
+
+Dazu eignet sich cfg2html ganz gut:
+
+1.) Schnellüberprüfung, ob Platten defekt sind:  /opt/cfg2html/contrib/check_errors_hpux.sh
+    -> stale ???  Spiegel steht/Platte defekt
+Idealerweise sollte check_errors_hpux.sh NICHTS zurückmelden, dann ist alles ok!
+
+2.) cfg2html_hpux.sh -t ausführen, dann werden Daten für eine graphische Ausgabe mitgesammelt. Die erzeugte {hostname}.HTML mir zusenden, ich mache dann die graphische Aufbereitung (mittels TGV -> Visio).
+
+
+
+Cfg2Html.Where.txt
+------------------
+
+
+Extern
+
+  http://www.cfg2html.com
+
+
+
+Mailinglist:
+
+   -> siehe externe Web-Page
+
+
+
+
+Warning: This Dokumentation is outdated, cfg2html had been renamed to cfg2html_hpux.sh
+and MakeIndex.shar is now html/make_index.sh
+
+Intranet basierende Onlinedokumentation aller HP-Server
+-------------------------------------------------------
+
+Auf zentralem Rechner der per rcp/remsh alle anderen Server ohne Password
+erreichen kann:
+
+- #mkdir /home/HP
+- #cd /home/HP
+- In "/home/HP" die Dateien cfg2html.sh und MakeIndex.shar kopieren
+  #chmod 744 cfg2html.sh
+  #sh MakeIndex.shar		--> erzeugt u.a. make_index.sh
+
+- #vi hosts     --> hier alle Server eintragen, z.B     server-1
+                                                        server-2
+                                                          .
+                                                        server-n
+
+- #vi do_doku.sh        --> hier z.B. folgendes eintragen
+
+        # /bin/sh
+        for i in `cat ./hosts`
+        do
+           echo
+           echo $i
+           remsh $i mkdir /home/HP
+           rcp -p /home/HP/cfg2html.sh $i:/home/HP
+           rcp -p /home/HP/make_1.sh $i:/home/HP
+           remsh $i /home/HP/cfg2html.sh -x
+           rcp $i:/home/HP/$i.html /home/HP
+        done
+        make_index.sh
+
+- #chmod 744 do_doku.sh
+- #./do_doku.sh
+--> jetzt kann man je nach Anzahl der Server erst mal Mittag machen.
+
+- Alle html-Dateien aus /home/HP auf den Web-/Intranetserver kopieren
+- Danach im Navigator die Datei "/home/HP/allhosts.htm" öffnen
+- Wenn man jetzt eine modifizierte "do_doku.sh" (einige Dinge braucht man ja nur das
+  einmal zu machen) in die crontab einbindet und einmal die Woche laufen laesst ist
+  die Dokumenation immer up_to_date.
+
+-------------------------------------------------------------------------------------
+
+Notes:
+cfg2html.sh     sammelt die Konfigurationsinformation und legt folgende Dateien
+an
+                hostname.html   --> Konfigurationsinformationen im html-Format
+                hostname.txt    --> Konfigurationsinformationen als Textdatei
+                hostname.err    --> Fehlerlogdatei fuer cfg2html.sh
+
+Make_Index.shar erzeugt das HTML-Frame,
+                linkes Fenster hostnamen,
+                rechtes Fenster die entsprechenden Konfigurationsinformationen
+
+make_index.sh   generiert die hostliste im linken Frame anhand der vorgefundenen
+                'hostname'.html-Dateien
+
+/* end */

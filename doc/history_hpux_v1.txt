@@ -1,0 +1,1322 @@
+@(#) $Id: history_hpux_v1.txt,v 5.11 2013-02-09 09:08:47 ralph Exp $
+ _   _ _     _                      __
+| | | (_)___| |_ ___  _ __ _   _   / _| ___  _ __
+| |_| | / __| __/ _ \| '__| | | | | |_ / _ \| '__|
+|  _  | \__ \ || (_) | |  | |_| | |  _| (_) | |
+|_| |_|_|___/\__\___/|_|   \__, | |_|  \___/|_|
+                           |___/
+       __       ____  _     _             _   _
+  ___ / _| __ _|___ \| |__ | |_ _ __ ___ | | / | __  __
+ / __| |_ / _` | __) | '_ \| __| '_ ` _ \| | | | \ \/ /
+| (__|  _| (_| |/ __/| | | | |_| | | | | | | | |_ >  <
+ \___|_|  \__, |_____|_| |_|\__|_| |_| |_|_| |_(_)_/\_\
+          |___/
+
+---------------------------------------------------------------------------
+
+2003-01-21  Ralph Roth  <ralproth@hpul80>
+
+	* release/contrib/postinstall.sh, release/cfg2html_hpux.sh, release/contrib/MakeRelease.sh:
+	Last fixes for 1.x stream
+
+2003-01-13  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: BCS_Config integration
+
+	* release/cfg2html_hpux_sap.sh, release/contrib/MakeRelease.sh, release/contrib/BCS_Config/BCS_config, release/contrib/BCS_Config/collect.sh, release/contrib/collect_306.sh:
+	Added collect.sh to BCS_Config
+
+	* release/cfg2html_hpux.sh:
+	Changed copyrigth (y2k3) and removed some of the history
+
+	* release/contrib/BCS_Config/BCS_config, release/contrib/BCS_Config/UKall.tpl, release/contrib/BCS_Config/get_config, release/contrib/BCS_Config/get_sap.sh, release/contrib/BCS_Config/sap.tpl, release/contrib/collect_306.sh:
+	Added collect.sh and BCS_Config
+
+	* release/plugins/get_vg.sh: Added cvs keywords
+
+	* release/plugins/get_vg.sh: Initial import
+
+	* release/contrib/MakeRelease.sh: Misc changes
+
+2002-12-04  Ralph Roth  <ralproth@hpul80>
+
+	* release/contrib/check_errors_hpux.sh:
+	Figthing around with permissions problems and CVS
+
+	* release/contrib/check_errors_hpux.sh: Added: "Recovered Path"
+
+	* release/plugins/psi_collect.sh: initial import
+
+	* release/cfg2html_hpux.sh: Changed banner and other misc. things
+
+2002-11-21  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/README.txt:
+	! misc text changes for wincvs and email programs
+
+2002-11-20  Ralph Roth  <ralproth@hpul80>
+
+	* release/plugins/oracle_collect.sh, release/plugins/getlp.sh, release/plugins/qlan.sh, release/plugins/crontab_collect.sh, release/plugins/bdf_collect.sh, bin/makehistory.sh:
+	Changes for proper WinCVS function
+
+2002-11-14  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/ToDo.txt, release/doc/README.txt:
+	Added email + IM adresses
+
+	* release/cfg2html_hpux.sh: ! Workaround for DP 5.0 (sr by mk)
+
+2002-11-12  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: Minor Changes for internal release
+
+	* release/cfg2html_hpux.sh: ? Misc changes before I got ill
+
+2002-10-24  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: - removed cclog
+	! encrypted my email address
+
+2002-10-22  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: ! encrypted the e-mail
+
+2002-10-17  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	! Changed Superdome to Cellboard/Hardpartition, sr by milg
+
+2002-09-13  Ralph Roth  <ralproth@hpul80>
+
+	* sd/prodspec.template: Changed tempalte to match IA64 too (sr by tb)
+
+2002-09-12  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh, release/contrib/MakeRelease.sh:
+	+ Added hfs superblock (suggested by Thomas Saur)
+
+2002-09-11  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh, release/contrib/MakeRelease.sh:
+	+ Ported to IA64/HPUX 11.2x by Thomas Brix
+
+2002-09-10  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	+ Added omnicc -password_info for upcoming OB 2.5x license move :-((
+
+2002-09-02  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	! Fixes for changes introduces by EW enhancements requests
+
+	* release/cfg2html_hpux.sh: Added enhancements made by Eric Watson:
+	+ Previous PDCINFO Tombstone
+	+ Chassis Code Error Log
+	+ EMS Event Log
+
+2002-08-21  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	! Added check for OS 10/11 (get_lan_description), sr by TB
+	! Changed the email adress to avoid spaming
+
+2002-08-14  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	Added get_lan_description.sh collector provided by Thomas Brix
+
+	* release/plugins/get_lan_desc.sh:
+	get_lan_desc - initial import, suggested by Thomas Brix and enhanced by Ralph
+
+2002-08-07  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	! Added suggestions made by Thomas Brix, Guillero Rodiguez and Martin Voskuilen
+	! ntpd, diskinfo fixes
+
+2002-08-05  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	! Applied fixes suggested by Martin Voskuilen
+	! Fixed diskinfo errors created by sed. Credits: Guillermo Rodriguez + TB
+
+2002-07-01  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/FAQ_hpux.txt, release/cfg2html_hpux.sh:
+	Small fixes provided by MK and TB applied
+
+2002-05-28  Ralph Roth  <ralproth@hpul80>
+
+	* release/plugins/pvgfilter: Readded pvgfilter, with -kb keywords
+
+	* release/plugins/pvgfilter: *** empty log message ***
+
+	* release/plugins/pvgfilter: pvgfilter was corrupted
+
+	* release/cfg2html_hpux.sh, release/plugins/pvgfilter: Added PVG-Filter
+
+	* release/contrib/pvgfilter/pvgfilter.lex, release/contrib/pvgfilter/pvgfilter.txt:
+	Initial import of pvgfilter 2.4
+
+2002-05-22  Ralph Roth  <ralproth@hpul80>
+
+	* release/contrib/check_errors_hpux.sh: Added UPS keywords
+
+	* release/contrib/check_errors_hpux.sh:
+	Added Temperature (syslog, sr: tb) and TimeZone checker
+
+2002-04-24  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/README.txt:
+	Changed lvlnboot -v behaviour (sr/suggestion by Matthias Daum) therefore vg00 must exist (readme.txt updated)
+
+	* release/cfg2html_hpux.sh:
+	Changed lvlnboot -v behaviour (sr/suggestion by Matthias Daum)
+
+2002-04-23  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: Changed swapinfo -tam
+
+2002-04-22  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/ToDo.txt: ??
+
+	* release/cfg2html_hpux.sh: Added TZ; cmquerycl -v
+
+2002-04-15  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/README.txt, release/doc/ToDo.txt, release/doc/FAQ_hpux.txt:
+	Added hint for PHKL_26087 (credits: cristoph)
+
+	* release/cfg2html_hpux.sh: Played around with tput
+	Added hint for PHKL_26087 (credits: cristoph)
+
+2002-03-13  Ralph Roth  <ralproth@hpul80>
+
+	* release/contrib/MakeRelease.sh: Added automated CVS tagging
+
+	* shells_3rd_party/cdlist.sh: WinCVS test
+
+	* shells_3rd_party/SysAudit.sh, shells_3rd_party/getVAlogs2.sh:
+	Added Files:
+		SysAudit.sh getVAlogs2.sh
+
+	* release/doc/README.txt: Added credits section
+
+2002-03-12  Ralph Roth  <ralproth@hpul80>
+
+	* release/contrib/do_cfg/Why-do_cfg.txt: Fixed spelling errors
+
+	* release/contrib/do_cfg/Why-do_cfg.txt: Added CVS keywords
+
+	* release/contrib/do_cfg/mailadres.do, release/contrib/do_cfg/Why-do_cfg.txt, release/contrib/do_cfg/do_cfg.sh, release/contrib/do_cfg/hosts.do:
+	Initial do_cfg version from Albert Wanders
+	Added Files:
+		Why-do_cfg.txt do_cfg.sh hosts.do mailadres.do
+
+2002-03-06  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: ! Fixes for OmniBack 4.x
+
+2002-02-27  Ralph Roth  <ralproth@hpul80>
+
+	* release/contrib/check_errors_hpux.sh:
+	! ^DZ improvement for sendmail (sr by wj)
+
+	* release/cfg2html_hpux.sh, release/cfg2html_hpux_sap.sh:
+	! ^DZ improvement for sendmail (sr by wj)
+	! removed part of history
+	! added note about VA-Collector
+	! SAP Collector now WITHOUT HW collecting (safer for SAP Env. :))
+
+	* release/plugins/getVAlogs.sh: + VA7400 collector added
+	! initial import
+
+	* release/cfg2html_hpux.sh: + VA7400 collector added
+	+ sendmail collector added (credits: Walter Jaeger)
+	! ps/Process View merged
+
+2002-02-25  Ralph Roth  <ralproth@hpul80>
+
+	* release/contrib/postinstall.sh: chmod of *.sh
+
+	* release/cfg2html_hpux.sh: + ps -efH
+	! fixed some spelling errors
+
+	* release/cfg2html_hpux.sh: + added opc template collector (sr by ms)
+	! modified SAP collector (uses now plugin/get_sap.sh)
+
+2002-02-14  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	Addded sendmail aliases via YP/NIS (SR by wj)
+
+	* release/cfg2html_hpux.sh: Diagnostic Notes fixed (SR by BG)
+
+2002-02-12  Ralph Roth  <ralproth@hpul80>
+
+	* release/plugins/get_sap.sh: New SAP Collector from Klaus Doemer
+
+	* release/doc/README.txt, release/contrib/3rd_party/ShowServerConfig.sh, release/contrib/3rd_party/runcfg2html.sh, release/contrib/3rd_party/runcfg2html.txt:
+	*** empty log message ***
+
+2002-02-06  Samba Guest Account  <www@hpul80>
+
+	* release/cfg2html_hpux.sh: Fixed ^M bug
+
+2002-02-06  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/README.txt: Spell checked, added desc. of SAP collector
+
+	* release/cfg2html_hpux.sh:
+	OmniBack Agent Collector - redesigned to catch OB hangs (SG)
+
+	* sd/prodspec.template: Fixed SD template
+
+	* release/cfg2html_hpux.sh: Added /opt/HPvmsa/bin to the PATH
+	Fixed SD template
+
+	* release/cfg2html_hpux_sap.sh: Added SAP driver for cfg2html_hpux
+
+	* release/contrib/MakeRelease.sh, release/plugins/VxVM_collect.sh, release/cfg2html_hpux.sh:
+	VxVM collector added
+
+2002-02-05  Ralph Roth  <ralproth@hpul80>
+
+	* release/plugins/VxVM_collect.sh: Initial CVS import
+
+2002-01-31  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/DE/CollectIntranet_DE.txt: Re-checked docu.
+
+	* release/plugins/firmware_collect.sh:
+	Initial working version for cfg2html 1.66
+
+	* release/doc/ToDo.txt: Macro + req. from GRC
+
+	* release/cfg2html_hpux.sh:
+	Firmware Collector moved to plugin directory.
+
+	* shells_3rd_party/firmware_old.sh, shells_3rd_party/hwcheck.sh, shells_3rd_party/open_files.sh:
+	 Added Files:
+	 	firmware_old.sh open_files.sh
+	 Removed Files:
+	 	hwcheck.sh
+
+2002-01-31  Samba Guest Account  <www@hpul80>
+
+	* release/plugins/firmware_collect.sh:
+	Added changes from cfg2html_hpux, added CD-ROM
+
+2002-01-31  Ralph Roth  <ralproth@hpul80>
+
+	* release/plugins/firmware_collect.sh: Added Files: firmware_collect.sh
+
+2002-01-28  Ralph Roth  <ralproth@hpul80>
+
+	* release/cfg2html_hpux.sh: HTML tidy up
+	added ftp (wu-ftp) collector
+	added process table collector
+
+2002-01-22  Ralph Roth  <ralproth@hpul80>
+
+	* sd/prodspec.template: MakeIndex enhancements
+
+	* release/cfg2html_hpux.sh:
+	Small HTML fixes. Send to [hp-itanium] mailing list
+
+2002-01-11  Samba Guest Account  <www@hpul80>
+
+	* release/html/make_index.sh, release/html/allhosts.htm, release/html/info.htm:
+	Enhanced the make_index package
+
+2002-01-11  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/README.txt: Released as 1.63, 11-Jan-2002
+
+2002-01-09  Ralph Roth  <ralproth@hpul80>
+
+	* release/contrib/postinstall.sh: Changes for MakeIndex.sharport
+
+2002-01-08  Samba Guest Account  <www@hpul80>
+
+	* sd/prodspec.template: Changes for MakeIndex.sh
+
+	* release/html/info.htm: New file.
+
+	* release/html/info.htm: Unpacked MakeIndex.shar
+
+	* release/html/allhosts.htm: New file.
+
+	* release/html/allhosts.htm: Unpacked MakeIndex.shar
+
+	* release/html/make_index.sh: New file.
+
+	* release/html/make_index.sh: Unpacked MakeIndex.shar
+
+2002-01-08  Ralph Roth  <ralproth@hpul80>
+
+	* release/contrib/MakeIndex.shar: Removed MakeIndex.shar
+
+	* bin/make_index.sh: Removed make_index.sh
+
+	* release/doc/ToDo.txt, release/cfg2html_hpux.sh:
+	Changed Y2K2, fixed an bug in the new netstat function
+
+2002-01-07  Samba Guest Account  <www@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	Could you add also to the 1.60 release of your cfg2html script
+	the following command, to check the number of sockets in the same states :
+
+	  netstat -an | grep tcp | awk '{print $6}' | sort | uniq -c
+
+2001-12-21  Samba Guest Account  <www@hpul80>
+
+	* release/cfg2html_back.jpg:
+	changed the background again (used the one from http://www.cfg2html.com)
+
+2001-12-20  Samba Guest Account  <www@hpul80>
+
+	* release/cfg2html_back.jpg:
+	Replace Background with another picture (small, better contrast)
+
+	* release/cfg2html_hpux.sh:
+	Removed embedded GIF and JPG SHAR archive (due to the plugin concept
+	there's no more need for it)
+
+	* release/doc/FAQ_hpux.txt, release/doc/README.txt, release/doc/ToDo.txt:
+	Added figlet Header
+
+	* release/profbull.gif, release/cfg2html_back.jpg, release/cfg2html_hpux.sh:
+	Added JPG and GIF files to the distribution.
+	Started to fix HTML errors TIDY complains about
+
+2001-12-06  Ralph Roth  <ralproth@hpul80>
+
+	* release/doc/FAQ_hpux.txt: dos2ux, oem2ansi, CVS keywords
+
+	* release/doc/ToDo.txt, release/doc/plugins.txt:
+	id changed, plugins commented
+
+	* release/doc/ToDo.txt: ToDo List, initial creation
+
+	* release/contrib/MakeRelease.sh: Added CVS keywords etc.
+
+2001-11-29  Samba Guest Account  <www@hpul80>
+
+	* release/contrib/MakeRelease.sh:
+	Generated packages are now compied to the source dir
+
+2001-11-29  Ralph Roth  <ralproth@hpul80>
+
+	* release/contrib/check_errors_hpux.sh: + Added UPS checking
+	! Fixed bug: function monitorprocesses, wont work on HPUX11i (sr by bs)
+
+	* release/cfg2html_hpux.sh:
+	+ Added HyperFabric Collector (unable to test yet)
+	- removed xpinfo (sr. by mk)
+
+2001-11-14  Ralph Roth  <ralproth@hpul80>
+
+	* release/contrib/MakeRelease.sh, release/doc/history_hpux.txt:
+	changes on the history file
+
+2001-11-13  Samba Guest Account  <www@hpul80>
+
+	* release/contrib/MakeRelease.sh, release/beta/cfg2html-cmd_line_options.txt:
+	Changed for CVS <> SD functionality
+
+2001-11-13  Ralph Roth  <ralproth@hpul80>
+
+	* release/contrib/MakeRelease.sh, release/contrib/postinstall.sh:
+	first complete CVS version
+
+	* release/doc/README.txt, release/doc/plugins.txt, release/cfg2html_hpux.sh:
+	Changed to CVS, changed id
+
+2001-11-13  Admin Samba Share Ulm  <root@hpul80>
+
+	* sd/prodspec.org, sd/prodspec.template: New file.
+
+	* sd/prodspec.org, sd/prodspec.template:
+	Softwaredistributor - needed stuff
+
+
+	* release/contrib/MakeIndex.shar, release/doc/history_hpux.txt:
+	Initial import into CVS (hpux)
+
+	* release/contrib/MakeIndex.shar, release/doc/history_hpux.txt:
+	New file.
+
+	* release/contrib/MakeRelease.sh: Initial import into CVS (hpux)
+
+	* release/contrib/MakeRelease.sh: New file.
+
+2001-11-13  Administrator  <Administrator@hpul80>
+
+	* release/contrib/check_errors_hpux.sh:
+	syslogd: added: NFS fsstat, EMS Events, bootp, sfd
+	mail.log: new checker added
+
+2001-10-04  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	Added cmcld/MC/SG version check, usefull on HPUX 11i
+
+	* release/cfg2html_hpux.sh: Added sar -v 1 5 (SR: Victor Gattegno)
+	"Redesigned" the Kernel section
+
+	* release/contrib/postinstall.sh: Initial import into CVS (hpux)
+
+	* release/contrib/postinstall.sh: New file.
+
+2001-09-27  Ralph Roth  <ralproth@hpul80>
+
+	* release/contrib/check_errors_hpux.sh: Added SCSI resets and NFS hangs
+	Monitorprocess seems not to work under HPUX 11i...????
+
+2001-09-25  Ralph Roth  <ralproth@hpul80>
+
+	* release/contrib/check_errors_hpux.sh: Fixed: nfsd, WARNING
+
+	* release/contrib/check_errors_hpux.sh: nfsd fixed, WARNING added
+
+	* release/contrib/check_errors_hpux.sh:
+	Check for Errors, initial creation for Liebherr
+
+2001-09-10  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: Added Oracle collector plugin
+
+	* release/plugins/qlan.sh: Initial import into CVS (hpux)
+
+	* release/plugins/qlan.sh: New file.
+
+2001-09-04  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/doc/README.txt: Initial import into CVS (hpux)
+
+	* release/doc/README.txt: New file.
+
+2001-08-23  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	Added crontab and AT scheduler collector plugin
+
+	* release/plugins/crontab_collect.sh:
+	added AT scheduler, removed lines with remarks from the crontab
+
+	* release/plugins/crontab_collect.sh: workaround for HPUX 10.xx (10.20)
+
+	* release/plugins/oracle_collect.sh: New file.
+
+2001-08-08  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/doc/FAQ_hpux.txt: Initial import into CVS (hpux)
+
+	* release/doc/FAQ_hpux.txt: New file.
+
+2001-08-06  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	Applied sar bugfix for new sar patch, provided by Peter Krueger
+
+2001-07-20  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: Changed the comment regarding diagnostics.
+	Replaced lpstat with getlp.sh plug in.
+
+	* release/plugins/getlp.sh: New file.
+
+	* release/plugins/getlp.sh: cfg2html 1.52
+
+2001-06-26  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	Fixed a bug introduced with 1.4x: Memory layout.
+	First relase as a SD package
+
+2001-06-25  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	Additional distribution now as a Software Distribotor Package
+	Credits: Robert Metzel, EIC
+
+2001-06-22  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: ! Removed parts of the network collectors.
+	+ Added external Network collection plugin qlan.sh
+	First working version with plugins!
+
+	* release/cfg2html_hpux.sh:
+	regrouped environment variables for plugin concept
+
+	* release/doc/plugins.txt: Initial import into CVS (hpux)
+
+	* release/doc/plugins.txt: New file.
+
+	* shells_3rd_party/striphtml.sh.txt: Misc shells from other sources
+
+	* shells_3rd_party/striphtml.sh.txt: New file.
+
+	* shells_3rd_party/cfcat.sh.txt: Misc shells from other sources
+
+	* shells_3rd_party/cfcat.sh.txt: New file.
+
+	* shells_3rd_party/busy.sh.txt: Misc shells from other sources
+
+	* shells_3rd_party/busy.sh.txt: New file.
+
+2001-06-20  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/beta/cfg2html-cmd_line_options.txt:
+	Initial import into CVS (hpux)
+
+	* release/beta/cfg2html-cmd_line_options.txt: New file.
+
+2001-06-20  Ralph Roth  <ralproth@hpul80>
+
+	* release/beta/cfg2html_getopts.sh: -D fixes
+
+	* release/beta/cfg2html_getopts.sh: -s -d fixed
+
+2001-06-19  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: $DIAGNOSTICS=true added by Stefan Fournier
+	changed to CFG_DIAG=yes/no (rr)
+
+2001-06-12  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: Added model fix, provided by Stefan Fourier
+	documented a little bit the enviroment variables for cfg2html ($CFG_)
+	Added and changed some of the dox
+
+2001-05-18  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/doc/url/cfg2html.sh: Initial import into CVS (hpux)
+
+	* release/doc/url/cfg2html.sh: New file.
+
+	* release/doc/url/Yahoo!: Initial import into CVS (hpux)
+
+	* release/doc/url/Yahoo!: New file.
+
+2001-05-17  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/doc/DE/CollectIntranet_DE.txt, release/doc/DE/where.cfg2html_DE.txt:
+	Initial import into CVS (hpux)
+
+	* release/doc/DE/CollectIntranet_DE.txt, release/doc/DE/where.cfg2html_DE.txt:
+	New file.
+
+2001-05-16  Admin Samba Share Ulm  <root@hpul80>
+
+	* bin/makehistory.sh: rm
+
+	* bin/makehistory.sh: Added creation of history_hpux.tar.gz
+
+2001-05-09  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	!enhanced the DTC collector (now DTC16RX is supported too)
+
+2001-05-07  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	! added CFG_HWDISK=no for Roger Streuli to mask out Firmware collector.
+
+2001-05-04  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: + inline screentips by Thomas Brix
+	+ enhanced runlevel collector by Thomas Brix
+	- fixed a bug with inline screentips
+	! SAP collector is now by default disabled
+	! to use old style screentips (draging mouse over link) you must currently
+	do:  export CFG_STINLINE=no
+	! to enable SAP you must:   export CFG_SAP+yes
+
+	* shells_3rd_party/misc/sccsinfo/scsiinfo: New file.
+
+	* shells_3rd_party/misc/sccsinfo/scsiinfo:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/misc/sccsinfo/stdisklog.sh: New file.
+
+	* shells_3rd_party/misc/sccsinfo/stdisklog.sh:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/misc/sccsinfo/scsiinfo.sh: New file.
+
+	* shells_3rd_party/misc/sccsinfo/scsiinfo.sh:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/misc/sccsinfo/diag2.h: New file.
+
+	* shells_3rd_party/misc/sccsinfo/diag2.h:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/misc/sccsinfo/scsiinfo.c: New file.
+
+	* shells_3rd_party/misc/sccsinfo/scsiinfo.c:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/misc/cfg2html_sco.sh: New file.
+
+	* shells_3rd_party/misc/cfg2html_sco.sh:
+	Other misc stuff, that is maybe usefull...
+
+2001-05-02  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	Send to Thomas Brix for changing CSS/HTML stuff
+	RCS tags changed
+
+	* release/cfg2html_hpux.sh: Played around with $Revison:$ and $RCCS
+
+	* bin/makehistory.sh: revision keyword
+
+	* bin/makehistory.sh: New file.
+
+	* bin/makehistory.sh: *** empty log message ***
+
+	* release/cfg2html_hpux.sh: SAP Wrapper, $Version, $Log changes
+
+	* release/cfg2html_hpux.sh:
+	SAP is not by default disabled, use export CFG_SAP=yes to enable SAP
+	collector. Moved the whole history to the external file history_hpux.txt
+	Changed the version system (from handchoosen version to RCS versions).
+
+2001-04-26  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: + OLA/R enhancements
+	+ added SD serial numbers
+
+2001-04-25  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: + Service Controll Manager
+
+	* release/cfg2html_hpux.sh: + ScreenTips added
+	! small fixes and enhancements
+
+	* release/cfg2html_hpux.sh: screentips
+
+2001-04-24  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: + enhanced SuperDome collector
+	+ added OLA/R
+	+ enhanced FC collector
+
+	* release/cfg2html_hpux.sh: 1.17.2, before SuperDome training :))
+
+2001-04-24  administrator  <administrator@hpul80>
+
+	* release/beta/cfg2html_getopts.sh: New file.
+
+	* release/beta/cfg2html_getopts.sh: getopt 4 cfg2html
+
+
+2001-04-20  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/plugins/bdf_collect.sh:
+	First working standalone collector version
+
+2001-04-18  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/plugins/bdf_collect.sh: initial working version for cfg2html
+
+	* release/plugins/bdf_collect.sh: New file.
+
+	* release/plugins/crontab_collect.sh:
+	working (initial) version for cfg2html
+
+	* release/plugins/crontab_collect.sh, shells_3rd_party/misc/cfg2html_linux.sh:
+	New file.
+
+	* shells_3rd_party/misc/cfg2html_linux.sh:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/fct_util_v1_12.shar: Misc shells from other sources
+
+	* shells_3rd_party/fct_util_v1_12.shar: New file.
+
+2001-04-17  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: Split of Network into two parts
+	Added PAM/Kerberos config files
+	cfg2html 1.17.1
+
+2001-04-10  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	SuperDome collector by Frank Muellers added (1.16.2)
+
+2001-03-27  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: 1.16.01 - PAM and auto.direct added
+
+2001-03-26  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	cfg2html 1.15.7 - fixed patch listing on HPUX 11
+
+2001-03-23  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: before removing FC_Clear_Stats (1.15.3)
+
+2001-03-14  Admin Samba Share Ulm  <root@hpul80>
+
+	* shells_3rd_party/misc/lapture_0.20: New file.
+
+	* shells_3rd_party/misc/lapture_0.20:
+	Other misc stuff, that is maybe usefull...
+
+2001-03-01  Admin Samba Share Ulm  <root@hpul80>
+
+	* bin/make_index.sh: 0.55 urls, copyright, email fixes
+
+	* shells_3rd_party/misc/makeindex/make_index.sh: New file.
+
+	* shells_3rd_party/misc/makeindex/make_index.sh:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/misc/makeindex/info.htm: New file.
+
+	* shells_3rd_party/misc/makeindex/info.htm:
+	Other misc stuff, that is maybe usefull...
+
+	* release/cfg2html_hpux.sh:
+	Typo fixes, email fixes, homepage changes, collector changes
+
+2001-02-27  Admin Samba Share Ulm  <root@hpul80>
+
+	* shells_3rd_party/misc/cfg2html_sun.sh: New file.
+
+	* shells_3rd_party/misc/cfg2html_sun.sh:
+	Other misc stuff, that is maybe usefull...
+
+2001-01-26  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: version 1.15.1
+	hostname/uname -n change, small fixes and enhancements requests
+
+2001-01-14  Admin Samba Share Ulm  <root@hpul80>
+
+	* shells_3rd_party/misc/psi/psi-alltools.tar: New file.
+
+	* shells_3rd_party/misc/psi/psi-alltools.tar:
+	Other misc stuff, that is maybe usefull...
+
+2001-01-12  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: SuperDome Integration (1.14)
+
+	* release/cfg2html_hpux.sh: before superdome integration from marc
+
+2000-12-04  Admin Samba Share Ulm  <root@hpul80>
+
+	* shells_3rd_party/change_path.sh: Misc shells from other sources
+
+	* shells_3rd_party/change_path.sh: New file.
+
+	* release/cfg2html_hpux.sh: before XP256/XP512 fixes
+
+2000-11-14  Admin Samba Share Ulm  <root@hpul80>
+
+	* shells_3rd_party/hwcheck.sh: Misc shells from other sources
+
+	* shells_3rd_party/hwcheck.sh: New file.
+
+2000-11-09  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: 1.12.5, before new SAP collector form Klaus
+
+	* shells_3rd_party/GET_SAP.SH: Misc shells from other sources
+
+	* shells_3rd_party/GET_SAP.SH: New file.
+
+2000-10-09  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: 1.20.1 before model fixes
+
+2000-10-04  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: before changes of the cstm part by rm
+
+2000-09-16  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: Cfg2html 1.12.5 before my holidays
+
+2000-09-14  Admin Samba Share Ulm  <root@hpul80>
+
+	* shells_3rd_party/misc/lvmhack/lvmhack: New file.
+
+	* shells_3rd_party/misc/lvmhack/lvmhack:
+	Other misc stuff, that is maybe usefull...
+
+2000-09-03  Admin Samba Share Ulm  <root@hpul80>
+
+	* shells_3rd_party/get_lvm_info.sh: Misc shells from other sources
+
+	* shells_3rd_party/get_lvm_info.sh: New file.
+
+2000-08-21  Admin Samba Share Ulm  <root@hpul80>
+
+	* shells_3rd_party/ems.xp.wa.sh: Misc shells from other sources
+
+	* shells_3rd_party/ems.xp.wa.sh: New file.
+
+2000-08-15  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: before adding the new hw collector, 1.10.6
+
+	* shells_3rd_party/fw1.sh: Misc shells from other sources
+
+	* shells_3rd_party/fw1.sh: New file.
+
+2000-07-09  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: 1.10.1, samba, dtc fixes by rm
+
+
+2000-07-01  Admin Samba Share Ulm  <root@hpul80>
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/Makefile: New file.
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/Makefile:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/README: New file.
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/README:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/src/prefs.h: New file.
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/src/prefs.h:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/src/main.cpp: New file.
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/src/main.cpp:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/src/misc.cpp: New file.
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/src/misc.cpp:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/src/intern.cpp: New file.
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/src/intern.cpp:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/src/of.cpp: New file.
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/src/of.cpp:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/src/htmsysinforc: New file.
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/src/htmsysinforc:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/src/of.h: New file.
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/src/of.h:
+	Other misc stuff, that is maybe usefull...
+
+2000-06-29  Admin Samba Share Ulm  <root@hpul80>
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/ChangeLog: New file.
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/ChangeLog:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/THANKS: New file.
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/THANKS:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/COPYING: New file.
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/COPYING:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/src/if.cpp: New file.
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/src/if.cpp:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/src/errors.h: New file.
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/src/errors.h:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/src/errors.cpp: New file.
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/src/errors.cpp:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/src/configi.h: New file.
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/src/configi.h:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/src/configi.cpp: New file.
+
+	* shells_3rd_party/misc/htmsysinfo-en1.7/src/configi.cpp:
+	Other misc stuff, that is maybe usefull...
+
+2000-06-17  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: 1.09.6 - before DTC enhancements
+
+2000-05-12  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	1.9.2 sended to the mailing list, without fancy colors :)
+
+	* shells_3rd_party/cpus.sh: Misc shells from other sources
+
+	* shells_3rd_party/cpus.sh: New file.
+
+2000-04-19  Admin Samba Share Ulm  <root@hpul80>
+
+	* shells_3rd_party/misc/swlist/swlist2put.sh: New file.
+
+	* shells_3rd_party/misc/swlist/swlist2put.sh:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/misc/swlist/swlist2put.awk: New file.
+
+	* shells_3rd_party/misc/swlist/swlist2put.awk:
+	Other misc stuff, that is maybe usefull...
+
+2000-04-09  Admin Samba Share Ulm  <root@hpul80>
+
+	* shells_3rd_party/misc/swlist/swlist2put.EXE: New file.
+
+	* shells_3rd_party/misc/swlist/swlist2put.EXE:
+	Other misc stuff, that is maybe usefull...
+
+2000-03-28  Admin Samba Share Ulm  <root@hpul80>
+
+	* bin/make_index.sh:
+	make_index 0.53, before enhancements of thomas brix
+
+2000-03-18  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: cfg2html 1.7.1 from Morten Erisken
+
+2000-03-15  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: Version send to Morten Eriksen
+
+2000-03-10  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	1.6.3: fc v2, make_recovery fixes, send to newsgroups
+
+2000-03-07  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: 1.06.1 - fc, vxfs version determation, y2k 
+
+2000-03-03  Admin Samba Share Ulm  <root@hpul80>
+
+	* shells_3rd_party/vxfs.sh: Misc shells from other sources
+
+	* shells_3rd_party/vxfs.sh: New file.
+
+2000-02-22  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	1.6.7 without MC/SG Enhancements - Feb. 2000
+
+2000-02-14  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: 1.6.5 - edits before SHW sessions
+
+2000-01-26  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: 1.8.1.1 test only
+
+	* release/cfg2html_hpux.sh: with $header:$ keywords
+
+	* release/cfg2html_hpux.sh:
+	with fat SAP integration from Klaus Doemer. Fixed onsite version 1.5.3
+
+2000-01-25  Admin Samba Share Ulm  <root@hpul80>
+
+	* bin/make_index.sh: New file.
+
+1999-12-20  Admin Samba Share Ulm  <root@hpul80>
+
+	* shells_3rd_party/misc/makeindex/allhosts.htm: New file.
+
+	* shells_3rd_party/misc/makeindex/allhosts.htm:
+	Other misc stuff, that is maybe usefull...
+
+1999-12-11  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: 1.05 with basic SAP extension, nov 1999
+
+1999-12-02  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	With MC/SG/FC, national language support (1.2.6)
+
+1999-12-01  Admin Samba Share Ulm  <root@hpul80>
+
+	* shells_3rd_party/misc/nickel/nickel.tar: New file.
+
+	* shells_3rd_party/misc/nickel/nickel.tar:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/misc/nickel/nickel: New file.
+
+	* shells_3rd_party/misc/nickel/nickel:
+	Other misc stuff, that is maybe usefull...
+
+	* shells_3rd_party/misc/nickel/nickel.1m: New file.
+
+	* shells_3rd_party/misc/nickel/nickel.1m:
+	Other misc stuff, that is maybe usefull...
+
+1999-11-13  Admin Samba Share Ulm  <root@hpul80>
+
+	* shells_3rd_party/ioinit_prep.sh: Misc shells from other sources
+
+	* shells_3rd_party/ioinit_prep.sh: New file.
+
+1999-08-09  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	version 0.99, 3-aug-99 : no know bugs, release candiate
+
+1999-07-09  Admin Samba Share Ulm  <root@hpul80>
+
+	* shells_3rd_party/makerecstats.sh: Misc shells from other sources
+
+	* shells_3rd_party/makerecstats.sh: New file.
+
+1999-05-28  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: Version 0.94, released via newsgroups. 
+	Add reports for basic performance analysis.
+	Tons of enhancements, see comments
+
+1999-05-16  Admin Samba Share Ulm  <root@hpul80>
+
+	* shells_3rd_party/get_emc_info.sh: Misc shells from other sources
+
+	* shells_3rd_party/get_emc_info.sh: New file.
+
+1999-05-15  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	version 0.93.02 - distributed via home page and news groups
+
+	* shells_3rd_party/printerlist.sh: Misc shells from other sources
+
+	* shells_3rd_party/printerlist.sh: New file.
+
+	* shells_3rd_party/addprinter.sh: Misc shells from other sources
+
+	* shells_3rd_party/addprinter.sh: New file.
+
+	* shells_3rd_party/jetadmin.sh: Misc shells from other sources
+
+	* shells_3rd_party/jetadmin.sh: New file.
+
+1999-04-17  Admin Samba Share Ulm  <root@hpul80>
+
+	* shells_3rd_party/cdlist.sh: Misc shells from other sources
+
+	* shells_3rd_party/cdlist.sh: New file.
+
+1999-04-07  Admin Samba Share Ulm  <root@hpul80>
+
+	* shells_3rd_party/what_hw.sh: Misc shells from other sources
+
+	* shells_3rd_party/what_hw.sh: New file.
+
+1999-03-30  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh:
+	With ASCII creation now. Added support for EMS HW Monitors, setboot
+	new Diagnostics, Patch-Statistics etc. 
+
+1999-03-10  Admin Samba Share Ulm  <root@hpul80>
+
+	* shells_3rd_party/omnisize.sh: Misc shells from other sources
+
+	* shells_3rd_party/omnisize.sh: New file.
+
+1999-02-24  Admin Samba Share Ulm  <root@hpul80>
+
+	* release/cfg2html_hpux.sh: New file.
+
+1999-02-20  Admin Samba Share Ulm  <root@hpul80>
+
+	* shells_3rd_party/misc/nickel/nickel.shar: New file.
+
+	* shells_3rd_party/misc/nickel/nickel.shar:
+	Other misc stuff, that is maybe usefull...
+
+
+
+H I S T O R Y for C F G 2 H T M L (HPUX) - manual added.
+
+#####################################################################
+# History
+# 28-jan-1999  initial creation, based on get_config, check_config
+#              nickel, snapshoot, vi, winword and a idea from a similar
+#              script i have seen onsite.
+#              Maybe a little bit ASE knowledge is also included :)))
+#####################################################################
+# 01-feb-1999  0.80 - works now with MC/SG, OBII & SAP R/3
+#####################################################################
+# 02-feb-1999  0.81 - cstm added
+#              0.90 - tons of enhancements, creates now a plain ASCII
+#                     file too (SR by Wolfgang Bischof)
+#####################################################################
+# 23-feb-1999  0.91 - added EMS HW monitor, tested with IPR 2/99
+# 24-feb-1999  0.91.2 - added Patch statistics
+# 25-feb-1999  0.91.3 - added setboot
+# 03-mar-1999  0.91.4 - added HP-UX 10/11 check
+# 04-mar-1999  0.91.5 - added xdpyinfo & fsinfo (unsupported)
+# 11-mar-1999  0.91.6 - added SNMP configuration (PIE consulting)
+#####################################################################
+# 15-mar-1999  0.92.1 - now with status information, added external hp
+# 15-mar-1999  0.92.2 - crashconf(1m)/hp-ux 11 added
+# 16-mar-1999  0.92.3 - added MHz hack, added some add. checks
+# 16-mar-1999  0.92.4 - added iFOR routines (call Liebherr)
+# 01-apr-1999  0.92.5 - netscape (call: zfp)
+# 08-apr-1999  0.92.6 - tested with DART 44 XSW & Diagnostics, fixed
+#                       cstm output for better reading
+# 08-apr-1999  0.92.7 - added sar 1 5
+# 09-apr-1999  0.92.8 - fixed i4lbfind on s800
+# 13-apr-1999  0.92.9 - added y2koscheck, from 12-apr-99
+#####################################################################
+# 29-apr-1999  0.93.1 - added JetDirect (call: Arjo Wiggins/Carl Zeiss)
+# 29-apr-1999  0.93.2 - mailto/subject, y2koscheck
+# 30-apr-1999  0.93.3 - stale vg's
+# 03-may-1999  0.93.4 - misc. fixes, e.g. mirror boot disk, added iostat
+#              0.93.5 - vmstat, ipcs
+# 05-may-1999  0.93.6 - mix bug fixes, prints now date at the top (sr: martin)
+# 14-may-1999  0.93.7 - netstat enhanced, codewords
+# 22-may-1999  0.93.9 - crontab (or: grenzebach)
+#####################################################################
+# 27-may-1999  0.94.1 - /etc/inittab, AddText, misc fixes (sr: martin)
+#####################################################################
+# 31-may-1999  0.95.1 - added steve's ATM script. Added my LVM collector
+#                       script I wrote for ZF FN (FC with AutoRAID)
+# 02-jun-1999  0.95.2 - misc fixes
+# 05-jun-1999  0.95.3 - nettl
+# 09-jun-1999  0.95.4 - /etc/rc.config.d/nfsconf settings
+# 16-jun-1999  0.95.5 - LanSpeed added
+#####################################################################
+# 21-jun-1999  0.96.1 - dedicated error log file, translated most of the
+#                       script to English
+# 22-jun-1999  0.96.2 - ob ii enhanced, show_make_recovery
+# 25-jun-1999  0.96.3 - misc fixes (hdi)
+#####################################################################
+# 01-jul-1999  0.97.1 - TIP/ix in MC/SG env. added, NNM
+#####################################################################
+# 12-jul-1999  0.98.1 - LVM Collecotr 3.01 added. Misc. enh.
+# 13-jul-1999  0.98.2 - bug fix
+# 14-jul-1999  0.98.3 - Informix onstat fix (S.I.P)
+# 15-jul-1999  0.98.4 - named (S.I.P)
+# 25-jul-1999  0.98.5 - /etc/auto_master (Grenzebach), tmp files
+#####################################################################
+# 03-aug-1999  0.99.2 - works fine on N-Class, added lpstat, kbdlang
+# 18-aug-1999  0.99.4 - bug fixes for s.i.p, enh. for lbc
+#####################################################################
+# 27-aug-1999  1.00.1 - sr: martin ilg: /dev/*/group
+#                       sr: nicolas gall: netconf
+#                       first non beta release, no know errors!
+#####################################################################
+# 14-sep-1999  1.01.1 - added y2kappcheck, hw_disk_check script (mi)
+# 17-sep-1999  1.01.2 - omnidb -object, OBII global settings (wcs)
+# 20-sep-1999  1.01.3 - dtclist, req by andreas struck added
+# 23-sep-1999  1.01.4 - perfstat, supported_bits, libfcms.a
+#              1.01.5 - LVM Collector 3.1
+# 04-oct-1999  1.01.6 - lanadmin -x
+# 11-oct-1999  1.02.1 - added PATH, MANPATH etc. that i missed in my
+#			last update :)
+# 22-oct-1999  1.02.5 - what, ioscan -fk (sr: martin)
+# 28-oct-1999  1.02.6 - National Language support, FibreChannel beau.
+#####################################################################
+# 29-oct-1999  1.03.1 - added inquiry256/XP256 Surestore, MC/SG
+#####################################################################
+# 03-nov-1999  1.04.1 - added samba, swat and sap (by klaus doemer)
+# 05-nov-1999  1.04.5 - get_sap v2, mc/sg
+# 12-nov-1999  1.04.6 - autoRAID 12
+# 07-dez-1999  1.05.1 - SAP fixes by Klaus Doemer
+# 13-dez-1999  1.05.4 - send to SAP Team, RTG
+# 06-jan-2000  1.05.6 - fsver (LVM collector), /etc/lvmtab, DATE
+# 07-jan-2000  1.06.1 - added fc_cfg.sh
+# 10-jan-2000  1.06.2 - added fc_cfg.sh v2
+# 12-jan-2000  1.06.3 - make_recovery fix (as)
+# 25-jan-2000  1.06.4 - added JetDirect (thx 2 Bob Miranda)
+#              1.06.5 - adb -k fixes (thx 2 Stan Moravec)
+# 02-feb-2000  1.06.6 - added kmtune, kmsystem (HP-UX 11 only)
+# 08-feb-2000  1.06.7 - added what fcmsutil, /etc/shells
+# 10-feb-2000  1.06.8 - added LIF:AUTO boot string, socks
+# 22-feb-2000  1.06.9 - major MC/SG enhancements, lvmpvg
+# 13-mar-2000  1.07.1 - date- and timsestamping in ISO8601 format
+#              1.08.1   better tracking of stderr output
+#                       general mechanism to timeout hanging commands
+#                       killed potential for cstm to hang forever
+#                       use env vars to configure output set
+#                       (all changes by Morten Eriksen <mortene@sim.no>)
+# 17-mar-2000  1.08.2   added /usr/lbin, sar -d, amdsp (zf zn)
+# 28-mar-2000  1.08.3   commented out: y2k checks, rpm added
+# 30-mar-2000  1.08.4   added xpinfo
+# 05-apr-2000  1.08.5   tested xpinfo onsite, supported bits fixes
+# 06-apr-2000  1.08.6   enhanced the XP256 xpinfo
+# 07-apr-2000  1.08.7   KillOnhang timeout increased (martin/index?)
+#              1.08.8   added OmniBack Agent Version (liebherr)
+# 14-apr-2000  1.08.9   omnidbutil -extendinfo
+# xx-apr-2000  1.09.1   colors (added, removed later agin :)
+# 03-may-2000  1.09.2   added # of CPUs
+# 08-may-2000  1.09.3   Tachyon Lite device files ->c.h.
+# 10-may-2000  1.09.4   ovobjprint, mels, /var/tombstones
+# 26-may-2000  1.09.5   SharedX, praliases
+# 30-may-2000  1.09.6   SharedX(2), sched.models -> Raymond Soderstrom
+# 14-jun-2000  1.09.7   DTC Configuration is collected -> rm
+# 19-jun-2000  1.09.8   http://www.cfg2html.com added, samba fixes
+# 20-jun-2000  1.09.9   Enhreq: rm: smbstatus
+# 26-jun-2000  1.10.1	Released
+# 27-jun-2000  1.20.2   /stand/bootconf, /etc/lvmrc
+# 28-jun-2000  1.10.3   /etc/ddfa/dp
+# 29-jun-2000  1.10.4   lpana
+# 14-jul-2000  1.10.5   xpinfo fixes for LWE
+# 18-jul-2000  1.10.6	at, crontab fixes, comment about diagnostics
+# 24-jul-2000  1.11.1   added new hw collector
+# 26-jul-2000  1.11.2   hw collector changes by Martin Kalmbach
+# 28-jul-2000  1.11.4   same, pvg remark/bug
+# 28-aug-2000  1.12.1   tons of fixes/enh. CSTM rewritten by raimund
+# 01-sep-2000  1.12.2   onsite fixes: memory, model
+# 04-sep-2000  1.12.3   model sr by cristoph hauser added
+# 05-Sep-2000  1.12.4   fixes, logger for syslog added
+# 13-Sep-2000  1.12.5  	changed profbull.gif - credits: Jerry Schwartz
+# 27-Oct-2000  1.13.1	SAP/Sommersault, misc. changes by raimund
+# 13-Nov-2000  1.13.2   added updated hw_check, that fixes XP256/XP512
+#			timeouts 
+# 12-Dec-2000  1.13.8	/etc/rc.config.d/*
+#####################################################################
+# 14-dec-2000  1.14.1   SuperDome Collector by Marc Heinrich, ASO BBN
+# 15-dec-2000  1.14.2   lic.dat added, sr by Frank Grabner
+# 24-jan-2001  1.14.3   HWBITS fix (Johan Holman), HPUX in versionnummer
+# ////////
+# 05-feb-2001  1.15.4   fixes for FC Tachoyon (td*)
+# March  2001  1.16.1   showpatches, pam, automaster etc.
+#####################################################################
+# 10-Apr-2001  1.16.2   Enhanced SuperDome collector by Frank Muellers
+# 12-Apr-2001  1.16.3   CSS added (HTML)
+# 17-Apr.2001  1.17.1   added PAM/Kerberos, splited Network section
+#####################################################################
+

@@ -1,0 +1,213 @@
+@(#) $Id: ToDo_hpux.txt,v 5.10.1.1 2011-02-15 14:29:05 ralproth Exp $
+________________________________________________________________________
+
+ _____     ____                  ____
+|_   _|__ |  _ \  ___      _    | __ ) _   _  __ _ ___
+  | |/ _ \| | | |/ _ \   _| |_  |  _ \| | | |/ _` / __|
+  | | (_) | |_| | (_) | |_   _| | |_) | |_| | (_| \__ \
+  |_|\___/|____/ \___/    |_|   |____/ \__,_|\__, |___/
+                                             |___/
+
+ToDo's or NiceToHave for Config2HTML/HPUX
+________________________________________________________________________
+
+T = ToDo
+N = Nice to Have
+D = Done
+B = Bug
+? = Unknown, need more information
+
+- # cpu's is incorrect on vPars (B)
+- lvmdump from Dietmar Konerman (D)
+- shell script wrapper for cfg2html:  testserver.sh, prodserver.sh (D -> cmd line options)
+- SAP/ABAP collector (N)
+- Veritas VxFS collector (T)
+- New FibreChannel collector, tdlist (N)
+- UPS collector (N) (arjo/lli)
+- frames (left headlines, right info. - Victor Gattegno) (N)
+- DataProtector 5.0/5.1 fixes (??)
+- enhanced log files (T) -> Joel Cortez
+  - syslog.log/dmesg
+  - /etc/passwd, /etc/group
+- Are there any known problems executing cfg2html on an HP-UX 11.00 system while Postgres 7.2 is running on the system? (B?)
+
+________________________________________________________________________
+ ___    _                  _          _
+|_ _|__| | ___  __ _      | |    __ _| |__
+ | |/ _` |/ _ \/ _` |_____| |   / _` | '_ \
+ | | (_| |  __/ (_| |_____| |__| (_| | |_) |
+|___\__,_|\___|\__,_|     |_____\__,_|_.__/
+
+/opt/xppa/HostAgent.properties
+
+ listusers, cat /etc/passwd
+ /etc/dmesg
+ tdlist
+ ipcs -mob                                                      ok
+ ps -aef | wc -l
+ echo total_lockable_mem/D | adb -k /stand/vmunix  /dev/mem
+ ps -eaf
+ ps -eal
+ sar -Mu 10 9
+ sar -v 10  9           (if you have not already added it)      ok
+ vgdisplay -v | grep Name | pvg_checker
+                        (check PVG for misconfiguration)
+
+-z, -Z	compress/move all files into a ZIP archive, -Z add. uplaod them
+to a ftp/ssh server /etc/opt/cfg2html/ftp_settings
+
+________________________________________________________________________
+
+External requests:
+
+An interesting information you could add also to that section, is the
+network tcp configuration ndd list, it can be listed through the
+following loop :
+
+  for i in `ndd -get /dev/tcp ? | awk '{print $1}'`
+   do
+    echo $i
+    ndd -get /dev/tcp $i
+   done
+
+________________________________________________________________________
+
+
+Könnte ich für die nächste Version von cfg2html folgende Enhancements loswerden?
+
+·         include /opt/hpvm/bin into the PATH
+
+·         Use improved plugin firmware_collect.sh (see attached)
+
+·         include "list_filesystems.sh" (was commented out)
+exec_command $PLUGINS/list_filesystems.sh "List of Filesystems in CSV Format"
+
+·         include lvmtab (was commented out) AND lvmtab_p (for LVM V.2) info:
+        exec_command "strings /etc/lvmtab | grep dev" "strings /etc/lvmtab"
+        exec_command "strings /etc/lvmtab_p | grep dev" "strings /etc/lvmtab_p"
+
+·         include new plugin hpvm.sh (see attached)
+        exec_command $PLUGINS/hpvm.sh "HPVM Virtual Machine Overview"
+
+
+
+Dein cfg2html ist und bleibt einfach spitze!
+________________________________________________________________________
+
+cfg2html: cmpdisks?
+cfg2html - LVM collector extern
+
+________________________________________________________________________
+
+http://ktools.france.hp.com/~ktools/cgi-bin/p4ooshop.cgi
+-->     # kmeminfo -pid 1
+        # kmeminfo -static          #  02.02.2006, 09:18 modified by Ralph Roth
+
+________________________________________________________________________
+
+ulmpc014:/tmp # rpm -hiv cfg2html-linux-1.18.3-1.noarch.rpm
+error: failed dependencies:
+        rpmlib(PayloadFilesHavePrefix) <= 4.0-1 is needed by cfg2html-linux-1.18.3-1
+        rpmlib(CompressedFileNames) <= 3.0.4-1 is needed by cfg2html-linux-1.18.3-1
+ulmpc014:/tmp # uname -a
+Linux ulmpc014 2.2.14 #1 Mon Mar 13 10:51:48 GMT 2000 i686 unknown
+
+------------------------------------------------------------------------------
+
+PSF:
+----
+
+       * Reading the bundle "CFG2HTML" at line 8.
+WARNING: Invalid value defined for the keyword "architecture", at line
+         18.  Valid values for this keyword are:  One-line strings
+         containing a subset of ASCII characters.  No white space
+         characters, except for space and tab, are allowed.  The
+         maximum length of a one-line string is 64 characters.
+       * Reading the product "cfg2html" at line 26.
+       * Reading the fileset "cfg2html" at line 45.
+
+---------------------------------------------------------------------------
+
+Problem: Bei dem Aufruf von #cfg2html (in diesem Fall v3.70) auf HP-UX 11.31
+Systemen kommt es zu Dataprotector Abbrüchen beim Backup. Über FC
+angeschlossenen Tapes werden mitten im write zurückgespult und der Header
+überschrieben. Somit ist das Backup unbrauchbar.
+
+Grund:
+Der SCSI estape driver benutzt das norewind_close_disabled SCSi Attribut der Tapes
+
+Solution:
+Das Thema ist ja nicht neu. In 11.11 bis 11.23 gibt es ja den st_san_save Kernel Parameter. (st_san_save=1).
+In 11.31 ist diese Funktionalität geändert worden. Siehe unten.
+
+ACHTUNG:
+Die Funktionalität ist erst mit Patch PHKL_36312 gegeben.
+
+-------------
+
+With HP-UX B.11.31, the command needed to get the same functionality  # kctune st_san_safe=1  as  is:
+
+# scsimgr set_attr -d estape -a norewind_close_disabled=1
+.
+To preserve the change across reboots, the user must also run:
+# scsimgr save_attr -d estape -a norewind_close_disabled=1
+.
+To confirm your desired settings, run:
+# scsimgr -d estape get_attr
+
+DRIVER estape GLOBAL ATTRIBUTES:
+.
+name = version
+current = 0.1
+default =
+saved =
+.
+name = norewind_close_disabled
+current = 1 <--- Here is the set_attr change
+default = 0
+saved = 1 <--- The save_attr will save the setting across reboots
+.
+name = st_ats_enable
+current = 0
+default = 0
+saved =
+
+For more information, read the scsimgr(1M) and scsimgr_estape(7) man pages or refer to the I/O subsystem section of the release notes for HP-UX11iv3.
+
+
+For functionality you need Patch PHKL_36312
+
+Patch Name: PHKL_36312
+
+Patch Description: 11.31 estape cumulative patch
+
+Creation Date: 08/01/29
+
+Post Date: 08/02/05
+
+Hardware Platforms - OS Releases:
+	11.31
+
+( QX:QXCR1000582677 SR:8606482580 CR:JAGag36448 )
+	The tunables "st_san_safe" and "st_ats_enabled" are
+	renamed to "norewind_close_disabled" and "st_ats_enable"
+	respectively in 11i v3. But there are no manpages for the
+	new tunables.
+
+	Resolution:
+	Manpages for the new tunables norewind_close_disabled(5)
+	and st_ats_enable(5) are provided.
+
+
+ ( QX:QXCR1000736206 )
+	Global tape attributes "st_ats_enable" and
+	"norewind_close_disabled" are intended to be system wide
+	settings, but have been defined with lun scope. The
+	"norewind_close_disabled" attribute is non-functional.
+
+	Resolution:
+	The attributes have been redefined with global scope.
+	Code changes have been made so that the
+	"norewind_close_disabled" attribute now has the desired
+	effect when set.
+

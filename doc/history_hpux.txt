@@ -1,0 +1,427 @@
+@(#) History cfg2html_hpux 5.xx - @(#) : MakeRelease.sh,v 5.29 2013-02-09 10:24:34 ralph Exp $
+2013-02-09  author  <author@osuse122rr>
+
+	* release/build.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.30-95000: Forced CVS commit by Ralph Roth, using MakeRelease.sh building a binary code distribution.
+
+	* bin/MakeRelease.sh, bin/build.sh, bin/cco, misc/cfg2html.gv, release/cfg2html_hpux.sh, release/contrib/check_errors_hpux.sh, release/contrib/getconf.sh, release/contrib/getfcmini.sh, release/contrib/sg_cluster_conf_checker.sh, release/doc/README_hpux.txt, release/doc/cfg2html.html, release/doc/history_hpux_v4.txt, release/plugins/check_space.sh, release/plugins/find_non_inq_luns.sh, release/plugins/get_drd.sh, release/plugins/get_superdome2info.sh, release/plugins/get_vg.sh, release/plugins/head01.html, release/plugins/head02.html, release/plugins/head03.html, release/plugins/memory_summary.sh, sd/prodspec.dat, sd/prodspec.template, sd/tar2depot.sh:
+	replaced defect come.to redirector with rose.rult.at
+
+	* release/doc/FAQ_hpux.txt, release/doc/README_hpux.txt, release/doc/history_hpux_v1.txt, release/plugins/head02.html, sd/prodspec.dat, sd/prodspec.template:
+	replaced defect come.to redirector with www.cfg2html.com
+
+2013-02-08  author  <author@osuse122rr>
+
+	* release/build.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.29-0: auto forced commit by the CCO utility
+
+	* release/cfg2html_hpux.sh, release/doc/cfg2html.html:
+	fixes for defect come.to redirector
+
+2012-12-28  author  <author@osuse122rr>
+
+	* release/plugins/memory_summary.sh:
+	(c) y2k13 by Ralph Roth (missed ones)
+
+	* bin/MakeRelease.sh, bin/build.sh, bin/cco, release/cfg2html_hpux.sh, release/doc/history_hpux_v4.txt, release/plugins/VxVM_collect.sh, release/plugins/check_space.sh, release/plugins/find_non_inq_luns.sh, release/plugins/get_drd.sh, release/plugins/get_superdome2info.sh, release/plugins/get_vg.sh, release/plugins/head01.html, release/plugins/head02.html, release/plugins/head03.html, sd/tar2depot.sh:
+	(c) y2k13 by Ralph Roth
+
+2012-12-20  author  <author@osuse122rr>
+
+	* misc/cfg2html.gv, misc/cfg2html.jpeg: tested and adapted to OpenSUSE
+
+2012-12-01  author  <author@osuse122rr>
+
+	* release/build.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.27-33725: auto forced commit by the CCO utility
+
+2012-11-13  author  <author@osuse122rr>
+
+	* bin/MakeRelease.sh, sd/prodspec.dat:
+	cfg5.27-33211: added missing cfg2html to MakeRelease
+
+	* release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.27-33211: Forced CVS commit by Ralph Roth, using ./MakeRelease.sh building a binary code distribution.
+
+	* release/cfg2html: cfg5.27-33211: MYPATH fix provided by Orlin Vasilev
+
+	(Orlix)
+
+2012-08-18  author  <author@osuse122rr>
+
+	* bin/MakeRelease.sh, sd/prodspec.dat: cfg5.27-33211: kw33_misc-stuff
+
+2012-08-15  author  <author@osuse122rr>
+
+	* bin/MakeRelease.sh, sd/prodspec.dat, release/tagcvs.sh:
+	cfg5.27-33211: Forced CVS commit by Ralph Roth, using ./MakeRelease.sh building a binary code distribution.
+
+2012-07-23  author  <author@osuse122rr>
+
+	* release/build.sh, release/tagcvs.sh, sd/prodspec.dat:
+	Upstream from Zimmern and SUSE
+
+2012-07-09  author  <author@osuse122rr>
+
+	* release/build.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.27-0: Forced commit by ./MakeRelease.sh for binary code distribution.
+
+	* release/cfg2html_hpux.sh, release/plugins/bdfmegs.sh:
+	backport_by_BillHassell
+
+	* release/plugins/bdfmegs.sh: bdfmegs_by_BillHassell
+
+	* release/doc/README_hpux.txt, release/plugins/check_space.sh:
+	backports_by_Bill_Hassell
+
+2012-06-20  author  <author@osuse122rr>
+
+	* misc/cfg2html.jpeg: added
+
+2012-06-01  author  <author@osuse122rr>
+
+	* release/build.sh, release/plugins/get_drd.sh, release/tagcvs.sh, sd/prodspec.dat, sd/tar2depot.sh:
+	cfg5.26-33105: cfg2html 2.50-2 version before playing around with checkinstall(1m)
+
+	* release/plugins/check_elroy.sh, release/plugins/get_emcluns.sh, release/plugins/get_fc.sh, release/plugins/get_path_1131.sh, release/plugins/get_san_ns.sh, release/plugins/list_filesystems.sh:
+	small typo fixes adn code cleanup, CVS cleanup, added comments etc.
+
+	* release/cfg2html_hpux.sh, release/build.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.25-33098: ## add uname output, see YG MSG 790 ##
+
+	* release/plugins/get_emcluns.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.25-33097: bugfix on sympg provided by Martin Donat
+
+2012-05-30  author  <author@osuse122rr>
+
+	* bin/MakeRelease.sh, sd/prodspec.template:
+	cfg5.25-33097: DRD_SAFE = true
+
+2012-05-29  author  <author@osuse122rr>
+
+	* bin/cco: cfg5.25-33097: line 21: [-x: command not found
+
+2012-05-16  author  <author@osuse122rr>
+
+	* sd/prodspec.dat: SmallEnhancements
+
+2012-04-24  author  <author@osuse122rr>
+
+	* bin/MakeRelease.sh, bin/cco: cfg5.25-33097: chmod+ping fixes
+
+	* release/build.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.25-33097: First_Debian_Build
+
+	* bin/cco: cfg5.25-0: auto forced commit by the CCO utility
+
+2012-04-12  author  <author@osuse122rr>
+
+	* release/doc/cfg2html.html:
+	cfg5.25-0: cleanup and removed some strange HTML formattings
+
+	* bin/cco, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.25-0: commit after last build
+
+2012-04-10  author  <author@osuse122rr>
+
+	* bin/build.sh, sd/prodspec.dat:
+	cfg5.25-0: Forced commit by MakeRelease.sh for binary code distribution.
+
+	* release/build.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.25-0: auto forced commit by the cco utility
+
+2012-04-04  author  <author@osuse122rr>
+
+	* release/build.sh, release/plugins/custom/templateexample_plugin.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.25-32584: + ClusterTools2 enhancements
+
+2012-03-11  author  <author@osuse122rr>
+
+	* bin/MakeRelease.sh, bin/build.sh, bin/cco, release/build.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.25-0: Fixes for new CVS repro location\!
+
+	* release/build.sh, release/tagcvs.sh: .
+
+	* sd/prodspec.dat: ..
+
+2012-03-09  author  <author@osuse122rr>
+
+	* release/cfg2html:
+	cfg5.25-32583: Forced commit by MakeRelease.sh for binary code distribution.
+
+2012-03-06  author  <author@osuse122rr>
+
+	* release/doc/FAQ_hpux.txt: cfg5.25-32583: FAQ cleanup (very outdated)
+
+	* release/build.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.25-32583: applied patch from Jacques MENGUY
+
+2012-02-28  author  <author@osuse122rr>
+
+	* release/contrib/incfs.sh: cfg5.25-32080: + incfs.sh
+
+	* release/plugins/get_diskfirmware.sh:
+	cfg5.25-32080: Fixes for partitions (_p2, _s2) detection
+
+	* release/plugins/get_diskfirmware.sh:
+	cfg5.25-32080: Fixes + enhancements (FastT)
+
+2012-02-20  author  <author@osuse122rr>
+
+	* release/build.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.25-32080: Rollback to pack+go 1.41/1.42 in the hope to fix packaging
+
+2012-02-15  author  <author@osuse122rr>
+
+	* release/plugins/get_vg.sh, release/tagcvs.sh, sd/prodspec.dat, release/build.sh:
+	cfg5.25-32079: Forced commit by ./MakeRelease.sh for binary code distribution.
+
+	* release/build.sh, release/contrib/check_errors_hpux.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.25-32078: CRLF/DOS fix, shebang=/usr/bin/sh fix
+
+2012-01-26  author  <author@osuse122rr>
+
+	* misc/cfg2html.gv, release/cfg2html_hpux.sh:
+	cfg5.24-32077: Commit before applying the 2.25 diffs
+
+2011-12-31  author  <author@osuse122rr>
+
+	* release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.24-32077: fixes for dpkg-scanpackages
+
+2011-12-28  author  <author@osuse122rr>
+
+	* release/build.sh, release/tagcvs.sh, sd/prodspec.dat:
+	LAN interface stuff seperated, ER by Heiko Andresen
+
+	* bin/cco, misc/cfg2html.gv, release/cfg2html_hpux.sh, release/doc/history_hpux_v4.txt, release/plugins/VxVM_collect.sh, release/plugins/find_non_inq_luns.sh, release/plugins/get_drd.sh, release/plugins/get_superdome2info.sh, release/plugins/head01.html, release/plugins/head02.html, release/plugins/head03.html, sd/prodspec.dat, sd/tar2depot.sh:
+	cfg5.23-32068: Consolidated the (C)opyright messages to one common format, y2k12 header
+
+	* release/build.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.23-32068: Forced commit by ./MakeRelease.sh for binary code distribution.
+
+	* release/cfg2html_hpux.sh, release/plugins/VxVM_collect.sh, release/plugins/find_non_inq_luns.sh, release/plugins/head01.html:
+	cfg5.22-32061: y2k11 - changed the copyright
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/sg_cluster_conf_checker.sh:
+	Fix for buggy? (e)grep on HPUX
+
+2011-11-24  author  <author@osuse122rr>
+
+	* release/contrib/check_errors_hpux.sh, sd/prodspec.dat:
+	cfg5.22-32061: fix4lvmpvg
+
+2011-11-23  author  <author@osuse122rr>
+
+	* release/build.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.22-32061: Forced commit by ./MakeRelease.sh for binary code distribution.
+
+2011-11-22  author  <author@osuse122rr>
+
+	* release/cfg2html_hpux.sh:
+	cfg5.21-32059: + Audit System (CoreOS), first entires
+
+	* release/contrib/check_errors_hpux.sh:
+	cfg5.21-32059: LVM & Ignite/UX problems/checks
+
+2011-11-12  author  <author@osuse122rr>
+
+	* release/build.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.21-32059: fdisk fixes, PVs fixes
+
+2011-11-02  author  <author@osuse122rr>
+
+	* release/build.sh, release/cfg2html_hpux.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.20-32058: cmmakepkg-l
+
+2011-11-01  author  <author@osuse122rr>
+
+	* release/plugins/get_superdome2info.sh:
+	cfg5.20-31551: cvs keywords + author added
+
+	* release/cfg2html_hpux.sh, release/contrib/sg_cluster_conf_checker.sh, release/plugins/get_efi.sh, release/plugins/get_mirror_missmatch.sh, release/plugins/get_superdome2info.sh:
+	cfg5.19-31551: Many enhancements and SuperDome2 stuff submitted by Kathy Leslie
+
+2011-10-27  author  <author@osuse122rr>
+
+	* release/build.sh, release/plugins/head01.html, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.19-31551: fixes for Oracle (/etc/oratab) ABENDs
+
+2011-10-18  author  <author@osuse122rr>
+
+	* release/cfg2html_hpux.sh, release/plugins/head01.html, release/plugins/head02.html, release/plugins/head03.html:
+	cfg5.18-31545: small documentation changes/enhancements
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/sg_cluster_conf_checker.sh:
+	cfg5.18-31545: forced commit for troubleshooting syslog errors
+
+2011-09-06  author  <author@osuse122rr>
+
+	* release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.18-31545: hpacucli enhancements provided by Peter Boysen
+
+2011-09-04  author  <author@osuse122rr>
+
+	* release/build.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.18-31545: Forced commit by ./MakeRelease.sh for binary code distribution.
+
+2011-09-01  author  <author@osuse122rr>
+
+	* release/build.sh, release/cfg2html_hpux.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.17-31555: Fixes for quicklan.pl
+
+	* release/plugins/qlan.sh: removed
+
+	* release/plugins/qlan.pl, release/plugins/qlan.sh:
+	Moved qlan.sh to qlan.pl
+
+	* release/build.sh, release/plugins/qlan.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.17-31554: new release/test version for HP-UX 11.11 systems
+
+2011-08-31  author  <author@osuse122rr>
+
+	* release/cfg2html_hpux.sh, release/plugins/qlan.sh:
+	cfg5.16-31551: qlan/perl/CIM/RSP fixes
+
+	* release/build.sh, release/cfg2html_hpux.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.15-31551: First fix for pvgfilter
+
+2011-08-24  author  <author@osuse122rr>
+
+	* release/cfg2html_hpux.sh: cfg5.14-31549: + rpcinfo enhancements
+
+	* bin/MakeRelease.sh, release/plugins/get_diskfirmware.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.14-31549: + root check
+
+2011-08-12  author  <author@osuse122rr>
+
+	* misc/cfg2html.gv: cfg5.14-31549: First working version (blue stuff)
+
+	* misc/cfg2html.gv, release/build.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.14-31549: cfg2html.gv (GraphViz) added
+
+2011-07-29  author  <author@osuse122rr>
+
+	* release/plugins/syssmall.hppa: cfg5.14-31447: updated syssmall
+
+	* release/build.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.14-31447: auto forced commit by the cco utility
+
+	* bin1111/syssmall.hppa: syssmall += Id
+
+	* bin1131/syssmall.1131: + syssmall.1131
+
+2011-07-26  author  <author@osuse122rr>
+
+	* release/cfg2html_hpux.sh: cfg5.13-31446: changed web url
+
+	* release/build.sh, release/tagcvs.sh, sd/prodspec.dat, sd/prodspec.template:
+	cfg5.13-31446: removed allhost collector
+
+2011-07-22  author  <author@osuse122rr>
+
+	* bin/MakeRelease.sh, bin1111/meminfo.hppa, bin1131/meminfo.1131, release/build.sh, release/plugins/meminfo.hppa, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.13-31343: + meminfo
+
+	* bin/MakeRelease.sh, sd/prodspec.dat: cfg5.13-33157: Fixes...
+
+	* sd/prodspec.dat:
+	cfg5.13-33157: Forced commit by ./MakeRelease.sh for binary code distribution.
+
+	* bin/MakeRelease.sh: $OUT variable
+
+	* release/plugins/get_ministat.sh:
+	cfg5.13-33157: ? Workaround/Memory troubleshooting
+
+	* release/plugins/memory_summary.sh:
+	cfg5.13-33157: cvs admin -> Binary mode/Memory bug troubleshooting
+
+2011-07-18  author  <author@osuse122rr>
+
+	* bin/MakeRelease.sh, sd/prodspec.dat: cfg5.13-33157: I/O Elevator
+
+	* release/plugins/get_path_1131.sh:
+	cfg5.13-33157: enhancements for long tape device files (tape999_BEST)
+
+2011-07-04  author  <author@osuse122rr>
+
+	* sd/prodspec.dat:
+	cfg5.13-33157: Enh. for RHEL 5.x cluster, free(1m) usage
+
+2011-07-01  author  <author@osuse122rr>
+
+	* release/cfg2html:
+	cfg5.13-33157: Fixes for i686 and main cfg2html driver
+
+	* release/build.sh, release/doc/README_hpux.txt, release/plugins/custom/templateexample_plugin.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.13-33157: auto forced commit by the cco utility
+
+2011-06-21  author  <author@osuse122rr>
+
+	* release/doc/README_hpux.txt, release/tagcvs.sh, sd/prodspec.dat, bin/MakeRelease.sh:
+	cfg5.13-33156: Forced commit by MakeRelease.sh for binary code distribution.
+
+	* release/build.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.13-33156: Forced commit by ./MakeRelease.sh for binary code distribution.
+
+2011-06-06  author  <author@osuse122rr>
+
+	* release/doc/cfg2html.html:
+	cfg5.13-33155: Fixes for the OpenWRT release (including license terms)
+
+	* release/build.sh, release/cfg2html_hpux.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg5.12-33155: OpenWRT: Fixes, removed some old remarks, added IP stuff/WLAN stuff
+
+2011-05-24  author  <author@osuse122rr>
+
+	* bin/MakeRelease.sh:
+	cfg5.12-25655: Forced commit by MakeRelease.sh for binary code distribution.
+
+	* bin/build.sh, bin/cco: cfg5.12-25655: merged with 4.98 stream + fixes
+
+	* release/cfg2html, release/doc/history_hpux_v4.txt:
+	cfg-: merged with 4.98 stream
+
+	* release/plugins/memory_summary.sh:
+	cfg4.98-25655: added memory_summary.sh
+
+2011-05-20  author  <author@osuse122rr>
+
+	* release/build.sh, release/cfg2html_hpux.sh, release/contrib/getfcmini.sh, release/plugins/get_diskfirmware.sh, release/plugins/get_mirror_missmatch.sh, release/plugins/pvgfilter.ia64, release/tagcvs.sh:
+	cfg4.97-25655: cfg2html 4.97 upstream (merged/updated)
+
+2011-04-05  author  <author@osuse122rr>
+
+	* release/contrib/getfcmini.sh, release/plugins/get_diskfirmware.sh, release/plugins/get_mirror_missmatch.sh, release/plugins/pvgfilter.ia64:
+	cfg4.96-25654: 4.9x upstream updates
+
+2011-03-16  author  <author@osuse122rr>
+
+	* release/cfg2html_hpux.sh, release/contrib/getfcmini.sh:
+	cfg4.94-25652: Upstream merge and cleanup
+
+2011-02-25  author  <author@osuse122rr>
+
+	* release/plugins/get_diskfirmware.sh, release/plugins/get_mirror_missmatch.sh:
+	cfg4.93-25647: Upstream 4.93 backports
+
+	* release/build.sh, release/tagcvs.sh, sd/prodspec.dat:
+	cfg4.93-25647: Added some hints from TB mailing
+
+2011-02-15  author  <author@osuse122rr>
+
+	* bin/cco, sd/tar2depot.sh:
+	cfg4.93-25647: enhancements/fixes for upcoming 5.xx release
+
+	* bin/MakeRelease.sh:
+	cfg4.93-25647: Forced commit by MakeRelease.sh for binary code distribution.
+
+	* bin1111/dumplvmtab.hppa, bin1111/fdump.hppa, bin1111/get_cpu_speed.hppa, bin1111/getcpus.hppa, bin1111/getpwd.hppa, bin1111/meminfo.hppa, bin1111/pvgfilter.hppa, bin1111/syssmall.hppa, bin1131/cpu_stats.1131, bin1131/dumplvmtab.1131, bin1131/get_cpu_speed.1131, bin1131/getpwd.1131, bin1131/meminfo.1131, bin1131/pvgfilter.1131:
+	added bin files (-kb)
+
+	* bin/MakeRelease.sh, bin/build.sh, bin/cco, bin/cvs_hpux, bin/rcs2log, release/build.sh, release/cfg2html, release/cfg2html_back.jpg, release/cfg2html_hpux.sh, release/contrib/check_errors_hpux.sh, release/contrib/getconf.sh, release/contrib/getfcmini.sh, release/contrib/postinstall.sh, release/contrib/sg_cluster_conf_checker.sh, release/contrib/vparcreate_reconstruct.sh, release/doc/FAQ_hpux.txt, release/doc/README_hpux.txt, release/doc/ToDo_hpux.txt, release/doc/cfg2html.html, release/doc/cfg2html_Development_Tree.jpg, release/doc/history_hpux_v1.txt, release/doc/history_hpux_v2.txt, release/doc/history_hpux_v3.txt, release/doc/history_hpux_v4.txt, release/plugins/VxVM_collect.sh, release/plugins/bdf_collect.sh, release/plugins/check_elroy.sh, release/plugins/check_space.sh, release/plugins/crontab_collect.sh, release/plugins/custom/templateexample_plugin.sh, release/plugins/dumplvmtab.hppa, release/plugins/find_non_inq_luns.sh, release/plugins/find_non_lvm_luns.sh, release/plugins/firmware_collect.sh, release/plugins/getVAlogs.sh, release/plugins/get_bootdisk.sh, release/plugins/get_cellinfo.sh, release/plugins/get_cissinfo.sh, release/plugins/get_cpu_speed.hppa, release/plugins/get_cputype.sh, release/plugins/get_diskfirmware.sh, release/plugins/get_drd.sh, release/plugins/get_efi.sh, release/plugins/get_emcluns.sh, release/plugins/get_emcsum.sh, release/plugins/get_fc.sh, release/plugins/get_fcold.sh, release/plugins/get_hpvm.sh, release/plugins/get_lan_desc.sh, release/plugins/get_lvm_info.sh, release/plugins/get_ministat.sh, release/plugins/get_mirror_missmatch.sh, release/plugins/get_mptinfo.sh, release/plugins/get_path_1131.sh, release/plugins/get_san_ns.sh, release/plugins/get_sap.sh, release/plugins/get_sasinfo.sh, release/plugins/get_sptool.sh, release/plugins/get_superdomeinfo.sh, release/plugins/get_vg.sh, release/plugins/get_vparinfo.sh, release/plugins/get_xpluns.sh, release/plugins/get_xpsum.sh, release/plugins/getlp.sh, release/plugins/getpwd.hppa, release/plugins/head01.html, release/plugins/head02.html, release/plugins/head03.html, release/plugins/ixostool.sh, release/plugins/list_filesystems.sh, release/plugins/meminfo.hppa, release/plugins/oracle_collect.sh, release/plugins/pvgfilter.hppa, release/plugins/pvgfilter.ia64, release/plugins/qlan.sh, release/plugins/syssmall.hppa, release/tagcvs.sh, sd/prodspec.dat, sd/prodspec.template, sd/tar2depot.sh:
+	Initial 5.xx import
+
+	* bin/MakeRelease.sh, bin/build.sh, bin/cco, bin/cvs_hpux, bin/rcs2log, release/build.sh, release/cfg2html, release/cfg2html_back.jpg, release/cfg2html_hpux.sh, release/contrib/check_errors_hpux.sh, release/contrib/getconf.sh, release/contrib/getfcmini.sh, release/contrib/postinstall.sh, release/contrib/sg_cluster_conf_checker.sh, release/contrib/vparcreate_reconstruct.sh, release/doc/FAQ_hpux.txt, release/doc/README_hpux.txt, release/doc/ToDo_hpux.txt, release/doc/cfg2html.html, release/doc/cfg2html_Development_Tree.jpg, release/doc/history_hpux_v1.txt, release/doc/history_hpux_v2.txt, release/doc/history_hpux_v3.txt, release/doc/history_hpux_v4.txt, release/plugins/VxVM_collect.sh, release/plugins/bdf_collect.sh, release/plugins/check_elroy.sh, release/plugins/check_space.sh, release/plugins/crontab_collect.sh, release/plugins/custom/templateexample_plugin.sh, release/plugins/dumplvmtab.hppa, release/plugins/find_non_inq_luns.sh, release/plugins/find_non_lvm_luns.sh, release/plugins/firmware_collect.sh, release/plugins/getVAlogs.sh, release/plugins/get_bootdisk.sh, release/plugins/get_cellinfo.sh, release/plugins/get_cissinfo.sh, release/plugins/get_cpu_speed.hppa, release/plugins/get_cputype.sh, release/plugins/get_diskfirmware.sh, release/plugins/get_drd.sh, release/plugins/get_efi.sh, release/plugins/get_emcluns.sh, release/plugins/get_emcsum.sh, release/plugins/get_fc.sh, release/plugins/get_fcold.sh, release/plugins/get_hpvm.sh, release/plugins/get_lan_desc.sh, release/plugins/get_lvm_info.sh, release/plugins/get_ministat.sh, release/plugins/get_mirror_missmatch.sh, release/plugins/get_mptinfo.sh, release/plugins/get_path_1131.sh, release/plugins/get_san_ns.sh, release/plugins/get_sap.sh, release/plugins/get_sasinfo.sh, release/plugins/get_sptool.sh, release/plugins/get_superdomeinfo.sh, release/plugins/get_vg.sh, release/plugins/get_vparinfo.sh, release/plugins/get_xpluns.sh, release/plugins/get_xpsum.sh, release/plugins/getlp.sh, release/plugins/getpwd.hppa, release/plugins/head01.html, release/plugins/head02.html, release/plugins/head03.html, release/plugins/ixostool.sh, release/plugins/list_filesystems.sh, release/plugins/meminfo.hppa, release/plugins/oracle_collect.sh, release/plugins/pvgfilter.hppa, release/plugins/pvgfilter.ia64, release/plugins/qlan.sh, release/plugins/syssmall.hppa, release/tagcvs.sh, sd/prodspec.dat, sd/prodspec.template, sd/tar2depot.sh:
+	New file.
+

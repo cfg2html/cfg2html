@@ -1,0 +1,1201 @@
+# @(#) $Id: history_hpux_v4.txt,v 5.14 2013-02-09 10:24:35 ralph Exp $
+# -----------------------------------------------------------------------------------------
+# (c) 1997 - 2013 by Ralph Roth  -*- http://rose.rult.at -*-
+
+@(#) History cfg2html_hpux 4.xx - @(#) : MakeRelease.sh,v 1.24 2011-04-05 15:58:29 ralproth Exp $
+2011-05-18  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh: cfg4.96-25654: fixes in the help screen
+
+2011-04-05  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* bin/MakeRelease.sh: cfg4.96-25654: 4.9x upstream updates
+
+2011-04-04  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* bin1131/pvgfilter.1131, release/plugins/pvgfilter.ia64:
+	cfg4.96-25654: PVGFilter ia64 - recompiled and enhanced
+
+2011-03-18  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh:
+	cfg4.95-25652: Boot device ER by TB -> Get_LIF()
+
+2011-03-16  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh:
+	cfg4.94-25652: Added comment from TB about unconfigred resources/moncheck/ioscan
+
+2011-03-11  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh, release/contrib/getfcmini.sh:
+	cfg4.93-25649: 3 ER by TB for ioscan under HPUX 11.31 added
+
+2011-02-25  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/get_mirror_missmatch.sh:
+	cfg4.93-25649: added Alex to the Authors
+
+	* release/plugins/get_mirror_missmatch.sh:
+	cfg4.93-25647: Added some hints from TB mailing
+
+2011-02-15  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* bin/cco, sd/tar2depot.sh:
+	cfg4.93-25647: enhancements/fixes for upcoming 5.xx release
+
+	* release/plugins/get_diskfirmware.sh:
+	cfg4.93-25647: Forced commit by MakeRelease.sh for binary code distribution.
+
+2011-02-03  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh:
+	cfg4.92-25243: included DRD plugin from Thomas
+
+	* release/plugins/get_drd.sh:
+	cfg4.92-25243: added cvs keywords, -export stuff
+
+	* release/contrib/check_errors_hpux.sh, release/plugins/get_drd.sh:
+	cfg4.92-25243: added DRD plugin from Thomas
+
+2011-02-02  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/get_cissinfo.sh:
+	cfg4.92-25241: SAConfig sanity check, removed some comments
+
+	* release/cfg2html_hpux.sh:
+	cfg4.91-25241: Fixes/Enhancements for Serviceguard A.11.20
+
+	* release/cfg2html_hpux.sh, release/plugins/get_cissinfo.sh:
+	cfg4.90-24837: Added get_cissinfo/enhanced with saconfig
+
+	* release/plugins/get_cissinfo.sh:
+	added first working version of CISS/SAUTIL collector
+
+2011-02-01  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/check_errors_hpux.sh:
+	cfg4.90-24837: Fixes for timezone + ioscan -P health
+
+2011-01-18  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/html/make_index.sh:
+	cfg4.90-24836: small enhancements and comments
+
+2011-01-12  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/doc/cfg2html.html: cfg4.90-25259: XHTML 1.0
+
+	* release/html/allhosts.htm, release/html/info.htm, release/html/make_index.sh:
+	cfg4.90-25256: Changed to XHTML 1.0/Strict
+
+2010-12-23  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* bin/MakeRelease.sh: cfg4.90-25256: Fixes for aso server
+
+2010-12-22  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh, release/html/info.htm, release/html/make_index.sh, release/plugins/VxVM_collect.sh, release/plugins/find_non_inq_luns.sh, release/plugins/head01.html:
+	cfg4.89-25250: Changed y2k10 to y2k11 :-)
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/sg_cluster_conf_checker.sh:
+	cfg4.89-25248: TZ enhancements, Fixes for SG A.11.16/monfs
+
+2010-12-15  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh:
+	cfg4.88-25247: +/- cat_and_grep(), code cleanup
+
+2010-12-14  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh:
+	cfg4.87-25246: + exec_commandNC, + auto_master, / cleanup /
+
+2010-11-23  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/vparcreate_reconstruct.sh, release/plugins/get_vparinfo.sh:
+	cfg4.87-25244: Added comments about plugin and contrib location
+
+2010-11-22  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/doc/cfg2html.html: cfg4.87-25241: Fixed cvs keyword
+
+	* release/doc/cfg2html.html:
+	cfg4.87-25241: Misc. HTML documentation enhancements
+
+2010-11-12  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* bin/MakeRelease.sh: cfg4.87-25241: added comment line
+
+	* release/doc/cfg2html.html: cfg4.87-25241: HTML: tidy up.
+
+2010-11-10  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/get_diskfirmware.sh:
+	cfg4.87-25240: small bug fix for short device names (ER by MM)
+
+2010-11-03  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh:
+	cfg4.85-25239: Spell fixes, fixes for memory/cpu collector
+
+2010-11-02  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html: cfg4.86-25238: fixes for Linux
+
+2010-10-28  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* cfg2html_Development_Tree.jpg: + jpg
+
+	* release/doc/cfg2html.html, release/doc/cfg2html_Development_Tree.jpg, release/doc/cfg2html_Development_Tree.png:
+	exchanged the graphic
+
+	* release/contrib/sg_cluster_conf_checker.sh:
+	cfg4.86-25236: svn upstream, small enhancements
+
+2010-10-14  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/doc/cfg2html_Development_Tree.png, cfg2html_Development_Tree.pptx:
+	switched to Powerpoint 2007
+
+2010-10-13  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/doc/FAQ_hpux.txt: cfg4.86-25236: FAQ updated
+
+2010-10-06  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh: cfg4.85-24826: included meminfo
+
+	* release/plugins/get_ministat.sh, release/plugins/get_path_1131.sh:
+	cfg4.85-24826: beautified the output, minor enhancements
+
+	* release/doc/FAQ_hpux.txt, release/doc/README_hpux.txt, release/doc/cfg2html.html, release/doc/cfg2html_Development_Tree.png:
+	cfg4.85-24826: Updated the dox to reflex future GPL status of cfg2html
+
+2010-10-05  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/getconf.sh: cfg4.85-24826: Fixed ID keyword
+
+	* release/cfg2html_hpux.sh:
+	cfg4.84-24823: Rewritten memory detection, using a PA-RiSC binary
+
+	* release/plugins/get_ministat.sh:
+	cfg4.84-24823: Total rewritten, using PA-RiSC binary
+
+	* release/contrib/getconf.sh, release/plugins/get_path_1131.sh:
+	cfg4.84-24823: Enhanced: Online/Offline devices
+
+	* release/plugins/meminfo.hppa, release/plugins/syssmall.hppa, bin1111/meminfo.hppa:
+	added new PA-RiSC binaries
+
+2010-09-29  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* bin1131/cpu_stats.1131, bin1131/dumplvmtab.1131, bin1131/get_cpu_speed.1131, bin1131/meminfo.1131, bin1131/pvgfilter.1131, bin1111/getcpus.hppa, bin1111/syssmall.hppa:
+	new stuff added fron svn
+
+2010-09-28  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/vparcreate_reconstruct.sh, release/plugins/get_ministat.sh, release/plugins/get_path_1131.sh:
+	cfg4.84-24820: misc fixes from svn upstream
+
+2010-09-27  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/check_errors_hpux.sh:
+	cfg4.84-24818: Small fix for Tivoli
+
+2010-09-21  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/sg_cluster_conf_checker.sh:
+	cfg4.84-24818: SG CCC - misc enhancements
+
+2010-08-17  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/VxVM_collect.sh, release/plugins/get_hpvm.sh:
+	cfg4.84-24814: added Logs cvs keyword
+
+	* release/contrib/sg_cluster_conf_checker.sh, release/plugins/get_diskfirmware.sh:
+	cfg4.84-24814: svn.upstream - small enhancements/fixes
+
+2010-08-09  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh, release/plugins/get_efi.sh:
+	cfg4.83p1-24812: small enhancements for HPVMs and EFI
+
+2010-08-04  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh:
+	cfg4.81p3-24805: Total reformated script (indent) + a lot of cleanup
+
+2010-08-02  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/sg_cluster_conf_checker.sh:
+	cfg4.82-24805: onsite fixes/enhancements (svn upstream)
+
+2010-07-23  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/getconf.sh, release/plugins/get_vparinfo.sh:
+	cfg4.82-24805: small upstream (svn) changes - vpar/ioscan/syslog stuff
+
+2010-07-22  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh, release/plugins/get_path_1131.sh:
+	cfg4.81-24805: small upstream enhancements
+
+2010-07-13  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh:
+	cfg4.80-24804: Forced commit by ./MakeRelease.sh for binary code distribution.
+
+	* release/cfg2html_hpux.sh:
+	cfg4.79-24593: Changed pvgfilter architecture (thx2steve)
+
+	* release/plugins/pvgfilter.ia64: + pvgfilter.ia64/thx2steve
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/getconf.sh:
+	cfg4.79-24593: added getconf.sh to contrib
+
+2010-07-12  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh:
+	cfg4.78-24591: Vertias/Symantec enhancements
+
+2010-07-09  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/get_diskfirmware.sh:
+	cfg4.78-24591: Added CVS log keyword
+
+	* release/cfg2html_hpux.sh: cfg4.77-24588: Small enhancements
+
+	* release/plugins/get_diskfirmware.sh, release/plugins/get_lvm_info.sh:
+	VG fixes, enhancements for LDEV/KM collector
+
+2010-06-30  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh: cfg4.76-24587: FIX: Missing if/then
+
+	* release/cfg2html_hpux.sh, release/contrib/check_errors_hpux.sh:
+	cfg4.75-24585: SMH/cpop enhancements
+
+	* release/cfg2html_hpux.sh, release/contrib/sg_cluster_conf_checker.sh, release/doc/README_hpux.txt, release/plugins/get_diskfirmware.sh, release/plugins/get_lvm_info.sh:
+	cfg4.74-24576: Applied the enhancements from Reinhard Lubos
+
+2010-06-14  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/get_emcluns.sh:
+	cfg4.74-24576: sympd/symdg fixes + example
+
+	* release/doc/README_hpux.txt: cfg4.74-24576: improved command line
+
+	* release/cfg2html_hpux.sh, release/plugins/get_emcluns.sh:
+	cfg4.73-24576: misc. speeling fixes, misc. enhancement from emails suggestions
+
+2010-06-09  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/find_non_inq_luns.sh:
+	cfg4.73-24174: Wrong CVS keyword
+
+	* release/cfg2html_hpux.sh:
+	cfg4.72-24172: More code cleanup around LVM2 stuff. Removed part of the history
+
+2010-06-08  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh: cfg4.71-24172: LVM2 fixes, first part
+
+2010-06-07  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/getfcmini.sh, release/contrib/sg_cluster_conf_checker.sh:
+	cfg4.71-24170: WW Nodename/Portname enhancements
+
+2010-05-03  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh: cfg4.70-24165: +nettl, +nettlconf stuff
+
+2010-04-27  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/html/info.htm, release/html/make_index.sh:
+	cfg4.70-24165: fixes for cfg2html_solaris 1.6.4
+
+2010-04-26  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* bin/cco: cfg4.70-24165: before appling the diff patches
+
+	* release/cfg2html_hpux.sh, release/contrib/sg_cluster_conf_checker.sh:
+	cfg4.69-24165: before appling the diff patches
+
+2010-04-19  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh:
+	cfg4.68-24162: VxVM/VxFS stuff from WTEC newsletter added
+
+2010-04-07  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/check_errors_hpux.sh, release/plugins/get_path_1131.sh:
+	cfg4.68-24162: Enhancements for EMC CLARiION LunZ stuff
+
+2010-04-01  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh:
+	cfg4.67-24157: cmviewcl -v -f line; cleanup; typos
+
+	* release/cfg2html, release/contrib/check_errors_hpux.sh:
+	cfg4.67-24157: svn.upstream - misc enhancements...
+
+2010-03-25  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh: Changed exit codes
+
+2010-03-19  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh, release/plugins/get_path_1131.sh:
+	cfg4.65-24157: 11.31 stuff, insf -Lv
+
+2010-03-10  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* Cfg2html - HPedia.htm: cfg4.65-24157: Cleanup/Tidy
+
+	* Cfg2html - HPedia.htm, bin1111/fdump.hppa:
+	cfg4.65-24157: added missing files
+
+	* release/plugins/pvgfilter.hppa:
+	cfg4.65-24046: Forced commit by MakeRelease.sh for binary code distribution.
+
+	* bin1111/pvgfilter.hppa, release/cfg2html_hpux.sh, release/contrib/check_errors_hpux.sh, release/contrib/sg_cluster_conf_checker.sh, release/doc/README_hpux.txt:
+	cfg4.64-24046: find_non_*_luns.sh enhancements
+
+	* release/plugins/find_non_inq_luns.sh, release/plugins/find_non_lvm_luns.sh:
+	Modified Files:
+		find_non_lvm_luns.sh
+	Added Files:
+		find_non_inq_luns.sh
+
+2010-03-03  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh, release/plugins/find_non_lvm_luns.sh:
+	cfg4.63-24046: mount//find xp luns
+
+2010-02-12  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/doc/cfg2html.html, release/plugins/get_san_ns.sh:
+	cfg4.63-23225: Fixed CVS keywords ;-(
+
+	* release/doc/cfg2html.html:
+	cfg4.63-23639: Fixed some links provided by Jeroen Kleen
+
+2010-02-09  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/check_errors_hpux.sh, release/plugins/get_diskfirmware.sh:
+	cfg4.63-23639: new TZ/2010
+
+2010-02-05  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/firmware_collect.sh:
+	cfg4.63-23636: change tempfile creation to mktemp
+
+	* release/plugins/firmware_collect.sh, release/plugins/get_path_1131.sh:
+	cfg4.63-23636: complete rewrite by Michael Meyer
+
+2010-02-02  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* bin/build.sh:
+	cfg4.63-23633: Forced commit by ./MakeRelease.sh for binary code distribution.
+
+	* release/plugins/check_space.sh:
+	cfg4.63-23633: new version provided by Michael Meyer
+
+	* release/plugins/get_efi.sh: cfg4.63-23633: + vparefiutil
+
+2010-02-01  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/sg_cluster_conf_checker.sh: upstream
+
+	* bin/MakeRelease.sh: added missing files
+
+2010-01-20  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/check_errors_hpux.sh:
+	cfg4.63-23628: svn backport: WBEM fixes
+
+2010-01-19  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/get_efi.sh: cfg4.63-23628: EFI Auto Boot fixes
+
+	* release/cfg2html_hpux.sh, release/contrib/check_errors_hpux.sh:
+	cfg4.62-23628: svn backports, misc enhancements
+
+2010-01-12  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/doc/cfg2html.html: cfg4.62-23628: more links added
+
+2010-01-06  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh, release/contrib/check_errors_hpux.sh:
+	cfg4.61-23623: svn backport + new cimsub stuff added
+
+2009-12-23  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/getfcmini.sh, release/doc/README_hpux.txt, release/plugins/get_san_ns.sh:
+	cfg4.61-23623: svn.639 upstream merged
+
+2009-12-21  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/get_san_ns.sh:
+	Added Files:
+		get_san_ns.sh
+
+	* release/doc/README_hpux.txt: cfg4.61-23623: dox: hpux 11.31 remarks
+
+2009-12-16  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh, release/html/info.htm, release/html/make_index.sh, release/plugins/head01.html:
+	cfg4.60-23619: Changed the copyright notice to y2k10
+
+2009-12-15  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html: cfg4.60-23619: fix by Gerrit Verdick, 15.12.2009
+
+2009-12-14  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh:
+	cfg4.59-23618: SendMail.cf fix by MiMe/onndras
+
+2009-12-11  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/get_efi.sh: cfg4.59-23617: EFI device path
+
+2009-12-08  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/sg_cluster_conf_checker.sh, release/cfg2html_hpux.sh, release/contrib/check_errors_hpux.sh:
+	cfg4.58-23612: Customer Plugin temp. fix by Yves Isabelli
+
+	svn.631 upstream
+
+2009-11-18  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh, release/plugins/get_efi.sh:
+	cfg4.57-23612: + ioscan, + CIM/RSP stuff
+
+2009-11-17  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh: cfg4.56-23611: Sendmail
+
+2009-11-11  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh, release/plugins/firmware_collect.sh:
+	cfg4.55-23607: + kcalarm
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/sg_cluster_conf_checker.sh:
+	svn upstream: enhancements
+
+2009-10-27  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh, release/contrib/check_errors_hpux.sh, release/contrib/sg_cluster_conf_checker.sh:
+	cfg4.54-23604: svn.upstream + fixes for WBEM stuff when execuetd via crontab
+
+2009-10-14  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh, release/contrib/getfcmini.sh, release/contrib/sg_cluster_conf_checker.sh, release/contrib/vparcreate_reconstruct.sh:
+	cfg4.53-23600: svn backports (613), ipcs, customer plugin: Buggy
+
+2009-09-17  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh, release/doc/cfg2html.html:
+	cfg4.52-23596: +SFM.log
+
+2009-09-15  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/vparcreate_reconstruct.sh:
+	svm.609 upstream
+
+2009-09-03  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/vparcreate_reconstruct.sh:
+	cfg4.52-23593: fixed: sfmconfig, vpar stuff
+
+2009-09-02  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh: cfg4.51-23593: + smhassist
+
+	* release/cfg2html_hpux.sh:
+	cfg4.50-23590: + /etc/opt/resmon/lbin/monconfig
+
+	* release/cfg2html_hpux.sh, release/contrib/check_errors_hpux.sh:
+	cfg4.49-23590: sfmconfig for nettl/enumerate case added
+
+2009-08-25  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* bin/MakeRelease.sh: cfg4.49-23489: added subdir custom
+
+	* release/plugins/custom/templateexample_plugin.sh, release/plugins/custom/templateplugin:
+	renamed to .sh extension
+
+	* release/cfg2html_hpux.sh, release/doc/README_hpux.txt, release/doc/cfg2html.html, release/plugins/custom/templateplugin:
+	cfg4.48-23483: extension patch (customer plugins) from Andre Naumann added
+
+	* release/plugins/custom/templateplugin: Custom template added
+
+2009-08-19  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/vparcreate_reconstruct.sh, release/plugins/get_sasinfo.sh:
+	cfg4.48-23483: vPar 5.0.5
+
+2009-08-10  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh:
+	cfg4.47-23482: swlist -l fileset, removed y2k stuff
+
+2009-08-05  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh: cfg4.46-23480: +kcmodule
+
+2009-08-04  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/check_errors_hpux.sh:
+	cfg4.46-23480: Veritas V-2-XX error codes
+
+2009-08-03  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh, release/contrib/check_errors_hpux.sh:
+	cfg4.45-23477: +kcusage
+
+2009-07-28  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/doc/FAQ_hpux.txt: cfg4.45-23477: New ARIES patch
+
+2009-07-16  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/check_errors_hpux.sh, release/doc/README_hpux.txt:
+	cfg4.45-23470: SVN.upstream + dox enhancements
+
+2009-07-08  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/check_errors_hpux.sh:
+	cfg4.45-23470: SVN backports 526
+
+2009-07-02  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh, release/doc/README_hpux.txt, release/doc/cfg2html.html:
+	cfg4.44-23470: additional documentation
+
+2009-06-09  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh: cfg4.43-23470: setoncenv
+
+	* release/cfg2html_hpux.sh, release/doc/README_hpux.txt:
+	cfg4.42-23465: CIM debugging stuff
+
+2009-05-27  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh:
+	cfg4.41-23465: + ora2html remark, svn backports
+
+2009-05-18  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/check_errors_hpux.sh, release/plugins/get_vparinfo.sh:
+	cfg4.41-23465: SymLink fixes, SVN upstream
+
+2009-05-08  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh: cfg4.40-23464: vPar_Fixes!
+
+	* release/cfg2html_hpux.sh, release/plugins/get_superdomeinfo.sh, release/plugins/get_vparinfo.sh:
+	cfg4.39-22660: Fixes for vPar, splitt of SuperDomeInfo collector
+
+	* release/plugins/get_vparinfo.sh: cfg4.39-22660: vParInfo splittet up
+
+2009-04-30  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh:
+	cfg4.38-22659: Enhancements for DataProtector 6.0
+
+2009-04-28  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh: cfg4.37-22658: Small bugfix for icap
+
+	* bin1111/get_cpu_speed.hppa, bin1111/pvgfilter.hppa, release/cfg2html_hpux.sh, release/doc/history_hpux_v3.txt, release/plugins/get_cpu_speed.hppa, release/plugins/pvgfilter.hppa:
+	cfg4.36-22655: icapstatus + vpar enhancements
+
+2009-04-24  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh:
+	cfg4.35-22654: Misc_Enhancements (mainly SFM/RSP)
+
+2009-04-23  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh: cfg4.34-22653: fixed some typos
+
+2009-04-21  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh:
+	cfg4.33-22650: Forced commit by MakeRelease.sh for binary code distribution.
+
+	* release/cfg2html_hpux.sh, release/contrib/check_errors_hpux.sh:
+	cfg4.32-22650: SFM/evweb enhancements
+
+2009-04-17  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/check_errors_hpux.sh, release/cfg2html_hpux.sh:
+	cfg4.31-22648: more CIM fixes and enhancements added
+
+2009-04-15  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/sg_cluster_conf_checker.sh:
+	svN: Upstream
+
+	* release/cfg2html_hpux.sh: more CIM/WBEM stuff: evweb
+
+	* release/cfg2html_hpux.sh: First working version with CIM/WBEM stuff
+
+2009-04-08  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh, release/contrib/check_errors_hpux.sh:
+	cfg4.28-22642: svn.upstream + bug fixes (if/else)
+
+	* bin/MakeRelease.sh, release/cfg2html_hpux.sh:
+	cfg4.27-22641: Removed 10.xx stuff, removed RA-RiSC stuff for Itanium
+
+2009-04-07  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* bin/MakeRelease.sh:
+	cfg4.27-22639: Forced commit by MakeRelease.sh for binary code distribution.
+
+2009-04-01  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh, release/doc/FAQ_hpux.txt:
+	cfg4.26-22639: ARIES emulator: dox+cfg2html enhancements
+
+	* release/cfg2html_hpux.sh, bin/MakeRelease.sh, release/cfg2html:
+	cfg4.25-22638: Wrapper help added
+
+	* release/cfg2html_hpux.sh, release/contrib/check_errors_hpux.sh, release/contrib/getfcmini.sh:
+	cfg4.24-22635: svn upstream added, fixes for IXOS LEA stuff
+
+2009-03-31  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh:
+	cfg4.23-22232: IXOS LEA stuff added, first version
+
+	* release/plugins/ixostool.sh: added IXOS helper tool
+
+2009-03-20  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/doc/FAQ_hpux.txt: cfg4.23-22232: ARIES patches
+
+2009-03-11  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/html/make_index.sh:
+	cfg4.23-22229: Forced commit by ./MakeRelease.sh for binary code distribution.
+
+2009-03-09  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/html/make_index.sh:
+	cfg4.23-22229: Enhancements for Brocade and Itanium
+
+	* release/html/make_index.sh:
+	cfg4.23-22229: fixed error maybe introduced with 4.xx stream?
+
+2009-03-06  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* bin/build.sh, release/cfg2html_hpux.sh, release/plugins/get_diskfirmware.sh:
+	cfg4.22-22227: added EMC enhancements
+
+2009-02-26  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* bin/build.sh: cfg4.22-22227: + build.sh
+
+	* release/doc/cfg2html.html: cfg4.22-22226: Xing added
+
+2009-02-17  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/check_errors_hpux.sh, release/plugins/firmware_collect.sh, release/plugins/get_xpsum.sh:
+	cfg4.22-22222: small fixes and enhancements for EMC arrays
+
+2009-02-03  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/get_sap.sh: cfg4.22-22222: small enhancements for SAP
+
+2009-01-28  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/sg_cluster_conf_checker.sh:
+	cfg4.22-22221: svn upstream
+
+	* sd/prodspec.template: cfg4.22-22221: SD template fixes
+
+2009-01-21  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/sg_cluster_conf_checker.sh:
+	cfg4.22-21816: svn backports
+
+2009-01-13  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/get_emcsum.sh, release/plugins/get_xpsum.sh:
+	EMC/inq stuff added/changed
+
+	* release/contrib/check_errors_hpux.sh:
+	cfg4.22-21816: svn.446 rollback :-(
+
+2009-01-12  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh, release/plugins/get_diskfirmware.sh:
+	cfg4.21-21814: -Elroy, +Diskfirmware, +lvmadm etc.
+
+2009-01-07  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* sd/prodspec.template: cfg4.21-21814: pack+go
+
+	* release/cfg2html_hpux.sh: cfg4.20-21411: Samba stuff
+
+	* bin/MakeRelease.sh, release/contrib/check_errors_hpux.sh, release/contrib/vparcreate_reconstruct.sh:
+	cfg4.20-21411: + vPar reconstructor, svn.483 upstream
+
+2008-12-30  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* bin/MakeRelease.sh:
+	cfg4.20-21411: Forced commit by MakeRelease.sh for binary code distribution.
+
+	* release/plugins/firmware_collect.sh:
+	cfg4.20-21410: Bug fixes for 11.31
+
+	* bin/cco: cfg4.20-21410: auto forced commit by cco utility
+
+	* bin/cco:
+	cfg4.20-21410: auto forced commit by /cygdrive/c/Documents and Settings/ralproth/home/bin/cco
+
+	* sd/prodspec.template, bin/MakeRelease.sh, sd/tar2depot.sh:
+	cfg4.20-21410: updated tar2depot
+
+	* bin/MakeRelease.sh:
+	cfg4.20-21410: Forced commit by MakeRelease.sh for binary code distribution.
+
+	* bin/MakeRelease.sh, sd/tar2depot.sh: cfg4.20-21410:
+
+	* bin/MakeRelease.sh:
+	cfg4.20-0: Forced commit by MakeRelease.sh for binary code distribution.
+
+	* bin/MakeRelease.sh:
+	cfg4.20-21410: Forced commit by MakeRelease.sh for binary code distribution.
+
+2008-12-23  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh, release/html/info.htm, release/html/make_index.sh, release/plugins/head01.html:
+	changed the copyright from y2k8 to y2k9
+
+	* bin/MakeRelease.sh:
+	cfg4.19-21406: Forced commit by MakeRelease.sh for binary code distribution.
+
+	* bin/MakeRelease.sh: History_HPUX keyword
+
+	* bin1111/dumplvmtab.hppa, bin1111/get_cpu_speed.hppa, bin1111/pvgfilter.hppa, release/plugins/dumplvmtab.hppa, release/plugins/pvgfilter.hppa:
+	cfg4.19-21196: refresh binaries (cvs keywords) + svn upstream
+
+2008-12-22  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/get_diskfirmware.sh, release/plugins/get_mptinfo.sh:
+	cfg4.19-21194: svn.466 bug fixes
+
+2008-12-19  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh, release/contrib/check_errors_hpux.sh, release/contrib/getfcmini.sh, release/contrib/sg_cluster_conf_checker.sh:
+	cfg4.18-21190: svn backports, stderr redirects
+
+2008-12-15  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/sg_cluster_conf_checker.sh:
+	cfg4.18-21189: svn.462 upstream
+
+2008-12-10  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/sg_cluster_conf_checker.sh:
+	cfg4.18-21188: onsite enhancements
+
+2008-12-08  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh:
+	cfg4.17-21187: HPVM Multi Server Environment
+
+2008-12-05  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh:
+	cfg4.16-21186: Fixes for hpvm 4.0 guests, added hpvmsar
+
+2008-12-04  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/sg_cluster_conf_checker.sh:
+	cfg4.16-21182: svn upstream - fixes for SG A.11.18
+
+2008-11-25  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/sg_cluster_conf_checker.sh:
+	cfg4.16-21182: svn stream update, Nov. 2008
+
+2008-11-24  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* bin/MakeRelease.sh:
+	cfg4.16-21182: Forced commit by MakeRelease.sh for binary code distribution.
+
+	* release/contrib/getfcmini.sh, release/doc/ToDo_hpux.txt:
+	cfg4.16-21180: svn 456 merge
+
+2008-11-20  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* bin/MakeRelease.sh, release/doc/README_hpux.txt:
+	cfg4.16-21332: Changed build system
+
+	* release/cfg2html_hpux.sh:
+	cfg4.15-21330: fixed LIF stuff for HPUX 11.31
+
+	* release/plugins/get_efi.sh:
+	cfg4.15-21330: fixed EFI stuff for HPUX 11.31
+
+2008-11-19  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/check_errors_hpux.sh:
+	cfg4.15-21329: Forced commit by MakeRelease.sh for binary code distribution.
+
+	* bin/MakeRelease.sh: Added forced commit
+
+2008-11-18  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* bin/cco, bin/MakeRelease.sh: cfg4.15-21328: added build numbers
+
+	* bin/MakeRelease.sh: cfg4.15: added Build
+
+	* bin/MakeRelease.sh, release/contrib/MakeRelease.sh:
+	cfg4.15: moved MakeRelease.sh
+
+	* bin1111/get_cpu_speed.hppa, bin1111/getpwd.hppa, release/cfg2html_hpux.sh, release/contrib/MakeRelease.sh, release/plugins/get_cpu_speed.hppa, release/plugins/getpwd.hppa:
+	cfg4.14: recompiled source code + fixes
+
+2008-11-13  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/MakeRelease.sh, release/contrib/postinstall.sh:
+	cfg4.14: first working dist script
+
+	* release/cfg2html_hpux.sh: cfg4.13: fixes for mywhat utility (main)
+
+	* release/contrib/MakeRelease.sh, release/contrib/check_errors_hpux.sh, release/contrib/getfcmini.sh, release/contrib/sg_cluster_conf_checker.sh:
+	cfg4.13: fixes for mywhat utility (contrib)
+
+	* release/doc/FAQ_hpux.txt, release/doc/README_hpux.txt, release/doc/ToDo_hpux.txt, release/doc/cfg2html.html, release/doc/history_hpux_v2.txt, release/doc/history_hpux_v3.txt:
+	cfg4.13: fixes for mywhat utility (dox)
+
+	* release/html/allhosts.htm, release/html/info.htm, release/html/make_index.sh, release/plugins/check_elroy.sh, release/plugins/check_space.sh, release/plugins/getVAlogs.sh, release/plugins/get_lan_desc.sh, release/plugins/get_mirror_missmatch.sh, release/plugins/get_mptinfo.sh, release/plugins/get_sap.sh, release/plugins/get_sasinfo.sh, release/plugins/head01.html, release/plugins/head02.html, release/plugins/head03.html:
+	cfg4.13: fixes for mywhat utility
+
+	* release/contrib/postinstall.sh, release/doc/history_hpux_v1.txt, release/plugins/VxVM_collect.sh, release/plugins/bdf_collect.sh, release/plugins/crontab_collect.sh, release/plugins/find_non_lvm_luns.sh, release/plugins/firmware_collect.sh, release/plugins/get_bootdisk.sh, release/plugins/get_cellinfo.sh, release/plugins/get_cputype.sh, release/plugins/get_efi.sh, release/plugins/get_emcluns.sh, release/plugins/get_fc.sh, release/plugins/get_fcold.sh, release/plugins/get_lvm_info.sh, release/plugins/get_ministat.sh, release/plugins/get_path_1131.sh, release/plugins/get_sptool.sh, release/plugins/get_vg.sh, release/plugins/get_xpluns.sh, release/plugins/get_xpsum.sh, release/plugins/getlp.sh, release/plugins/list_filesystems.sh, release/plugins/oracle_collect.sh, release/plugins/qlan.sh:
+	cfg4.13: cleanup of cvs keywords (2nd round)
+
+	* release/cfg2html, release/contrib/MakeRelease.sh, release/contrib/check_errors_hpux.sh, release/contrib/postinstall.sh, release/doc/history_hpux_v1.txt, release/html/make_index.sh, release/plugins/VxVM_collect.sh, release/plugins/check_elroy.sh, release/plugins/check_space.sh, release/plugins/find_non_lvm_luns.sh, release/plugins/firmware_collect.sh, release/plugins/get_emcluns.sh, release/plugins/get_fc.sh, release/plugins/get_fcold.sh, release/plugins/get_lvm_info.sh, release/plugins/get_mirror_missmatch.sh, release/plugins/get_sptool.sh, release/plugins/get_xpluns.sh, release/plugins/get_xpsum.sh, release/plugins/head02.html, release/plugins/head03.html, release/plugins/list_filesystems.sh:
+	cfg4.13: changed cvs keywords for new _what_ utility
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/getfcmini.sh, release/contrib/sg_cluster_conf_checker.sh:
+	cfg4.13: svn upstream (utilities)
+
+2008-11-10  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/get_diskfirmware.sh: cfg4.13: Enhancements by Martin
+
+2008-11-07  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/get_diskfirmware.sh:
+	cfg4.13: Fixes for 11.31, added VG version (e.g. v2.1)
+
+	* release/plugins/get_diskfirmware.sh, bin/cco:
+	cfg4.13: Updated GetFirmwareCollect 1.4a from Martin
+
+2008-11-06  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* bin/cco: cfg4.13: replaced ident with what
+
+	* bin/cco, release/cfg2html_hpux.sh: cfg: replaced ident with what
+
+	* bin/cco, bin1111/dumplvmtab.hppa, bin1111/get_cpu_speed.hppa, bin1111/getpwd.hppa, release/cfg2html_hpux.sh, release/plugins/dumplvmtab.hppa, release/plugins/get_cpu_speed.hppa, release/plugins/get_hpvm.sh, release/plugins/getpwd.hppa, release/plugins/psi_collect.sh:
+	cfg: HPPA binaries updated. Stuff added and removed. 1.53-2 Linux upstream
+
+2008-11-05  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/get_hpvm.sh, release/doc/ToDo_hpux.txt:
+	added hpvm from Martin
+
+	* release/plugins/get_diskfirmware.sh: New version from Martin
+
+	* bin/cco: Adpated
+
+2008-11-04  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* bin/cco: updated bins
+
+	* sd/prodspec.template: 4.xx stream
+
+	* cfg2html_Development_Tree.ppt, release/doc/cfg2html_Development_Tree.png:
+	Documented changes on 4xx stream
+
+	* release/contrib/MakeRelease.sh, release/doc/FAQ_hpux.txt, release/doc/ToDo_hpux.txt:
+	added files from hpux-backup
+
+	* bin1111/dumplvmtab.hppa, bin1111/getpwd.hppa, bin1111/pvgfilter.hppa, bin1131/getpwd.1131:
+	added new files
+
+	* bin/cvs_hpux, bin/rcs2log, cfg2html_Development_Tree.ppt:
+	4.xx stream merge
+
+	* release/cfg2html_hpux.sh: First 4.xx cleanup session
+
+	* release/plugins/dumplvmtab.hppa, release/plugins/getpwd.hppa, release/plugins/pvgfilter.hppa:
+	added 11.11 binaries
+
+	* release/plugins/getpwd.hppa, release/plugins/pvgfilter.hppa, release/plugins/dumplvmtab.hppa, release/plugins/get_cpu_speed.hppa:
+	added PA-RISC binaries
+
+	* release/doc/history_hpux_v3.txt:  Added Files:
+	 	history_hpux_v3.txt
+	 Removed Files:
+	 	history_hpux.txt
+
+2008-10-28  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html_hpux.sh: Initial cfg2html_hpux 4.xx stream import
+
+	* release/cfg2html_hpux.sh: New file.
+
+2008-10-24  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/getfcmini.sh, release/contrib/sg_cluster_conf_checker.sh:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/contrib/check_errors_hpux.sh, release/contrib/getfcmini.sh, release/contrib/sg_cluster_conf_checker.sh:
+	New file.
+
+	* release/plugins/check_space.sh, release/plugins/firmware_collect.sh, release/plugins/get_lan_desc.sh, release/plugins/get_sasinfo.sh:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/plugins/check_space.sh, release/plugins/firmware_collect.sh, release/plugins/get_lan_desc.sh, release/plugins/get_sasinfo.sh:
+	New file.
+
+2008-10-14  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/doc/cfg2html.html: Initial cfg2html_hpux 4.xx stream import
+
+	* release/doc/cfg2html.html: New file.
+
+	* release/doc/README_hpux.txt: Initial cfg2html_hpux 4.xx stream import
+
+	* release/doc/README_hpux.txt: New file.
+
+2008-07-25  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/MakeRelease.sh:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/contrib/MakeRelease.sh: New file.
+
+2008-07-22  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/get_mirror_missmatch.sh, release/plugins/get_mptinfo.sh:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/plugins/get_mirror_missmatch.sh, release/plugins/get_mptinfo.sh:
+	New file.
+
+2008-07-07  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/get_path_1131.sh:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/plugins/get_path_1131.sh: New file.
+
+2008-05-28  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/qlan.sh: Initial cfg2html_hpux 4.xx stream import
+
+	* release/plugins/qlan.sh: New file.
+
+2008-02-28  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/get_ministat.sh:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/plugins/get_ministat.sh: New file.
+
+2008-02-07  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/doc/history_hpux_v2.txt:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/doc/history_hpux_v2.txt: New file.
+
+	* release/doc/history_hpux_v1.txt:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/doc/history_hpux_v1.txt: New file.
+
+	* release/html/info.htm, release/html/make_index.sh:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/html/info.htm, release/html/make_index.sh: New file.
+
+	* release/doc/cfg2html_Development_Tree.png:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/doc/cfg2html_Development_Tree.png: New file.
+
+2007-12-25  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/html/allhosts.htm, release/plugins/head01.html, release/plugins/head02.html:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/html/allhosts.htm, release/plugins/head01.html, release/plugins/head02.html:
+	New file.
+
+2007-12-14  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/get_cputype.sh, release/plugins/get_fc.sh:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/plugins/get_cputype.sh, release/plugins/get_fc.sh: New file.
+
+2007-11-26  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/get_cellinfo.sh:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/plugins/get_cellinfo.sh: New file.
+
+2007-08-08  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/get_efi.sh, release/plugins/get_lvm_info.sh:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/plugins/get_efi.sh, release/plugins/get_lvm_info.sh:
+	New file.
+
+2007-07-11  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/find_non_lvm_luns.sh, release/plugins/get_bootdisk.sh:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/plugins/find_non_lvm_luns.sh, release/plugins/get_bootdisk.sh:
+	New file.
+
+2007-01-18  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/doc/ToDo_hpux.txt: Initial cfg2html_hpux 4.xx stream import
+
+	* release/doc/ToDo_hpux.txt: New file.
+
+2006-11-28  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/doc/FAQ_hpux.txt: Initial cfg2html_hpux 4.xx stream import
+
+	* release/doc/FAQ_hpux.txt: New file.
+
+2006-09-14  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/cfg2html: Initial cfg2html_hpux 4.xx stream import
+
+	* release/cfg2html: New file.
+
+2006-04-26  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* cfg2html_Development_Tree.ppt: Added Files:
+		cfg2html_Development_Tree.ppt
+
+2006-03-13  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/list_filesystems.sh:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/plugins/list_filesystems.sh: New file.
+
+2006-02-07  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* sd/prodspec.template: fixes to compile on haegar + 11.23 issues
+
+2006-02-02  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/bdf_collect.sh, release/plugins/get_fcold.sh, release/plugins/get_xpluns.sh, release/plugins/get_xpsum.sh:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/plugins/bdf_collect.sh, release/plugins/get_fcold.sh, release/plugins/get_xpluns.sh, release/plugins/get_xpsum.sh:
+	New file.
+
+2005-09-29  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/contrib/postinstall.sh:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/contrib/postinstall.sh: New file.
+
+2005-08-19  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* sd/prodspec.template: Initial 3.x stream import
+
+	* sd/prodspec.template: New file.
+
+2005-08-16  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/get_emcluns.sh:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/plugins/get_emcluns.sh: New file.
+
+2005-01-27  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/get_sap.sh: Initial cfg2html_hpux 4.xx stream import
+
+	* release/plugins/get_sap.sh: New file.
+
+2004-11-17  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/crontab_collect.sh:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/plugins/crontab_collect.sh: New file.
+
+2004-07-28  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/head03.html: Initial cfg2html_hpux 4.xx stream import
+
+	* release/plugins/head03.html: New file.
+
+2004-07-15  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/check_elroy.sh:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/plugins/check_elroy.sh: New file.
+
+	* release/plugins/VxVM_collect.sh:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/plugins/VxVM_collect.sh: New file.
+
+2004-02-16  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/get_sptool.sh:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/plugins/get_sptool.sh: New file.
+
+2003-03-11  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/psi_collect.sh:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/plugins/psi_collect.sh: New file.
+
+	* release/plugins/get_vg.sh: Initial cfg2html_hpux 4.xx stream import
+
+	* release/plugins/get_vg.sh: New file.
+
+2003-01-21  Ralph Roth/ROSE_SWE  <ralproth@rroth2>
+
+	* release/plugins/getVAlogs.sh, release/plugins/getlp.sh, release/plugins/oracle_collect.sh:
+	Initial cfg2html_hpux 4.xx stream import
+
+	* release/plugins/getVAlogs.sh, release/plugins/getlp.sh, release/plugins/oracle_collect.sh:
+	New file.
+
+	* release/cfg2html_back.jpg: Initial cfg2html_hpux 4.xx stream import
+
+	* release/cfg2html_back.jpg: New file.
+
