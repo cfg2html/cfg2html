@@ -1,4 +1,4 @@
-@(#) $Id: ToDo_hpux.txt,v 5.10.1.1 2011-02-15 14:29:05 ralproth Exp $
+@(#) $Id: ToDo_hpux.txt,v 5.11 2013-03-18 17:26:39 ralph Exp $
 ________________________________________________________________________
 
  _____     ____                  ____
@@ -17,8 +17,9 @@ D = Done
 B = Bug
 ? = Unknown, need more information
 
+- remove qlan.sh from plugins dir & main driver script (T), rr-18.03.2013
 - # cpu's is incorrect on vPars (B)
-- lvmdump from Dietmar Konerman (D)
+- lvmdump from Dietmar Konerman (DN)
 - shell script wrapper for cfg2html:  testserver.sh, prodserver.sh (D -> cmd line options)
 - SAP/ABAP collector (N)
 - Veritas VxFS collector (T)
