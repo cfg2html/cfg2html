@@ -229,6 +229,20 @@ function extract_xpinfo_i {
    done
 }
 
+function extract_my_xpinfo {
+   # arg1: xpinfo CSV file, arg2: output should look like 'xpinfo -i' with VG/Lvol info and VGsize
+   local CSVfile=$1
+   local outf=$2
+   cat > $outf <<-EOF
+	Device File        Tgt Lun Port CU:LDev Type       Size MB   Sn# VG - DG
+	============================================================================
+	EOF
+   grep "^/dev" $CSVfile | while read LINE
+   do
+       echo $LINE | awk -F";" '{printf ("%-18s %-3s %-3s %-4s %-7s %-10s %7s %5s %-10s\n",$1,$2,$3,$4,$5,$6,$7,substr($8,4),$29)}' >> $outf
+   done
+}
+
 function extract_xpinfo_c {
    # arg1: xpinfo CSV file, arg2: output should look like 'xpinfo -c'
    # the CSV file contains the following:
