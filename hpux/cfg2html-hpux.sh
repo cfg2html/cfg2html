@@ -535,14 +535,19 @@ then # else skip to next paragraph
         $XPINFO -d";" | grep -v "Scanning" >> $XPINFOFILE
         AddText "The XP-Info configuration was additionally dumped as CSV format into the file <b>$XPINFOFILE</b> for further usage"
         XPINFOFILE=$OUTDIR/$BASEFILE"_xpinfo.txt"
+
 	extract_xpinfo_i "$OUTDIR/$BASEFILE"_xpinfo.csv $XPINFOFILE
         ##$XPINFO -i | grep -v "Scanning">$XPINFOFILE
         AddText "The XP-Info configuration was additionally dumped as plain text format into the file <b>$XPINFOFILE</b> for further usage"
-        
         exec_command "cat $XPINFOFILE" "SureStore E Disk Array XP Identification Information"
+
+	extract_my_xpinfo "$OUTDIR/$BASEFILE"_xpinfo.csv $TMP_DIR/my_xpinfo.txt
+	exec_command "cat $TMP_DIR/my_xpinfo.txt" "SureStore E Disk Array XP Identification Information with VG info added"
+
         ##exec_command "$XPINFO -r|grep -v Scanning" "SureStore E Disk Array XP Disk Mechanisms"
 	extract_xpinfo_r "$OUTDIR/$BASEFILE"_xpinfo.csv $TMP_DIR/xpinfo_r.txt
         exec_command "cat $TMP_DIR/xpinfo_r.txt" "SureStore E Disk Array XP Disk Mechanisms"
+
 	extract_xpinfo_c "$OUTDIR/$BASEFILE"_xpinfo.csv $TMP_DIR/xpinfo_c.txt
         ##exec_command "$XPINFO -c|grep -v Scanning" "SureStore E Disk Array XP (Continuous Access and Business Copy)"
         exec_command "cat $TMP_DIR/xpinfo_c.txt" "SureStore E Disk Array XP (Continuous Access and Business Copy)"
@@ -800,7 +805,6 @@ then # else skip to next paragraph
     [ -s /etc/vx/tunefstab ] && exec_command "cat /etc/vx/tunefstab" "JFS/VXFS tuneable parameters"
     
     if [ -f /etc/exports ] ; then
-        ##exec_command "cat_and_grep /etc/exports" "NFS Filesystems"
         cat_and_grep "/etc/exports" "NFS Filesystems"
     fi
     cat_and_grep "/etc/dfs/dfstab" "NFS sharing resources"
@@ -965,9 +969,9 @@ then # else skip to next paragraph
         cat_and_grep "/var/adm/inetd.sec" "Internet Daemon Security"
     fi
     [ -d /usr/lib/security ] && exec_command "ll /usr/lib/security" "Files in /usr/lib/security (PAM Kerberos)"
-    [ -r /etc/pam.conf ] && exec_command "cat_and_grep /etc/pam.conf" "PAM Configuration"
-    [ -r /etc/krb5.conf ] && exec_command "cat_and_grep /etc/krb5.conf" "Kerberos 5 Configuration"
-    [ -r /etc/krb5.keytab ] && exec_command "cat_and_grep /etc/krb5.keytab" "Kerberos 5 Keytab Configuration"
+    [ -r /etc/pam.conf ] && cat_and_grep "/etc/pam.conf" "PAM Configuration"
+    [ -r /etc/krb5.conf ] && cat_and_grep "/etc/krb5.conf" "Kerberos 5 Configuration"
+    [ -r /etc/krb5.keytab ] && cat_and_grep "/etc/krb5.keytab" "Kerberos 5 Keytab Configuration"
     
     cat_and_grep "/etc/services" "Internet Daemon Services"
     
@@ -1050,7 +1054,7 @@ then # else skip to next paragraph
         
     done # for loop
     
-    [ -r /etc/ddfa/dp ] && exec_command "cat_and_grep /etc/ddfa/dp" "DDFA Dedicated Ports"
+    [ -r /etc/ddfa/dp ] && cat_and_grep "/etc/ddfa/dp" "DDFA Dedicated Ports"
     HF=$(what /stand/vmunix | grep HyperFabric)
     [ -n "$HF" ] && exec_command "echo $HF\n;/opt/clic/bin/clic_stat -S" "HyperFabric Version"
     
@@ -1386,7 +1390,10 @@ then # else skip to next paragraph
         exec_command "/opt/omni/bin/omnicc -query"    	"DataProtector Cell Server License"
         exec_command "/opt/omni/bin/omnicheck -patches;  /opt/omni/bin/omnicheck -patches -host client" "Installed DP Patches"
         
-        [ -r /etc/opt/omni/cell/lic.dat ] && exec_command "(cat_and_grep /etc/opt/omni/cell/lic.dat); echo; /opt/omni/bin/omnicc -password_info" "License File and License Keys"
+        if [ -r /etc/opt/omni/cell/lic.dat ]; then
+           cat_and_grep "/etc/opt/omni/cell/lic.dat" "Licence file"
+	   exec_command "/opt/omni/bin/omnicc -password_info" "License File and License Keys"
+	fi
         [ -r /var/opt/ifor/nodelock ] && exec_command "cat /var/opt/ifor/nodelock" "Old 2.x Nodelock License Key" #  08.03.2005, 14:59 modified by Ralph.Roth
         [ -r /etc/opt/omni/options/global ] && cat_and_grep "/etc/opt/omni/options/global" "Nonstandard Global Options"
         exec_command "/opt/omni/bin/omnicellinfo -dev -detail"  "Configured Devices"
