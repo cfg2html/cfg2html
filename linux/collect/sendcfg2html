@@ -1,0 +1,65 @@
+#!/bin/sh
+# (c) 2002 Michael Meifert mailto:mime@dk3hg.inka.de
+#
+# run this script as root from cron on the maschine to collect data
+# make sure to setup the key's to login with ssh, without password
+#
+
+# configure next lines
+#
+
+# name of remote collector
+CFG2HTML="cfg2html_linux" # make shure the script is in your PATH
+TMP=/tmp
+USER=bak
+COLLECTOR=machine.domain
+SAVEPATH=/home/bak/cfg2html/hosts/
+PINGCOMMAND="/bin/ping -c 1"
+
+# say yes to download cfg2html from a remote directory
+# hope the script is ok :-), you running this as root!
+SCRIPTREMOTE="yes"
+PATH2COLLECTOR=home/bak/cfg2html
+
+#
+#########  nothing to configure below  ########## i hope :-)
+#
+HOSTNAME=`hostname`
+cd $TMP
+
+# test if main server reachable
+LINE=`$PINGCOMMAND $COLLECTOR`
+if [ `echo ${LINE} | grep -c "100..packet.loss"` -gt 0 ]
+  then
+    sel=1
+    logger "$COLLECTOR unreachable"
+    exit 1
+fi
+# test if ssh working
+ssh $USER@$COLLECTOR who
+if [ $? -gt 0 ]
+  then
+    sel=2
+    logger "can't connect to $COLLECTOR"
+    exit 1
+fi
+
+#
+# get the collector from a central place
+#
+if [ "$SCRIPTREMOTE" = "yes" ] ;then
+  scp $USER@$COLLECTOR:/$PATH2COLLECTOR/$CFG2HTML .
+  # now collect the systeminfo
+  ./$CFG2HTML
+else 
+  $CFG2HTML
+fi
+
+# collect the systeminfo
+./$CFG2HTML
+
+# send files and remove the local one
+scp $HOSTNAME.* $USER@$COLLECTOR:/$SAVEPATH
+rm -f $HOSTNAME.*
+rm -f $CFG2HTML
+#

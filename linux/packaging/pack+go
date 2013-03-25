@@ -1,0 +1,58 @@
+# @(#) $Id: pack+go,v 2.18 2013-02-09 10:24:37 ralph Exp $
+# -----------------------------------------------------------------------------------------
+# (c) 1997 - 2013 by Ralph Roth  -*- http://rose.rult.at -*-
+## $Header: /home/cvs/cfg2html/cfg2html_linux/pack+go,v 2.18 2013-02-09 10:24:37 ralph Exp $
+
+
+rm -f  ~/cfg2html_back.jpg ~/profbull.gif
+# cleanup debian source tree
+debclean --cleandebs
+
+chmod -x README *.txt *.html
+
+dpkg-buildpackage  -rfakeroot -k3426A369  -uc
+# -us           unsigned source
+# -uc           unsigned changes
+
+# dch ->  package devscripts
+echo CVS commit done? dch -i -v 1.1x.y?   e.g.  dch -v 1.39-1
+
+if [ $(id -u) = 0 ] # ./pack+go: line 11: [: too many arguments
+then
+	echo "Only non root maintainer should run this script!"
+	exit 1
+fi
+
+BASED=$(basename $PWD)
+cp README ../README_cfg2html.txt
+cd ..
+echo Packing $BASED into $PWD
+#sudo /usr/bin/alien -r -k -v cfg2html-linux*.deb
+ZIP="$BASED"-$(date +%Y%m%d)_all.zip
+echo "Building now zip $ZIP and removing old stuff"
+rm -f cfg2html*_all.zip  /tmp/cfg2html*
+echo Copying the current Debian packages to /tmp
+cp *.deb /tmp
+echo Building now Packages.gz using dpkg-scanpackages....
+dpkg-scanpackages . /dev/null | gzip > Packages.gz
+echo Now running alien -r -k *.deb as root to convert to a RPM package!
+echo Remember that alien may can delete the whole DIST directory!
+echo .deb copied to /tmp for alien. Please provide now the root password.
+su - -c "(cd /tmp; alien -rkv cfg2html-linux*.deb)"
+echo "Back from Alien. Now copying your RPM stuff to the working directory"
+cp /tmp/cfg2html-linux*.rpm .
+# lintian -i *.dsc
+#mv /tmp/cfg2html-linux_*.*	# .rpm + .deb
+echo Press ENTER to continue as normal build user
+read
+
+echo "Packages.gz Package definition file for .deb files" >> descript.ion
+D=$(ls cfg2html-linux*.deb)
+echo \"$D\"" cfg2html for Linux, native Debian/Ubuntu package for apt(itude)/dpkg" >> descript.ion
+zip -m9D "$ZIP" cfg2html-linux* README_cfg2html.txt  Packages.gz descript.ion
+
+echo "$ZIP cfg2html for Linux, SuSE+RedHat RPM, native Debian/Ubuntu package for apt(itude)/dpkg, Source Code for other distros" >>descript.ion
+# cleanup debian source tree
+debclean
+echo "----------------------------------------------------------------"
+ls

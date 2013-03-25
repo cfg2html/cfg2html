@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# @(#) $Id: bdf,v 2.13 2013-02-09 10:24:37 ralph Exp $
+# --=-----------------------------------------------------------------------=---
+# (c) 1997 - 2013 by Ralph Roth  -*- http://rose.rult.at -*-
+
+my_bdf() {
+    # bdf summary for HPUX, Ralph Roth, 5-feb-2001
+    #                 Linux, Michael Meifert
+
+    df -k |grep ^/|awk '
+    {
+        alloc += $2;
+        used  += $3;
+        avail += $4;
+    }
+
+    END {
+        print  "Allocated\tUsed \t \tAvailable\tUsed (%)";
+        printf "%ld \t%ld \t%ld\t \t%3.1f\n", alloc, used, avail, (used*100.0/alloc);
+    }'
+}
+
+my_bdf

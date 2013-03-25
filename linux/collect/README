@@ -1,0 +1,49 @@
+                    Collect cfg2html data files
+                    ---------------------------
+
+To collect the systeminfo data files from serveral nodes using rsh is
+very __unsecure__, because root is starting cfg2html. For more 
+information use google and search for: rsh unsecure
+
+I try another way.
+
+Machine to collect the data:
+
+1. To collect the data i run on every machine a root cron job to save
+   the data to /tmp
+2. Copy cfg2html script from the central machine to /tmp (if you say "yes"
+   to SCRIPTREMOTE else using a local version).
+3. Then copy the Files using a secure method under another uid to a
+   central machine. I use scp (ssh) to copy the files.
+4. Now remove the data and cfg2html files from /tmp
+
+Central machine:
+
+1. create a user to collect the files.
+2. Now you can copy from every remote host the collected data to the user's
+   home directory or any other directory the user has permission to write.
+   See below to setup ssh.
+3. I have the cfg2html scripts for all machines for example linux, hpux, sun ..
+   located in a central directory, for example ../home/user/cfg2html/bin
+   Don't forget the security!
+
+---------------------------------
+
+Do not store the data files in a directory everybody has read
+permissions.
+
+---------------------------------
+ssh remote login without password:
+
+on a client root should run:
+
+ssh-keygen
+          enter
+          enter
+scp $HOME/.ssh/identity.pub user@central-host:/home/user/
+now you must enter the password for user the last time :-)
+
+user at the central-host:
+cat identity.pub >> .ssh/authorized_keys
+now the user "root" from a client machine can login without password.
+

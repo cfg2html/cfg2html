@@ -1,0 +1,11 @@
+#!/bin/bash
+
+CFG2HTML_PLUGINTITLE="This will go into the section title for each plugin"
+
+function cfg2html_plugin {
+	echo "Here you can add a shell script, all output to stdout will be added to the"
+	echo "cfg2html output file."
+
+	echo "The PID of this plugin run was " $$
+}
+
