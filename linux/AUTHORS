@@ -1,5 +1,5 @@
 For details see cfg2html.html
-@(#)$Id: AUTHORS,v 2.11 2012-03-07 18:27:41 ralproth Exp $
+@(#)$Id: AUTHORS,v 2.12 2013-03-26 15:57:01 ralph Exp $
 ---------------------------------------------------------------------------
     _         _   _
 Co / \  _   _| |_| |__   ___  _ __ ___
@@ -9,10 +9,10 @@ Co / \  _   _| |_| |__   ___  _ __ ___
 ---------------------------------------------------------------------------
 
 
-Ralph Roth <rose_swe@hotmail.com>
+Ralph Roth <cfg2html@hotmail.com>
 	wrote the initial HP-UX version, wrote the 1.12-x Debian Linux stream
 	wrote SecurePath and ServiceGuard collectors etc.
-        maintains the 1.18++, 2.xx stream
+        maintains the 1.18++, 2.xx Linux stream
 
 Michael Meifert <dk3hg@users.sourceforge.net>
 	ported the HP-UX version to Debian Linux, maintainer of
@@ -28,7 +28,8 @@ Jeff Mikaelian LBDIS Boeing
 	added RedHat distribution test and RedHat packages list
 
 Gratien D'haese
-	use /etc/xinetd.d directory, bugfixes, xdpyinfo command canged
+	use /etc/xinetd.d directory, bugfixes, xdpyinfo command changed
+	major work on the cfg2html next generation version (cfg2html 6.xx)
 
 Urs Frey: 
 	all marked in cfg2html-linux with his signature "it233 U. Frey"

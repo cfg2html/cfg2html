@@ -1,4 +1,13 @@
 @(#) History cfg2html_hpux 5.xx - @(#) : MakeRelease.sh,v 5.29 2013-02-09 10:24:34 ralph Exp $
+2013-02-13  author  <author@osuse122rr>
+
+	* release/doc/cfg2html.html: changes made for Merck AV/MWP concept
+
+2013-02-11  author  <author@osuse122rr>
+
+	* release/build.sh, release/doc/cfg2html.html, release/tagcvs.sh, sd/prodspec.dat:
+	Upcoming cfg2html releases
+
 2013-02-09  author  <author@osuse122rr>
 
 	* release/build.sh, release/tagcvs.sh, sd/prodspec.dat:
