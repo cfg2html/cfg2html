@@ -4,7 +4,7 @@
 # keep PID of main process
 MASTER_PID=$$
 # USR1 is used to abort on errors, not using Print to always print to the original STDOUT, even if quiet
-trap "echo 'Aborting due to an error, check $ERROR_FILE for details' ; kill $MASTER_PID" USR1
+trap "echo 'Aborting due to an error, check $ERROR_LOG for details' ; kill $MASTER_PID" USR1
 
 LF="
 "
@@ -50,7 +50,7 @@ function BugError {
 	Error "BUG BUG BUG! " "$@" "
 === Issue report ===
 Please report this unexpected issue at: https://github.com/cfg2html/cfg2html/issues
-Also include the relevant bits from $LOGFILE
+Also include the relevant bits from $ERROR_LOG
 ===================="
 }
 
@@ -86,7 +86,7 @@ function Log {
 		echo "$(Stamp)$*"
 	else
 		echo "$(Stamp)$(cat)"
-	fi >> $ERROR_FILE
+	fi >> $ERROR_LOG
 }
 
 # log if there is an error
