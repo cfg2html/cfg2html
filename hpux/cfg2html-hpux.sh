@@ -1305,7 +1305,10 @@ then # else skip to next paragraph
     [ -f /sbin/init.d/samba ] && exec_command "ps -ef | grep -e swat -e smb -e nmb|grep -v grep" "Samba Demons"
     
     ########### OpenView, OV, OpC etc. #################
-    [ -x /opt/OV/bin/OpC/opcagt ] && exec_command "/opt/OV/bin/OpC/opcagt -status -version 2>&1" "HP OpenView Operations Agent Status"
+    [ -x /opt/OV/bin/OpC/opcagt ] && {
+    exec_command "/opt/OV/bin/OpC/opcagt -version" "HP OpenView Operations Agent Version"
+    exec_command "/opt/OV/bin/OpC/opcagt -status 2>&1" "HP OpenView Operations Agent Status"
+    }
     #  21.01.2005, 12:47 modified by Ralph.Roth
     [ -x /opt/OV/bin/OpC/install/opclic ] && exec_command "/opt/OV/bin/OpC/install/opclic -list" "HP OpenView IT/Operations license"
     ############ OpenView NNM, 1-july-99 ###############

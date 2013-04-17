@@ -112,7 +112,6 @@ function umount_url {
             $umount_cmd
             StopIfError "Unmounting failed."
 
-            RemoveExitTask "umount -f $v '$mountpoint' >&2"
             return 0
             ;;
     esac
@@ -145,3 +144,21 @@ function umount_mountpoint {
     Log "Unmounting '$mountpoint' failed."
     return 1
 }
+
+function CopyFilesAccordingOutputUrl {
+    # check if OUTPUT_URL variable has been defined
+    [[ -z "$OUTPUT_UTL" ]] && return 0
+    local temp_mntpt
+    temp_mntpt=$(mktemp -d /tmp -p cfg2html_${MASTER_PID})
+    mkdir -m 755 -p $temp_mntpt
+    target_dir="$temp_mntpt/cfg2html/$(hostname)"
+    mount_url "$OUTPUT_URL" $temp_mntpt
+    [[ ! -d $target_dir ]] && mkdir -m 755 -p $target_dir
+    cp $HTML_OUTFILE $target_dir
+    LogIfError "Could not copy $HTML_OUTFILE to remote $target_dir directory"
+    cp $TEXT_OUTFILE $target_dir
+    cp $ERROR_LOG $target_dir
+    chmod 644 $target_dir/*
+    umount_url "$OUTPUT_URL" $temp_mntpt
+}
+

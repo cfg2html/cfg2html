@@ -78,7 +78,7 @@ RETCODE=$?
 if [ $RETCODE -eq 0 ]
 then
 	# Customize this to fit your needs! copy logs e.g. to a FTP server
-        :
+        CopyFilesAccordingOutputUrl
 else
 	echo "Error ($0): Returncode=$RETCODE"
 fi
