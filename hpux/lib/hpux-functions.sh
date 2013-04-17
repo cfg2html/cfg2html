@@ -163,7 +163,7 @@ function get_LIF {
 function JetDirect {
     echo "JetDirect-\c"; cat /opt/hpnpl/version
     echo "\nJetDirect executable"
-    /opt/hpnpl/bin/hpnpadmin
+    what /opt/hpnpl/bin/hpnpadmin
 }
 
 function JetAdmin {
