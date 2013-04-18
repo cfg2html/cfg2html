@@ -5,8 +5,8 @@ function open_html {
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
 	<HTML> <HEAD>
 	<META NAME="GENERATOR" CONTENT="Selfmade-$VERSION">
-	<META NAME="AUTHOR" CONTENT="Ralph Roth, Michael Meifert, Jeroen Kleen">
-	<META NAME="CREATED" CONTENT="Ralph Roth, Michael Meifert, Jeroen Kleen">
+	<META NAME="AUTHOR" CONTENT="Ralph Roth, Gratien D'haese, Michael Meifert, Jeroen Kleen">
+	<META NAME="CREATED" CONTENT="Ralph Roth, Gratien D'haese, Michael Meifert, Jeroen Kleen">
 	<META NAME="CHANGED" CONTENT="`id;date` ">
 	<META NAME="DESCRIPTION" CONTENT="Config to HTML (cfg2html for Linux)">
 	<META NAME="subject" CONTENT="$VERSION on $RECHNER by $MAILTO and $MAILTORALPH">
@@ -46,7 +46,8 @@ function open_html {
 
     (line
       echo
-      _banner $RECHNER
+      _# banner $RECHNER ## ./linux/lib/html-functions.sh: line 49: _banner: command not found # changed 20130418 by Ralph Roth
+      echo $RECHNER
       echo
     line) > $TEXT_OUTFILE
     _echo  "\n" >> $TEXT_OUTFILE
