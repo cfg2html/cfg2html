@@ -45,7 +45,7 @@ shift $(($OPTIND - 1))
 
 typeset -i HEADL=0                       # Headinglevel, Original=0
 
-echo "\n"
+_echo "\n"
 
 #####################################################################
 #         Check that you are running the script as root user
@@ -68,9 +68,9 @@ exec 2> $ERROR_LOG
 
 if [ ! -f $HTML_OUTFILE ]  ;
 then
-    banner "Error"
+    Banner "Error"
     line
-    echo "You have not the rights to create the file $HTML_OUTFILE! (NFS?)\n"
+    _echo "You have not the rights to create the file $HTML_OUTFILE! (NFS?)\n"
     exit 6
 fi
 
@@ -83,11 +83,11 @@ fi
 
 if [ "$osrev100" -lt 1111 ]
 then
-    banner "Sorry"
+    Banner "Sorry"
     line
-    echo "$0: Requires HP-UX 11.11 or better! Use the 3.xx stream instead for $osrevdot\n"
-    echo "WARNING! HP-UX 10.xx and 11.00 is obsolete, cfg2html may not work as supposed!"
-    echo "Do not ask for a HP-UX 9.xx port - we never will port it back!"
+    _echo "$0: Requires HP-UX 11.11 or better! Use the 3.xx stream instead for $osrevdot\n"
+    _echo "WARNING! HP-UX 10.xx and 11.00 is obsolete, cfg2html may not work as supposed!"
+    _echo "Do not ask for a HP-UX 9.xx port - we never will port it back!"
     exit 7
 # else
     # supported OS :)
@@ -1305,7 +1305,10 @@ then # else skip to next paragraph
     [ -f /sbin/init.d/samba ] && exec_command "ps -ef | grep -e swat -e smb -e nmb|grep -v grep" "Samba Demons"
     
     ########### OpenView, OV, OpC etc. #################
-    [ -x /opt/OV/bin/OpC/opcagt ] && exec_command "/opt/OV/bin/OpC/opcagt -status -version 2>&1" "HP OpenView Operations Agent Status"
+    [ -x /opt/OV/bin/OpC/opcagt ] && {
+    exec_command "/opt/OV/bin/OpC/opcagt -version" "HP OpenView Operations Agent Version"
+    exec_command "/opt/OV/bin/OpC/opcagt -status 2>&1" "HP OpenView Operations Agent Status"
+    }
     #  21.01.2005, 12:47 modified by Ralph.Roth
     [ -x /opt/OV/bin/OpC/install/opclic ] && exec_command "/opt/OV/bin/OpC/install/opclic -list" "HP OpenView IT/Operations license"
     ############ OpenView NNM, 1-july-99 ###############
@@ -1410,6 +1413,11 @@ then # else skip to next paragraph
         
     fi
     
+    ### NetBackup Section ####################################################################
+    # Reserve server part
+
+
+
     # first try to spot DataProtector crashes reported by Stefan Gehring
     if [ -x /opt/omni/lbin/bma ]
     then
@@ -1421,6 +1429,12 @@ then # else skip to next paragraph
         exec_command "cat /etc/opt/omni/cell/cell_server" "DataProtector II Cell Server"
         exec_command "cat /etc/opt/omni/cell/omni_info" "Installed DataProtector Instances"
     fi
+
+    ### NetBackup Section ####################################################################
+        # Reserve client part
+
+
+
     ###########################################################################
     
     [ -r /etc/my.cnf ] && exec_command "grepand_grep /etc/my.cnf" "MySQL Settings"    #  15.02.2008, 13:30 modified by Ralph Roth
@@ -1447,7 +1461,7 @@ then # else skip to next paragraph
         dec_heading_level
     fi
     #### TIP/ix, 30.06.99 #####################################################
-    # a hack using absoulte paths/names, change accordingly!
+    # a hack using absolute paths/names, change accordingly!
     
     if [ "$(grep 'tipadm' /etc/passwd)" != "" ] ; then
         paragraph "TIP/ix"
