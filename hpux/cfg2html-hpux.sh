@@ -972,7 +972,9 @@ then # else skip to next paragraph
     [ -d /usr/lib/security ] && exec_command "ll /usr/lib/security" "Files in /usr/lib/security (PAM Kerberos)"
     [ -r /etc/pam.conf ] && cat_and_grep "/etc/pam.conf" "PAM Configuration"
     [ -r /etc/krb5.conf ] && cat_and_grep "/etc/krb5.conf" "Kerberos 5 Configuration"
-    [ -r /etc/krb5.keytab ] && cat_and_grep "/etc/krb5.keytab" "Kerberos 5 Keytab Configuration"
+    [ -r /etc/krb5.keytab ] && {
+	 [ -x /usr/sbin/ktutil ] && exec_command "echo \"rkt /etc/krb5.keytab \\n l -e \\n q\" | ktutil" "Kerberos 5 Keytab Configuration"
+	}
     
     cat_and_grep "/etc/services" "Internet Daemon Services"
     
