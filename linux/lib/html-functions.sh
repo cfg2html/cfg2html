@@ -46,8 +46,8 @@ function open_html {
 
     (line
       echo
-      _# banner $RECHNER ## ./linux/lib/html-functions.sh: line 49: _banner: command not found # changed 20130418 by Ralph Roth
-      echo $RECHNER
+      _banner $RECHNER
+      #echo $RECHNER
       echo
     line) > $TEXT_OUTFILE
     _echo  "\n" >> $TEXT_OUTFILE
