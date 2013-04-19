@@ -213,8 +213,8 @@ function extract_xpinfo_i {
    #device_file; target_id; LUN_id; port_id; CU:LDev; type; device_size; serial#; code_rev; subsystem; CT_group; CA_vol; BC0_vol; BC1_vol; BC2_vol; ACP_pair; RAID_level; RAID_group; disk1; disk2; disk3; disk4; model; port_WWN; ALPA; FC-AL Loop Id; SCSI Id; FC-LUN Id
    # for xpinfo -i we need:
    # device_file  ALPA  target_id  LUN_id  port_id   CU:LDev  type  serial#
-   local CSVfile=$1
-   local outf=$2
+   typeset CSVfile=$1
+   typeset outf=$2
    [[ ! -f $CSVfile ]] && {
        echo "Error: xpinfo -i (did not find input file $CSVfile)"
        exit 1
@@ -231,8 +231,8 @@ function extract_xpinfo_i {
 
 function extract_my_xpinfo {
    # arg1: xpinfo CSV file, arg2: output should look like 'xpinfo -i' with VG/Lvol info and VGsize
-   local CSVfile=$1
-   local outf=$2
+   typeset CSVfile=$1
+   typeset outf=$2
    cat > $outf <<-EOF
 	Device File        Tgt Lun Port CU:LDev Type       Size MB   Sn# VG - DG
 	============================================================================
@@ -249,8 +249,8 @@ function extract_xpinfo_c {
    #device_file; target_id; LUN_id; port_id; CU:LDev; type; device_size; serial#; code_rev; subsystem; CT_group; CA_vol; BC0_vol; BC1_vol; BC2_vol; ACP_pair; RAID_level; RAID_group; disk1; disk2; disk3; disk4; model; port_WWN; ALPA; FC-AL Loop Id; SCSI Id; FC-LUN Id
    # for xpinfo -c  we need:
    # device_file  subsys  CT group   CA Vol   BC Volumes MU#0 MU#1 MU#2
-   local CSVfile=$1
-   local outf=$2
+   typeset CSVfile=$1
+   typeset outf=$2
    [[ ! -f $CSVfile ]] && {
        echo "Error: xpinfo -i (did not find input file $CSVfile)"
        exit 1
@@ -272,8 +272,8 @@ function extract_xpinfo_r {
     # for xpinfo -r  we need:
     # device_file   ACP Pair   Raid Level  RAID type  Raid group   disk Mechanisms
     # FIXME: RAID Type is pointing to which field in the CSV file?? I use now "---" as a replacement
-    local CSVfile=$1
-    local outf=$2
+    typeset CSVfile=$1
+    typeset outf=$2
     cat > $outf <<-EOF
 	                         ACP       RAID   RAID   RAID                      Disk
 	Device File              Pair      Level  Type   Group                     Mechanisms

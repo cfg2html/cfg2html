@@ -1301,7 +1301,7 @@ then # else skip to next paragraph
     [ -x /opt/samba/bin/findsmb ] && exec_command "/opt/samba/bin/findsmb" "Samba Neighbourhood"
     ## [ -x /opt/samba/bin/smbd ] && exec_command "/opt/samba/bin/smbd -V" "Samba version"
     [ -x /opt/samba/bin/smbstatus ] && exec_command "/opt/samba/bin/smbstatus 2>/dev/null" "Samba (smbstatus)"
-    [ -x /opt/samba/bin/testparm ] && exec_command "/opt/samba/bin/testparm -s" "Samba Configuration"
+    [ -x /opt/samba/bin/testparm ] && exec_command "/opt/samba/bin/testparm -s 2>&1" "Samba Configuration"
     [ -x /opt/samba/bin.org/testparm ] && exec_command "/opt/samba/bin.org/testparm -s" "Samba Configuration (bin.org)" ## ????
     [ -f /sbin/init.d/samba ] && exec_command "ps -ef | grep -e swat -e smb -e nmb|grep -v grep" "Samba Demons"
     
