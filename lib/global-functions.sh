@@ -147,7 +147,7 @@ function umount_mountpoint {
 
 function CopyFilesAccordingOutputUrl {
     # check if OUTPUT_URL variable has been defined
-    [[ -z "$OUTPUT_UTL" ]] && return 0
+    [[ -z "$OUTPUT_URL" ]] && return 0
     local temp_mntpt
     temp_mntpt=$(mktemp -d /tmp -p cfg2html_${MASTER_PID})
     mkdir -m 755 -p $temp_mntpt
