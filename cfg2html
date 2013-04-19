@@ -1,6 +1,9 @@
-############################################################################
+# @(#) $Id:$
+# -------------------------------------------------------------------------
 # CFG2HTML - license
+# -------------------------------------------------------------------------
 #
+
 PRGNAME=$0
 args=$@
 
@@ -36,8 +39,8 @@ LANG_ALL="C"
 LC_MESSAGE="C"
 
 # initialize defaults
-TMP_DIR="/tmp/cfg2html.$$"
-SHARE_DIR="/usr/share/$PROGRAM"   # final location of script and sub-dirs (containing scripts/functions)
+TMP_DIR="/tmp/cfg2html.$$"		# maybe we better use mktemp ?? RR
+SHARE_DIR="/usr/share/$PROGRAM"   	# final location of script and sub-dirs (containing scripts/functions)
 CONFIG_DIR="/etc/$PROGRAM"
 VAR_DIR="/var/log/$PROGRAM"
 
