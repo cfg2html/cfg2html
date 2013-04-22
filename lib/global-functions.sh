@@ -47,7 +47,7 @@ function mount_url {
             ;;
         (var)
             ### The mount command is given by variable in the url host
-            local var=$(url_host $url)
+            var=$(url_host $url)
             mount_cmd="${!var} $mountpoint"
             ;;
         (cifs)
@@ -88,7 +88,7 @@ function umount_url {
 	    umount_cmd="fusermount -u $mountpoint"
 	    ;;
         (var)
-            local var=$(url_host $url)
+            var=$(url_host $url)
             umount_cmd="${!var} $mountpoint"
 
             Log "Unmounting with '$umount_cmd'"

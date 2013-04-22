@@ -3,7 +3,7 @@ function line {
 }
 
 function _banner {
-    local txt="$*"
+    typeset txt="$*"
     BANNER_EXE=$(which banner 2>/dev/null)
     [[ -z "$BANNER_EXE" ]] && BANNER_EXE=echo
     $BANNER_EXE "$txt"
