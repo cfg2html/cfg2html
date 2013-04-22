@@ -13,51 +13,33 @@ function read_and_strip_file {
 ######
 
 function url_scheme {
-    local url=$1
-    local scheme=${url%%://*}
+    url=$1
+    scheme=${url%%://*}
     # rsync scheme does not have to start with rsync:// it can also be scp style
     echo $scheme | grep -q ":" && echo rsync || echo $scheme
 }
 
 function url_host {
-    local url=$1
-    local host=${url#*//}
+    url=$1
+    host=${url#*//}
     echo ${host%%/*}
 }
 
 function url_path {
-    local url=$1
-    local path=${url#*//}
+    url=$1
+    path=${url#*//}
     echo /${path#*/}
 }
 
-function output_path {
-    local scheme=$1
-    local path=$2
-    case $scheme in
-       (tape)  # no path for tape required
-           path=""
-           ;;
-       (file)  # type file needs a local path (must be mounted by user)
-           path="$path/${OUTPUT_PREFIX}"
-           ;;
-       (*)     # nfs, cifs, usb, a.o. need a temporary mount-path 
-           path="${BUILD_DIR}/outputfs/${OUTPUT_PREFIX}"
-           ;;
-    esac
-    echo "$path"
-}
-
-
 ### Mount URL $1 at mountpoint $2[, with options $3]
 function mount_url {
-    local url=$1
-    local mountpoint=$2
-    local defaultoptions="rw,noatime"
-    local options=${3:-"$defaultoptions"}
+    url=$1
+    mountpoint=$2
+    defaultoptions="rw"
+    options=${3:-"$defaultoptions"}
 
     ### Generate a mount command
-    local mount_cmd
+    mount_cmd=""
     case $(url_scheme $url) in
         (tape|file|rsync|fish|ftp|ftps|hftp|http|https|sftp)
             ### Don't need to mount anything for these
@@ -82,7 +64,8 @@ function mount_url {
 	    mount_cmd="sshfs $(url_host $url):$(url_path $url) $mountpoint -o $options"
 	    ;; 
         (*)
-            mount_cmd="mount $v -t $(url_scheme $url) -o $options $(url_host $url):$(url_path $url) $mountpoint"
+            #mount_cmd="mount $v -t $(url_scheme $url) -o $options $(url_host $url):$(url_path $url) $mountpoint"
+            mount_cmd="mount $v -o $options $(url_host $url):$(url_path $url) $mountpoint"
             ;;
     esac
 
@@ -93,8 +76,8 @@ function mount_url {
 
 ### Unmount url $1 at mountpoint $2
 function umount_url {
-    local url=$1
-    local mountpoint=$2
+    url=$1
+    mountpoint=$2
 
     case $(url_scheme $url) in
         (tape|file|rsync|fish|ftp|ftps|hftp|http|https|sftp)
@@ -122,7 +105,7 @@ function umount_url {
 
 ### Unmount mountpoint $1
 function umount_mountpoint {
-    local mountpoint=$1
+    mountpoint=$1
 
     ### First, try a normal unmount,
     Log "Unmounting '$mountpoint'"
@@ -147,8 +130,7 @@ function umount_mountpoint {
 
 function CopyFilesAccordingOutputUrl {
     # check if OUTPUT_URL variable has been defined
-    [[ -z "$OUTPUT_UTL" ]] && return 0
-    local temp_mntpt
+    [[ -z "$OUTPUT_URL" ]] && return 0
     temp_mntpt=$(mktemp -d /tmp -p cfg2html_${MASTER_PID})
     mkdir -m 755 -p $temp_mntpt
     target_dir="$temp_mntpt/cfg2html/$(hostname)"
@@ -160,5 +142,6 @@ function CopyFilesAccordingOutputUrl {
     cp $ERROR_LOG $target_dir
     chmod 644 $target_dir/*
     umount_url "$OUTPUT_URL" $temp_mntpt
+    rmdir -f $temp_mntpt
 }
 

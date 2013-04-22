@@ -58,6 +58,7 @@ MYPATH=$(dirname $0)
 # source of configuration file(s) - important: treat these as scripts
 [[ -f $CONFIG_DIR/default.conf ]] && . $CONFIG_DIR/default.conf
 # source you own configuration file which overrides settings in the default.conf
+# in the local.conf you could define OUTPUT_URL setings
 [[ -f $CONFIG_DIR/local.conf ]] && . $CONFIG_DIR/local.conf
 
 # include functions
@@ -67,15 +68,6 @@ done
 
 # source the main program, e.g. cfg2html-hpux.sh
 . $BASE_DIR/${PROGRAM}-${OS}.sh
-
-
-# Maybe this redundant and we should use $OPTION=-x in the case statement above
-#case $OS in
-#   hpux)    ${SCRIPT} ${*} -0 -o/tmp ;;
-#   linux)    ${SCRIPT} ${*} -A -P  ;;
-#    *)        echo "$0: Yet unsupported operating system!"; exit 2 ;;
-#esac
-
 RETCODE=$?
 
 if [ $RETCODE -eq 0 ]

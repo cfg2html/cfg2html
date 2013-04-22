@@ -932,8 +932,9 @@ then # else skip to next paragraph
     [ $osrev -gt 10 ] && exec_command "$PLUGINS/get_lan_desc.sh" "NIC Description"
     LANG_C ## 11.31 fixes
     PERL=$(which perl 2>/dev/null)
-    [ -x "$PERL" ] && exec_command "$PERL $PLUGINS/qlan.pl" "NIC Overview" # (opt?)
-    [ -x "$PERL" ] && exec_command "$PERL $PLUGINS/qlan.pl -v" "NIC Details"
+    # qlan.pl has been removed (issue #1)
+    #[ -x "$PERL" ] && exec_command "$PERL $PLUGINS/qlan.pl" "NIC Overview" # (opt?)
+    #[ -x "$PERL" ] && exec_command "$PERL $PLUGINS/qlan.pl -v" "NIC Details"
     
     cat_and_grep "/etc/rc.config.d/netconf" "Netconf Settings"
     [ -r /etc/rc.config.d/hp_apaconf ] &&  exec_command "(cat_and_grep /etc/rc.config.d/hp_apa*conf);echo LanScan -q:;lanscan -q" "Autoport Aggregation"
@@ -971,7 +972,9 @@ then # else skip to next paragraph
     [ -d /usr/lib/security ] && exec_command "ll /usr/lib/security" "Files in /usr/lib/security (PAM Kerberos)"
     [ -r /etc/pam.conf ] && cat_and_grep "/etc/pam.conf" "PAM Configuration"
     [ -r /etc/krb5.conf ] && cat_and_grep "/etc/krb5.conf" "Kerberos 5 Configuration"
-    [ -r /etc/krb5.keytab ] && cat_and_grep "/etc/krb5.keytab" "Kerberos 5 Keytab Configuration"
+    [ -r /etc/krb5.keytab ] && {
+	 [ -x /usr/sbin/ktutil ] && exec_command "echo \"rkt /etc/krb5.keytab \\n l -e \\n q\" | ktutil" "Kerberos 5 Keytab Configuration"
+	}
     
     cat_and_grep "/etc/services" "Internet Daemon Services"
     
@@ -1300,7 +1303,7 @@ then # else skip to next paragraph
     [ -x /opt/samba/bin/findsmb ] && exec_command "/opt/samba/bin/findsmb" "Samba Neighbourhood"
     ## [ -x /opt/samba/bin/smbd ] && exec_command "/opt/samba/bin/smbd -V" "Samba version"
     [ -x /opt/samba/bin/smbstatus ] && exec_command "/opt/samba/bin/smbstatus 2>/dev/null" "Samba (smbstatus)"
-    [ -x /opt/samba/bin/testparm ] && exec_command "/opt/samba/bin/testparm -s" "Samba Configuration"
+    [ -x /opt/samba/bin/testparm ] && exec_command "/opt/samba/bin/testparm -s 2>&1" "Samba Configuration"
     [ -x /opt/samba/bin.org/testparm ] && exec_command "/opt/samba/bin.org/testparm -s" "Samba Configuration (bin.org)" ## ????
     [ -f /sbin/init.d/samba ] && exec_command "ps -ef | grep -e swat -e smb -e nmb|grep -v grep" "Samba Demons"
     

@@ -2,7 +2,7 @@ function line {
     echo "--=[ http://www.cfg2html.com ]=---------------------------------------------"
 }
 
-function Banner {
+function _banner {
     local txt="$*"
     BANNER_EXE=$(which banner 2>/dev/null)
     [[ -z "$BANNER_EXE" ]] && BANNER_EXE=echo
