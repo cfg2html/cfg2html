@@ -37,7 +37,7 @@ function usage {
 
     echo  "\n(#) these collectors create a lot of information!"
     echo  "(*) collector not included into this package!"
-    echo  "Example:  ./cfg2html_hpux.sh -ALbt -o/tmp/hp \t to collect EVERYTHING"
+    echo  "Example:  /usr/sbin/cfg2html -AL -o /tmp/hp \t to collect EVERYTHING"
     echo  "A shell wrapper with handy options is included into this distribution, "
-    echo  "simply try: cfg2html  (calls cfg2html_hpux.sh -0 -o/tmp)"
+    echo  "simply try: cfg2html  (calls cfg2html_hpux.sh -o /var/log/cfg2html)"
 }
