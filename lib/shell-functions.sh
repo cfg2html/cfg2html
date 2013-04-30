@@ -3,7 +3,7 @@ function line {
 }
 
 function _banner {
-    local txt="$*"
+    typeset txt="$*"
     BANNER_EXE=$(which banner 2>/dev/null)
     [[ -z "$BANNER_EXE" ]] && BANNER_EXE=echo
     $BANNER_EXE "$txt"
@@ -31,7 +31,7 @@ function check_plugins_dir {
 
 function create_dirs {
     [[ ! -d $OUTDIR ]] && mkdir -p -m 755 $OUTDIR
-    [[ ! -d $VAR_DIR ]] && mkdir -p -m 755 $VAR_DIR
+    #[[ ! -d $VAR_DIR ]] && mkdir -p -m 755 $VAR_DIR
     [[ ! -d $TMP_DIR ]] && mkdir -p -m 755 $TMP_DIR
 }
 

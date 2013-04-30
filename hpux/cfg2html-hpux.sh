@@ -24,7 +24,7 @@ do
         k     ) CFG_KERNEL="no";;
         l     ) CFG_LVM="no";;
         n     ) CFG_NETWORK="no";;
-        o     ) OUTDIR=$OPTARG; mkdir -p $OUTDIR;;	## OPTARG ##
+        o     ) OUTDIR=$OPTARG;;	## OPTARG ##
         s     ) CFG_SYSTEM="no";;
         t     ) CFG_TGV="yes";;         ## obsolete, remove in 6.xx stream!
         v     ) echo $PROGRAM $VERSION"//"$(uname -mrs); exit 13;;
@@ -52,10 +52,13 @@ _echo "\n"
 #####################################################################
 check_root
 
+# define the HTML_OUTFILE, ERRORFILE
+define_outfile
+
 ######### Check if /plugin dir is there #############################
 check_plugins_dir
 
-# create our VAR_DIR, OUTDIR bedore we continue
+# create our VAR_DIR, OUTDIR before we continue
 create_dirs
 
 # create a lock file
@@ -68,7 +71,7 @@ exec 2> $ERROR_LOG
 
 if [ ! -f $HTML_OUTFILE ]  ;
 then
-    Banner "Error"
+    _banner "Error"
     line
     _echo "You have not the rights to create the file $HTML_OUTFILE! (NFS?)\n"
     exit 6
@@ -83,7 +86,7 @@ fi
 
 if [ "$osrev100" -lt 1111 ]
 then
-    Banner "Sorry"
+    _banner "Sorry"
     line
     _echo "$0: Requires HP-UX 11.11 or better! Use the 3.xx stream instead for $osrevdot\n"
     _echo "WARNING! HP-UX 10.xx and 11.00 is obsolete, cfg2html may not work as supposed!"
@@ -120,6 +123,9 @@ echo "Path to plug-ins  "$PLUGINS "Arch=$CFG_ARCH"
 echo "HTML Output File  "$HTML_OUTFILE
 echo "Text Output File  "$TEXT_OUTFILE
 echo "Errors logged to  "$ERROR_LOG
+[[ -f $CONFIG_DIR/local.conf ]] && {
+    echo "Local config      "$CONFIG_DIR/local.conf
+    }
 echo "Started at        "$DATEFULL
 echo "Command line used "$CFG_CMDLINE
 if [ "$CFG_DIAG" = "yes" ] ; then
@@ -890,6 +896,8 @@ then # else skip to next paragraph
         }
         
         exec_command PVDisplay "Physical Devices used for LVM"
+	exec_command "$PLUGINS/get_disk_data.sh" "Physical Devices used by Volume Group"
+
         exec_command get_LIF "Boot Information/LIF"
         AddText "To get the current installed ODE version execute: lifls -l /usr/sbin/diag/lif/updatediaglif2 on 64 bit systems"
         cat_and_grep "/stand/bootconf" "Boot Device Configuration Table"
@@ -1617,4 +1625,3 @@ rm -f core > /dev/null
 ########## remove the error.log if it has size zero #######################
 [ ! -s "$ERROR_LOG" ] && rm -f $ERROR_LOG 2> /dev/null
 
-exit 0          # else return code is rm/test of above

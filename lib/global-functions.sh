@@ -1,6 +1,16 @@
 # global-functions.sh
 #
 
+function define_outfile {
+    BASEFILE=$(hostname||uname -n)$CFG_DATE     # 26.01.2001, 13.05.2006  uname -n
+    # echo $OUTDIR                  # 26.05.2003, rar
+    HTML_OUTFILE=$OUTDIR/$BASEFILE.html
+    HTML_OUTFILE_TEMP=$TMP_DIR/$BASEFILE.html.$$
+    TEXT_OUTFILE=$OUTDIR/$BASEFILE.txt
+    TEXT_OUTFILE_TEMP=$TMP_DIR/$BASEFILE.txt.$$
+    ERROR_LOG=$OUTDIR/$BASEFILE.err
+}
+
 function read_and_strip_file {
 # extracts content from config files. In other words: strips the comments and new lines
 	if test -s "$1" ; then
@@ -47,7 +57,7 @@ function mount_url {
             ;;
         (var)
             ### The mount command is given by variable in the url host
-            local var=$(url_host $url)
+            var=$(url_host $url)
             mount_cmd="${!var} $mountpoint"
             ;;
         (cifs)
@@ -88,7 +98,7 @@ function umount_url {
 	    umount_cmd="fusermount -u $mountpoint"
 	    ;;
         (var)
-            local var=$(url_host $url)
+            var=$(url_host $url)
             umount_cmd="${!var} $mountpoint"
 
             Log "Unmounting with '$umount_cmd'"

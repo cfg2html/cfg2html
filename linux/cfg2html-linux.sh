@@ -98,6 +98,9 @@ echo "" # should be a newline, more portable? # rar, 20121230
 ## test if user = root
 check_root
 
+# define the HTML_OUTFILE, TEXT_OUTFILE, ERROR_LOG
+define_outfile
+
 #
 if [ ! -d $OUTDIR ] ; then
   echo "can't create $HTML_OUTFILE, $OUTDIR does not exist - stop"
@@ -149,6 +152,10 @@ echo "HTML Output File  "$HTML_OUTFILE
 echo "Text Output File  "$TEXT_OUTFILE
 echo "Partitions        "$OUTDIR/$BASEFILE.partitions.save
 echo "Errors logged to  "$ERROR_LOG
+[[ -f $CONFIG_DIR/local.conf ]] && {
+    echo "Local config      "$CONFIG_DIR/local.conf
+    }
+
 echo "Started at        "$DATEFULL
 echo "WARNING           USE AT YOUR OWN RISK!!! :-))           <<<<<"
 line

@@ -69,13 +69,15 @@ done
 # source the main program, e.g. cfg2html-hpux.sh
 . $BASE_DIR/${PROGRAM}-${OS}.sh
 RETCODE=$?
+ 
+# define OUTPUT_URL in your local.conf file
+CopyFilesAccordingOutputUrl
 
 if [ $RETCODE -eq 0 ]
 then
-	# Customize this to fit your needs! copy logs e.g. to a FTP server
-        CopyFilesAccordingOutputUrl
+	echo "No errors reported."
 else
-	echo "Error ($0): Returncode=$RETCODE"
+	echo "Returncode=$RETCODE (see $ERROR_LOG)"
 fi
 
 # cleanup
