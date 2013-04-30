@@ -1,3 +1,5 @@
+# @(#) $Id:$
+# -------------------------------------------------------------------------
 # input-output-functions.sh
 #
 
@@ -66,7 +68,7 @@ function Debug {
 }
 
 function Print {
-	test "$VERBOSE" && _echo "$*" 
+	test "$VERBOSE" && _echo "$*"
 }
 
 # print if there is an error

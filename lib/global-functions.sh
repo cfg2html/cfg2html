@@ -1,3 +1,5 @@
+# @(#) $Id:$
+# -------------------------------------------------------------------------
 # global-functions.sh
 #
 
@@ -72,7 +74,7 @@ function mount_url {
             ;;
 	(sshfs)
 	    mount_cmd="sshfs $(url_host $url):$(url_path $url) $mountpoint -o $options"
-	    ;; 
+	    ;;
         (*)
             #mount_cmd="mount $v -t $(url_scheme $url) -o $options $(url_host $url):$(url_path $url) $mountpoint"
             mount_cmd="mount $v -o $options $(url_host $url):$(url_path $url) $mountpoint"

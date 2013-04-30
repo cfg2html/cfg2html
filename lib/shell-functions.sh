@@ -1,3 +1,8 @@
+# @(#) $Id:$
+# -------------------------------------------------------------------------
+# common shell functions for all versions
+
+
 function line {
     echo "--=[ http://www.cfg2html.com ]=---------------------------------------------"
 }
@@ -18,6 +23,7 @@ function check_root {
     fi
 }
 
+# only valid for the HP-UX version!
 function check_plugins_dir {
     if [ ! -x $PLUGINS/get_ministat.sh ]; then
         line
@@ -64,6 +70,7 @@ function cat_and_grep {
     exec_command "awk 'NF && ! /^[[:space:]]*#/' $1" "$2"
 }
 
+# currently not used
 function KillOnHang {
     # Schedule a job for killing commands which may hang under special conditions
     #  Argument 1: regular expression to search process list for
@@ -76,6 +83,7 @@ function KillOnHang {
     rm -f $TMP_KILL_OUTPUT
 }
 
+# currently not used
 function CancelKillOnHang {
     # You should always match a KillOnHang() call with a matching call
     # to this function immediately after the command which could hang
@@ -90,6 +98,7 @@ function LANG_C {
     export LANG LANG_ALL LC_MESSAGE
 }
 
+# needs maybe a workaround for strange "echo -e" output on f.e. Ubuntu 12.04
 function _echo {
     case $OS in
         linux|darwin) arg="-e " ;;
