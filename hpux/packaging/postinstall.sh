@@ -1,4 +1,6 @@
 #!/bin/sh
+# @(#) $Id:$
+# -------------------------------------------------------------------------
 # cfg2html postinstall script
 
 # keep a copy of previous active crontab file

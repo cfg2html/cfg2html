@@ -1,4 +1,8 @@
 #/bin/sh
+
+# @(#) $Id:$
+# -------------------------------------------------------------------------
+
 TMP_PREFIX=/var/tmp/get_disk_data-$$-
 TMP_DEV_LUN=${TMP_PREFIX}DEV_LUN
 TMP_DEV_VG=${TMP_PREFIX}DEV_VG
@@ -48,7 +52,7 @@ function ioscan_11i {
 os_rel=$(uname -r)
 case $os_rel in
     B.11.11|B.11.23) ioscan_11i ;;
-    B.11.31) ioscan_1131 ;; 
+    B.11.31) ioscan_1131 ;;
 esac
 
 # cleanup

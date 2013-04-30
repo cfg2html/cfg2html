@@ -2,6 +2,9 @@
 # Version Info : @(#)cfg2html.psf      1.0   25/Apr/2013
 ################################################################################
 
+# @(#) $Id:$
+# -------------------------------------------------------------------------
+
 # Version history:
 # 1.0: gdhaese1 - 25/Apr/2013 - initial psf file
 #
@@ -47,7 +50,7 @@ product
 	description cfg2html shared scripts
 
 	directory . = /usr/share/cfg2html
-	file -m 750 -o root -g sys cfg2html-hpux.sh 
+	file -m 750 -o root -g sys cfg2html-hpux.sh
 
 	directory ./plugins = /usr/share/cfg2html/plugins
 	file -m 755 -o root -g sys VxVM_collect.sh
