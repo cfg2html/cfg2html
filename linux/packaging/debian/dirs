@@ -1,3 +1,4 @@
-usr/bin
+usr/sbin
 usr/share/man/man8
 etc/cfg2html
+var/log/cfg2html

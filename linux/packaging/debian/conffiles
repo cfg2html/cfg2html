@@ -1,3 +1,5 @@
+/etc/cfg2html/default.conf
+/etc/cfg2html/local.conf
 /etc/cfg2html/files
 /etc/cfg2html/systeminfo
 /etc/cfg2html/plugins
