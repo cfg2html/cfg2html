@@ -1,3 +1,6 @@
+# @(#) $Id:$
+# -------------------------------------------------------------------------
+
 product = cfg2html
 psf_file = packaging/$(product).psf
 depot_dir = /tmp/$(product).depot.dir
