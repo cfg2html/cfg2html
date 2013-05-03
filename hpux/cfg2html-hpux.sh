@@ -1448,7 +1448,7 @@ then # else skip to next paragraph
 
     ###########################################################################
     
-    [ -r /etc/my.cnf ] && exec_command "grepand_grep /etc/my.cnf" "MySQL Settings"    #  15.02.2008, 13:30 modified by Ralph Roth
+    [ -r /etc/my.cnf ] && exec_command "cat_and_grep /etc/my.cnf" "MySQL Settings"    #  15.02.2008, 13:30 modified by Ralph Roth
     
     ###########################################################################
     if [ -f /etc/oratab ]
