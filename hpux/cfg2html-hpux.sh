@@ -854,10 +854,7 @@ then # else skip to next paragraph
         exec_command $PLUGINS/dumplvmtab.hppa "LVM Tab Dump"
         exec_command "vgdisplay -v" "Detailed Volumegroups"
         exec_command "ll /dev/*/group|sort -k 6" "VG Group Device Files" # { changed/added 25.02.2004 (11:04) by Ralph Roth }
-        if [ "$osrev100" -lt 1131 ]
-        then
-            exec_command "vgdisplay -v |grep Name | $PLUGINS/pvgfilter.$CFG_ARCH" "Physical Volume Group Filter"
-        fi
+        exec_command "$PLUGINS/pvgfilter.sh" "Physical Volume Group Filter"
         [ -r /etc/lvmpvg ] && exec_command "cat /etc/lvmpvg" "LVM Physical Volume Group Information (/etc/lvmpvg)"
         cat_and_grep "/etc/lvmrc" "Auto VG Activation (/etc/lvmrc)"
         # Boot device no longer has to be named vg00  (KL 26.10.11)
