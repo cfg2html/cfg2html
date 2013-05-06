@@ -129,15 +129,15 @@ install-config:
 	@echo -e "\033[1m== Installing configuration ==\033[0;0m"
 	install -d -m0700 $(DESTDIR)$(sysconfdir)/cfg2html/
 	-[[ ! -e $(DESTDIR)$(sysconfdir)/cfg2html/default.conf ]] && \
-		install -Dp -m0600 etc/cfg2html/default.conf $(DESTDIR)$(sysconfdir)/cfg2html/default.conf
+		install -Dp -m0600 conf/default.conf $(DESTDIR)$(sysconfdir)/cfg2html/default.conf
 	-[[ ! -e $(DESTDIR)$(sysconfdir)/cfg2html/local.conf ]] && \
-		install -Dp -m0600 etc/cfg2html/local.conf $(DESTDIR)$(sysconfdir)/cfg2html/local.conf
+		install -Dp -m0600 conf/local.conf $(DESTDIR)$(sysconfdir)/cfg2html/local.conf
 	-[[ ! -e $(DESTDIR)$(sysconfdir)/cfg2html/plugins ]] && \
-		install -Dp -m0600 etc/cfg2html/plugins $(DESTDIR)$(sysconfdir)/cfg2html/plugins
+		install -Dp -m0600 plugins $(DESTDIR)$(sysconfdir)/cfg2html/plugins
 	-[[ ! -e $(DESTDIR)$(sysconfdir)/cfg2html/systeminfo ]] && \
-		install -Dp -m0600 etc/cfg2html/systeminfo $(DESTDIR)$(sysconfdir)/cfg2html/systeminfo
+		install -Dp -m0600 systeminfo $(DESTDIR)$(sysconfdir)/cfg2html/systeminfo
 	-[[ ! -e $(DESTDIR)$(sysconfdir)/cfg2html/files ]] && \
-		install -Dp -m0600 etc/cfg2html/files $(DESTDIR)$(sysconfdir)/cfg2html/files
+		install -Dp -m0600 files $(DESTDIR)$(sysconfdir)/cfg2html/files
 	-find $(DESTDIR)$(sysconfdir)/cfg2html/ -name '.gitignore' -exec rm -rf {} \; &>/dev/null
 
 install-bin:
@@ -183,13 +183,15 @@ dist: clean validate man rewrite $(name)-$(distversion).tar.gz restore
 
 $(name)-$(distversion).tar.gz:
 	@echo -e "\033[1m== Building archive $(name)-$(distversion) ==\033[0;0m"
-	git checkout $(git_branch)
+	cd .. ; \
+	git checkout $(git_branch) ; \
 	git ls-tree -r --name-only --full-tree $(git_branch) | grep -v -E '(^bin|^hpux|^doc)' | \
 		tar -czf $(name)-$(distversion).tar.gz --transform='s,^,$(name)-$(distversion)/,S' --files-from=-
 
 rpm: dist
 	@echo -e "\033[1m== Building RPM package $(name)-$(distversion) ==\033[0;0m"
-	rpmbuild -tb --clean \
+	cd .. ; \
+	rpmbuild -tb --noclean \
 		--define "_rpmfilename %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm" \
 		--define "debug_package %{nil}" \
 		--define "_rpmdir %(pwd)" $(name)-$(distversion).tar.gz

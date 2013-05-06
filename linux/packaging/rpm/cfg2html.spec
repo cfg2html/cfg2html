@@ -6,17 +6,17 @@ Summary:	Config 2 HTML is a tool to collect system information in HTML and ASCII
 Group:		Applications/File
 License:	GPLv3
 URL:		http://cfg2html.com/
-Source: http://www.it3.be/downloads/cfg2html/cfg2html-6.0-git201305011747.tar.gz
+Source: http://www.it3.be/downloads/cfg2html/cfg2html-6.0-git201305060719.tar.gz
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
-BuildRequires:	
+#BuildRequires:	
 Requires:	bash
 
 %description
 The cfg2html-linux script is the "swiss army knife" for the ASE, CE, sysadmin etc. I wrote it to get the necessary information to plan an update, to perform basic trouble shooting or performance analysis.
 
 %prep
-%setup -q -n cfg2html-6.0-git201305011747
+%setup -q -n cfg2html-6.0-git201305060719
 
 
 %build
@@ -24,7 +24,7 @@ The cfg2html-linux script is the "swiss army knife" for the ASE, CE, sysadmin et
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} install DESTDIR="%{buildroot}"
+%{__make} -C linux install DESTDIR="%{buildroot}"
 ##%{__install} -Dp -m0644 cfg2html.cron %{buildroot}%{_sysconfdir}/cron.d/cfg2html
 
 %clean
@@ -33,7 +33,7 @@ The cfg2html-linux script is the "swiss army knife" for the ASE, CE, sysadmin et
 
 %files
 %defattr(-, root, root, 0755)
-%doc AUTHORS COPYING README doc/*.txt
+%doc linux/AUTHORS linux/COPYING linux/README linux/doc/*.txt
 %doc %{_mandir}/man8/cfg2html.8*
 ##%config(noreplace) %{_sysconfdir}/cron.d/cfg2html/
 %config(noreplace) %{_sysconfdir}/cfg2html/
@@ -44,3 +44,4 @@ The cfg2html-linux script is the "swiss army knife" for the ASE, CE, sysadmin et
 
 %changelog
 * Wed May  01 2013 Gratien D'haese <gratien.dhaese@gmail.com>
+  initial spec file for cfg2html
