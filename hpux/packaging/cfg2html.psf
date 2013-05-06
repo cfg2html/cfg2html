@@ -105,6 +105,7 @@ product
 	file -m 755 -o root -g sys meminfo.hppa
 	file -m 755 -o root -g sys memory_summary.sh
 	file -m 755 -o root -g sys oracle_collect.sh
+	file -m 755 -o root -g sys pvgfilter.sh
 	file -m 755 -o root -g sys syssmall.hppa
 
 	directory ./lib-tmp = /usr/share/cfg2html/lib
