@@ -7,9 +7,9 @@ function define_outfile {
     BASEFILE=$(hostname||uname -n)$CFG_DATE     # 26.01.2001, 13.05.2006  uname -n
     # echo $OUTDIR                  # 26.05.2003, rar
     HTML_OUTFILE=$OUTDIR/$BASEFILE.html
-    HTML_OUTFILE_TEMP=$TMP_DIR/$BASEFILE.html.$$
+    HTML_OUTFILE_TEMP=$TMP_DIR/$BASEFILE.html.tmp
     TEXT_OUTFILE=$OUTDIR/$BASEFILE.txt
-    TEXT_OUTFILE_TEMP=$TMP_DIR/$BASEFILE.txt.$$
+    TEXT_OUTFILE_TEMP=$TMP_DIR/$BASEFILE.txt.tmp
     ERROR_LOG=$OUTDIR/$BASEFILE.err
 }
 
