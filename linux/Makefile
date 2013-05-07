@@ -152,7 +152,7 @@ install-data:
 	@echo -e "\033[1m== Installing scripts ==\033[0;0m"
 	install -d -m0755 $(DESTDIR)$(datadir)/cfg2html/
 	cp -a cfg2html-linux.sh $(DESTDIR)$(datadir)/cfg2html/
-	cp -aHr lib $(DESTDIR)$(datadir)/cfg2html/
+	cp -aLr lib $(DESTDIR)$(datadir)/cfg2html/
 	cp -a plugins $(DESTDIR)$(datadir)/cfg2html/
 	-find $(DESTDIR)$(datadir)/cfg2html/ -name '.gitignore' -exec rm -rf {} \; &>/dev/null
 
