@@ -143,7 +143,7 @@ function umount_mountpoint {
 function CopyFilesAccordingOutputUrl {
     # check if OUTPUT_URL variable has been defined
     [[ -z "$OUTPUT_URL" ]] && return 0
-    temp_mntpt=$(mktemp -d /tmp -p cfg2html_${MASTER_PID})
+    temp_mntpt=$(mktempDir /tmp cfg2html_${MASTER_PID})
     mkdir -m 755 -p $temp_mntpt
     target_dir="$temp_mntpt/cfg2html/$(hostname)"
     mount_url "$OUTPUT_URL" $temp_mntpt
@@ -157,3 +157,15 @@ function CopyFilesAccordingOutputUrl {
     rmdir -f $temp_mntpt
 }
 
+function mktempDir {
+    # the mktemp command differs between HP-UX, Linux, and other Unixes
+    # so we generate a generic function for it
+    # input args: $1 base directory to create temp dir in (e.g. /tmp
+    #             $2 base name (we will append a RANDOM number to it)
+    # output arg: directory name we generated
+    typeset DIR1="$1"
+    typeset DIR2="$2"
+    [[ ! -d $DIR1 ]] && DIR1=/tmp  # when not existing use /tmp as default
+    [[ -z "$DIR2" ]] && DIR2=$PROGRAM
+    echo "${DIR1}/${DIR2}_${RANDOM}"
+}

@@ -39,7 +39,7 @@ LANG_ALL="C"
 LC_MESSAGE="C"
 
 # initialize defaults
-TMP_DIR="$(mktemp -d cfg2html.XXXXXXXXXXXXXXX)"
+TMP_DIR="/tmp/${PROGRAM}_${RANDOM}"
 SHARE_DIR="/usr/share/$PROGRAM"   	# final location of script and sub-dirs (containing scripts/functions)
 CONFIG_DIR="/etc/$PROGRAM"
 VAR_DIR="/var/log/$PROGRAM"
