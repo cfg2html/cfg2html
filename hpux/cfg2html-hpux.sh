@@ -533,7 +533,7 @@ then # else skip to next paragraph
     
     ######### April 2000 - new XP256 Titan Release #############
     #XPINFO=$(which xpinfo)          ## /usr/contrib/bin/xpinfo
-    if [ -x $XPINFO ]
+    if  [ -f $XPINFO ] && [ -x $XPINFO ]
     then
         XPINFOFILE="$OUTDIR/$BASEFILE"_xpinfo.csv
 	# write header to the xpinfo CSV file (easier to interprete later on)
