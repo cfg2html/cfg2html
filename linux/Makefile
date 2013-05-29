@@ -95,6 +95,12 @@ doc:
 	@echo -e "\033[1m== Prepare documentation ==\033[0;0m"
 	make -C doc docs
 
+cron:
+	@echo -e "\033[1m== Make a cron file ==\033[0;0m"
+	echo "$$((RANDOM % 55)) $$((RANDOM % 5)) * * $$((RANDOM % 5))  /usr/sbin/cfg2html -2%Y%m%d > /dev/null 2>&1" \
+	> ../$(name).cron
+	chmod 755 ../$(name).cron
+
 ifneq ($(git_date),)
 rewrite:
 	@echo -e "\033[1m== Rewriting $(specfile), $(dscfile) and $(cfg2htmlbin) ==\033[0;0m"
@@ -179,7 +185,7 @@ uninstall:
 #	rm -rv $(DESTDIR)$(sysconfdir)/cfg2html/
 #	rm -rv $(DESTDIR)$(localstatedir)/lib/cfg2html/
 
-dist: clean validate man rewrite $(name)-$(distversion).tar.gz restore
+dist: clean validate man rewrite $(name)-$(distversion).tar.gz restore cron
 
 $(name)-$(distversion).tar.gz:
 	@echo -e "\033[1m== Building archive $(name)-$(distversion) ==\033[0;0m"

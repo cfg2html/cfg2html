@@ -7,6 +7,7 @@ Group:		Applications/File
 License:	GPLv3
 URL:		http://cfg2html.com/
 Source: http://www.it3.be/downloads/cfg2html/cfg2html-6.0-git201305060719.tar.gz
+Source1: %{name}.cron
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 #BuildRequires:	
@@ -25,7 +26,7 @@ The cfg2html-linux script is the "swiss army knife" for the ASE, CE, sysadmin et
 %install
 %{__rm} -rf %{buildroot}
 %{__make} -C linux install DESTDIR="%{buildroot}"
-##%{__install} -Dp -m0644 cfg2html.cron %{buildroot}%{_sysconfdir}/cron.d/cfg2html
+%{__install} -Dp -m0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/cron.d/%{name}
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -35,7 +36,7 @@ The cfg2html-linux script is the "swiss army knife" for the ASE, CE, sysadmin et
 %defattr(-, root, root, 0755)
 %doc linux/AUTHORS linux/COPYING linux/README linux/doc/*.txt
 %doc %{_mandir}/man8/cfg2html.8*
-##%config(noreplace) %{_sysconfdir}/cron.d/cfg2html/
+%config(noreplace) %{_sysconfdir}/cron.d/%{name}
 %config(noreplace) %{_sysconfdir}/cfg2html/
 %{_datadir}/cfg2html/
 %{_localstatedir}/log/cfg2html/
@@ -43,5 +44,7 @@ The cfg2html-linux script is the "swiss army knife" for the ASE, CE, sysadmin et
 
 
 %changelog
+* Wed May  29 2013 Gratien D'haese <gratien.dhaese@gmail.com>
+  update cron lines
 * Wed May  01 2013 Gratien D'haese <gratien.dhaese@gmail.com>
   initial spec file for cfg2html
