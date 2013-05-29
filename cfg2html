@@ -5,17 +5,18 @@
 #
 
 PRGNAME=$0
+MY_OS=$(uname -s)
 args=$@
 
-if [ "`uname -s`" = "Linux" -a ! -f /tmp/cfg2html.respawn ]; then
+if [ "$MY_OS" = "Linux" -a ! -f /tmp/cfg2html.respawn ]; then
     touch /tmp/cfg2html.respawn
     exec /bin/bash -O extglob $PRGNAME $args
 fi
-if [ "`uname -s`" = "HP-UX" -a ! -f /tmp/cfg2html.respawn ]; then
+if [ "$MY_OS" = "HP-UX" -a ! -f /tmp/cfg2html.respawn ]; then
     touch /tmp/cfg2html.respawn
     exec /usr/bin/ksh $PRGNAME $args
 fi
-if [ "`uname -s`" = "SunOS" -a ! -f /tmp/cfg2html.respawn ]; then
+if [ "$MY_OS" = "SunOS" -a ! -f /tmp/cfg2html.respawn ]; then
     touch /tmp/cfg2html.respawn
     exec /usr/bin/ksh $PRGNAME $args
 fi
@@ -39,7 +40,11 @@ LANG_ALL="C"
 LC_MESSAGE="C"
 
 # initialize defaults
-TMP_DIR="/tmp/${PROGRAM}_${RANDOM}"
+case $MY_OS in
+    HP-UX) TMP_DIR="$(mktemp -d /tmp -p cfg2html_)" ;;
+    Linux|SunOS) TMP_DIR="$(mktemp -d cfg2html.XXXXXXXXXXXXXXX)" ;;
+    *) TMP_DIR="/tmp/${PROGRAM}_${RANDOM}" ;;
+esac
 SHARE_DIR="/usr/share/$PROGRAM"   	# final location of script and sub-dirs (containing scripts/functions)
 CONFIG_DIR="/etc/$PROGRAM"
 VAR_DIR="/var/log/$PROGRAM"
