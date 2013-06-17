@@ -101,6 +101,9 @@ check_root
 # define the HTML_OUTFILE, TEXT_OUTFILE, ERROR_LOG
 define_outfile
 
+# create our VAR_DIR, OUTDIR before we continue
+create_dirs
+
 #
 if [ ! -d $OUTDIR ] ; then
   echo "can't create $HTML_OUTFILE, $OUTDIR does not exist - stop"
