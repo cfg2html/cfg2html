@@ -2033,6 +2033,4 @@ rm -f core > /dev/null
 ########## remove the error.log if it has size zero #######################
 [ ! -s "$ERROR_LOG" ] && rm -f $ERROR_LOG 2> /dev/null
 
-exit 0
-
 ####################################################################
