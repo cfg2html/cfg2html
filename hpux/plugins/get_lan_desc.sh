@@ -50,4 +50,4 @@ q\n" | lanadmin 2> /dev/null | grep Desc | cut -f2 -d"="
 
 echo "# NIC: "$(lanscan|grep 0x| wc -l)
 # echo ""
-[ -x /usr/sbin/nwmgr ] && /usr/sbin/nwmgr
+#[ -x /usr/sbin/nwmgr ] && /usr/sbin/nwmgr

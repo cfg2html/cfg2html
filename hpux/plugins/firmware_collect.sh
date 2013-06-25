@@ -36,6 +36,57 @@
 #
 #####################################################################
 
+hw_disk_check_1131()
+{
+
+# Ermitteln des Betriebssystems und Setzen der Variablen.
+# UX=`uname -a | cut -d " " -f 3 | cut -b 3,4`
+#TMPFiLE_MARTiN=/tmp/hw_disc_checker.tmp.$$
+TMPFiLE_MARTiN=$(mktemp -c -p hw_disc_chk)
+ 
+# doesn't work yet with hpux 11.31 agile device files.... 
+DEVICES=`ioscan -fkNnCdisk | grep -e /rdisk/ | grep -v "/dev/deviceFileSystem/" | cut -d "/" -f4`
+
+#     1234567890123456789012345678901234567890123456789012345678901234567890
+printf "\n%-31s%-10s%-22s%-7s%-7s%-3s%-3s\n" Hardwarepath  Device Vendor/Product Cap/GB Firm. QD IR
+echo "-----------------------------------------------------------------------------------" 
+
+for device in $DEVICES
+do 
+    if [ -c /dev/rdisk/$device ]          ## /dev/cdrom -> lssf: /dev/dsk/dev: No such file or directory
+    then
+	    (diskinfo -v /dev/rdisk/$device;diskinfo /dev/rdisk/$device) 2> /dev/null | grep -e product -e rev -e vendor -e size > $TMPFiLE_MARTiN 2> /dev/null
+	    #if !( grep -e DVD-ROM -e DISK-SUBSYSTEM $TMPFiLE_MARTiN>/dev/null )
+
+	    if [ "$(grep -e 'DVD-ROM' -e 'CD-ROM' -e 'DISK-SUBS' -e ' 0 Kbyte' $TMPFiLE_MARTiN)" = "" ]
+	    then
+	        hw_pfad=` lssf /dev/disk/$device  | awk '{ print $(NF-1) }'`
+
+	        product=` grep product $TMPFiLE_MARTiN  | head -1 | awk '{ print $3  }'`
+	        if [ -n "$product"  ]
+	            then
+	                  vendor=`  grep vendor  $TMPFiLE_MARTiN  | head -1 | awk '{ print $2  }'`
+	                  revision=`grep rev     $TMPFiLE_MARTiN  | head -1 | awk '{ print $3  }'`
+	                  size=`grep size     $TMPFiLE_MARTiN  | head -1 | awk '{ printf "%-5.1f", ($2+0.01)/1024/1024  }'`
+	                  scsi=`/usr/sbin/scsictl -akq /dev/rdisk/$device 2>/dev/null`
+	                  sir=`echo $scsi|awk -F";" '{ print $1; }{}'`
+	                  sqd=`echo $scsi|awk -F";" '{ print $2; }{}'`
+	                  vendor_product=$vendor"/"$product
+
+	                  printf "%-31s%-10s%-22s%-7s%-7s%-3s%-3s\n" \
+	                         $hw_pfad $device $vendor_product $size $revision $sqd $sir
+
+	       fi # Product
+	    fi # DISK-SUBSYSTEM
+    fi
+done
+
+# Aufraeumen des Systems
+echo "-----------------------------------------------------------------------------------" 
+echo "QD = SCSI queue depth (0=no hw/medium), IR = immediate reporting (0=off, 1=on)\n"
+rm -f $TMPFiLE_MARTiN
+}
+
 hw_disk_check()
 {
 
@@ -87,7 +138,10 @@ echo "QD = SCSI queue depth (0=no hw/medium), IR = immediate reporting (0=off, 1
 rm -f $TMPFiLE_MARTiN
 }
 
-hw_disk_check
+case $(uname -r) in
+   "B.11.31") hw_disk_check_1131 ;;
+   *) hw_disk_check ;;
+esac
 
 #####################################################################
 # Ralph Roth, ASO, 18-Aug-1999, major fixes (HPFL etc.)

@@ -940,7 +940,9 @@ then # else skip to next paragraph
     # qlan.pl has been removed (issue #1)
     #[ -x "$PERL" ] && exec_command "$PERL $PLUGINS/qlan.pl" "NIC Overview" # (opt?)
     #[ -x "$PERL" ] && exec_command "$PERL $PLUGINS/qlan.pl -v" "NIC Details"
-    
+    exec_command "PLUGINS/get_qlan.sh" "NIC Overview"
+    exec_command "PLUGINS/get_qlan_details.sh" "NIC Details" 
+
     cat_and_grep "/etc/rc.config.d/netconf" "Netconf Settings"
     [ -r /etc/rc.config.d/hp_apaconf ] &&  exec_command "(cat_and_grep /etc/rc.config.d/hp_apa*conf);echo LanScan -q:;lanscan -q" "Autoport Aggregation"
     # not valid for 11.31!
