@@ -1,20 +1,18 @@
-# @(#) $Id: firmware_collect.sh,v 5.10.1.1 2011-02-15 14:29:05 ralproth Exp $
+# @(#) $Id: firmware_collect.sh,v 5.11 2013-06-28 07:16:29 ralph Exp $
 # WARNING MAY HANG INFINTLY ON DEFECT DISK DRIVES!
 #####################################################################
-# Script, um die Firmwarerevisionen der Platten auf dem System und sonstige
-# wichtige Informationen festzuhalten. Dieses Script ist NICHT supportet, HP
-# uebernimmt keinerlei Haftung fuer Schaeden, die durch dieses Script verursacht
-# werden. Martin Ilg, HP German Response Center Ratingen, 07/10/1998
-#
 # kann durch get_diskfirmware.sh ersetzt werden! Gibt keine 11.31 devicefiles aus
 #####################################################################
 # $Log: firmware_collect.sh,v $
+# Revision 5.11  2013-06-28 07:16:29  ralph
+# Enhanced by GDH - splitted into a HPUX 11.31 and the rest of the world part
+# to better handle ioscan.  Cleanup of comments by Ralph Roth
+#
 # Revision 5.10.1.1  2011-02-15 14:29:05  ralproth
 # Initial 5.xx import
 #
 # Revision 4.17  2010-02-05 08:14:33  ralproth
 # cfg4.63-23636: change tempfile creation to mktemp
-#
 #
 # Revision 4.14  2009/02/17 12:12:57  ralproth
 # cfg4.22-22222: small fixes and enhancements for EMC arrays
@@ -36,23 +34,21 @@
 #
 #####################################################################
 
-hw_disk_check_1131()
+hw_disk_check_1131()	## new 28.06.2013 - Gratien splitted this into two parts
 {
 
-# Ermitteln des Betriebssystems und Setzen der Variablen.
-# UX=`uname -a | cut -d " " -f 3 | cut -b 3,4`
-#TMPFiLE_MARTiN=/tmp/hw_disc_checker.tmp.$$
+
 TMPFiLE_MARTiN=$(mktemp -c -p hw_disc_chk)
- 
-# doesn't work yet with hpux 11.31 agile device files.... 
+
+# doesn't work yet with hpux 11.31 agile device files....
 DEVICES=`ioscan -fkNnCdisk | grep -e /rdisk/ | grep -v "/dev/deviceFileSystem/" | cut -d "/" -f4`
 
 #     1234567890123456789012345678901234567890123456789012345678901234567890
 printf "\n%-31s%-10s%-22s%-7s%-7s%-3s%-3s\n" Hardwarepath  Device Vendor/Product Cap/GB Firm. QD IR
-echo "-----------------------------------------------------------------------------------" 
+echo "-----------------------------------------------------------------------------------"
 
 for device in $DEVICES
-do 
+do
     if [ -c /dev/rdisk/$device ]          ## /dev/cdrom -> lssf: /dev/dsk/dev: No such file or directory
     then
 	    (diskinfo -v /dev/rdisk/$device;diskinfo /dev/rdisk/$device) 2> /dev/null | grep -e product -e rev -e vendor -e size > $TMPFiLE_MARTiN 2> /dev/null
@@ -82,7 +78,7 @@ do
 done
 
 # Aufraeumen des Systems
-echo "-----------------------------------------------------------------------------------" 
+echo "-----------------------------------------------------------------------------------"
 echo "QD = SCSI queue depth (0=no hw/medium), IR = immediate reporting (0=off, 1=on)\n"
 rm -f $TMPFiLE_MARTiN
 }
@@ -90,20 +86,17 @@ rm -f $TMPFiLE_MARTiN
 hw_disk_check()
 {
 
-# Ermitteln des Betriebssystems und Setzen der Variablen.
-# UX=`uname -a | cut -d " " -f 3 | cut -b 3,4`
-#TMPFiLE_MARTiN=/tmp/hw_disc_checker.tmp.$$
 TMPFiLE_MARTiN=$(mktemp -c -p hw_disc_chk)
- 
-# doesn't work yet with hpux 11.31 agile device files.... 
+
+# doesn't work yet with hpux 11.31 agile device files....
 DEVICES=`ioscan -fknCdisk | grep -e /rdsk/ | grep -v "/dev/deviceFileSystem/" | cut -d "/" -f4`
 
 #     1234567890123456789012345678901234567890123456789012345678901234567890
 printf "\n%-31s%-10s%-22s%-7s%-7s%-3s%-3s\n" Hardwarepath  Device Vendor/Product Cap/GB Firm. QD IR
-echo "-----------------------------------------------------------------------------------" 
+echo "-----------------------------------------------------------------------------------"
 
 for device in $DEVICES
-do 
+do
     if [ -c /dev/rdsk/$device ]          ## /dev/cdrom -> lssf: /dev/dsk/dev: No such file or directory
     then
 	    (diskinfo -v /dev/rdsk/$device;diskinfo /dev/rdsk/$device) 2> /dev/null | grep -e product -e rev -e vendor -e size > $TMPFiLE_MARTiN 2> /dev/null
@@ -133,7 +126,7 @@ do
 done
 
 # Aufraeumen des Systems
-echo "-----------------------------------------------------------------------------------" 
+echo "-----------------------------------------------------------------------------------"
 echo "QD = SCSI queue depth (0=no hw/medium), IR = immediate reporting (0=off, 1=on)\n"
 rm -f $TMPFiLE_MARTiN
 }
@@ -148,7 +141,7 @@ esac
 # Ralph Roth, ASO, 14-Sept-1999, version for cfg2html.sh
 # Ralph Roth, 28-March-2000, fixes: /rdsk/, QD+IR added
 # Ralph/Martin, 24-July-2000 added disk size in GB
-# Martin Kalmbach, 28-July-2000, beautyfied
+# Martin Kalmbach, 28-July-2000, beautified
 # Ralph Roth, 9-Nov-2000, fixes for XP256 DISK SUBSYSTEM hangs
 # Ralph, 10-Nov-2000, Hopefully the last XP256 fixes?
 # Ralph, 14-Nov-2000, XP512 fixes....
