@@ -240,7 +240,7 @@ exec_command "ps -ef | cut -c39- | sort -nr | head -25 | awk '{ printf(\"%10s   
 exec_command "ps -e -o 'vsz pid ruser cpu time args' |sort -nr|head -25" "Top memory consuming processes"
 exec_command topFDhandles "Top file handles consuming processes" # 24.01.2013
 AddText "Hint: Number of open file handles should be less than ulimit -n ("$(ulimit -n)")"
-  
+
 [ -x /usr/bin/pidstat ] && exec_command "pidstat -lrud" "pidstat - Statistics for Linux Tasks" #  10.11.2012, 07:35 modified by Ralph Roth #* rar *#
 
 exec_command "last| grep boot" "reboots"
@@ -1344,7 +1344,8 @@ then # else skip to next paragraph
 
     if [ -d /sys/devices ]
     then                                                    # The new Linux 2.6.x  I/O system and the I/O scheduler
-        exec_command GetElevator "Kernel I/O Elevator"      ##  18.07.2011, 13:33 modified by Ralph Roth #* rar *#
+        exec_command GetElevator "Kernel I/O Elevator"      # 18.07.2011, 13:33 modified by Ralph Roth #* rar *#
+        exec_command "lsblk -ta" "List of Block Devices"    # changed 20130627 by Ralph Roth
     fi
     dec_heading_level
 
@@ -1913,27 +1914,22 @@ fi  # end of CFG_ALTIRISAGENTFILES paragraph
 ###
 ##############################################################################
 ###   VMWARE settings and logfiles
-###   Made by Jeroen.Kleen@hp.com EMEA ISS Competence Center Engineer      ###
+###   Made by Jeroen Kleen, EMEA ISS Competence Center Engineer      ###
 
 if [ "$CFG_VMWARE" != "no" ]
 then # else skip to next paragraph
-
 # checking if VMWare directory exist otherwise skip this section
-if [ -e /proc/vmware ] ; then
+  if [ -e /proc/vmware ] ; then
 
-  paragraph "VMWare logfiles and settings"
-  inc_heading_level
-
-exec_command "vmware -v" "VMWare Server version"
-
-echo "VMWare server detected. We will start now the vm-support script in case you"
-echo "need this vmware debugging file send to VMWare support or other support teams."
-vm-support
-exec_command "cat esx-$(date -I).$$.tgz" "vm-support ticket generated in local directory if vm-support is installed."
-
-
-dec_heading_level
-fi
+    paragraph "VMWare logfiles and settings"
+    inc_heading_level
+      exec_command "vmware -v" "VMWare Server version"
+      echo "VMWare server detected. We will start now the vm-support script in case you"
+      echo "need this vmware debugging file send to VMWare support or other support teams."
+      vm-support
+      exec_command "cat esx-$(date -I).$$.tgz" "vm-support ticket generated in local directory if vm-support is installed."
+    dec_heading_level
+  fi
 fi  # end of CFG_VMWARE paragraph
 ##############################################################################
 
@@ -2007,11 +2003,10 @@ then # else skip to next paragraph
         rm $OUTDIR/$BASEFILE.tar
  fi
 echo " "
-    echo " The following files are included in your gzipped tarball file: "
-
+    echo "The following files are included in your gzipped tarball file:"
     tar -czf $OUTDIR/$BASEFILE.tar.gz $temphp
-    echo "  "
-    echo " The tar file can be mailed to your support supplier if needed"
+    echo " "
+    echo "The tar file can be mailed to your support supplier if needed"
 
 fi  # end of CFG_HPPROLIANTSERVER (making tarball)
 ###########################################################################
