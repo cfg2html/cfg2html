@@ -2009,15 +2009,9 @@ then # else skip to next paragraph
 echo " "
     echo " The following files are included in your gzipped tarball file: "
 
-    # tar cvf $OUTDIR/$BASEFILE.tar $OUTDIR/$BASEFILE.err $OUTDIR/$BASEFILE.html $OUTDIR/cfg2html_back.jpg $OUTDIR/profbull.gif $OUTDIR/$BASEFILE.partitions.save $OUTDIR/$BASEFILE.txt ADUreport.txt /var/spool/compaq/vcagent/log/vcagentd.log /var/spool/compaq/vcagent/log/vcasetup.log /tmp/hpdiags.xml ilo.cfg
     tar -czf $OUTDIR/$BASEFILE.tar.gz $temphp
     echo "  "
-    echo " If you created this CFG2HTML report on request of a HP support Agent "
-    echo " then please send the $OUTDIR/$BASEFILE.tar.gz file to: "
-    echo "           HPsupport_Global@hp.com     "
-    echo " Where in the subject is stated: <CASE:YOURCASEID> eg: <CASE:6000000000> "
-    echo "  "
-    echo " Feedback please to: CFG2HTML@hp.com or twitter.com/cfg2html    Thanks! "
+    echo " The tar file can be mailed to your support supplier if needed"
 
 fi  # end of CFG_HPPROLIANTSERVER (making tarball)
 ###########################################################################
