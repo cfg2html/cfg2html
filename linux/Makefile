@@ -73,7 +73,7 @@ Config 2 HTML make variables (optional):\n\
 "
 
 clean:
-	rm -f $(name)-$(distversion).tar.gz
+	rm -f ../$(name)-$(distversion).tar.gz
 	rm -f build-stamp
 	make -C doc clean
 	rm -rf ../$(name).cron
