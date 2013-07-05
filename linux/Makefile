@@ -197,7 +197,7 @@ $(name)-$(distversion).tar.gz:
 rpm: dist
 	@echo -e "\033[1m== Building RPM package $(name)-$(distversion) ==\033[0;0m"
 	cd .. ; \
-	rpmbuild -tb --noclean \
+	rpmbuild -tb  \
 		--define "_rpmfilename %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm" \
 		--define "debug_package %{nil}" \
 		--define "_rpmdir %(pwd)" $(name)-$(distversion).tar.gz
