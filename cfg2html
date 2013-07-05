@@ -39,6 +39,9 @@ LANG="C"
 LANG_ALL="C"
 LC_MESSAGE="C"
 
+# introduce trap to make sure the temporary directories get cleaned up
+trap "DoExitTasks" 0 1
+
 # initialize defaults
 case $MY_OS in
     HP-UX) TMP_DIR="$(mktemp -d /tmp -p cfg2html_)" ;;

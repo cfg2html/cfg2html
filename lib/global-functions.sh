@@ -169,3 +169,9 @@ function mktempDir {
     [[ -z "$DIR2" ]] && DIR2=$PROGRAM
     echo "${DIR1}/${DIR2}_${RANDOM}"
 }
+
+function DoExitTasks {
+    # remove the temporary directories (also in case we are trapped by an error)
+    rm -f /tmp/cfg2html.respawn $LOCK
+    rm -rf $TMP_DIR
+}
