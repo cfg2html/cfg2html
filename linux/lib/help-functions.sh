@@ -3,15 +3,20 @@ function usage {
   echo
   echo "    Usage: `basename $0` [OPTIONS]"
   echo "    creates a HTML and plain ASCII host documentation"
-  echo
+  echo "    Output modifier:"
   echo "    -o      set directory to write or use the environment"
   echo "            variable OUTDIR=\"/path/to/dir\" (directory must exist)"
+  echo "    -0      append the current date+time to the output files (D-M-Y-hhmm)"
+  echo "    -1      append the current date to the output files (Day-Month-Year)"
+  echo "    -2 arg  like option -1, you can use date +modifier, e.g. -2%d%m"
+  echo "            DO NOT use spaces for the filename, e.g. -2%c"
+  echo
+  echo "    Help:"
   echo "    -v      output version information and exit"
   echo "    -h      display this help and exit"
-
+  echo
 
   echo "    use the following options to disable / enable collections:"
-  echo
   echo "    -s      disable: System"
   echo "    -c      disable: Cron"
   echo "    -S      disable: Software"

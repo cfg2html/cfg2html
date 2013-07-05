@@ -31,7 +31,7 @@ _VERSION="cfg2html-linux version $VERSION "  # this a common stream so we dont n
 #
 #
 
-while getopts ":o:shcSflkenaHLvhpPA:210" Option
+while getopts ":o:shcSflkenaHLvhpPA:2:10" Option
 do
   case $Option in
     o     ) OUTDIR=$OPTARG;;
