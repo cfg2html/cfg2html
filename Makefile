@@ -1,6 +1,7 @@
 product = cfg2html
 
-all: i=`uname -s`; case $$i in HP-UX) make depot;; Linux) make rpm;; *) make help;; esac
+all: 
+	i=`uname -s`; case $$i in HP-UX) make depot;; Linux) make rpm;; *) make help;; esac
 
 help:
 	@echo "+-------------------------+"
