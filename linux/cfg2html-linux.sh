@@ -31,7 +31,7 @@ _VERSION="cfg2html-linux version $VERSION "  # this a common stream so we dont n
 #
 #
 
-while getopts ":o:shcSflkenaHLvhpPA" Option
+while getopts ":o:shcSflkenaHLvhpPA:210" Option
 do
   case $Option in
     o     ) OUTDIR=$OPTARG;;
@@ -51,6 +51,9 @@ do
     p     ) CFG_HPPROLIANTSERVER="yes";;
     P     ) CFG_PLUGINS="yes";;
     A     ) CFG_ALTIRISAGENTFILES="no";;
+    2     ) CFG_DATE="_"$(date +$OPTARG) ;;
+    1     ) CFG_DATE="_"$(date +%d-%b-%Y) ;;
+    0     ) CFG_DATE="_"$(date +%d-%b-%Y-%H%M) ;;
     *     ) echo "Unimplemented option chosen. Try -h for help!"; exit 1;;   # DEFAULT
   esac
 done

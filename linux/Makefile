@@ -76,6 +76,7 @@ clean:
 	rm -f $(name)-$(distversion).tar.gz
 	rm -f build-stamp
 	make -C doc clean
+	rm -rf ../$(name).cron
 
 ### You can call 'make validate' directly from your .git/hooks/pre-commit script
 validate:
@@ -97,7 +98,7 @@ doc:
 
 cron:
 	@echo -e "\033[1m== Make a cron file ==\033[0;0m"
-	echo "$$((RANDOM % 55)) $$((RANDOM % 5)) * * $$((RANDOM % 5))  /usr/sbin/cfg2html -2%Y%m%d > /dev/null 2>&1" \
+	echo "$$((RANDOM % 55)) $$((RANDOM % 5)) * * $$((RANDOM % 5)) root /usr/sbin/cfg2html -2\%Y\%m\%d > /dev/null 2>&1" \
 	> ../$(name).cron
 	chmod 755 ../$(name).cron
 
