@@ -1,0 +1,220 @@
+.\" Copyright (c) 2003-2013 by and Ralph Roth (rar) and Gratien D'haese (gd)
+.\"$Id:  Exp $
+.TA c
+.TH cfg2html 8
+.ds )H GNU GPL v3
+.ds ]W HP-UX Release 11i v1,2,3
+.SH NAME
+cfg2html \- creates a nice HTML and plain ASCII documentation of your GNU/Linux system. WARNING, use this script AT YOUR OWN RISK.
+.SH SYNOPSIS
+
+.B cfg2html
+.RB [ \-o012vhADFHLSMUPacdefklns ]
+.IR option ...
+.br
+
+.SH DESCRIPTION
+The
+.B cfg2html
+script is the "swiss army knife" for the consultant, support engineer, customer engineer, sysadmin etc. We wrote it to get the necessary information to plan an update,
+to perform basic trouble shooting or performance analysis. As a bonus
+.B cfg2html
+creates a nice HTML and plain ASCII documentation. If you like,
+write your description of the system into
+.B /etc/cfg2html/systeminfo
+
+example:
+.TP
+  Main database server using special software.
+  Contact: Micky Mouse <admin@foo.bar>
+  Location: Mars Moon
+.TP
+and so on.
+
+.TP
+.B /etc/cfg2html/local.conf
+if this file exists, you can add your own OUTPUT_URL location, e.g.
+.TP
+  OUTPUT_URL=nfs://your-nfs-server/cfg2html-data/
+Beneath the path of the cfg2html-data directory subdirectories will be created per hostname.
+
+.SS Switches
+The following switches are available from the command line:
+.TP
+.B \-o
+set directory to write or use the environment
+variable OUTDIR="/path/to/dir" (directory will be created if necessary)
+.TP
+.B \-0
+append the current date+time to the output files (D-M-Y-hhmm)
+.TP
+.B \-1
+append the current date to the output files (Day-Month-Year)
+.TP
+.B \-2 modifier
+like option -1, you can use date +modifier, e.g. -2%d%m
+.IP
+DO NOT use spaces for the filename, e.g.
+.C -2%c
+.TP
+.B \-v
+output version information and exit
+.TP
+.B \-h
+display this help and exit
+
+.IP
+Use the following options to enable or disable collections:
+.TP
+.B \-A
+enable:  SAP collector
+.TP
+.B \-D
+enable:  Debug, dumps settings to stdout
+.TP
+.B \-F
+disable: Fibre channel
+.TP
+.B \-H
+disable: Hardware
+.TP
+.B \-L
+disable: Screen tips inline
+.TP
+.B \-S
+disable: Software
+.TP
+.B \-M
+disable: Serviceguard and Quorum Server collector
+.TP
+.B \-U
+disable: User accounts/security sensitive data collection
+.TP
+.B \-P
+enable: cfg2html plugin architecture
+
+.TP
+.B \-a
+disable: Applications
+.TP
+.B \-c
+disable: Cron
+.TP
+.B \-d
+disable: Diagnostics (cstm) [obsolete?]
+.TP
+.B \-e
+disable: Enhancements
+.TP
+.B \-f
+disable: File system
+.TP
+.B \-k
+disable: Kernel/Boot
+.TP
+.B \-l
+disable: LVM
+.TP
+.B \-n
+disable: Network
+.TP
+.B \-s
+disable: System
+
+.TP
+Example:
+.B /usr/sbin/cfg2html \-AL \-o /tmp/hp
+to collect EVERYTHING
+
+A shell wrapper with handy options is included into this distribution,
+simply try:
+.B cfg2html
+calls
+.B cfg2html_hpux.sh \-o /var/log/cfg2html
+
+
+.SH FILES
+.TP
+.B /usr/sbin/cfg2html
+The wrapper script (same for HP-UX and Linux).
+.TP
+.B /usr/share/cfg2html/cfg2html-hpux.sh
+The main script.
+.TP
+.B /usr/share/cfg2html/lib/*
+The library functions for cfg2html.
+.TP
+.B /usr/share/cfg2html/plugins/*
+The plugin directory containing individual collector scripts.
+.TP
+.B /etc/cfg2html/local.conf
+your output
+.B OUTPUT_URL
+description
+
+.TP
+.B <hostname>.html
+the documentation in html form
+.TP
+.B <hostname>.txt
+the documentation in ascii form
+.TP
+.B <hostname>.err
+error logfile
+.TP
+.B <hostname>._xpinfo.csv
+(only on systems connected to HP Surestore Disk Arrays): the output of the xpinfo command
+.TP
+.B /usr/share/man/man8.Z/cfg2html.8
+The man page.
+.TP
+.B history_hpux.txt
+Revision history for
+.BR cfg2html.
+
+.SH "SEE ALSO"
+.B README_hpux.txt
+and
+.B history_hpux.txt
+file in the doc directory.
+
+.SH NOTES
+Only
+.B root
+can run the
+.B cfg2html
+script.  For security reasons it is better to store the HTML and ASCII files
+in a safe place where only root user have access or remove the
+files from your file system.
+
+.SH CONTACTING
+If you like the script, and you want to learn more about
+the  script,  or  want to see a feature added to it that
+isn't already here, then please subscribe to the project mailing list.
+The project web page is at
+.B http://www.cfg2html.com
+and
+.B http://groups.yahoo.com/cfg2html
+
+.SH WARNINGS
+use the
+.B cfg2html
+script at your own risk!
+.SH DIAGNOSTICS
+
+.B cfg2html
+writes errors to <hostname>.err
+
+.SH BUGS
+There are probably a lot of bugs.  We are currently using this script
+successfully for our own systems, but there are lot of features included
+that we don't have any way to test right now. If you find a bug or have a
+comment or suggestion about the script, please email them at the address
+in the
+.I AUTHORS
+section. We love to hear from you. :-)
+
+.SH AUTHORS
+Original cfg2html HP-UX version written by Ralph Roth <rose_swe@hotmail.com>
+
+See the source code and changelog for complete history and credits.
