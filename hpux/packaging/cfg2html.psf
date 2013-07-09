@@ -147,6 +147,9 @@ product
 	file -m 644 -o root -g sys history_hpux_v2.txt
 	file -m 644 -o root -g sys history_hpux_v3.txt
 	file -m 644 -o root -g sys history_hpux_v4.txt
+
+	directory ../doc = /usr/share/man/man8.Z
+        file -m 644 -o root -g sys cfg2html.8
     end
 
 end # of product
