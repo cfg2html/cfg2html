@@ -25,7 +25,7 @@ fi
 
 PRODUCT="Config to HTML - cfg2html"
 PROGRAM=cfg2html
-VERSION=6.0-git201305060719
+VERSION=6.0.1-git201305060719
 RELEASE_DATE="2013-05-06"
 OS=$(uname)
 OS=$(echo $OS | tr 'A-Z' 'a-z' | sed -e 's/-//')
@@ -77,7 +77,7 @@ done
 # source the main program, e.g. cfg2html-hpux.sh
 . $BASE_DIR/${PROGRAM}-${OS}.sh
 RETCODE=$?
- 
+
 # define OUTPUT_URL in your local.conf file
 CopyFilesAccordingOutputUrl
 
