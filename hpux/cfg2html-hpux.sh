@@ -15,7 +15,7 @@ do
         S     ) CFG_SOFTWARE="no";;
         T     ) CFG_TRACETIME="yes";;	# show each exec_command with timestamp
         a     ) CFG_APPLICATIONS="no";;
-        b     ) CFG_BCSCONFIG="yes";;   ## obsolete, remove in 6.xx stream!
+        b     ) CFG_BCSCONFIG="no";;   ## obsolete, remove in 6.xx stream!
         c     ) CFG_CRON="no";;
         d     ) CFG_DIAG="no";;
         e     ) CFG_ENHANCEMENTS="no";;
@@ -26,7 +26,7 @@ do
         n     ) CFG_NETWORK="no";;
         o     ) OUTDIR=$OPTARG;;	## OPTARG ##
         s     ) CFG_SYSTEM="no";;
-        t     ) CFG_TGV="yes";;         ## obsolete, remove in 6.xx stream!
+        t     ) CFG_TGV="no";;         ## obsolete, remove in 6.xx stream!
         v     ) echo $PROGRAM $VERSION"//"$(uname -mrs); exit 13;;
         2     ) CFG_DATE="_"$(date +$OPTARG) ;;	## OPTARG ##
         1     ) CFG_DATE="_"$(date +%d-%b-%Y) ;;
