@@ -85,6 +85,8 @@ product
 	file -m 755 -o root -g sys get_mirror_missmatch.sh
 	file -m 755 -o root -g sys get_mptinfo.sh
 	file -m 755 -o root -g sys get_path_1131.sh
+        file -m 755 -o root -g sys get_qlan.sh
+        file -m 755 -o root -g sys get_qlan_details.sh
 	file -m 755 -o root -g sys get_san_ns.sh
 	file -m 755 -o root -g sys get_sap.sh
 	file -m 755 -o root -g sys get_sasinfo.sh
