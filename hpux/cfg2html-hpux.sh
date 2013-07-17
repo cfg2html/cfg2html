@@ -571,6 +571,9 @@ then # else skip to next paragraph
         [ -x /usr/contrib/bin/inquiry256.ksh ] && exec_command "/usr/contrib/bin/inquiry256.ksh" "SureStore E Disk Array XP256 Mapping (inquiry/obsolete!!)"
     fi
     
+    # HP 3PAR info
+    [ -x /usr/bin/HP3PARInfo ] && exec_command "/usr/bin/HP3PARInfo -i" "HP 3PAR Disk Array Information"
+
     [ -x /opt/hparray/bin/arraydsp ] && exec_command "/opt/hparray/bin/arraydsp -i 2>/dev/null" "HP SureStore 12 AutoRAID"
     [ -x /opt/hparray/bin/amdsp ] && exec_command "/opt/hparray/bin/amdsp -i 2>/dev/null" "HP SureStore FC60 Disk Array"
     
