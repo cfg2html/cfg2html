@@ -6,6 +6,7 @@
 function define_outfile {
     BASEFILE=$(hostname||uname -n)$CFG_DATE     # 26.01.2001, 13.05.2006  uname -n
     # echo $OUTDIR                  # 26.05.2003, rar
+    [[ -z "$OUTDIR" ]] && OUTDIR=$VAR_DIR
     HTML_OUTFILE=$OUTDIR/$BASEFILE.html
     HTML_OUTFILE_TEMP=$TMP_DIR/$BASEFILE.html.tmp
     TEXT_OUTFILE=$OUTDIR/$BASEFILE.txt
@@ -154,7 +155,7 @@ function CopyFilesAccordingOutputUrl {
     cp $ERROR_LOG $target_dir
     chmod 644 $target_dir/*
     umount_url "$OUTPUT_URL" $temp_mntpt
-    rmdir -f $temp_mntpt
+    rmdir $temp_mntpt
 }
 
 function mktempDir {

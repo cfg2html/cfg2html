@@ -765,14 +765,21 @@ then # else skip to next paragraph
     #     Close this application before trying again.
         if [ -r /etc/zypp/zypp.conf ]       ## fix for JW's SLES 10
         then
-            exec_command "zypper ls; echo ''; zypper pt" "zypper: Services and Patterns"       #*#   Ralph Roth, Mittwoch, 16. März 2011
-            exec_command "zypper ps" "zypper: Processes which need restart after update"       #*#   Alexander De Bernardi 17.02.2011
-            exec_command "zypper lr --details" "zypper: List repositories"                     #*#   Alexander De Bernardi 17.02.2011
-            exec_command "zypper lu" "zypper: List pending updates"                            #*#   Alexander De Bernardi 17.02.2011
-            exec_command "zypper lp" "zypper: List pending patches"                            #*#   Alexander De Bernardi 17.02.2011
-            exec_command "zypper pa" "zypper: List all available packages"                     #*#   Alexander De Bernardi 17.02.2011
-            exec_command "zypper pa --installed-only" "zypper: List installed packages"        #*#   Alexander De Bernardi 17.02.2011
-            exec_command "zypper pa --uninstalled-only" "zypper: List not installed packages"  #*#   Alexander De Bernardi 17.02.2011
+            exec_command "zypper -n ls; echo ''; echo | zypper -n pt " "zypper: Services and Patterns"       #*#   Ralph Roth, Mittwoch, 16. März 2011
+	    sleep 2
+            exec_command "zypper  -n ps" "zypper: Processes which need restart after update"       #*#   Alexander De Bernardi 17.02.2011
+	    sleep 2
+            exec_command "zypper -n lr --details" "zypper: List repositories"                     #*#   Alexander De Bernardi 17.02.2011
+	    sleep 2
+            exec_command "zypper -n lu" "zypper: List pending updates"                            #*#   Alexander De Bernardi 17.02.2011
+	    sleep 2
+            exec_command "zypper -n lp" "zypper: List pending patches"                            #*#   Alexander De Bernardi 17.02.2011
+	    sleep 2
+            exec_command "zypper -n pa" "zypper: List all available packages"                     #*#   Alexander De Bernardi 17.02.2011
+	    sleep 2
+            exec_command "zypper -n pa --installed-only" "zypper: List installed packages"        #*#   Alexander De Bernardi 17.02.2011
+	    sleep 2
+            exec_command "zypper -n pa --uninstalled-only" "zypper: List not installed packages"  #*#   Alexander De Bernardi 17.02.2011
         else
             AddText "zypper found, but it is not configured!"
         fi
@@ -1141,17 +1148,15 @@ then # else skip to next paragraph
   fi
   [ -r /etc/bind/named.boot ] && exec_command "grep -v '^;' /etc/named.boot"  "DNS/Named"
 
-    if [ -x /usr/sbin/nullmailer-send ]
-    then
-        :               ##  provides sendmail which NO options
-    else
-      if [ ! -f /etc/sendmail.cf ] ; then
-        /usr/sbin/sendmail -bV 2> /dev/null > /dev/null && exec_command "/usr/sbin/sendmail -bV" "Sendmail/Exim Version" #  23.03.2006, 13:20 modified by Ralph Roth
-      else
-        ## exec_command "/usr/sbin/sendmail -bv -d0.1 testuser@test.host" "Sendmail Version" ## hangs Ubuntu 9.04/karmic
-        exec_command "echo \$Z | /usr/sbin/sendmail -bt -d" "Sendmail Version"               ## new workaround? #  28.01.2010, 21:24 modified by Ralph Roth
-      fi
-    fi
+  if [ -f /usr/sbin/postconf ]; then
+       exec_command "/usr/sbin/postconf | grep '^mail_version' | cut -d= -f2" "Postfix Version"
+  elif [ -f /usr/sbin/sendmail.sendmail ]; then
+       exec_command "echo | /usr/sbin/sendmail.sendmail -v root | grep 220" "Sendmail version"
+  elif [ -f /usr/sbin/sendmail ]; then
+       exec_command "echo | /usr/sbin/sendmail -v root | grep 220" "Sendmail version"
+  else
+       exec_command "echo SENDMAIL VERSION not found issue" "Sendmail version"
+  fi
 
   aliasespath="/etc"
   if [ "$GENTOO" == "yes" ] ;then   ## 2007-02-27 Oliver Schwabedissen
