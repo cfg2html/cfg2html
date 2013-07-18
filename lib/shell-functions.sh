@@ -36,7 +36,6 @@ function check_plugins_dir {
 }
 
 function create_dirs {
-echo OUTDIR=$OUTDIR VAR_DIR=$VAR_DIR TMP_DIR=$TMP_DIR
     [[ ! -d $OUTDIR ]] && mkdir -p -m 755 $OUTDIR
     [[ ! -d $VAR_DIR ]] && mkdir -p -m 755 $VAR_DIR
     [[ ! -d $TMP_DIR ]] && mkdir -p -m 755 $TMP_DIR
