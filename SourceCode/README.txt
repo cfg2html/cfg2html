@@ -1,6 +1,6 @@
-# @(#) $Id:$ 
+# @(#) $Id: README.txt,v 6.11 2013-09-12 19:07:12 ralph Exp $
 # -------------------------------------------------------------------------
-# vim:ts=8:sw=4:sts=4 -*- coding: utf-8 -*- http://rose.rult.at/ - Ralph Roth
+# vim:ts=8:sw=4:sts=4 
 
 
 This directory will contain source code for programs to compile (mostly C stuff).

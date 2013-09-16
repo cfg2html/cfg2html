@@ -11,7 +11,7 @@
  \___|_|  \__, |_____|_| |_|\__|_| |_| |_|_| |____(_)_/\_\
           |___/
 
-@(#) $Id: history_hpux_v3.txt,v 5.10.1.1 2011-02-15 14:29:05 ralproth Exp $
+@(#) $Id: history_hpux_v3.txt,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $
 ---------------------------------------------------------------------------
 
 2009-04-28  Ralph.Roth@cfg2html_hpux  <ralproth@hpmbhgr>
@@ -586,7 +586,7 @@
 
 	Here is an example of how you can create a new file using the `-kb' flag:
 
-	$ echo '$Id: history_hpux_v3.txt,v 5.10.1.1 2011-02-15 14:29:05 ralproth Exp $' > kotest
+	$ echo '$Id: history_hpux_v3.txt,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $' > kotest
 	$ cvs add -kb -m"A test file" kotest
 	$ cvs ci -m"First checkin; contains a keyword" kotest
 

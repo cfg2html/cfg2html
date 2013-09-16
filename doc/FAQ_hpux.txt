@@ -9,7 +9,7 @@ German (Deutsch) text at the end of the document!
 --------------------------------------------------------------------------
 Cfg2HTML/HP-UX FAQ/Misc documents etc...
 --------------------------------------------------------------------------
-@(#) $Id: FAQ_hpux.txt,v 5.12 2013-02-09 09:08:47 ralph Exp $
+@(#) $Id: FAQ_hpux.txt,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $
 --------------------------------------------------------------------------
 
 Q: Can the cfg2html report be used in place of nickel. Which of them is more
