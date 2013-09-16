@@ -1,8 +1,9 @@
+# @(#) $Id: cfg2html-linux.sh,v 6.11 2013-09-16 11:05:59 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2013 by Ralph Roth  -*- http://rose.rult.at -*-
 
 #  If you change this script, please mark your changes with for example
-#  ## <username> and send your diffs from the actual version to my email
+#  ## <username> and send your diffs from the actual version to my mail
 #  address: cfg2html*hotmail.com -- details see in the documentation
 
 CFGSH=$_
@@ -24,7 +25,7 @@ CFGSH=$_
 ## /usr/lib64/qt-3.3/bin:/usr/kerberos/sbin:/usr/kerberos/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin
 PATH=$PATH:/sbin:/bin:/usr/sbin:/opt/omni/bin:/opt/omni/sbin  ## this is a fix for wrong su root (instead for su - root)
 
-_VERSION="cfg2html-linux version $VERSION "  # this a common stream so we dont need the "Proliant stuff"
+_VERSION="cfg2html-linux version $VERSION "  # this a common stream so we don?t need the "Proliant stuff"
 
 #
 # getopt
@@ -826,7 +827,7 @@ then # else skip to next paragraph
 
 #### programming stuff ####
 # plugin for cfg2html/linux/hpux #  22.11.2005, 16:03 modified by Ralph Roth
-# @(#)$Id: cfg2html-linux,v 2.66 2013-02-09 10:24:37 ralph Exp $
+# @(#)$Id: cfg2html-linux.sh,v 6.11 2013-09-16 11:05:59 ralph Exp $
 
  exec_command ProgStuff "Software Development: Programs and Versions"
 
