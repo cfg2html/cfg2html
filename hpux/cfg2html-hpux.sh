@@ -737,8 +737,11 @@ else
     
 fi # end of if HPVM Host OS
 
+# as this outside a block we need to incr/dec the heading level
+inc_heading_level
 # more VSE stuff here #  30.08.2007, 15:38 modified by Ralph Roth
 [ -x /opt/gwlm/bin/gwlmstatus ] && exec_command "/opt/gwlm/bin/gwlmstatus --verbose" "gWLM Status"
+dec_heading_level
 
 # collect Client Information
 model |grep "Integrity Virtual Machine" 2> /dev/null > /dev/null
@@ -1318,7 +1321,7 @@ then # else skip to next paragraph
     [ -x /opt/samba/bin/smbstatus ] && exec_command "/opt/samba/bin/smbstatus 2>/dev/null" "Samba (smbstatus)"
     [ -x /opt/samba/bin/testparm ] && exec_command "/opt/samba/bin/testparm -s 2>&1" "Samba Configuration"
     [ -x /opt/samba/bin.org/testparm ] && exec_command "/opt/samba/bin.org/testparm -s" "Samba Configuration (bin.org)" ## ????
-    [ -f /sbin/init.d/samba ] && exec_command "ps -ef | grep -e swat -e smb -e nmb|grep -v grep" "Samba Demons"
+    [ -f /sbin/init.d/samba ] && exec_command "ps -ef | grep -e swat -e smb -e nmb|grep -v grep" "Samba Daemons"
     
     ########### OpenView, OV, OpC etc. #################
     [ -x /opt/OV/bin/OpC/opcagt ] && {
@@ -1363,6 +1366,7 @@ then # else skip to next paragraph
     ### System Health Check (SHC), 04.08.2004, rar #########################################
     [ -x /opt/hpsmc/shc/bin/shc ] && exec_command "(/opt/hpsmc/shc/bin/shc -V; /opt/hpsmc/shc/bin/shc -q)" "System Health Check Version"
     
+    dec_heading_level
     ########### Below everything is a "sub-chapter" ############################
     
     
