@@ -1,7 +1,7 @@
 Name:		cfg2html
 Version:	6.0
 Release:	1%{?dist}
-Summary:	Config 2 HTML is a tool to collect system information in HTML and ASCII format
+Summary:	Config2HTML is a tool to collect system information in HTML and ASCII format
 
 Group:		Applications/File
 License:	GPLv3
@@ -15,7 +15,7 @@ BuildArch:	noarch
 Requires:	bash
 
 %description
-The cfg2html script is the "swiss army knife" for the System Administrators. It was primarly written to get the necessary information to plan an update, or to perform basic trouble shooting or performance analysis.
+Swiss army knife script for the System Administrators as it was primarily written to get the necessary information to plan an update, or to perform basic trouble shooting or performance analysis.
 
 %prep
 %setup -q -n cfg2html-6.0-git201305060719
@@ -45,7 +45,7 @@ The cfg2html script is the "swiss army knife" for the System Administrators. It 
 
 
 %changelog
-* Wed May  29 2013 Gratien D'haese <gratien.dhaese@gmail.com>
+* Wed May  29 2013 Gratien D'haese <gratien.dhaese@gmail.com> - 6.0
   update cron lines
 * Wed May  01 2013 Gratien D'haese <gratien.dhaese@gmail.com>
   initial spec file for cfg2html
