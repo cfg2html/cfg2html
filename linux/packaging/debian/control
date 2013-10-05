@@ -1,11 +1,11 @@
-Source: cfg2html-linux
+Source: cfg2html
 Section: admin
 Priority: optional
 Maintainer:Ralph Roth <cfg2html@hotmail.com>; Michael Meifert <dk3hg@users.sourceforge.net>;
 Build-Depends: debhelper (>> 3.0.0), make, gnupg, fakeroot, gawk, alien
 Standards-Version:  3.7.2
 
-Package: cfg2html-linux
+Package: cfg2html
 Architecture: all
 Depends: bash (>=2.0),debianutils(>=1.16), gawk, coreutils, psmisc
 Description: Collects Linux system configuration into a HTML and text file.  

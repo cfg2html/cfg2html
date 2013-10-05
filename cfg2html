@@ -25,7 +25,7 @@ fi
 
 PRODUCT="Config to HTML - cfg2html"
 PROGRAM=cfg2html
-VERSION=6.10.1-git201305060719
+VERSION=6.0
 RELEASE_DATE="2013-05-06"
 OS=$(uname)
 OS=$(echo $OS | tr 'A-Z' 'a-z' | sed -e 's/-//')

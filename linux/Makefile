@@ -39,13 +39,13 @@ dscfile = packaging/debian/$(name).dsc
 distversion = $(version)
 debrelease = 0
 rpmrelease = %nil
-obsproject = 
+obsproject = home:gdha
 obspackage = $(name)-$(version)
 ifeq ($(OFFICIAL),)
     distversion = $(version)-git$(date)
     debrelease = 0git$(date)
     rpmrelease = .git$(date)
-    obsproject = 
+    obsproject = home:gdha
     obspackage = $(name)
 endif
 
@@ -105,8 +105,11 @@ cron:
 ifneq ($(git_date),)
 rewrite:
 	@echo -e "\033[1m== Rewriting $(specfile), $(dscfile) and $(cfg2htmlbin) ==\033[0;0m"
+	cp -f $(specfile) $(specfile).orig
+	cp -f $(dscfile) $(dscfile).orig
+	cp -f $(cfg2htmlbin) $(cfg2htmlbin).orig
 	sed -i.orig \
-		-e 's#^Source:.*#Source: http://www.it3.be/downloads/cfg2html/$(name)-$(distversion).tar.gz#' \
+		-e 's#^Source:.*#Source: $(name)-$(distversion).tar.gz#' \
 		-e 's#^Version:.*#Version: $(version)#' \
 		-e 's#^%define rpmrelease.*#%define rpmrelease $(rpmrelease)#' \
 		-e 's#^%setup.*#%setup -q -n $(name)-$(distversion)#' \
@@ -120,7 +123,7 @@ rewrite:
 		$(cfg2htmlbin)
 
 restore:
-	@echo -e "\033[1m== Restoring $(specfile) and $(cfg2htmlbin) ==\033[0;0m"
+	@echo -e "\033[1m== Restoring $(specfile), $(dscfile) and $(cfg2htmlbin) ==\033[0;0m"
 	mv -f $(specfile).orig $(specfile)
 	mv -f $(dscfile).orig $(dscfile)
 	mv -f $(cfg2htmlbin).orig $(cfg2htmlbin)
@@ -176,7 +179,11 @@ install-doc:
 		-e 's,/usr/share/doc/packages,$(datadir)/doc,' \
 		$(DESTDIR)$(mandir)/man8/cfg2html.8
 
-install: validate man install-config rewrite install-bin restore install-data install-var install-doc
+install-cron: cron
+	echo -e "\033[1m== Installing cron ==\033[0;0m"
+	install -Dp -m0755 ../$(name).cron $(DESTDIR)$(sysconfdir)/cfg2html/$(name).cron
+
+install: validate man install-config rewrite install-bin restore install-data install-var install-doc install-cron
 
 uninstall:
 	@echo -e "\033[1m== Uninstalling Config 2 HTML ==\033[0;0m"
@@ -186,7 +193,7 @@ uninstall:
 #	rm -rv $(DESTDIR)$(sysconfdir)/cfg2html/
 #	rm -rv $(DESTDIR)$(localstatedir)/lib/cfg2html/
 
-dist: clean validate man rewrite $(name)-$(distversion).tar.gz restore cron
+dist: clean validate man rewrite $(name)-$(distversion).tar.gz restore
 
 $(name)-$(distversion).tar.gz:
 	@echo -e "\033[1m== Building archive $(name)-$(distversion) ==\033[0;0m"
@@ -235,20 +242,21 @@ ifneq ($(obsname),$(name)-$(distversion))
 	mkdir -p $(BUILD_DIR)
 ifneq ($(OFFICIAL),)
 #	osc rdelete -m 'Recreating branch $(obspackage)' $(obsproject) $(obspackage)
-	-osc branch <NAME??> cfg2html $(obsproject) $(obspackage)
+	-osc branch home:gdha cfg2html $(obsproject) $(obspackage)
 	-osc detachbranch $(obsproject) $(obspackage)
 endif
-	osc co -c $(obsproject) $(obspackage) -o $(BUILD_DIR)
-	-osc del $(BUILD_DIR)/*.tar.gz
-	cp $(name)-$(distversion).tar.gz $(BUILD_DIR)
-	tar -xOzf $(name)-$(distversion).tar.gz -C $(BUILD_DIR) $(name)-$(distversion)/$(specfile) >$(BUILD_DIR)/$(name).spec
-	tar -xOzf $(name)-$(distversion).tar.gz -C $(BUILD_DIR) $(name)-$(distversion)/$(dscfile) >$(BUILD_DIR)/$(name).dsc
-	tar -xOzf $(name)-$(distversion).tar.gz -C $(BUILD_DIR) $(name)-$(distversion)/packaging/debian/control >$(BUILD_DIR)/debian.control
-	tar -xOzf $(name)-$(distversion).tar.gz -C $(BUILD_DIR) $(name)-$(distversion)/packaging/debian/rules >$(BUILD_DIR)/debian.rules
-	echo -e "cfg2html ($(version)-$(debrelease)) stable; urgency=low\n\n  * new snapshot build\n\n -- OpenSUSE Build System <obs@relax-and-recover.org> $$(date -R)" >$(BUILD_DIR)/debian.changelog
-	tar -xOzf $(name)-$(distversion).tar.gz -C $(BUILD_DIR) $(name)-$(distversion)/packaging/debian/changelog >>$(BUILD_DIR)/debian.changelog
-	cd $(BUILD_DIR); osc addremove
-	osc ci -m "Update to $(name)-$(distversion)" $(BUILD_DIR)
+	(cd $(BUILD_DIR) ; osc co -c $(obsproject) $(obspackage) )
+	-(cd $(BUILD_DIR)/$(obspackage) ; osc del *.tar.gz )
+	cp ../$(name)-$(distversion).tar.gz $(BUILD_DIR)/$(obspackage)
+	#cp ../$(name).cron $(BUILD_DIR)/$(obspackage)
+	tar -xOzf ../$(name)-$(distversion).tar.gz -C $(BUILD_DIR)/$(obspackage) $(name)-$(distversion)/linux/$(specfile) >$(BUILD_DIR)/$(obspackage)/$(name).spec
+	tar -xOzf ../$(name)-$(distversion).tar.gz -C $(BUILD_DIR)/$(obspackage) $(name)-$(distversion)/linux/$(dscfile) >$(BUILD_DIR)/$(obspackage)/$(name).dsc
+	tar -xOzf ../$(name)-$(distversion).tar.gz -C $(BUILD_DIR)/$(obspackage) $(name)-$(distversion)/linux/packaging/debian/control >$(BUILD_DIR)/$(obspackage)/debian.control
+	tar -xOzf ../$(name)-$(distversion).tar.gz -C $(BUILD_DIR)/$(obspackage) $(name)-$(distversion)/linux/packaging/debian/rules >$(BUILD_DIR)/$(obspackage)/debian.rules
+	echo -e "cfg2html ($(version)-$(debrelease)) stable; urgency=low\n\n  * new snapshot build\n\n -- OpenSUSE Build System <obs@relax-and-recover.org> $$(date -R)" >$(BUILD_DIR)/$(obspackage)/debian.changelog
+	tar -xOzf ../$(name)-$(distversion).tar.gz -C $(BUILD_DIR)/$(obspackage) $(name)-$(distversion)/linux/packaging/debian/changelog >>$(BUILD_DIR)/$(obspackage)/debian.changelog
+	cd $(BUILD_DIR)/$(obspackage); osc addremove
+	cd $(BUILD_DIR)/$(obspackage); osc ci -m "Update to $(name)-$(distversion)" $(BUILD_DIR)/$(obspackage)
 	rm -rf $(BUILD_DIR)
 	@echo -e "\033[1mNow visit https://build.opensuse.org/package/show?package=cfg2html&project=$(obsproject)"
 	@echo -e "or inspect the queue at: https://build.opensuse.org/monitor\033[0;0m"
