@@ -100,7 +100,6 @@ cron:
 	@echo -e "\033[1m== Make a cron file ==\033[0;0m"
 	echo "$$((RANDOM % 55)) $$((RANDOM % 5)) * * $$((RANDOM % 5)) root /usr/sbin/cfg2html -2\%Y\%m\%d > /dev/null 2>&1" \
 	> ../$(name).cron
-	chmod 755 ../$(name).cron
 
 ifneq ($(git_date),)
 rewrite:
@@ -181,7 +180,8 @@ install-doc:
 
 install-cron: cron
 	echo -e "\033[1m== Installing cron ==\033[0;0m"
-	install -Dp -m0755 ../$(name).cron $(DESTDIR)$(sysconfdir)/cfg2html/$(name).cron
+	install -Dp -m0644 ../$(name).cron $(DESTDIR)$(sysconfdir)/cron.d/$(name)
+	rm -f ../$(name).cron
 
 install: validate man install-config rewrite install-bin restore install-data install-var install-doc install-cron
 
@@ -253,7 +253,7 @@ endif
 	tar -xOzf ../$(name)-$(distversion).tar.gz -C $(BUILD_DIR)/$(obspackage) $(name)-$(distversion)/linux/$(dscfile) >$(BUILD_DIR)/$(obspackage)/$(name).dsc
 	tar -xOzf ../$(name)-$(distversion).tar.gz -C $(BUILD_DIR)/$(obspackage) $(name)-$(distversion)/linux/packaging/debian/control >$(BUILD_DIR)/$(obspackage)/debian.control
 	tar -xOzf ../$(name)-$(distversion).tar.gz -C $(BUILD_DIR)/$(obspackage) $(name)-$(distversion)/linux/packaging/debian/rules >$(BUILD_DIR)/$(obspackage)/debian.rules
-	echo -e "cfg2html ($(version)-$(debrelease)) stable; urgency=low\n\n  * new snapshot build\n\n -- OpenSUSE Build System <obs@relax-and-recover.org> $$(date -R)" >$(BUILD_DIR)/$(obspackage)/debian.changelog
+	echo -e "cfg2html ($(version)-$(debrelease)) stable; urgency=low\n\n  * new snapshot build\n\n -- OpenSUSE Build System <obs@cfg2html> $$(date -R)" >$(BUILD_DIR)/$(obspackage)/debian.changelog
 	tar -xOzf ../$(name)-$(distversion).tar.gz -C $(BUILD_DIR)/$(obspackage) $(name)-$(distversion)/linux/packaging/debian/changelog >>$(BUILD_DIR)/$(obspackage)/debian.changelog
 	cd $(BUILD_DIR)/$(obspackage); osc addremove
 	cd $(BUILD_DIR)/$(obspackage); osc ci -m "Update to $(name)-$(distversion)" $(BUILD_DIR)/$(obspackage)

@@ -1,13 +1,15 @@
 Source: cfg2html
 Section: admin
 Priority: optional
+Essential: no
 Maintainer:Ralph Roth <cfg2html@hotmail.com>; Michael Meifert <dk3hg@users.sourceforge.net>;
-Build-Depends: debhelper (>> 3.0.0), make, gnupg, fakeroot, gawk, alien
-Standards-Version:  3.7.2
+Homepage: http://come.to/cfg2html
 
 Package: cfg2html
 Architecture: all
-Depends: bash (>=2.0),debianutils(>=1.16), gawk, coreutils, psmisc
+Provides: cfg2html
+Build-Depends: debhelper (>> 3.0.0)
+Depends: bash (>=2.0), debianutils(>=1.16), gawk, coreutils, psmisc
 Description: Collects Linux system configuration into a HTML and text file.  
  Config to HTML is the "swiss army knife" for the ASE, CE, sysadmin
  etc. I wrote it to get the nessary informations to plan an update,
@@ -16,6 +18,4 @@ Description: Collects Linux system configuration into a HTML and text file.
  Linux System, Cron and At, installed Hardware, installed Software,
  Filesystems, Dump- and Swapconfiguration, LVM, Network Settings, 
  Kernel, Systemenhancements and Applications, Subsystems.
- The newest versions are downloadable at:      http://come.to/cfg2html
- The newest beta versions are downloadable at: www.cfg2html.com
  

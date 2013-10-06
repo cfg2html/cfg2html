@@ -13,6 +13,7 @@ help:
 	@echo "|    =================    |"
 	@echo "|    HP-UX: \"make depot\"  |"
 	@echo "|    Linux: \"make rpm\"    |"
+	@echo "|    Linux: \"make deb\"    |"
 	@echo "+-------------------------+"
 
 depot:
@@ -20,6 +21,9 @@ depot:
 
 rpm:
 	make -C linux rpm
+
+deb:
+	make -C linux deb
 
 clean:
 	i=`uname -s`; case $$i in HP-UX) gmake -C hpux clean;; Linux) make -C linux clean;; *) make help;; esac

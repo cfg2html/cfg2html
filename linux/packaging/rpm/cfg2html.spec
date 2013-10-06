@@ -14,7 +14,7 @@ Group:		Applications/File
 License:	GPLv3
 URL:		http://cfg2html.com/
 Source:		cfg2html-%{version}.tar.gz
-Source1:	%{name}.cron
+#Source1:	%{name}.cron
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:	noarch
 
@@ -34,7 +34,7 @@ Swiss army knife script for the System Administrators as it was primarily writte
 %install
 %{__rm} -rf %{buildroot}
 %{__make} -C linux install DESTDIR="%{buildroot}"
-%{__install} -Dp -m0644 %{name}.cron %{buildroot}%{_sysconfdir}/cron.d/%{name}
+#%{__install} -Dp -m0644 %{name}.cron %{buildroot}%{_sysconfdir}/cron.d/%{name}
 
 %clean
 %{__rm} -rf %{buildroot}
