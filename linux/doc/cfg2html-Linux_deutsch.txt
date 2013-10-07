@@ -1,4 +1,4 @@
-$Id: cfg2html-Linux_deutsch.txt,v 2.12 2012-12-17 13:08:33 ralph Exp $
+$Id: cfg2html-Linux_deutsch.txt,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $
 ---------------------------------------------------------------------------
 
 Installation unter OpenSUSE/SLES 11
