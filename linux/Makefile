@@ -1,6 +1,11 @@
-# In some dists (e.g. Ubuntu) bash is not the default shell. Statements like 
+# @(#) $Id: Makefile,v 6.12 2013-10-07 07:13:36 ralph Exp $
+# -------------------------------------------------------------------------
+# vim:ts=8:sw=4:sts=4 -*-
+
+# In some dists (e.g. Ubuntu) bash is not the default shell. Statements like
 #   cp -a etc/cfg2html/{mappings,templates} ...
 # assumes bash. So its better to set SHELL
+
 SHELL=/bin/bash
 
 DESTDIR =
@@ -9,7 +14,7 @@ OFFICIAL =
 ### Get version from Config 2 HTML itself
 cfg2htmlbin = ../cfg2html
 name = cfg2html
-version := $(shell awk 'BEGIN { FS="=" } /^VERSION=/ { print $$2}' $(cfg2htmlbin) | cut -d"-" -f1)
+version := $(shell awk '/^CVS=/ { print $$3}' $(cfg2htmlbin))
 
 ### Get the branch information from git
 ifeq ($(OFFICIAL),)

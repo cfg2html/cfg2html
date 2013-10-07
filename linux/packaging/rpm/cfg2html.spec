@@ -1,4 +1,4 @@
-%define rpmrelease %{nil}
+%define rpmrelease .git201310070839
 
 ### Work-around the fact that OpenSUSE/SLES _always_ defined both :-/
 %if 0%{?sles_version} == 0
@@ -6,14 +6,14 @@
 %endif
 
 Name:		cfg2html
-Version:	6.0
+Version: 6.11
 Release:	1%{?rpmrelease}%{?dist}
 Summary:	Config 2 HTML is a tool to collect system information in HTML and ASCII format
 
 Group:		Applications/File
 License:	GPLv3
 URL:		http://cfg2html.com/
-Source:		cfg2html-%{version}.tar.gz
+Source: cfg2html-6.11-git201310070839.tar.gz
 #Source1:	%{name}.cron
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:	noarch
@@ -25,7 +25,7 @@ Requires:	bash
 Swiss army knife script for the System Administrators as it was primarily written to get the necessary information to plan an update, or to perform basic trouble shooting or performance analysis.
 
 %prep
-%setup -q 
+%setup -q -n cfg2html-6.11-git201310070839
 
 
 %build
