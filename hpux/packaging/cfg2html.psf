@@ -63,7 +63,6 @@ product
 	file -m 755 -o root -g sys dumplvmtab.hppa
 	file -m 755 -o root -g sys find_non_inq_luns.sh
 	file -m 755 -o root -g sys find_non_lvm_luns.sh
-	file -m 755 -o root -g sys firmware_collect.sh
 	file -m 755 -o root -g sys getVAlogs.sh
 	file -m 755 -o root -g sys get_bootdisk.sh
 	file -m 755 -o root -g sys get_cellinfo.sh

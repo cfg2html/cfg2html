@@ -521,7 +521,8 @@ then # else skip to next paragraph
     fi
     [ -x /usr/sbin/icapmanage ] && exec_command "/usr/sbin/icapmanage -sv" "GiCAP Status"           # <c/m/a>  12.08.2008 - Ralph Roth
     
-    [ "$CFG_HWDISK" = "no" ] || exec_command $PLUGINS/firmware_collect.sh "Disk Firmware Collect with Hardware Path"
+# firmware_collect.sh obsolete - see issue #3
+#    [ "$CFG_HWDISK" = "no" ] || exec_command $PLUGINS/firmware_collect.sh "Disk Firmware Collect with Hardware Path"
     [ "$CFG_HWDISK" = "no" ] || exec_command $PLUGINS/get_diskfirmware.sh "Disk Firmware Collect with Device Files"
     
     ## exec_command "$PLUGINS/check_elroy.sh" "L+N Class Elroy Check" # 17032004, I thinks this is obsolete?, rr
