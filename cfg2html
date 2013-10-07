@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
+# @(#) $Id: cfg2html,v 6.11 2013-10-07 06:37:15 ralph Exp $
 # -------------------------------------------------------------------------
 # CFG2HTML - license
 # -------------------------------------------------------------------------
@@ -25,8 +25,8 @@ fi
 
 PRODUCT="Config to HTML - cfg2html"
 PROGRAM=cfg2html
-VERSION=6.0
-RELEASE_DATE="2013-05-06"
+VERSION=6.10
+RELEASE_DATE="2013-10-06"
 OS=$(uname)
 OS=$(echo $OS | tr 'A-Z' 'a-z' | sed -e 's/-//')
 CFG_CMDLINE=$*
@@ -48,6 +48,7 @@ case $MY_OS in
     Linux|SunOS) TMP_DIR="$(mktemp -d cfg2html.XXXXXXXXXXXXXXX)" ;;
     *) TMP_DIR="/tmp/${PROGRAM}_${RANDOM}" ;;
 esac
+
 SHARE_DIR="/usr/share/$PROGRAM"   	# final location of script and sub-dirs (containing scripts/functions)
 CONFIG_DIR="/etc/$PROGRAM"
 VAR_DIR="/var/log/$PROGRAM"
@@ -56,17 +57,17 @@ VERBOSE=
 DEBUG=
 
 # If cfg2html is installed in a directory not in the PATH ## menguyj@yahoo.fr add 06.03.2012
-MYPATH=$(dirname $0)
+MYPATH=$(dirname $0) ## maybe we need here the whence() fix from BH for the HPUX version?
 # define our BASE_DIR according the location of our SHARE_DIR
 [[ -d $SHARE_DIR ]] && BASE_DIR="$SHARE_DIR" || BASE_DIR="${MYPATH}/$OS"
 
-# check the CONFIG_DIR and redine when running from current dir
+# check the CONFIG_DIR and redine(?) when running from current dir
 [[ ! -d $CONFIG_DIR ]] && CONFIG_DIR="$BASE_DIR/conf"
 
 # source of configuration file(s) - important: treat these as scripts
 [[ -f $CONFIG_DIR/default.conf ]] && . $CONFIG_DIR/default.conf
-# source you own configuration file which overrides settings in the default.conf
-# in the local.conf you could define OUTPUT_URL setings
+# source your own configuration file which overrides settings in the default.conf
+# in the local.conf you could define OUTPUT_URL settings
 [[ -f $CONFIG_DIR/local.conf ]] && . $CONFIG_DIR/local.conf
 
 # include functions

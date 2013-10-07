@@ -1,7 +1,10 @@
 #  !/usr/bin/ksh
 #######################################################################
-# @(#) $Id: make_index.sh,v 4.18 2010-04-27 09:31:02 ralproth Exp $
+# @(#) $Id: make_index.sh,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $
 # $Log: make_index.sh,v $
+# Revision 6.10.1.1  2013-09-12 16:13:19  ralph
+# Initial 6.10.1 import from GIT Hub, 12.09.2013
+#
 # Revision 4.18  2010-04-27 09:31:02  ralproth
 # cfg4.70-24165: fixes for cfg2html_solaris 1.6.4
 #
@@ -47,7 +50,7 @@ OUT=index.htm
 echo "Make_Index for Cfg2Html (HP-UX and *nix)"
 echo "-------------------------------------------------------------------------"
 echo "Make_Index creates an index of your cfg2html collected hosts files"
-echo "\$Id: make_index.sh,v 4.18 2010-04-27 09:31:02 ralproth Exp $"
+echo "\$Id: make_index.sh,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $"
 echo ""
 
 cat >$OUT<<EOF

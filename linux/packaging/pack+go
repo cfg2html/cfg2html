@@ -1,7 +1,7 @@
-# @(#) $Id: pack+go,v 2.18 2013-02-09 10:24:37 ralph Exp $
+# @(#) $Id: pack+go,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997 - 2013 by Ralph Roth  -*- http://rose.rult.at -*-
-## $Header: /home/cvs/cfg2html/cfg2html_linux/pack+go,v 2.18 2013-02-09 10:24:37 ralph Exp $
+## $Header: /home/cvs/cfg2html/cfg2html/linux/packaging/pack+go,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $
 
 
 rm -f  ~/cfg2html_back.jpg ~/profbull.gif
