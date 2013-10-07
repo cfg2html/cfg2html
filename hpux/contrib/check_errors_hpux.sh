@@ -7,10 +7,13 @@
 # Written to quick check the health of your systems.
 # (c) by Ralph Roth // http://rose.rult.at
 ###############################################################################
-# @(#) $Id: check_errors_hpux.sh,v 5.16 2013-02-09 10:24:35 ralph Exp $
+# @(#) $Id: check_errors_hpux.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 # svn.446/624 backport
 ###############################################################################
 # $Log: check_errors_hpux.sh,v $
+# Revision 6.10.1.1  2013-09-12 16:13:15  ralph
+# Initial 6.10.1 import from GIT Hub, 12.09.2013
+#
 # Revision 5.16  2013-02-09 10:24:35  ralph
 # replaced defect come.to redirector with rose.rult.at
 #
@@ -50,11 +53,11 @@ line()
         echo "#####  "$1"  ##########################################################################" | cut -c1-77
 }
 
-echo "# Check4Errors: \$Id: check_errors_hpux.sh,v 5.16 2013-02-09 10:24:35 ralph Exp $"
+echo "# Check4Errors: \$Id: check_errors_hpux.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $"
 
 [ $(id -u) -ne 0 ] && (echo YOU are not ROOT!; exit 1) # root-check
 
-logger -t check4err"["$$"]"  "Start of shell script: \$Id: check_errors_hpux.sh,v 5.16 2013-02-09 10:24:35 ralph Exp $"
+logger -t check4err"["$$"]"  "Start of shell script: \$Id: check_errors_hpux.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $"
 MAD=$(ps -ef | grep mad | grep -v grep) ## runs the mad daemon at all?
 if [ -n "$MAD" ]
 then
@@ -476,7 +479,7 @@ find -L / -nouser -nogroup 2> /dev/null  | grep -v -E '/opt/VRTSob/jre/|/opt/tiv
 
 ###################################################### end ##############
 line "end of check4errors"
-logger -t check4err"["$$"]"  "End of shell script: \$Id: check_errors_hpux.sh,v 5.16 2013-02-09 10:24:35 ralph Exp $"
+logger -t check4err"["$$"]"  "End of shell script: \$Id: check_errors_hpux.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $"
 
 ### optional to add in future release
 # ---------------------------------------------------------------------------
