@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------------
 # This plugin is part of the cfg2html package for HP-UX
 # --------------------------------------------------------------------------- 
-# SGCCC -  @(#) $Id: sg_cluster_conf_checker.sh,v 5.14 2013-02-09 10:24:35 ralph Exp $
+# SGCCC -  @(#) $Id: sg_cluster_conf_checker.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 # Initial creation and copyright: 08.07.2008, (c) by Ralph Roth, http://rose.rult.at
 # ---------------------------------------------------------------------------
 # assumes the following to be true:
@@ -47,7 +47,7 @@ GETCMBIN="yes"
    
 echo "# Serviceguard "$(cmversion)" Cluster Configuration Checker [SGCCC] on cluster $CL"
 echo "# ---------------------------------------------------------------------------"
-echo "# \$Id: sg_cluster_conf_checker.sh,v 5.14 2013-02-09 10:24:35 ralph Exp $\n"
+echo "# \$Id: sg_cluster_conf_checker.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $\n"
 
 #### fetch Serviceguard Environment ####
 . ${SGCONFFILE:=/etc/cmcluster.conf}
@@ -319,6 +319,9 @@ exit 0
 # CVS history/log (cfg2html_hpux):
 # ---------------------------------------------------------------------------
 # $Log: sg_cluster_conf_checker.sh,v $
+# Revision 6.10.1.1  2013-09-12 16:13:15  ralph
+# Initial 6.10.1 import from GIT Hub, 12.09.2013
+#
 # Revision 5.14  2013-02-09 10:24:35  ralph
 # replaced defect come.to redirector with rose.rult.at
 #

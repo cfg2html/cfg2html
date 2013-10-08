@@ -1,4 +1,4 @@
-# @(#) $Id:$
+# @(#) $Id: shell-functions.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 # -------------------------------------------------------------------------
 # common shell functions for all versions
 

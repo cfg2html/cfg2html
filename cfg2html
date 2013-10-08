@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html,v 6.12 2013-10-07 07:13:36 ralph Exp $
+# @(#) $Id: cfg2html,v 6.13 2013-10-08 08:53:58 ralph Exp $
 # -------------------------------------------------------------------------
 # CFG2HTML - license: see GPL v3
 # -------------------------------------------------------------------------
@@ -25,7 +25,7 @@ fi
 
 PRODUCT="Config to HTML - cfg2html"
 # this CVS id is also used by the Makefiles to get the version number!
-CVS="$Id: cfg2html,v 6.12 2013-10-07 07:13:36 ralph Exp $"
+CVS="$Id: cfg2html,v 6.13 2013-10-08 08:53:58 ralph Exp $"
 
 ##PROGRAM=cfg2html
 ##VERSION=6.10
@@ -49,7 +49,7 @@ LANG_ALL="C"
 LC_MESSAGE="C"
 
 if [[ "$(whoami)" != "root" ]]; then
-    echo "$(whoami) - You must be root to run script $PROGRAM"
+    echo "$(whoami) - You must be root to run the script $PROGRAM"
     exit 1
 fi
 
@@ -60,7 +60,7 @@ trap "DoExitTasks" 0 1
 case $MY_OS in
     HP-UX) TMP_DIR="$(mktemp -d /tmp -p cfg2html_)" ;;
     Linux|SunOS) TMP_DIR="$(mktemp -d cfg2html.XXXXXXXXXXXXXXX)" ;;
-    *) TMP_DIR="/tmp/${PROGRAM}_${RANDOM}" ;;
+    *) TMP_DIR="/tmp/${PROGRAM}_${RANDOM}" ;;				## hopefully AIX and SUN have $RANDOM too
 esac
 
 SHARE_DIR="/usr/share/$PROGRAM"   	# final location of script and sub-dirs (containing scripts/functions)

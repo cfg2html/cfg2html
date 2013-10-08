@@ -3,7 +3,7 @@
 # with scripts like doall.sh, getfc.sh or
 # lrm -c "/hzd_admin/admin/getfcmini.sh" PUT sap omscl | tee /home/rroth/fcmini.txt
 # ---------------------------------------------------------------------------
-# @(#) $Id: getfcmini.sh,v 5.14 2013-02-09 10:24:35 ralph Exp $
+# @(#) $Id: getfcmini.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 # IC/Copyright: 13.07.2006 by Ralph Roth, http://rose.rult.at
 # ---------------------------------------------------------------------------
 # 25.04.2008, 09:26, rr - Merge svn.217+cvs 3.3
