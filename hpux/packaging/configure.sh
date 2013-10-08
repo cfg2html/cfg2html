@@ -20,7 +20,7 @@
 function _add_OUTPUT_URL_entry {
     # function specific for J&J -- maybe we should remove this? rr
     /usr/bin/grep -q jnj /etc/resolv.conf && {
-    /usr/bin/echo "OUTPUT_URL=nfs://itsusravunx01.jnj.com/vol/itsusravunx01_its/unix_images/hpux" >> $CFGFILE
+    /usr/bin/echo "OUTPUT_URL=nfs://itsbebevcorp01.jnj.com/vol/itsbebevcorp01_cfg2html/cfg2html/hpux" >> $CFGFILE
     /usr/bin/echo "       * Added OUTPUT_URL entry to $CFGFILE"
     /usr/bin/echo "        " $(/usr/bin/tail -1 $CFGFILE)
     }
