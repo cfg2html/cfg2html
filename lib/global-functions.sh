@@ -176,3 +176,4 @@ function DoExitTasks {
     rm -f /tmp/cfg2html.respawn $LOCK
     rm -rf $TMP_DIR
 }
+
