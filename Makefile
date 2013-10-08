@@ -25,6 +25,9 @@ rpm:
 deb:
 	make -C linux deb
 
+dist:
+	make -C linux dist
+
 clean:
 	i=`uname -s`; case $$i in HP-UX) gmake -C hpux clean;; Linux) make -C linux clean;; *) make help;; esac
-	
+
