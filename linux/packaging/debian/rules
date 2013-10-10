@@ -30,7 +30,7 @@ build-stamp: configure-stamp
 	dh_testdir
 
 	# Add here commands to compile the package.
-	$(MAKE) dist
+	#$(MAKE) dist
 	#/usr/bin/docbook-to-man debian/cfg2html-linux.sgml > cfg2html-linux.1
 
 	touch build-stamp
@@ -55,31 +55,31 @@ binary-indep: build
 
 	#  The DESTDIR Has To Be Exactly debian/cfg2html
 	mkdir -vp -m0755 \
-		debian/cfg2html/etc/ \
+		debian/cfg2html/etc/cfg2html/ \
 		debian/cfg2html/usr/sbin/ \
-		debian/cfg2html/usr/share/ \
+		debian/cfg2html/usr/share/cfg2html/ \
 		debian/cfg2html/var/log/cfg2html/
 
 	# copy cfg2html components into directories
-	cp -av conf debian/cfg2html/etc/
-	cp -av cfg2html debian/cfg2html/usr/sbin/
-	cp -av cfg2html-linux.sh debian/cfg2html/usr/share/
-	cp -avLr lib debian/cfg2html/usr/share/
-	cp -av plugins debian/cfg2html/usr/share/
-	find debian/cfg2html/usr/share/ -name '.gitignore' -exec rm -rf {} \;
+	cp -av conf/* debian/cfg2html/etc/cfg2html/
+	cp -av ../cfg2html debian/cfg2html/usr/sbin/
+	cp -av cfg2html-linux.sh debian/cfg2html/usr/share/cfg2html/
+	cp -avLr lib debian/cfg2html/usr/share/cfg2html/
+	cp -av plugins debian/cfg2html/usr/share/cfg2html/
+	find debian/cfg2html/usr/share/cfg2html -name '.gitignore' -exec rm -rf {} \;
 
 	# patch cfg2html main script with correct locations for cfg2html components
 	sed -i \
 		-e 's#^CONFIG_DIR=.*#CONFIG_DIR="/etc/cfg2html"#' \
 		-e 's#^SHARE_DIR=.*#SHARE_DIR="/usr/share/cfg2html"#' \
 		-e 's#^VAR_DIR=.*#VAR_DIR="/var/lib/cfg2html"#' \
-		debian/rear/usr/sbin/cfg2html
+		debian/cfg2html/usr/sbin/cfg2html
 
 	# update man page with correct locations
-	install -Dp -m0644 doc/cfg2html.8 debian/rear/usr/share/man/man8/cfg2html.8
+	install -Dp -m0644 doc/cfg2html.8 debian/cfg2html/usr/share/man/man8/cfg2html.8
 	sed -i \
 		-e 's#/usr/share/doc/packages#/usr/share/doc#' \
-		debian/rear/usr/share/man/man8/cfg2html.8
+		debian/cfg2html/usr/share/man/man8/cfg2html.8
 
 	# --- end custom part for installing
 	#
@@ -98,7 +98,7 @@ binary-indep: build
 #	dh_installinfo
 #	dh_undocumented
 	dh_installchangelogs ## Changelog upstream
-	find debian/rear -name ".git*" -exec rm {} \;
+	find debian/cfg2html -name ".git*" -exec rm {} \;
 	dh_link
 #	dh_strip
 	dh_compress
