@@ -30,7 +30,7 @@ build-stamp: configure-stamp
 	dh_testdir
 
 	# Add here commands to compile the package.
-	# comment the make doc stuff for OBS
+	# comment the make doc stuff for OBS (asciidoc is not present)
 	#$(MAKE) -C linux/doc
 	#/usr/bin/docbook-to-man debian/cfg2html-linux.sgml > cfg2html-linux.1
 
@@ -62,11 +62,14 @@ binary-indep: build
 		debian/cfg2html/var/log/cfg2html/
 
 	# copy cfg2html components into directories
+	if [ `basename $$(pwd)` = "cfg2html" ]; then cd linux; fi
 	cp -av conf/* debian/cfg2html/etc/cfg2html/
 	cp -av ../cfg2html debian/cfg2html/usr/sbin/
 	cp -av cfg2html-linux.sh debian/cfg2html/usr/share/cfg2html/
 	cp -avLr lib debian/cfg2html/usr/share/cfg2html/
 	cp -av plugins debian/cfg2html/usr/share/cfg2html/
+	if [ `basename $$(pwd)` = "linux" ]; then cd ..; fi
+
 	find debian/cfg2html/usr/share/cfg2html -name '.gitignore' -exec rm -rf {} \;
 
 	# patch cfg2html main script with correct locations for cfg2html components
