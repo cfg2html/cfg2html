@@ -1,8 +1,11 @@
-# @(#) $Id: oracle_collect.sh,v 5.10.1.1 2011-02-15 14:29:05 ralproth Exp $
+# @(#) $Id: oracle_collect.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 # Oracle Configuration Collector 
 # based on initial script made by Frank Grabner
 # fixed onsite 22-Aug-2001 by Ralph Roth
 # $Log: oracle_collect.sh,v $
+# Revision 6.10.1.1  2013-09-12 16:13:15  ralph
+# Initial 6.10.1 import from GIT Hub, 12.09.2013
+#
 # Revision 5.10.1.1  2011-02-15 14:29:05  ralproth
 # Initial 5.xx import
 #
