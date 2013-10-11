@@ -1,7 +1,6 @@
 README
+COPYING
 AUTHORS
 debian/README.Debian
-contrib
-collect
-cfg2html.html
-cfg2html_Development_Tree.jpg
+doc/cfg2html.html
+doc/cfg2html_Development_Tree.jpg

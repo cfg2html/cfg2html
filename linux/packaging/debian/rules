@@ -30,7 +30,7 @@ build-stamp: configure-stamp
 	dh_testdir
 
 	# Add here commands to compile the package.
-	#$(MAKE) dist
+	$(MAKE) -C doc
 	#/usr/bin/docbook-to-man debian/cfg2html-linux.sgml > cfg2html-linux.1
 
 	touch build-stamp
@@ -85,7 +85,7 @@ binary-indep: build
 	#
 
 #	dh_installdebconf	
-	dh_installdocs README doc/*
+	dh_installdocs
 #	dh_installexamples
 #	dh_installmenu
 #	dh_installlogrotate
