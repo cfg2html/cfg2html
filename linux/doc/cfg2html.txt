@@ -1,0 +1,19 @@
+= CONFIG TO HTML (cfg2html)
+
+Cfg2html is a UNIX shell script similar to supportinfo, getsysinfo or get_config, except that it creates a HTML (and plain ASCII) system documentation for HP-UX 10.xx/11.xx, Integrity Virtual Machine, SCO-UNIX, AIX, Sun OS and Linux systems. Plug-ins for SAP, Oracle, Informix, Serviceguard, Fiber Channel/SAN, TIP/ix, OpenText (IXOS/LEA), SAN Mass Storage like MAS, EMC, EVA, XPs, Network Node Manager and DataProtector etc. are included. The first versions of cfg2html were written for HP-UX. Meanwhile the cfg2html HP-UX stream was ported to all major *NIX platforms and small embedded systems.
+
+Some consider it to be the Swiss army knife for the Account Support Engineer, Customer Engineer, System Admin, Solution Architect etc. Originally developed to plan a system update, it was also found useful to perform basic troubleshooting or performance analysis. The production of nice HTML and plain ASCII documentation is part of this utility.
+
+== History of cfg2html
+
+
+== Forks of cfg2html
+
+
+== Contributors
+
+
+== Copyright
+
+
+== Events
