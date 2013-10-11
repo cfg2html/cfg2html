@@ -1,4 +1,4 @@
-Format: 3.0
+Format: 1.0
 Source: cfg2html
 Version: 6.13-0git201310081642
 Binary: cfg2html
