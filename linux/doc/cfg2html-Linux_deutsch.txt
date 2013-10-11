@@ -1,6 +1,8 @@
 $Id: cfg2html-Linux_deutsch.txt,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $
 ---------------------------------------------------------------------------
 
+:encoding: ISO-8859-1
+
 Installation unter OpenSUSE/SLES 11
 
 # zypper in cfg2html-linux-2.*.rpm
