@@ -30,7 +30,8 @@ build-stamp: configure-stamp
 	dh_testdir
 
 	# Add here commands to compile the package.
-	$(MAKE) -C linux/doc
+	# comment the make doc stuff for OBS
+	#$(MAKE) -C linux/doc
 	#/usr/bin/docbook-to-man debian/cfg2html-linux.sgml > cfg2html-linux.1
 
 	touch build-stamp
