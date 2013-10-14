@@ -81,7 +81,7 @@ clean:
 	rm -f ../$(name)-$(distversion).tar.gz
 	rm -f build-stamp
 	make -C doc clean
-	rm -rf ../$(name).cron.d
+	rm -rf ../$(name).cron
 
 ### You can call 'make validate' directly from your .git/hooks/pre-commit script
 validate:
@@ -104,7 +104,7 @@ doc:
 cron:
 	@echo -e "\033[1m== Make a cron file ==\033[0;0m"
 	echo "$$((RANDOM % 55)) $$((RANDOM % 5)) * * $$((RANDOM % 5)) root /usr/sbin/cfg2html -2\%Y\%m\%d > /dev/null 2>&1" \
-	> ../$(name).cron.d
+	> ../$(name).cron
 
 ifneq ($(git_date),)
 rewrite:
@@ -185,8 +185,8 @@ install-doc:
 
 install-cron: cron
 	echo -e "\033[1m== Installing cron ==\033[0;0m"
-	install -Dp -m0644 ../$(name).cron.d $(DESTDIR)$(sysconfdir)/cron.d/$(name)
-	rm -f ../$(name).cron.d
+	install -Dp -m0644 ../$(name).cron $(DESTDIR)$(sysconfdir)/cron.d/$(name)
+	rm -f ../$(name).cron
 
 install: validate man install-config rewrite install-bin restore install-data install-var install-doc install-cron
 
@@ -240,7 +240,7 @@ pacman: dist
 
 obs: BUILD_DIR = /tmp/cfg2html-$(distversion)
 obs: obsname = $(shell osc ls $(obsproject) $(obspackage) | awk '/.tar.gz$$/ { gsub(".tar.gz$$","",$$1); print }')
-obs: dist
+obs: dist doc cron
 	@echo -e "\033[1m== Updating OBS from $(obsname) to $(name)-$(distversion)== \033[0;0m"
 ifneq ($(obsname),$(name)-$(distversion))
 	-rm -rf $(BUILD_DIR)
@@ -253,7 +253,7 @@ endif
 	(cd $(BUILD_DIR) ; osc co -c $(obsproject) $(obspackage) )
 	-(cd $(BUILD_DIR)/$(obspackage) ; osc del *.tar.gz )
 	cp ../$(name)-$(distversion).tar.gz $(BUILD_DIR)/$(obspackage)
-	#cp ../$(name).cron.d $(BUILD_DIR)/$(obspackage)
+	cp ../$(name).cron $(BUILD_DIR)/$(obspackage)
 	tar -xOzf ../$(name)-$(distversion).tar.gz -C $(BUILD_DIR)/$(obspackage) $(name)-$(distversion)/linux/$(specfile) >$(BUILD_DIR)/$(obspackage)/$(name).spec
 	tar -xOzf ../$(name)-$(distversion).tar.gz -C $(BUILD_DIR)/$(obspackage) $(name)-$(distversion)/linux/$(dscfile) >$(BUILD_DIR)/$(obspackage)/$(name).dsc
 	tar -xOzf ../$(name)-$(distversion).tar.gz -C $(BUILD_DIR)/$(obspackage) $(name)-$(distversion)/linux/packaging/debian/control >$(BUILD_DIR)/$(obspackage)/debian.control

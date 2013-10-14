@@ -57,9 +57,10 @@ binary-indep: build
 	#  The DESTDIR Has To Be Exactly debian/cfg2html
 	mkdir -vp -m0755 \
 		debian/cfg2html/etc/cfg2html/ \
+		debian/cfg2html/etc/cron.d/ \
 		debian/cfg2html/usr/sbin/ \
 		debian/cfg2html/usr/share/cfg2html/ \
-		debian/cfg2html/var/log/cfg2html/
+		debian/cfg2html/var/lib/cfg2html/
 
 	# copy cfg2html components into directories
 	cp -av conf/* debian/cfg2html/etc/cfg2html/
@@ -96,6 +97,7 @@ binary-indep: build
 #	dh_installmime
 #	dh_installinit
 	dh_installcron
+	install -Dp -m0644 ../cfg2html.cron debian/cfg2html/etc/cron.d/cfg2html
 #	dh_installman
 #	dh_installinfo
 #	dh_undocumented
