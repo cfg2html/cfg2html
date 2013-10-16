@@ -60,7 +60,7 @@ binary-indep: build
 		debian/cfg2html/etc/cron.d/ \
 		debian/cfg2html/usr/sbin/ \
 		debian/cfg2html/usr/share/cfg2html/ \
-		debian/cfg2html/var/lib/cfg2html/
+		debian/cfg2html/var/log/cfg2html/
 
 	# copy cfg2html components into directories
 	cp -av conf/* debian/cfg2html/etc/cfg2html/
@@ -75,7 +75,7 @@ binary-indep: build
 	sed -i \
 		-e 's#^CONFIG_DIR=.*#CONFIG_DIR="/etc/cfg2html"#' \
 		-e 's#^SHARE_DIR=.*#SHARE_DIR="/usr/share/cfg2html"#' \
-		-e 's#^VAR_DIR=.*#VAR_DIR="/var/lib/cfg2html"#' \
+		-e 's#^VAR_DIR=.*#VAR_DIR="/var/log/cfg2html"#' \
 		debian/cfg2html/usr/sbin/cfg2html
 
 	# update man page with correct locations
