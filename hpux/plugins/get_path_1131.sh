@@ -1,6 +1,9 @@
-# @(#) $Id: get_path_1131.sh,v 5.12 2012-06-01 18:13:56 ralph Exp $
+# @(#) $Id: get_path_1131.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 # ---------------------------------------------------------------------------
 # $Log: get_path_1131.sh,v $
+# Revision 6.10.1.1  2013-09-12 16:13:15  ralph
+# Initial 6.10.1 import from GIT Hub, 12.09.2013
+#
 # Revision 5.12  2012-06-01 18:13:56  ralph
 # small typo fixes adn code cleanup, CVS cleanup, added comments etc.
 #

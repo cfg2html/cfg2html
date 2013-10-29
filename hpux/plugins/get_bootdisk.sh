@@ -1,5 +1,5 @@
 #!/sbin/sh
-# @(#) $Id: get_bootdisk.sh,v 5.10.1.1 2011-02-15 14:29:05 ralproth Exp $
+# @(#) $Id: get_bootdisk.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 # by Thomas Brix - works only with HPUX 11i v2 and above!!!
 # not used in cfg2html yet!
 

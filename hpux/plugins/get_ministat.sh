@@ -1,7 +1,10 @@
 # Mini Status Collector, re-written Oct. 2010
 ############################################################
-# @(#) $Id: get_ministat.sh,v 5.11 2011-07-22 09:52:38 ralproth Exp $
+# @(#) $Id: get_ministat.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 # $Log: get_ministat.sh,v $
+# Revision 6.10.1.1  2013-09-12 16:13:15  ralph
+# Initial 6.10.1 import from GIT Hub, 12.09.2013
+#
 # Revision 5.11  2011-07-22 09:52:38  ralproth
 # cfg5.13-33157: ? Workaround/Memory troubleshooting
 #

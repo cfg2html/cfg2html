@@ -1,9 +1,12 @@
-# @(#) $Id: firmware_collect.sh,v 5.11 2013-06-28 07:16:29 ralph Exp $
+# @(#) $Id: firmware_collect.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 # WARNING MAY HANG INFINTLY ON DEFECT DISK DRIVES!
 #####################################################################
 # kann durch get_diskfirmware.sh ersetzt werden! Gibt keine 11.31 devicefiles aus
 #####################################################################
 # $Log: firmware_collect.sh,v $
+# Revision 6.10.1.1  2013-09-12 16:13:15  ralph
+# Initial 6.10.1 import from GIT Hub, 12.09.2013
+#
 # Revision 5.11  2013-06-28 07:16:29  ralph
 # Enhanced by GDH - splitted into a HPUX 11.31 and the rest of the world part
 # to better handle ioscan.  Cleanup of comments by Ralph Roth

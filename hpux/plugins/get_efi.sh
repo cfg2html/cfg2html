@@ -1,7 +1,10 @@
 # EFI bootdevice collector, written by Ralph Roth
-# @(#) $Id: get_efi.sh,v 5.11 2011-11-01 07:26:31 ralproth Exp $
+# @(#) $Id: get_efi.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 ########################################################################
 # $Log: get_efi.sh,v $
+# Revision 6.10.1.1  2013-09-12 16:13:15  ralph
+# Initial 6.10.1 import from GIT Hub, 12.09.2013
+#
 # Revision 5.11  2011-11-01 07:26:31  ralproth
 # cfg5.19-31551: Many enhancements and SuperDome2 stuff submitted by Kathy Leslie
 #

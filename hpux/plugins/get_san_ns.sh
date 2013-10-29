@@ -1,4 +1,4 @@
-# @(#) $Id: get_san_ns.sh,v 5.11 2012-06-01 18:13:56 ralph Exp $
+# @(#) $Id: get_san_ns.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 # initial creation 10.09.2008, 13:38, rr, (c) by Ralph Roth
 # ---------------------------------------------------------------------------
 # usage: get_san_nameservice [N_port_ID]

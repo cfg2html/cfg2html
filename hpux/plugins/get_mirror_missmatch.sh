@@ -1,9 +1,12 @@
-# @(#) $Id: get_mirror_missmatch.sh,v 5.14 2011-11-01 07:26:31 ralproth Exp $
+# @(#) $Id: get_mirror_missmatch.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 ###########################################################################
 # Mirror/UX missmatch detection utility
 # Initial creation 18.08.2005 by Ralph Roth
 ###########################################################################
 # $Log: get_mirror_missmatch.sh,v $
+# Revision 6.10.1.1  2013-09-12 16:13:15  ralph
+# Initial 6.10.1 import from GIT Hub, 12.09.2013
+#
 # Revision 5.14  2011-11-01 07:26:31  ralproth
 # cfg5.19-31551: Many enhancements and SuperDome2 stuff submitted by Kathy Leslie
 #

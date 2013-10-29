@@ -1,4 +1,4 @@
-# @(#) $Id: find_non_inq_luns.sh,v 5.14 2013-02-09 10:24:36 ralph Exp $
+# @(#) $Id: find_non_inq_luns.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 # ---------------------------------------------------------------------------
 # (c) 2008- 2013 by Ralph Roth, http://rose.rult.at
 
@@ -30,6 +30,9 @@ rm -f $TMPFILELVM $TMPFILEINQ
  
 # ---------------------------------------------------------------------------
 # $Log: find_non_inq_luns.sh,v $
+# Revision 6.10.1.1  2013-09-12 16:13:15  ralph
+# Initial 6.10.1 import from GIT Hub, 12.09.2013
+#
 # Revision 5.14  2013-02-09 10:24:36  ralph
 # replaced defect come.to redirector with rose.rult.at
 #

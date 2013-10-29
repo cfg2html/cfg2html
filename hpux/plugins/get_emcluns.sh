@@ -1,4 +1,4 @@
-# @(#) $Id: get_emcluns.sh,v 5.12 2012-06-01 18:13:56 ralph Exp $
+# @(#) $Id: get_emcluns.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 #  /home/CVS/cfg2html/release/plugins/get_emcluns.sh 2005/08/09 Steveriley
 ##### Initial creation:  Steve Riley, HP C&I UK       ##################
 

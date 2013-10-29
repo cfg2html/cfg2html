@@ -1,5 +1,5 @@
 # @(#) firmware_collect.sh v1.4 07.11.2008, Martin Kalmbach
-# @(#) $Id: get_diskfirmware.sh,v 5.16 2012-02-28 15:11:33 ralproth Exp $
+# @(#) $Id: get_diskfirmware.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 # ---------------------------------------------------------------------------
 
 # Uebernommen von firmware_collect.sh, angepasst auf HPUX11.31 Script, um die 
@@ -14,7 +14,7 @@
 # ./get_diskfirmware.sh -ldev | egrep -v "LVM/|/none"
 # ./get_diskfirmware.sh -ldev | egrep -v "LVM/|/partition|/none"
 
-echo "\$Id: get_diskfirmware.sh,v 5.16 2012-02-28 15:11:33 ralproth Exp $"
+echo "\$Id: get_diskfirmware.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $"
 export LANG="C"
 
 if [ $(id -u) -ne 0 ]
@@ -309,6 +309,9 @@ rm -f $TMPFiLE_MARTiN1 $TMPFiLE_MARTiN2 2>/dev/null
 exit 0
 
 # $Log: get_diskfirmware.sh,v $
+# Revision 6.10.1.1  2013-09-12 16:13:15  ralph
+# Initial 6.10.1 import from GIT Hub, 12.09.2013
+#
 # Revision 5.16  2012-02-28 15:11:33  ralproth
 # cfg5.25-32080: Fixes for partitions (_p2, _s2) detection
 #

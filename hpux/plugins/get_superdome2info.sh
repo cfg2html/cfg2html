@@ -1,4 +1,4 @@
-# @(#) $Id: get_superdome2info.sh,v 5.5 2013-02-09 10:24:36 ralph Exp $
+# @(#) $Id: get_superdome2info.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 # --=-----------------------------------------------------------------------=---
 # (c) 1997 - 2013 by Ralph Roth  -*- http://rose.rult.at -*-
 # Initial creation Oct. 2011 by Kathy Leslie

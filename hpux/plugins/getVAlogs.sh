@@ -1,4 +1,4 @@
-# @(#) $Id: getVAlogs.sh,v 5.10.1.1 2011-02-15 14:29:05 ralproth Exp $
+# @(#) $Id: getVAlogs.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 # This script will gather all of the logs needed to trouble shoot a VA.
 # To make this script executable run:
 #    chmod 777 getVAlogs

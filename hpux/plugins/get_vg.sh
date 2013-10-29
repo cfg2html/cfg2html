@@ -1,9 +1,12 @@
 # get LVM for TGV by Ralph Roth
-# @(#) $Id: get_vg.sh,v 5.13 2013-02-09 10:24:36 ralph Exp $
+# @(#) $Id: get_vg.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 # --=-----------------------------------------------------------------------=---
 # (c) 1997 - 2013 by Ralph Roth  -*- http://rose.rult.at -*-
 #
 # $Log: get_vg.sh,v $
+# Revision 6.10.1.1  2013-09-12 16:13:15  ralph
+# Initial 6.10.1 import from GIT Hub, 12.09.2013
+#
 # Revision 5.13  2013-02-09 10:24:36  ralph
 # replaced defect come.to redirector with rose.rult.at
 #

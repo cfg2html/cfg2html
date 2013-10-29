@@ -1,4 +1,4 @@
-# @(#) $Id: get_hpvm.sh,v 5.10.1.1 2011-02-15 14:29:05 ralproth Exp $
+# @(#) $Id: get_hpvm.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 # Martin Kalmbach, 29.10.2008
 # ---------------------------------------------------------------------------
 # hpvm.sh lists all VMs
@@ -29,6 +29,9 @@ done
 
 # ---------------------------------------------------------------------------
 # $Log: get_hpvm.sh,v $
+# Revision 6.10.1.1  2013-09-12 16:13:15  ralph
+# Initial 6.10.1 import from GIT Hub, 12.09.2013
+#
 # Revision 5.10.1.1  2011-02-15 14:29:05  ralproth
 # Initial 5.xx import
 #

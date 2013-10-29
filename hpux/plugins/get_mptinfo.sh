@@ -1,6 +1,6 @@
 # Collector for Ultra320 SCSI controllers and A7173A PCI-X Dual channel Host Bus Adapters 
 # 21.7.2008, 15:49 modified by Ralph Roth
-# @(#) $Id: get_mptinfo.sh,v 5.10.1.1 2011-02-15 14:29:05 ralproth Exp $
+# @(#) $Id: get_mptinfo.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 # ---------------------------------------------------------------------------
 
 if [ -x /usr/sbin/mptconfig ]  

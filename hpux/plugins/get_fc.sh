@@ -1,5 +1,5 @@
 ##############################################################################
-# @(#) $Id: get_fc.sh,v 5.11 2012-06-01 18:13:56 ralph Exp $
+# @(#) $Id: get_fc.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 ##############################################################################
 #
 # one more suggestion ;-). HPVM 4.3 and vPar 6.1 have new feature – NPIV.
@@ -77,6 +77,9 @@ printf "\n"	#  05.04.2005, 16:27 modified by Ralph.Roth
  
 ############################################################################
 # $Log: get_fc.sh,v $
+# Revision 6.10.1.1  2013-09-12 16:13:15  ralph
+# Initial 6.10.1 import from GIT Hub, 12.09.2013
+#
 # Revision 5.11  2012-06-01 18:13:56  ralph
 # small typo fixes adn code cleanup, CVS cleanup, added comments etc.
 #

@@ -1,9 +1,12 @@
 #!/usr/bin/ksh
-# @(#) $Id: check_elroy.sh,v 5.11 2012-06-01 18:13:56 ralph Exp $
+# @(#) $Id: check_elroy.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 # must run as root if on live system; if run with "-c", just need
 # access to crash dump, which is assumed to be in current directory
 #
 # $Log: check_elroy.sh,v $
+# Revision 6.10.1.1  2013-09-12 16:13:15  ralph
+# Initial 6.10.1 import from GIT Hub, 12.09.2013
+#
 # Revision 5.11  2012-06-01 18:13:56  ralph
 # small typo fixes adn code cleanup, CVS cleanup, added comments etc.
 #

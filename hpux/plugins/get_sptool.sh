@@ -1,11 +1,14 @@
 #!/sbin/sh
-# @(#) $Id: get_sptool.sh,v 5.10.1.1 2011-02-15 14:29:05 ralproth Exp $
+# @(#) $Id: get_sptool.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 ########################################################################
 # Martin Kalmbach, HP
 # Version 1.0, 2003-08-14  (sptool.sh)
 # Discoverd 13.02.2004 by Ralph on Martin's EVA CD and renamed to get_sptools.sh
 ########################################################################
 # $Log: get_sptool.sh,v $
+# Revision 6.10.1.1  2013-09-12 16:13:15  ralph
+# Initial 6.10.1 import from GIT Hub, 12.09.2013
+#
 # Revision 5.10.1.1  2011-02-15 14:29:05  ralproth
 # Initial 5.xx import
 #

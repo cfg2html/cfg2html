@@ -1,8 +1,11 @@
 # HP-UX SAS Collector , 21.07.2008, 11:57, rr
 # HP-UX Serial Attached SCSI (SAS) Mass Storage I/O cards / HBAs
-# @(#) $Id: get_sasinfo.sh,v 5.10.1.1 2011-02-15 14:29:05 ralproth Exp $
+# @(#) $Id: get_sasinfo.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 # ---------------------------------------------------------------------------
 # $Log: get_sasinfo.sh,v $
+# Revision 6.10.1.1  2013-09-12 16:13:15  ralph
+# Initial 6.10.1 import from GIT Hub, 12.09.2013
+#
 # Revision 5.10.1.1  2011-02-15 14:29:05  ralproth
 # Initial 5.xx import
 #
