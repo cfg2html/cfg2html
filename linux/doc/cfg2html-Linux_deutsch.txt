@@ -1,4 +1,4 @@
-$Id: cfg2html-Linux_deutsch.txt,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $
+$Id: cfg2html-Linux_deutsch.txt,v 6.11 2013/10/29 23:11:26 ralph Exp $
 ---------------------------------------------------------------------------
 
 :encoding: ISO-8859-1

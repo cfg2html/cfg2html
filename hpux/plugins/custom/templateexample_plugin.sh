@@ -1,7 +1,7 @@
 #!/bin/sh
 # ---------------------------------------------------------------------------
 # custom example plugin, provided by Andre Naumann, 25. August 2009
-# @(#) $Id: templateexample_plugin.sh,v 5.12 2012-04-04 12:47:49 ralproth Exp $
+# @(#) $Id: templateexample_plugin.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 # ---------------------------------------------------------------------------
 
 CFG2HTML_PLUGINTITLE="Example Plugin: This will go into the section title for each plugin"
