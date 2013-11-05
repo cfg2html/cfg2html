@@ -1,12 +1,14 @@
 #!/bin/sh
-#
-# @(#) $Id:$
+# Original version checked into git by GDh@05.11.20130
+# -----------------------------------------------------------------------------
+# @(#) $Id: cfg2html_admin_jobs.sh,v 1.1 2013/11/05 21:49:25 ralph Exp $
 
 ## purpose of this script is to remove old collections, and to
 ## keep a monthly overview of each server, and create for each system a new index.html file
 ## also we create each day a new main index.html file
-## We can use apache httpd.conf file to make the main index and all systems visible via the intranet
+## We can use Apache httpd.conf file to make the main index and all systems visible via the intranet
 ## add to httpd.conf:
+##
 ##    Alias /cfg2html/ "/mnt/xxx-hpux/hpux/cfg2html/"
 ##    <Directory "/mnt/xxx-hpux/hpux/cfg2html">
 ##    Options Indexes MultiViews
@@ -77,7 +79,7 @@ function mount_url {
     esac
 
     echo "Mounting with '$mount_cmd'"
-    $mount_cmd 
+    $mount_cmd
     if [[ $? -ne 0 ]]; then
         echo "Mount command '$mount_cmd' failed."
         exit 1
