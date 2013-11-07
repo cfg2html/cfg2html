@@ -23,11 +23,17 @@ lib-tmp:
 	@if [ -d ./lib ]; then rm -rf lib-tmp; mkdir -m 755 lib-tmp; \
 	cp lib/* lib-tmp/ ; fi
 
-man: ../doc/cfg2html.8
-	@if [ -f ../doc/cfg2html.8 ]; then cp ../doc/cfg2html.8 ../doc/cfg2html.8.txt; \
-	compress ../doc/cfg2html.8 ; mv -f ../doc/cfg2html.8.Z ../doc/cfg2html.8 ; fi
+man: doc/cfg2html.8
+	@if [ -f doc/cfg2html.8 ]; then cp doc/cfg2html.8 doc/cfg2html.8.txt; \
+	compress doc/cfg2html.8 ; mv -f doc/cfg2html.8.Z doc/cfg2html.8 ; fi
 
-depot: clean lib-tmp man
+rewrite: $(psf_file)
+	@echo "Update the $(psf_file) file"
+	ver=`/usr/bin/grep ^CVS cfg2html | awk '{print $$3}'` ; \
+	cp $(psf_file) $(psf_file).save ; \
+	sed -e 's#number.*#number C.0$$ver#' -e 's#revision.*#revision C.0$$ver#g' < $(psf_file).save >$(psf_file);
+	
+depot: clean lib-tmp man rewrite
 	@/usr/sbin/swpackage -vv -s $(psf_file) -x layout_version=1.0 -d $(depot_dir) ; \
 	rel=`/usr/bin/grep 'number' $(psf_file) | awk '{print $$2}'` ; \
 	ymd=`date +%Y%m%d` ; \
@@ -38,6 +44,7 @@ depot: clean lib-tmp man
 	/usr/sbin/swpackage -vv -d $$depot_file  -x target_type=tape -s $(depot_dir) \* ; \
 	echo "File depot location is $$depot_file" ; rm -rf lib-tmp ; \
 	rm -f /tmp/cfg2html_bundle.psf ; \
-	mv -f ../doc/cfg2html.8.txt ../doc/cfg2html.8 ; \
+	mv -f doc/cfg2html.8.txt doc/cfg2html.8 ; \
+	mv -f $(psf_file).save $(psf_file) ; \
 	echo "Done."
 
