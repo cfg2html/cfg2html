@@ -1,12 +1,9 @@
-################################################################################
-# Version Info : @(#)cfg2html.psf      1.0   25/Apr/2013
-################################################################################
-
 # @(#) $Id: cfg2html.psf,v 6.11 2013-10-07 07:13:36 ralph Exp $
 # -------------------------------------------------------------------------
 
 # Version history:
-# 1.0: gdhaese1 - 25/Apr/2013 - initial psf file
+# gdhaese1 - 25/Apr/2013 - initial psf file
+# gdhaese1 - 07/Nov/2013 - update the doc relocation
 #
 
     tag cfg2html
@@ -29,7 +26,7 @@ product
     is_locatable false
     is_patch false
     vendor_tag GPL
-    readme < ../doc/README_hpux.txt
+    readme < doc/README_hpux.txt
     postinstall packaging/postinstall.sh
     configure packaging/configure.sh
     postremove packaging/postremove.sh
@@ -137,7 +134,7 @@ product
 	description cfg2html documentation
 	revision C.06.00
 
-	directory ../doc = /usr/share/doc/cfg2html
+	directory doc = /usr/share/doc/cfg2html
 	file -m 644 -o root -g sys FAQ_hpux.txt
 	file -m 644 -o root -g sys README_hpux.txt
 	file -m 644 -o root -g sys ToDo_hpux.txt
@@ -149,7 +146,7 @@ product
 	file -m 644 -o root -g sys history_hpux_v3.txt
 	file -m 644 -o root -g sys history_hpux_v4.txt
 
-	directory ../doc = /usr/share/man/man8.Z
+	directory doc = /usr/share/man/man8.Z
         file -m 644 -o root -g sys cfg2html.8
     end
 
