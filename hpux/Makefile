@@ -29,9 +29,9 @@ man: doc/cfg2html.8
 
 rewrite: $(psf_file)
 	@echo "Update the $(psf_file) file"
-	ver=`/usr/bin/grep ^CVS cfg2html | awk '{print $$3}'` ; \
+	ver=`/usr/bin/grep ^CVS ../cfg2html | awk '{print $$3}'` ; \
 	cp $(psf_file) $(psf_file).save ; \
-	sed -e 's#number.*#number C.0$$ver#' -e 's#revision.*#revision C.0$$ver#g' < $(psf_file).save >$(psf_file);
+	sed -e 's#number.*#number C.0'$$ver'#' -e 's#revision.*#revision C.0'$$ver'#g' < $(psf_file).save >$(psf_file);
 	
 depot: clean lib-tmp man rewrite
 	@/usr/sbin/swpackage -vv -s $(psf_file) -x layout_version=1.0 -d $(depot_dir) ; \
