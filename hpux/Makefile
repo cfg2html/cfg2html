@@ -48,5 +48,6 @@ depot: clean lib-tmp man rewrite
 	rm -f /tmp/cfg2html_bundle.psf ; \
 	mv -f doc/cfg2html.8.txt doc/cfg2html.8 ; \
 	mv -f $(psf_file).save $(psf_file) ; \
+	mv -f ../cfg2html.save ../cfg2html ; \
 	echo "Done."
 
