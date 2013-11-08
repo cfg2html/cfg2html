@@ -32,7 +32,7 @@ CVS="$Id: cfg2html,v 6.13 2013-10-08 08:53:58 ralph Exp $"
 ##RELEASE_DATE="2013-10-06"
 
 PROGRAM=$(echo $CVS|cut -f2 -d" "|cut -f1 -d,)
-VERSION=6.11-git201310070839
+VERSION=$(echo $CVS | awk '{print $3}')
 RELEASE_DATE="2013-10-07"
 #echo $PROGRAM,$VERSION,$RELEASE_DATE
 
@@ -63,7 +63,9 @@ case $MY_OS in
     *) TMP_DIR="/tmp/${PROGRAM}_${RANDOM}" ;;				## hopefully AIX and SUN have $RANDOM too
 esac
 
-SHARE_DIR="/usr/share/$PROGRAM"   	# final location of script and sub-dirs (containing scripts/functions)
+# SHARE_DIR will be redefined by 'make depot' not by 'make linux'
+SHARE_DIR="/usr/share/$PROGRAM"
+
 CONFIG_DIR="/etc/$PROGRAM"
 VAR_DIR="/var/log/$PROGRAM"
 
@@ -75,8 +77,8 @@ MYPATH=$(dirname $(type $0 | awk '{print $NF}')) # see issue #18
 # define our BASE_DIR according the location of our SHARE_DIR
 [[ -d $SHARE_DIR ]] && BASE_DIR="$SHARE_DIR" || BASE_DIR="${MYPATH}/$OS"
 
-# check the CONFIG_DIR and redine(?) when running from current dir
-[[ ! -d $CONFIG_DIR ]] && CONFIG_DIR="$BASE_DIR/conf"
+# check the CONFIG_DIR and redefine when running from current dir (conf dir renamed to etc)
+[[ ! -d $CONFIG_DIR ]] && CONFIG_DIR="$BASE_DIR/etc"
 
 # source of configuration file(s) - important: treat these as scripts
 [[ -f $CONFIG_DIR/default.conf ]] && . $CONFIG_DIR/default.conf
@@ -90,7 +92,14 @@ for script in $BASE_DIR/lib/*.sh ; do
 done
 
 # source the main program, e.g. cfg2html-hpux.sh
-. $BASE_DIR/${PROGRAM}-${OS}.sh
+if [[ -f $BASE_DIR/${PROGRAM}-${OS}.sh ]]; then
+    . $BASE_DIR/${PROGRAM}-${OS}.sh
+elif [[ -f $BASE_DIR/bin/${PROGRAM}-${OS}.sh ]]; then
+    . $BASE_DIR/bin/${PROGRAM}-${OS}.sh
+else
+    echo "ERROR: Did not find $BASE_DIR/[bin/]${PROGRAM}-${OS}.sh"
+    exit 1
+fi
 RETCODE=$?
 
 # define OUTPUT_URL in your local.conf file

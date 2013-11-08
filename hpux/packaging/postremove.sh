@@ -13,7 +13,10 @@ grep -v 'cfg2html' $cronfile  > $cronfile.new
 
 # activate the new crontab file
 crontab $cronfile.new
+echo "       * Activated new crontab without cfg2html"
 
 # cleanup
 rm -f $cronfile.new
-
+[[ -f /usr/sbin/cfg2html ]] && rm -f /usr/sbin/cfg2html
+[[ -f /usr/share/man/man8.Z/cfg2html.8 ]] && rm -f /usr/share/man/man8.Z/cfg2html.8
+echo "       * Removed /usr/sbin/cfg2html and /usr/share/man/man8.Z/cfg2html.8"

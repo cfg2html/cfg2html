@@ -30,16 +30,15 @@ function _add_OUTPUT_URL_entry {
 ####		M A I N 	  ####
 ######################################
 
-### create a new /etc/cfg2html/local.conf from the template conf file
-## /usr/newconfig/etc/cfg2html/local.conf according region
-### advantage is that 'swverify' will not complain about changed files!!
+### create a new local /opt/cfg2html/etc/local.conf from the template conf file
+### advantage is that 'swverify' will not complain about changed local.conf file!!
 
-CFGFILE="/etc/cfg2html/local.conf"
+CFGFILE="/opt/cfg2html/etc/local.conf"
 
 
-if [[ ! -f /usr/newconfig/etc/cfg2html/local.conf ]]
+if [[ ! -f /opt/cfg2html/newconfig/local.conf ]]
 then
-	/usr/bin/echo "       * Did not find the template /usr/newconfig/etc/cfg2html/local.conf file"
+	/usr/bin/echo "       * Did not find the template /opt/cfg2html/newconfig/local.conf file"
 	exit 1
 fi
 
@@ -47,7 +46,7 @@ if [[ -f $CFGFILE ]]
 then
        /usr/bin/echo "       * $CFGFILE exists. We do not modify it."
 else
-       /usr/bin/cp /usr/newconfig/etc/cfg2html/local.conf $CFGFILE
+       /usr/bin/cp /opt/cfg2html/newconfig/local.conf $CFGFILE
        /usr/bin/echo "       * Created the $CFGFILE"
        _add_OUTPUT_URL_entry
 fi

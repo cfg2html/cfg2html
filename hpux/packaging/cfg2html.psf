@@ -33,23 +33,22 @@ product
 
     fileset
 	tag CFG2HTML-BIN
-	title cfg2html main script
+	title cfg2html scripts
 	revision C.06.00
-	description cfg2html main executable
-	directory .. = /usr/sbin
+	description cfg2html scripts
+	directory .. = /opt/cfg2html/bin
 	file -m 750 -o root -g sys cfg2html
+	directory . = /opt/cfg2html/bin
+	file -m 750 -o root -g sys cfg2html-hpux.sh
     end
 
     fileset
-	tag CFG2HTML-SHARE
-	title cfg2html shared scripts
+	tag CFG2HTML-PLUGINS
+	title cfg2html plugin scripts
 	revision C.06.00
-	description cfg2html shared scripts
+	description cfg2html plugin scripts
 
-	directory . = /usr/share/cfg2html
-	file -m 750 -o root -g sys cfg2html-hpux.sh
-
-	directory ./plugins = /usr/share/cfg2html/plugins
+	directory ./plugins = /opt/cfg2html/plugins
 	file -m 755 -o root -g sys VxVM_collect.sh
 	file -m 755 -o root -g sys bdf_collect.sh
 	file -m 755 -o root -g sys bdfmegs.sh
@@ -105,8 +104,15 @@ product
 	file -m 755 -o root -g sys oracle_collect.sh
 	file -m 755 -o root -g sys pvgfilter.sh
 	file -m 755 -o root -g sys syssmall.hppa
+    end
+    
+    fileset
+	tag CFG2HTML-LIB
+	title cfg2html library scripts
+	revision C.06.00
+	description cfg2html library scripts
 
-	directory ./lib-tmp = /usr/share/cfg2html/lib
+	directory ./lib-tmp = /opt/cfg2html/lib
 	file -m 755 -o root -g sys global-functions.sh
 	file -m 755 -o root -g sys help-functions.sh
 	file -m 755 -o root -g sys hpux-functions.sh
@@ -121,10 +127,10 @@ product
 	description cfg2html configuration files
 	revision C.06.00
 
-	directory ./conf = /etc/cfg2html
+	directory ./etc = /opt/cfg2html/etc
 	file -m 640 -o root -g sys default.conf
 
-	directory ./conf = /usr/newconfig/etc/cfg2html
+	directory ./etc = /opt/cfg2html/newconfig
 	file -m 640 -o root -g sys local.conf
     end
 
@@ -134,7 +140,7 @@ product
 	description cfg2html documentation
 	revision C.06.00
 
-	directory doc = /usr/share/doc/cfg2html
+	directory doc = /opt/cfg2html/doc
 	file -m 644 -o root -g sys FAQ_hpux.txt
 	file -m 644 -o root -g sys README_hpux.txt
 	file -m 644 -o root -g sys ToDo_hpux.txt
@@ -146,7 +152,7 @@ product
 	file -m 644 -o root -g sys history_hpux_v3.txt
 	file -m 644 -o root -g sys history_hpux_v4.txt
 
-	directory doc = /usr/share/man/man8.Z
+	#directory doc = /usr/share/man/man8.Z
         file -m 644 -o root -g sys cfg2html.8
     end
 

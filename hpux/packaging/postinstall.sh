@@ -23,3 +23,13 @@ echo "         $(crontab -l | grep cfg2html)"
 # cleanup
 rm -f $cronfile.new
 
+# make symlink from /opt/cfg2html/bin/cfg2html to /usr/sbin/cfg2html
+[[ -f /usr/sbin/cfg2html ]] && rm -f /usr/sbin/cfg2html   # probably an old version (rm it 1st)
+ln -s /opt/cfg2html/bin/cfg2html  /usr/sbin/cfg2html
+echo "       * Create a symbolic link from /opt/cfg2html/bin/cfg2html to /usr/sbin/cfg2html"
+
+# copy /opt/cfg2html/doc/cfg2html.8 to /usr/share/man/man8.Z/cfg2html.8 (compressed file)
+[[ -f /usr/share/man/man8.Z/cfg2html.8 ]] && rm -f /usr/share/man/man8.Z/cfg2html.8
+cp /opt/cfg2html/doc/cfg2html.8  /usr/share/man/man8.Z/cfg2html.8
+chmod 644 /usr/share/man/man8.Z/cfg2html.8
+echo "       * Create man page under /usr/share/man/man8.Z/cfg2html.8"
