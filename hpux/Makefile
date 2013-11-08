@@ -24,14 +24,16 @@ lib-tmp:
 	cp lib/* lib-tmp/ ; fi
 
 man: doc/cfg2html.8
-	@if [ -f doc/cfg2html.8 ]; then cp doc/cfg2html.8 doc/cfg2html.8.txt; \
+	@if [ -f doc/cfg2html.8 ]; then cp -p doc/cfg2html.8 doc/cfg2html.8.txt; \
 	compress doc/cfg2html.8 ; mv -f doc/cfg2html.8.Z doc/cfg2html.8 ; fi
 
 rewrite: $(psf_file)
 	@echo "Update the $(psf_file) file"
 	ver=`/usr/bin/grep ^CVS ../cfg2html | awk '{print $$3}'` ; \
-	cp $(psf_file) $(psf_file).save ; \
-	sed -e 's#number.*#number C.0'$$ver'#' -e 's#revision.*#revision C.0'$$ver'#g' < $(psf_file).save >$(psf_file);
+	cp -p $(psf_file) $(psf_file).save ; \
+	sed -e 's#number.*#number C.0'$$ver'#' -e 's#revision.*#revision C.0'$$ver'#g' < $(psf_file).save >$(psf_file); \
+	cp -p ../cfg2html ../cfg2html.save ; \
+	sed -e 's#SHARE_DIR=.*#SHARE_DIR=/opt/$$PROGRAM#' < ../cfg2html.save > ../cfg2html
 	
 depot: clean lib-tmp man rewrite
 	@/usr/sbin/swpackage -vv -s $(psf_file) -x layout_version=1.0 -d $(depot_dir) ; \

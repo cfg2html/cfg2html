@@ -64,7 +64,7 @@ case $MY_OS in
 esac
 
 # SHARE_DIR will be redefined by 'make depot' not by 'make linux'
-SHARE_DIR="/usr/share/$PROGRAM"
+SHARE_DIR=/opt/$PROGRAM
 
 CONFIG_DIR="/etc/$PROGRAM"
 VAR_DIR="/var/log/$PROGRAM"

@@ -10,14 +10,14 @@
     title Config To HTML System Documentation Tool (cfg2html) for HP-UX
     description Config To HTML System Documentation Tool (cfg2html) for HP-UX
     copyright (c)Copyright GPL v3
-    number C.06.00
+    number C.06.13
 
 product
     tag cfg2html
     title Config To HTML System Documentation Tool (cfg2html) for HP-UX
     description Config To HTML System Documentation Tool (cfg2html) for HP-UX
     copyright (c)Copyright GPL v3
-    revision C.06.00
+    revision C.06.13
     architecture HP-UX_B.11_32/64
     machine_type *
     os_name HP-UX
@@ -34,9 +34,10 @@ product
     fileset
 	tag CFG2HTML-BIN
 	title cfg2html scripts
-	revision C.06.00
+	revision C.06.13
 	description cfg2html scripts
 	directory .. = /opt/cfg2html/bin
+	file_permissions -o root -g bin -m 755
 	file -m 750 -o root -g sys cfg2html
 	directory . = /opt/cfg2html/bin
 	file -m 750 -o root -g sys cfg2html-hpux.sh
@@ -45,10 +46,11 @@ product
     fileset
 	tag CFG2HTML-PLUGINS
 	title cfg2html plugin scripts
-	revision C.06.00
+	revision C.06.13
 	description cfg2html plugin scripts
 
 	directory ./plugins = /opt/cfg2html/plugins
+	file_permissions -o root -g sys -m 755
 	file -m 755 -o root -g sys VxVM_collect.sh
 	file -m 755 -o root -g sys bdf_collect.sh
 	file -m 755 -o root -g sys bdfmegs.sh
@@ -109,10 +111,11 @@ product
     fileset
 	tag CFG2HTML-LIB
 	title cfg2html library scripts
-	revision C.06.00
+	revision C.06.13
 	description cfg2html library scripts
 
 	directory ./lib-tmp = /opt/cfg2html/lib
+	file_permissions -o root -g sys -m 755
 	file -m 755 -o root -g sys global-functions.sh
 	file -m 755 -o root -g sys help-functions.sh
 	file -m 755 -o root -g sys hpux-functions.sh
@@ -125,12 +128,14 @@ product
 	tag CFG2HTML-CONFIG
 	title cfg2html configuration files
 	description cfg2html configuration files
-	revision C.06.00
+	revision C.06.13
 
 	directory ./etc = /opt/cfg2html/etc
+	file_permissions -o root -g sys -m 755
 	file -m 640 -o root -g sys default.conf
 
 	directory ./etc = /opt/cfg2html/newconfig
+	file_permissions -o root -g sys -m 755
 	file -m 640 -o root -g sys local.conf
     end
 
@@ -138,9 +143,10 @@ product
 	tag CFG2HTML-DOC
 	title cfg2html documentation
 	description cfg2html documentation
-	revision C.06.00
+	revision C.06.13
 
 	directory doc = /opt/cfg2html/doc
+	file_permissions -o root -g sys -m 755
 	file -m 644 -o root -g sys FAQ_hpux.txt
 	file -m 644 -o root -g sys README_hpux.txt
 	file -m 644 -o root -g sys ToDo_hpux.txt
