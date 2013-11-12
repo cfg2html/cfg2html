@@ -54,7 +54,7 @@ if [[ "$(whoami)" != "root" ]]; then
 fi
 
 # introduce trap to make sure the temporary directories get cleaned up
-trap "DoExitTasks" 0 1
+trap "DoExitTasks" 0 1 2 3 6 11 15
 
 # initialize defaults
 case $MY_OS in
