@@ -86,7 +86,7 @@ clean:
 ### You can call 'make validate' directly from your .git/hooks/pre-commit script
 validate:
 	@echo -e "\033[1m== Validating scripts and configuration ==\033[0;0m"
-	find conf/  -name '*.conf' | xargs bash -n
+	find etc/  -name '*.conf' | xargs bash -n
 	find lib/ plugins/ -name '*.sh' | xargs bash -n
 	bash -n $(cfg2htmlbin)
 	find . -name '*.sh' | xargs bash -n
@@ -142,10 +142,10 @@ endif
 install-config:
 	@echo -e "\033[1m== Installing configuration ==\033[0;0m"
 	install -d -m0700 $(DESTDIR)$(sysconfdir)/cfg2html/
-	-[[ ! -e $(DESTDIR)$(sysconfdir)/cfg2html/default.conf ]] && \
-		install -Dp -m0600 conf/default.conf $(DESTDIR)$(sysconfdir)/cfg2html/default.conf
+	-[[ ! -e $(DESTDIR)$(datadir)/cfg2html/etc/default.conf ]] && \
+		install -Dp -m0600 etc/default.conf $(DESTDIR)$(datadir)/cfg2html/etc/default.conf
 	-[[ ! -e $(DESTDIR)$(sysconfdir)/cfg2html/local.conf ]] && \
-		install -Dp -m0600 conf/local.conf $(DESTDIR)$(sysconfdir)/cfg2html/local.conf
+		install -Dp -m0600 etc/local.conf $(DESTDIR)$(sysconfdir)/cfg2html/local.conf
 	-[[ ! -e $(DESTDIR)$(sysconfdir)/cfg2html/plugins ]] && \
 		install -Dp -m0600 plugins $(DESTDIR)$(sysconfdir)/cfg2html/plugins
 	-[[ ! -e $(DESTDIR)$(sysconfdir)/cfg2html/systeminfo ]] && \
