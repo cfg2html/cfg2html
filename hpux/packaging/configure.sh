@@ -35,7 +35,6 @@ function _add_OUTPUT_URL_entry {
 
 CFGFILE="/opt/cfg2html/etc/local.conf"
 
-
 if [[ ! -f /opt/cfg2html/newconfig/local.conf ]]
 then
 	/usr/bin/echo "       * Did not find the template /opt/cfg2html/newconfig/local.conf file"
@@ -47,11 +46,18 @@ then
        /usr/bin/echo "       * $CFGFILE exists. We do not modify it."
 else
        /usr/bin/cp /opt/cfg2html/newconfig/local.conf $CFGFILE
-       /usr/bin/echo "       * Created the $CFGFILE"
        _add_OUTPUT_URL_entry
+       /usr/bin/echo "       * Created a new $CFGFILE"
 fi
 
 /sbin/chmod 640 $CFGFILE
 /sbin/chown root:sys $CFGFILE
+
+# check if we still have an old /etc/cfg2html/default.conf file present, should now only be
+# /opt/cfg2html/etc/default.conf. When found, just remove it
+if [[ -f /etc/cfg2html/default.conf ]]; then
+    /usr/bin/echo "       * Found old /etc/cfg2html/default.conf file. Removing it."
+    rm -f /etc/cfg2html/default.conf
+fi
 
 exit $exitval

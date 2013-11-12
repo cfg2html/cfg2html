@@ -63,10 +63,11 @@ case $MY_OS in
     *) TMP_DIR="/tmp/${PROGRAM}_${RANDOM}" ;;				## hopefully AIX and SUN have $RANDOM too
 esac
 
-# SHARE_DIR will be redefined by 'make depot' not by 'make linux'
-SHARE_DIR=/opt/$PROGRAM
-
+# SHARE_DIR will be redefined (to /opt/$PROGRAM) by 'make depot' not by 'make rpm/deb'
+SHARE_DIR=/usr/share/$PROGRAM
+# /etc/$PROGRAM may contain local.conf (hpux), default.conf always under SHARE_DIR/etc/
 CONFIG_DIR="/etc/$PROGRAM"
+# VAR_DIR can be overruled in default.conf or local.conf file (or by -o option)
 VAR_DIR="/var/log/$PROGRAM"
 
 VERBOSE=
@@ -81,9 +82,11 @@ MYPATH=$(dirname $(type $0 | awk '{print $NF}')) # see issue #18
 [[ ! -d $CONFIG_DIR ]] && CONFIG_DIR="$BASE_DIR/etc"
 
 # source of configuration file(s) - important: treat these as scripts
-[[ -f $CONFIG_DIR/default.conf ]] && . $CONFIG_DIR/default.conf
+[[ -f $BASE_DIR/etc/default.conf ]] && . $BASE_DIR/etc/default.conf
 # source your own configuration file which overrides settings in the default.conf
 # in the local.conf you could define OUTPUT_URL settings
+[[ -f $BASE_DIR/etc/local.conf ]] && . $BASE_DIR/etc/local.conf
+# your personal config file if present will be read as last one (overrule previous settings!)
 [[ -f $CONFIG_DIR/local.conf ]] && . $CONFIG_DIR/local.conf
 
 # include functions
