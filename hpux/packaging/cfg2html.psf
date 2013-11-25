@@ -27,6 +27,7 @@ product
     is_patch false
     vendor_tag GPL
     readme < doc/README_hpux.txt
+    preinstall packaging/preinstall.sh
     postinstall packaging/postinstall.sh
     configure packaging/configure.sh
     postremove packaging/postremove.sh
