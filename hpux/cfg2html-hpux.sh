@@ -575,6 +575,9 @@ then # else skip to next paragraph
         [ -x /usr/contrib/bin/inquiry256.ksh ] && exec_command "/usr/contrib/bin/inquiry256.ksh" "SureStore E Disk Array XP256 Mapping (inquiry/obsolete!!)"
     fi
     
+    ls /etc/horcm*.conf >/dev/null 2>/dev/null && exec_command "$PLUGINS/HORCM_overview.sh" "Raid Manager Information"
+
+
     # HP 3PAR info
     [ -x /usr/bin/HP3PARInfo ] && exec_command "/usr/bin/HP3PARInfo -i" "HP 3PAR Disk Array Information"
 
@@ -1374,8 +1377,8 @@ then # else skip to next paragraph
     ### VxVM ####################################################################
     ### Symantec licenses  #######################################################
     
-    inc_heading_level
     paragraph "Symantec Licenses/Symantec Volume Manager (VxVM)"
+    inc_heading_level
     #             if [ -x /sbin/vxlicense ] ; then
     #                 exec_command "/sbin/vxlicense -p" "Licenses"
     #             fi
@@ -1440,15 +1443,17 @@ then # else skip to next paragraph
 
 
     # first try to spot DataProtector crashes reported by Stefan Gehring
-    if [ -x /opt/omni/lbin/bma ]
-    then
+    if [ -x /opt/omni/lbin/bma ]; then
+        paragraph "DataProtector Client Configuration"
+	inc_heading_level
         exec_command ob_lbin_version "DataProtector Agent Versions and Patch Level"
-    fi
     
-    [ -r /opt/omni/.omnirc ] && cat_and_grep "/opt/omni/.omnirc" "Local DataProtector Client Setting"  # rar, 18.11.2003
-    if [ -r /etc/opt/omni/cell/cell_server ] ; then
-        exec_command "cat /etc/opt/omni/cell/cell_server" "DataProtector II Cell Server"
-        exec_command "cat /etc/opt/omni/cell/omni_info" "Installed DataProtector Instances"
+        [ -r /opt/omni/.omnirc ] && cat_and_grep "/opt/omni/.omnirc" "Local DataProtector Client Setting"  # rar, 18.11.2003
+        if [ -r /etc/opt/omni/cell/cell_server ] ; then
+            exec_command "cat /etc/opt/omni/cell/cell_server" "DataProtector II Cell Server"
+            exec_command "cat /etc/opt/omni/cell/omni_info" "Installed DataProtector Instances"
+        fi
+        dec_heading_level
     fi
 
     ### NetBackup Section ####################################################################
