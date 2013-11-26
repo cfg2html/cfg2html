@@ -52,6 +52,7 @@ product
 
 	directory ./plugins = /opt/cfg2html/plugins
 	file_permissions -o root -g sys -m 755
+	file -m 755 -o root -g sys HORCM_overview.sh
 	file -m 755 -o root -g sys VxVM_collect.sh
 	file -m 755 -o root -g sys bdf_collect.sh
 	file -m 755 -o root -g sys bdfmegs.sh
