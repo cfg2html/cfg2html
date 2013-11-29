@@ -174,6 +174,7 @@ function mktempDir {
 function DoExitTasks {
     # remove the temporary directories (also in case we are trapped by an error)
     rm -f /tmp/cfg2html.respawn $LOCK
-    rm -rf $TMP_DIR
+    # see issue #29 Ctrl-C remove TMP_DIR
+    #rm -rf $TMP_DIR
 }
 
