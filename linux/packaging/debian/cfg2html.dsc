@@ -1,6 +1,6 @@
 Format: 1.0
 Source: cfg2html
-Version: 6.13-0git201310081642
+Version: 6.16-0git201311292056
 Binary: cfg2html
 Maintainer: Gratien D'haese <gratien.dhaese@gmail.com>
 Architecture: all
