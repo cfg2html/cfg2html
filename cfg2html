@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html,v 6.13 2013-10-08 08:53:58 ralph Exp $
+# @(#) $Id: cfg2html,v 6.16 2013/11/29 19:48:32 ralph Exp $
 # -------------------------------------------------------------------------
 # CFG2HTML - license: see GPL v3
 # -------------------------------------------------------------------------
@@ -25,15 +25,15 @@ fi
 
 PRODUCT="Config to HTML - cfg2html"
 # this CVS id is also used by the Makefiles to get the version number!
-CVS="$Id: cfg2html,v 6.13 2013-10-08 08:53:58 ralph Exp $"
+CVS="$Id: cfg2html,v 6.16 2013/11/29 19:48:32 ralph Exp $"
 
 ##PROGRAM=cfg2html
 ##VERSION=6.10
 ##RELEASE_DATE="2013-10-06"
 
 PROGRAM=$(echo $CVS|cut -f2 -d" "|cut -f1 -d,)
-VERSION=$(echo $CVS | awk '{print $3}')
-RELEASE_DATE="2013-10-07"
+VERSION=6.15-git201311121647
+RELEASE_DATE="2013-11-12"
 #echo $PROGRAM,$VERSION,$RELEASE_DATE
 
 OS=$(uname)

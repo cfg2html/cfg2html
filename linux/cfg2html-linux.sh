@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html-linux.sh,v 6.11 2013-09-16 11:05:59 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.12 2013/11/29 19:48:33 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2013 by Ralph Roth  -*- http://rose.rult.at -*-
 
@@ -827,7 +827,7 @@ then # else skip to next paragraph
 
 #### programming stuff ####
 # plugin for cfg2html/linux/hpux #  22.11.2005, 16:03 modified by Ralph Roth
-# @(#)$Id: cfg2html-linux.sh,v 6.11 2013-09-16 11:05:59 ralph Exp $
+# @(#)$Id: cfg2html-linux.sh,v 6.12 2013/11/29 19:48:33 ralph Exp $
 
  exec_command ProgStuff "Software Development: Programs and Versions"
 
@@ -1008,7 +1008,7 @@ then # else skip to next paragraph
 
     if [ -x /usr/sbin/ethtool ]     ###  22.11.2010, 23:44 modified by Ralph Roth
     then
-        LANS=$(ifconfig|grep ^[a-z]|grep -v ^lo|awk '{print $1;}')
+        LANS=$(ifconfig|grep ^[a-z]|grep -v ^lo|awk '{print $1;}')	# RR: ifconfig is decrecapted -> ip a? 13.11.2013
         for i in $LANS
         do
             exec_command "/usr/sbin/ethtool $i 2>/dev/null; /usr/sbin/ethtool -i $i" "Ethernet Settings for Interface "$i
@@ -1531,9 +1531,10 @@ then # else skip to next paragraph
     fi
 
 ######## SLES 11 SP1 Pacemaker stuff ########## Mittwoch, 16. März 2011 ##### Ralph Roth ####
-    [ -x /usr/sbin/corosync-cfgtool ] && exec_command "/usr/sbin/corosync-cfgtool -s" "Corosync Totem Status/Active Rings"
+    [ -x /usr/sbin/corosync-cfgtool ] && exec_command "/usr/sbin/corosync-cfgtool -s" "Corosync TOTEM Status/Active Rings"
     if [ -x /usr/sbin/crm ] # pacemaker #
     then
+        exec_command "/usr/sbin/crm_mon -rnA1" "Cluster Configuration"  		## 281113, rr
         exec_command "/usr/sbin/crm -D plain configure show" "Cluster Configuration"
         exec_command "/usr/sbin/crm -D plain status" "Cluster Status"
     fi
@@ -1541,9 +1542,9 @@ then # else skip to next paragraph
 
     # only if ClusterTools2/SLES11 HAE are installed #  04.04.2012, 14:52 modified by Ralph Roth #* rar *#
     [ -x /usr/sbin/grep_cluster_patterns ] && exec_command "/usr/sbin/grep_cluster_patterns --show"  "Output of grep_cluster_patterns"
-    for i in  grep_error_patterns  grep_cluster_transition
+    for i in  grep_error_patterns  grep_cluster_transition cs_show_scores cs_list_failcounts
     do
-        [ -x /usr/sbin/$i ] && exec_command "$i" "Output of $i"
+        [ -x /usr/sbin/$i ] && exec_command "$i" "ClusterTool2: Output of $i"
     done
 
 ######## RHEL 5.x CRM stuff ######## Freitag, 18. März 2011 #### Ralph Roth ####
@@ -1902,18 +1903,18 @@ fi  # end of CFG_HPPROLIANTSERVER paragraph
 if [ "$CFG_ALTIRISAGENTFILES" != "no" ]
 then # else skip to next paragraph
 
-# checking if Altiris directory exist otherwise skip this section
-if [ -e /opt/altiris/deployment/adlagent ] ; then
+  # checking if Altiris directory exist otherwise skip this section
+  if [ -e /opt/altiris/deployment/adlagent ] ; then
 
-  paragraph "Altiris ADL Agent logfiles and settings"
-  inc_heading_level
+    paragraph "Altiris ADL Agent logfiles and settings"
+    inc_heading_level
 
-  exec_command "cat /opt/altiris/deployment/adlagent/conf/adlagent.conf" "Altiris ADLagent settings file"
-  exec_command "cat /opt/altiris/deployment/adlagent/log/adlagentdbg.txt" "Altris ADLagent Debugging file"
-  exec_command "cat /opt/altiris/deployment/adlagent/log/adlagentIpTrace.txt" "Altiris ADLagent IP tracing file"
+    exec_command "cat /opt/altiris/deployment/adlagent/conf/adlagent.conf" "Altiris ADLagent settings file"
+    exec_command "cat /opt/altiris/deployment/adlagent/log/adlagentdbg.txt" "Altris ADLagent Debugging file"
+    exec_command "cat /opt/altiris/deployment/adlagent/log/adlagentIpTrace.txt" "Altiris ADLagent IP tracing file"
 
-  dec_heading_level
-fi
+    dec_heading_level
+  fi
 
 fi  # end of CFG_ALTIRISAGENTFILES paragraph
 ###  END of Altiris ADL agent settings and logfiles
