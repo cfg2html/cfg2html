@@ -1,7 +1,7 @@
 .\" Copyright (c) 2003-2013 by MIchael MEifert <dk3hg@users.sourceforge.net> and Ralph Roth (rar)
-.\"$Id: cfg2html.8,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $
+.\"$Id: cfg2html.8,v 6.12 2013/12/02 08:47:04 ralph Exp $
 
-.TH cfg2html-linux 8 "24.01.2013" "mime/rar"
+.TH cfg2html-linux 8 "02.12.2013" "mime/rar"
 
 .SH NAME
 cfg2html-linux \- creates a nice HTML and plain ASCII documentation of your GNU/Linux system. WARNING, use this script AT YOUR OWN RISK.
@@ -116,7 +116,7 @@ Disk Partitions to restore from
 
 .TP
 .B <hostname>._xpinfo.csv
-(only on systems connected to HP Surestore Disk Arrays): the output of the xpinfo command
+(only on systems connected to HP Disk Arrays): the output of the xpinfo command
 
 .TP
 .B /usr/share/man/man8/cfg2html-linux.8.gz
@@ -142,8 +142,8 @@ file in the source directory.
 Only
 .B root
 can run the
-.B cfg2html-linux script.
-For security reasons it is better to store the HTML and ASCII files
+.B cfg2html-linux
+script. For security reasons it is better to store the HTML and ASCII files
 in a safe place where only root user have access or remove the
 files from your file system.
 
@@ -153,13 +153,15 @@ the  script,  or  want to see a feature added to it that
 isn't already here, then please subscribe to the project mailing list.
 The project web page is at
 .B http://www.cfg2html.com
-and
+the mailing list is at
 .B http://groups.yahoo.com/cfg2html
+and the source code is hosted on
+.B https://github.com/cfg2html/cfg2html
 
 .SH WARNINGS
 use the
-.B cfg2html-linux script
-at your own risk! See License.txt for details!
+.B cfg2html-linux
+script at your own risk! See License.txt for details!
 .SH DIAGNOSTICS
 
 .B cfg2html-linux
@@ -175,7 +177,7 @@ in the
 section. We love to hear from you. :-)
 
 .SH AUTHORS
-Original cfg2html HP-UX version written by Ralph Roth <rose_swe@hotmail.com>
-and ported to Linux by Michael Meifert <dk3hg@users.sourceforge.net>, maintained by Ralph Roth.
+Original cfg2html HP-UX version written by Ralph Roth <cfg2html@hotmail.com>
+and ported to Linux by Michael Meifert <dk3hg@users.sourceforge.net>, maintained by Gratien D'haese and Ralph Roth.
 
 See the source code and changelog for complete history and credits.

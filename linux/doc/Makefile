@@ -1,3 +1,7 @@
+# @(#) $Id: Makefile,v 6.12 2013/12/02 08:48:42 ralph Exp $
+# -------------------------------------------------------------------------
+# vim:ts=8:sw=4:sts=4 -*- coding: utf-8 -*- http://rose.rult.at/ - Ralph Roth
+
 prefix = /usr
 datadir = $(prefix)/share
 mandir = $(datadir)/man
