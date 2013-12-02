@@ -615,6 +615,13 @@ then # else skip to next paragraph
         #  06.04.2005, 15:26 modified by Ralph.Roth
         exec_command "/sbin/spmgr display|grep c | grep t | grep d| grep '-' | grep -v Auto" "SecurePath Devicefiles and UUID"
     fi
+    if [ -x /sbin/autopath ]  # SureStore XP/P9500
+    then
+	[ -f /etc/rc.config.d/autopathmapping] && exec_command "cat /etc/rc.config.d/autopathmapping" "SecurePath rc.config.d configuration"
+	[ -f /sbin/init.d/autopathinit ] && cat_and_grep "/sbin/init.d/autopathinit" "SecurePath init file"
+	[ -f /sbin/init.d/autopathmapping ] && cat_and_grep "/sbin/init.d/autopathmapping" "SecurePath mapping file"
+	exec_command "$PLUGINS/get_secure_path_info.sh" "SecurePath Active Paths"
+    fi
     ######## ende  Securepath ######
 
     # If evainfo is installed get its output  (KL 26.10.11)
