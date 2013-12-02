@@ -944,17 +944,19 @@ LanSpeed () {
 if [ "$CFG_NETWORK" != "no" ]
 then # else skip to next paragraph
 
-	paragraph "Network Settings/Network Interface Cards"
-	inc_heading_level
+    paragraph "Network Settings/Network Interface Cards"
+    inc_heading_level
 
     [ $osrev -gt 10 ] && exec_command "$PLUGINS/get_lan_desc.sh" "NIC Description"
     LANG_C ## 11.31 fixes
     PERL=$(which perl 2>/dev/null)
+    [[ "$osrev100" -lt 1131 ]] && exec_command "$PLUGINS/get_active_lan_info.sh" "Active NIC/LAN Details"
+
     # qlan.pl has been removed (issue #1)
     #[ -x "$PERL" ] && exec_command "$PERL $PLUGINS/qlan.pl" "NIC Overview" # (opt?)
     #[ -x "$PERL" ] && exec_command "$PERL $PLUGINS/qlan.pl -v" "NIC Details"
-    exec_command "$PLUGINS/get_qlan.sh" "NIC Overview"
-    exec_command "$PLUGINS/get_qlan_details.sh" "NIC Details" 
+    [[ "$osrev100" -gt 1123 ]] && exec_command "$PLUGINS/get_qlan.sh" "NIC Overview"
+    [[ "$osrev100" -gt 1123 ]] && exec_command "$PLUGINS/get_qlan_details.sh" "NIC Details" 
 
     cat_and_grep "/etc/rc.config.d/netconf" "Netconf Settings"
     [ -r /etc/rc.config.d/hp_apaconf ] &&  exec_command "(cat_and_grep /etc/rc.config.d/hp_apa*conf);echo LanScan -q:;lanscan -q" "Autoport Aggregation"
