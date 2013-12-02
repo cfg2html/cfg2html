@@ -17,7 +17,7 @@ install: cfg2html.8
 	install -Dp -m0644 cfg2html.8 $(DESTDIR)$(mandir)/man8/cfg2html.8
 
 clean:
-	rm -f unconv.8 *.html *.xml
+	rm -f unconv.8 *.xml
 
 %.8.html: %.8.txt
 	asciidoc -d manpage $<

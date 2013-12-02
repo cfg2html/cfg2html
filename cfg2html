@@ -28,7 +28,7 @@ PRODUCT="Config to HTML - cfg2html"
 # this CVS id is also used by the Makefiles to get the version number!
 CVS="$Id: cfg2html,v 6.16 2013/11/29 19:48:32 ralph Exp $"
 PROGRAM=$(echo $CVS|cut -f2 -d" "|cut -f1 -d,)
-VERSION=6.16-git201312020851
+VERSION=6.16-git201312020858
 RELEASE_DATE="2013-12-02"
 #echo $PROGRAM,$VERSION,$RELEASE_DATE
 
