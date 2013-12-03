@@ -1,4 +1,9 @@
 #!/usr/bin/ksh
+# @(#) $Id: pvgfilter.sh,v 6.13 2013/12/03 16:08:35 ralph Exp $
+# -------------------------------------------------------------------------
+# vim:ts=8:sw=4:sts=4 -*- coding: utf-8 -*- http://rose.rult.at/ - Ralph Roth
+# Part of the cfg2html 6.xx/HPUX package
+
 # pvgfilter.sh replaces the two executables pnfgfilter.[hppa|ia64]
 
 for vgname in $(/usr/sbin/vgdisplay 2>/dev/null | grep "^VG Name" | awk '{print $3}')

@@ -1,5 +1,7 @@
-# @(#) $Id: $
+# @(#) $Id: get_secure_path_info.sh,v 6.13 2013/12/03 16:08:31 ralph Exp $
 # get_secure_path_info.sh
+# Part of the HPUX/cfg2html 6.xx package
+
 [[ ! -x /sbin/autopath ]] && exit 0        # no secure path executable found
 
 /sbin/autopath display all > /tmp/autpath_display_all.$$

@@ -1323,7 +1323,7 @@ then # else skip to next paragraph
             which rpm > /dev/null  && exec_command "rpm -qi glibc" "libc6 Version (RPM)" # rar, SuSE+RH
     fi
 
-    exec_command "/sbin/ldconfig -vN" "Run-time link bindings"
+    exec_command "/sbin/ldconfig -vN  2>/dev/null" "Run-time link bindings"		### changed 20130730 by Ralph Roth
 
     # MiMe: SuSE patched kernel params into /proc
     if [ -e /proc/config.gz ] ; then

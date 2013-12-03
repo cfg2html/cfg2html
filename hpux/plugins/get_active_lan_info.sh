@@ -1,4 +1,4 @@
-# @(#) $Id: $
+# @(#) $Id: get_active_lan_info.sh,v 6.13 2013/12/03 16:08:24 ralph Exp $
 # script: get_active_lan_info.sh
 # to be used on HP-UX 11.xx (except for 11.31 as get_qlan*.sh scripts give better output...)
 
