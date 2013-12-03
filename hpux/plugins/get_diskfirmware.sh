@@ -34,7 +34,7 @@ else
 fi
 
 PATH=$PATH:/opt/hpvm/bin:/usr/contrib/bin/:/usr/local/bin
-INQ=$(which inq)                # EMC inquiry here? (/usr/local/bin?)
+INQ=$(whence inq)                # EMC inquiry here? (/usr/local/bin?)
 WLDEV="no"
 
 if [ "$1" = "-ldev" -o "$1" = "-ldevs" ] ## typo handling :)
@@ -66,39 +66,21 @@ get_properties()
   ##############################################################################
   
   ## echo "dev="$device"=="
-  if (strings $LVMTAB | grep ^/dev/ | grep /${device}$ >/dev/null 2>&1) || (strings $LVMTAB | grep ^/dev/ |grep $device$DIVIDER..$ >/dev/null 2>&1)
+
+  ##if (strings $LVMTAB | grep ^/dev/ | grep /${device}$ >/dev/null 2>&1) || (strings $LVMTAB | grep ^/dev/ |grep $device$DIVIDER..$ >/dev/null 2>&1)
+  if (grep "/${device} " /tmp/lvmtab_vg_info.$$ >/dev/null 2>&1)
   then
     ### device exists in lvmtab - so it the usage is LVM
     USAGE="LVM/"
-    USAGE_EXT="scripterror"
-    ### device is in lvmtab, but VG is not activated   
-    DISKFOUND="no";VG=""
-    for entry in `strings $LVMTAB|grep /dev/`
-    do
-      if [ $DISKFOUND = "no" ]
-      then
-        # echo "E=$entry, D=$device, VG=$VG"
-        if [ "`echo $entry | cut -d "/" -f 4`" = "" ]
-        then
-          # lvmtab line is specifying a VG and not a disk
-          VG="`echo $entry | cut -d "/" -f 3`"
-        else
-          # lvmtab line is specifying a disk and not a VG
-          if (echo $entry | grep -E "/$device$|/$device$DIVIDER..$" >/dev/null 2>&1)
-          then
-            if (vgdisplay $VG>/dev/null 2>&1)
-            then
-              VGVERSION=$(vgdisplay $VG 2>/dev/null|grep "VG Version"|awk '{print $3;}')
-              [ -n "$VGVERSION" ] || VGVERSION="1.0"
-              USAGE_EXT="$VG/v$VGVERSION"        # 1.0, 2.0, 2.1
-            else
-              USAGE_EXT="$VG,inactive"
-            fi
-            DISKFOUND=yes
-          fi
-        fi
-      fi
-    done
+    VG=$(grep "/${device} " /tmp/lvmtab_vg_info.$$ | awk '{print $2}' | cut -d"/" -f3)
+    vgdisplay $VG 2>/dev/null > /tmp/vgdisplay.$$
+    if [ $? -ne 0 ]; then
+        USAGE_EXT="$VG,inactive"
+    else
+        VGVERSION=$( grep "VG Version" /tmp/vgdisplay.$$ | awk '{print $3;}')
+        [[ -z "$VGVERSION" ]] && VGVERSION="1.0"
+        USAGE_EXT="$VG/v$VGVERSION"        # 1.0, 2.0, 2.1
+    fi
   else
     ##############################################################################
     # Check if a file system has been created on the device file (would be strange..)
@@ -194,7 +176,7 @@ hw_disk_check_classic()
     do
         if [ -c /dev/r$DEVPREFIX/$device ]          ## /dev/cdrom -> lssf: /dev/dsk/dev: No such file or directory
         then  
-          (diskinfo -v /dev/r$DEVPREFIX/$device;diskinfo /dev/r$DEVPREFIX/$device) \
+          (diskinfo -v /dev/r$DEVPREFIX/$device) \
             2> /dev/null | grep -e product -e rev -e vendor -e size > $TMPFiLE_MARTiN1 2> /dev/null
           if [ "$(grep -e 'DVD-ROM' -e 'CD-ROM' -e 'DISK-SUBS' -e ' 0 Kbyte' $TMPFiLE_MARTiN1)" = "" ]
           then
@@ -211,16 +193,16 @@ hw_disk_check_classic()
                SCSILUN=`echo $device| cut -d t -f 2 | cut -d d -f 2|awk '{print $1+0}'`
                ((LUNDEC1=$SCSITGT*8+$SCSILUN))
 
- if [  "$WLDEV" = "yes" -a "$size" = "0.0  " ]  # Size=0.0  =
-           then
-                : # Skip Ghost LUNs with -ldev
-           else             
-               printf "%-34s%-10s%-18s%-4s%-8s%-7s%-4s%-12s\n" \
+                if [  "$WLDEV" = "yes" -a "$size" = "0.0  " ]  # Size=0.0  =
+                then
+                     : # Skip Ghost LUNs with -ldev
+                else             
+                    printf "%-34s%-10s%-18s%-4s%-8s%-7s%-4s%-12s\n" \
                        $hw_pfad $device $vendor_product $LUNDEC1 $size $revision $USAGE $USAGE_EXT
-         fi
-             fi
-          fi
-    fi
+                fi # [  "$WLDEV" = "yes" -a "$size" = "0.0  " ]
+             fi # [ -n "$product"  ]
+          fi # [ "$(grep -e 'DVD-ROM' -e 'CD-ROM' -e 'DISK-SUBS' -e ' 0 Kbyte' $TMPFiLE_MARTiN1)" = "" ]
+        fi # [ -c /dev/r$DEVPREFIX/$device ]
     done
     echo "-------------------------------------------------------------------------------------------------" 
     echo $WARNMSG
@@ -282,6 +264,15 @@ hw_disk_check_dsf()
     echo $WARNMSG
 }
 
+################# MAIN ###################
+
+# collect disks and corresponding VG, e.g.
+# /dev/dsk/c210t2d5 /dev/vg_dbxx
+  strings $LVMTAB |\
+  awk 'BEGIN {VG=""}
+      $1  ~ /\/dev\/d*sk\// { print $1, VG }\
+      $1  !~ /\/dev\/d*sk\// && $1 ~ /\/dev/ { VG=$1}' > /tmp/lvmtab_vg_info.$$
+
 
 UX=`uname -r | cut -d "." -f 3`
 
@@ -296,7 +287,6 @@ then
     printf "%-34s%-10s%-19s%-4s%-8s%-7s%-6s%-12s\n" Hardwarepath Device Vendor/Product LUN Cap/GB FWVer Usage/VG/Owner
     echo "-------------------------------------------------------------------------------------------------------" 
     grep -e LVM/ -e HPVM/ -e Filesystem/ $TMPFiLE_MARTiN2
-    #rm $TMPFiLE_MARTiN2
   fi
 else
   ### 11.23 and lower  #########################################################
@@ -305,6 +295,8 @@ fi
 
 # Clear temp. Files
 rm -f $TMPFiLE_MARTiN1 $TMPFiLE_MARTiN2 2>/dev/null
+rm -f /tmp/lvmtab_vg_info.$$ 2>/dev/null
+rm -f /tmp/vgdisplay.$$ 2>/dev/null
 
 exit 0
 
