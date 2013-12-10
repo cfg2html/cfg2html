@@ -761,25 +761,18 @@ then # else skip to next paragraph
     exec_command "rpm --querytags" "RPM Query Tags"     #*#   Alexander De Bernardi //21.04.2010/rr
     if [ -x /usr/bin/zypper ]
     then
-    #     stderr output from "zypper ls; echo ''; zypper pt":
+    #     #TODO:#BUG:# stderr output from "zypper ls; echo ''; zypper pt":
     #     System management is locked by the application with pid 1959 (/usr/lib/packagekitd).
     #     Close this application before trying again.
         if [ -r /etc/zypp/zypp.conf ]       ## fix for JW's SLES 10
         then
             exec_command "zypper -n ls; echo ''; echo | zypper -n pt " "zypper: Services and Patterns"       #*#   Ralph Roth, Mittwoch, 16. März 2011
-	    sleep 2
             exec_command "zypper  -n ps" "zypper: Processes which need restart after update"       #*#   Alexander De Bernardi 17.02.2011
-	    sleep 2
             exec_command "zypper -n lr --details" "zypper: List repositories"                     #*#   Alexander De Bernardi 17.02.2011
-	    sleep 2
             exec_command "zypper -n lu" "zypper: List pending updates"                            #*#   Alexander De Bernardi 17.02.2011
-	    sleep 2
             exec_command "zypper -n lp" "zypper: List pending patches"                            #*#   Alexander De Bernardi 17.02.2011
-	    sleep 2
             exec_command "zypper -n pa" "zypper: List all available packages"                     #*#   Alexander De Bernardi 17.02.2011
-	    sleep 2
             exec_command "zypper -n pa --installed-only" "zypper: List installed packages"        #*#   Alexander De Bernardi 17.02.2011
-	    sleep 2
             exec_command "zypper -n pa --uninstalled-only" "zypper: List not installed packages"  #*#   Alexander De Bernardi 17.02.2011
         else
             AddText "zypper found, but it is not configured!"
@@ -825,11 +818,8 @@ then # else skip to next paragraph
   fi
   # end ARCH
 
-#### programming stuff ####
-# plugin for cfg2html/linux/hpux #  22.11.2005, 16:03 modified by Ralph Roth
-# @(#)$Id: cfg2html-linux.sh,v 6.12 2013/11/29 19:48:33 ralph Exp $
-
- exec_command ProgStuff "Software Development: Programs and Versions"
+  #### programming stuff ##### plugin for cfg2html/linux/hpux #  22.11.2005, 16:03 modified by Ralph Roth
+  exec_command ProgStuff "Software Development: Programs and Versions"
 
   dec_heading_level
 
