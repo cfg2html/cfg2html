@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html-linux.sh,v 6.12 2013/11/29 19:48:33 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.13 2013/12/11 16:11:27 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2013 by Ralph Roth  -*- http://rose.rult.at -*-
 
@@ -1015,80 +1015,86 @@ then # else skip to next paragraph
   exec_command "ip addr" "LAN Interfaces Settings (ip addr)"            #D011 -- 16. März 2011,  28. Dezember 2011, ER by Heiko Andresen
   exec_command "ip -s l" "Detailed NIC Statistics"                      #07.11.2011, 21:33 modified by Ralph Roth #* rar *#
 
-  #exec_command "for interface in \$(lanscan|grep 'lan. '|awk '{print \$5}'|sort) ; do ifconfig \$interface; done" "LAN Interface Configuration"
+  if [ -x /usr/sbin/ethtool ]     ###  22.11.2010, 23:44 modified by Ralph Roth
+  then
+      LANS=$(ifconfig|grep ^[a-z]|grep -v ^lo|awk '{print $1;}')	# RR: ifconfig is decrecapted -> ip a? 13.11.2013
+      for i in $LANS
+      do
+	  exec_command "/usr/sbin/ethtool $i 2>/dev/null; /usr/sbin/ethtool -i $i" "Ethernet Settings for Interface "$i
+      done
+  fi
 
-    if [ -x /usr/sbin/ethtool ]     ###  22.11.2010, 23:44 modified by Ralph Roth
-    then
-        LANS=$(ifconfig|grep ^[a-z]|grep -v ^lo|awk '{print $1;}')	# RR: ifconfig is decrecapted -> ip a? 13.11.2013
-        for i in $LANS
-        do
-            exec_command "/usr/sbin/ethtool $i 2>/dev/null; /usr/sbin/ethtool -i $i" "Ethernet Settings for Interface "$i
-        done
+  if [ $DEBIAN = "yes" ] ; then
+    if [ -f /etc/network/interfaces ] ; then
+      exec_command "grep -vE '(^#|^$)' /etc/network/interfaces" "Netconf Settings"
     fi
+  fi
 
-      if [ $DEBIAN = "yes" ] ; then
-        if [ -f /etc/network/interfaces ] ; then
-          exec_command "grep -vE '(^#|^$)' /etc/network/interfaces" "Netconf Settings"
-        fi
-      fi
-
-    ## Added 3/05/08 by krtmrrsn@yahoo.com, Marc Korte, display ethernet
-    ##  LAN and route config files for RedHat.
+  ## Added 3/05/08 by krtmrrsn@yahoo.com, Marc Korte, display ethernet
+  ##  LAN and route config files for RedHat.
   if [ $REDHAT = "yes" ] ; then
-      ## There will always be at least ifcfg-lo.
+    ## There will always be at least ifcfg-lo.
     exec_command "for CfgFile in /etc/sysconfig/network-scripts/ifcfg-*; do printf \"\n\n\$(basename \${CfgFile}):\n\n\"; cat \${CfgFile}; done" "LAN Configuration Files"
-      ## Check first that any route-* files exist ("grep  -q ''" exit status).
+    ## Check first that any route-* files exist ("grep  -q ''" exit status). Seems buggy!
     exec_command "if grep -q '' /etc/sysconfig/network-scripts/route-*; then for RouteCfgFile in /etc/sysconfig/network-scripts/route-*; do printf \"\n\n\$(basename \${RouteCfgFile}):\n\n\"; cat \${RouteCfgFile}; done; fi" "Route Configuration Files"
   fi
-    ## End Marc Korte display ethernet LAN config files.
+  ## End Marc Korte display ethernet LAN config files.
 
   [ -x /sbin/mii-tool ] && exec_command "/sbin/mii-tool -v" "MII Status"
   [ -x /sbin/mii-diag ] && exec_command "/sbin/mii-diag -a" "MII Diagnostics"
 
     exec_command "ip route" "Network Routing"           #  07.11.2011, 21:37 modified by Ralph Roth #* rar *#
-    exec_command "ip neigh" "Network Neighbourhood"     #  07.11.2011, 21:38 modified by Ralph Roth #* rar *#
+    exec_command "netstat -r" "Routing Tables"
+    exec_command "ip neigh" "Network Neighborhood"      #  07.11.2011, 21:38 modified by Ralph Roth #* rar *#
 
   NETSTAT=`which netstat`
   if [ $NETSTAT ]  && [ -x $NETSTAT ]; then
-    # test if netstat version 1.38, because some options differ in older versions
-    # MiMe: '\' auf awk Zeile wichtig
-    RESULT=`netstat -V | awk '/netstat/ {
-        if ( $2 < 1.38 ) {
-          print "NO"
-        } else { print "OK" }
-      }'`
-    exec_command "netstat -r" "Routing Tables"
-    #exec_command "if [ "$RESULT" = "OK" ] ; then netstat -gi; fi" "Interfaces"
-    if [ "$RESULT" = "OK" ]
-      then
-       exec_command "netstat -gi" "Interfaces"
-       exec_command "netstat -tlpn" "TCP Daemons acceppting connection"
-       exec_command "netstat -ulpn" "UDP Daemons acceppting connection"
+      # test if netstat version 1.38, because some options differ in older versions
+      # MiMe: '\' auf awk Zeile wichtig
+      RESULT=`netstat -V | awk '/netstat/ {
+	  if ( $2 < 1.38 ) {
+	    print "NO"
+	  } else { print "OK" }
+	}'`
+
+      #exec_command "if [ "$RESULT" = "OK" ] ; then netstat -gi; fi" "Interfaces"
+      if [ "$RESULT" = "OK" ]
+	then
+	  exec_command "netstat -gi" "Interfaces"
+	  exec_command "netstat -tlpn" "TCP Daemons accepting connection"
+	  exec_command "netstat -ulpn" "UDP Daemons accepting connection"
+	fi
+
+      exec_command "netstat -s" "Summary statistics for each protocol"
+      exec_command "netstat -i" "Kernel Interface table"
+      # MiMe: iptables since 2.4.x
+      # MiMe: iptable_nat realisiert dabei das Masquerading
+      # MiMe: Details stehen in /proc/net/ip_conntrack
+      if [ -e /proc/net/ip_masquerade ]; then
+	exec_command "netstat -M" "Masqueraded sessions"
       fi
-    ## Added 4/07/06 by krtmrrsn@yahoo.com, Marc Korte, probe and display
-     ##        kernel interface bonding info.
-     if [ -e /proc/net/bonding ]; then
-       for BondIF in `ls -1 /proc/net/bonding`
-       do
-         exec_command "cat /proc/net/bonding/$BondIF" "Bonded Interfaces: $BondIF"
-       done
-     fi
-     ## End Marc Korte kernel interface bonding addition.
-
-    exec_command "netstat -s" "Summary statistics for each protocol"
-    exec_command "netstat -i" "Kernel Interface table"
-    # MiMe: iptables since 2.4.x
-    # MiMe: iptable_nat realisiert dabei das Masquerading
-    # MiMe: Details stehen in /proc/net/ip_conntrack
-    if [ -e /proc/net/ip_masquerade ]; then
-      exec_command "netstat -M" "Masqueraded sessions"
-    fi
-    if [ -e /proc/net/ip_conntrack ]; then
-      exec_command "cat /proc/net/ip_conntrack" "Masqueraded sessions"
-    fi
-    exec_command "netstat -an" "list of all sockets"
+      if [ -e /proc/net/ip_conntrack ]; then
+	exec_command "cat /proc/net/ip_conntrack" "Masqueraded sessions"
+      fi
+      exec_command "netstat -an" "list of all sockets"
+  fi  ## netstat
+  # -----------------------------------------------------------------------------
+  if [ -x /usr/sbin/ss ]
+  then
+    exec_command "/usr/sbin/ss -planeto" "TCP Listening Sockets Statistics" # changed 20131211 by Ralph Roth
+    exec_command "/usr/sbin/ss -planeuo" "UDP Listening Sockets Statistics" # UDP and listening? :)
+  fi # ss
+  # -----------------------------------------------------------------------------
+  ## Added 4/07/06 by krtmrrsn@yahoo.com, Marc Korte, probe and display
+  ##        kernel interface bonding info.
+  if [ -e /proc/net/bonding ]; then
+    for BondIF in `ls -1 /proc/net/bonding`
+    do
+      exec_command "cat /proc/net/bonding/$BondIF" "Bonded Interfaces: $BondIF"
+    done
   fi
-
+  ## End Marc Korte kernel interface bonding addition.
+  # -----------------------------------------------------------------------------
   DIG=`which dig`
   if [ -n "$DIG" ] && [ -x $DIG ] ; then
     exec_command "dig `hostname -f`" "dig hostname"
@@ -1302,7 +1308,7 @@ then # else skip to next paragraph
     [ -x /usr/sbin/get_sebool ] && exec_command "/usr/sbin/get_sebool -a" "SELinux Settings"
 
     who -b 2>/dev/null > /dev/null && exec_command "who -b" "System boot" #  23.03.2006, 13:18 modified by Ralph Roth
-    exec_command "cat /proc/cmdline" "Kernel commandline"
+    exec_command "cat /proc/cmdline" "Kernel command line"
 
     exec_command "getconf GNU_LIBC_VERSION" "libc Version (getconf)"
 
