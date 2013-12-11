@@ -178,154 +178,175 @@ inc_heading_level
 if [ "$CFG_SYSTEM" != "no" ]
 then # else skip to next paragraph
 
-paragraph "Linux System ($distrib)"
-inc_heading_level
+  paragraph "Linux System ($distrib)"
+  inc_heading_level
 
-if [ -f $CONFIG_DIR/systeminfo ] ; then
-  exec_command "cat $CONFIG_DIR/systeminfo" "System description"
-fi
-
-exec_command "cat /proc/cpuinfo; echo; /usr/bin/lscpu;" "CPU and Model info" #  20.08.2012, 15:59 modified by Ralph Roth #* rar *#
-[ -x /usr/bin/cpufreq-info ] && exec_command cpufreq-info "CPU Freq Kernel Information"
-
-exec_command  HostNames "uname & hostname"
-exec_command "uname -n" "Host alias"
-exec_command "uname -sr" "OS, Kernel version"
-[ -x /usr/bin/lsb_release ] && exec_command "/usr/bin/lsb_release -a" "Linux Standard Base Version"
-for i in /etc/*-release
-do
-    [ -r $i ] && exec_command "cat $i" "OS Specific Release Information ($i)"
-done
-
-if [ -x /usr/bin/locale ] ; then
-  exec_command posixversion "POSIX Standards/Settings"
-  exec_command "locale" "locale specific information"
-  export LANG="C"
-  export LANG_ALL="C"
-fi
-
-exec_command "ulimit -a" "System ulimit"                #  13.08.2007, 14:24 modified by Ralph Roth
-exec_command "getconf -a" "System Configuration Variables"          ## at least SLES11, #  14.06.2011, 18:53 modified by Ralph Roth #* rar *#
-##### 19-Sept-2006, Ralph #####
-if [ -x /usr/bin/vmstat ] ; then        ## <c/m/a>  14.04.2009 - Ralph Roth
-  exec_command "vmstat 1 10" "VM-Statistics 1 10"
-  exec_command "vmstat -dn;vmstat -f" "VM-Statistics (Summary)"
-fi
-if [ -x /usr/bin/mpstat ] ; then
-  exec_command "mpstat 1 5" "MP-Statistics"
-fi
-if [ -x /usr/bin/iostat ] ; then
-  exec_command "iostat" "IO-Statistics"
-fi
-
-# In "used memory.swap" section I would add :
-# free -tl     (instead of free, because it gives some more useful infos, about HighMem and LowMem memory regions (zones))
-# cat /proc/meminfo (in order to get some details of memory usage)
-
-exec_command "free -toml;echo;free -tm;echo; swapon -s" "Used Memory and Swap"  #  04.07.2011, 16:13 modified by Ralph Roth #* rar *#
-exec_command "cat /proc/meminfo" "Detailed memory usage"
-exec_command "cat /proc/buddyinfo" "Zoned Buddy Allocator/Memory Fragmentation and Zones" #  09.01.2012 Ralph Roth
-
-# sysutils
-exec_command "uptime" "Uptime"
-# exec_command "sar 1 9" "System Activity Report"
-# exec_command "sar -b 1 9" "Buffer Activity"
-
-[ -x /usr/bin/procinfo ] && exec_command "procinfo -a" "System status from /proc" #  15.11.2004, 14:09 modified by Ralph Roth
-# usage: pstree [ -a ] [ -c ] [ -h | -H pid ] [ -l ] [ -n ] [ -p ] [ -u ]
-#               [ -G | -U ] [ pid | user]
-
-#### 20070228 Oliver Schwabedissen, RH4/SLES9 don't support -A, RHEL 5.6 supports -A (#  08.04.2011, 11:31 modified by Ralph Roth #* rar *#)
-# if [ "$REDHAT" = "yes" ] ; then ## 20100914 Alfred Menken SLES10/SLESS11 support -A
-#   exec_command "pstree -p -a -l -G" "Active Process Overview" # 090102006
-
-exec_command "pstree -p -a  -l -G -A" "Active Process - Tree Overview" #  15.11.2004/2011, 14:09 modified by Ralph.Roth
-exec_command "ps -ef | cut -c39- | sort -nr | head -25 | awk '{ printf(\"%10s   %s\\n\", \$1, \$2); }'" "Top load processes"
-exec_command "ps -e -o 'vsz pid ruser cpu time args' |sort -nr|head -25" "Top memory consuming processes"
-exec_command topFDhandles "Top file handles consuming processes" # 24.01.2013
-AddText "Hint: Number of open file handles should be less than ulimit -n ("$(ulimit -n)")"
-
-[ -x /usr/bin/pidstat ] && exec_command "pidstat -lrud" "pidstat - Statistics for Linux Tasks" #  10.11.2012, 07:35 modified by Ralph Roth #* rar *#
-
-exec_command "last| grep boot" "reboots"
-exec_command "alias"  "Alias"
-[ -r /etc/inittab ] && exec_command "grep -vE '^#|^ *$' /etc/inittab" "inittab"
-## This may report NOTHING on RHEL 3+4 ##
-[ -x /sbin/chkconfig ] && exec_command "/sbin/chkconfig" "Services Startup"  ## chkconfig -A // SLES // xinetd missing
-[ -x /sbin/chkconfig ] && exec_command "/sbin/chkconfig --list" "Services Runlevel" # rar, fixed 2805-2005 for FC4
-[ -x /sbin/chkconfig ] && exec_command "/sbin/chkconfig -l --deps" "Services Runlevel and dependencies" #*# Alexander De Bernardi 25.02.2011
-[ -x /usr/sbin/service ] && exec_command "/usr/sbin/service --status-all 2> /dev/null" "Services - Status"   #  09.11.2011/12022013 by Ralph Roth #* rar *#
-[ -x  /usr/sbin/sysv-rc-conf ] && exec_command " /usr/sbin/sysv-rc-conf --list" "Services Runlevel" # rr, 1002-2008
-
-if [ "$GENTOO" = "yes" ] ; then   ## 2007-02-27 Oliver Schwabedissen
-  [ -x /bin/rc-status ]  && exec_command "/bin/rc-status --list" "Defined runlevels"
-  [ -x /sbin/rc-update ] && exec_command "/sbin/rc-update show --verbose" "Init scripts and their runlevels"
-fi
-
-if [ "$ARCH" = "yes" ] ; then   ## M.Weiller, LUG-Ottobrunn.de, 2013-02-04
-  [ -x /usr/bin/systemctl ] && exec_command "/usr/bin/systemctl list-unit-files | grep enabled" "Systend: installed unit"
-  [ -x /usr/bin/systemctl ] && exec_command "/usr/bin/systemctl --failed" "Systend: failed units"
-fi
-
-if [ -d /etc/rc.config.d ] ; then
-  exec_command " grep -v ^# /etc/rc.config.d/* | grep '=[0-9]'" "Runlevel Settings"
-fi
-[ -r /etc/inittab ] && exec_command "awk '!/#|^ *$/ && /initdefault/' /etc/inittab" "default runlevel"
-exec_command "/sbin/runlevel" "current runlevel"
-
-##
-## we want to display the Boot Messages too
-## 30Jan2003 it233 FRU
-if [ -e /var/log/boot.msg ] ; then
-  exec_command "grep 'Boot logging' /var/log/boot.msg" "Last Boot Date"
-  exec_command "grep -v '|====' /var/log/boot.msg " "Boot Messages, last Boot"
-fi
-
-# MiMe: SUSE && UNITEDLINUX
-# MiMe: until SuSE 7.3: params in /etc/rc.config and below /etc/rc.config.d/
-# MiMe; since SuSE 8.0 including UL: params below /etc/sysconfig
-if [ "$SUSE" = "yes" ] || [ "$UNITEDLINUX" = "yes" ] ; then
-  if [ -d /etc/sysconfig ] ; then
-    # MiMe:
-    exec_command "find /etc/sysconfig -type f -not -path '*/scripts/*' -exec grep -vE '^#|^ *$' {} /dev/null \; | sort" "Parameter /etc/sysconfig"
+  if [ -f $CONFIG_DIR/systeminfo ] ; then
+    exec_command "cat $CONFIG_DIR/systeminfo" "System description"
   fi
-  if [ -e /etc/rc.config ] ; then
-    # PJC: added filters for SuSE rc_ variables
-    # PJC: which were in rc.config in SuSE 6
-    # PJC: and moved to /etc/rc.status in 7+
-    exec_command "grep -vE -e '(^#|^ *$)' -e '^ *rc_' -e 'rc.status' /etc/rc.config | sort" "Parameter /etc/rc.config"
+
+  exec_command "cat /proc/cpuinfo; echo; /usr/bin/lscpu;" "CPU and Model info" #  20.08.2012, 15:59 modified by Ralph Roth #* rar *#
+  [ -x /usr/bin/cpufreq-info ] && exec_command cpufreq-info "CPU Freq Kernel Information"
+
+  exec_command  HostNames "uname & hostname"
+  exec_command "uname -n" "Host alias"
+  exec_command "uname -sr" "OS, Kernel version"
+  [ -x /usr/bin/lsb_release ] && exec_command "/usr/bin/lsb_release -a" "Linux Standard Base Version"
+  for i in /etc/*-release
+  do
+      [ -r $i ] && exec_command "cat $i" "OS Specific Release Information ($i)"
+  done
+
+  if [ -x /usr/bin/locale ] ; then
+    exec_command posixversion "POSIX Standards/Settings"
+    exec_command "locale" "locale specific information"
+    export LANG="C"
+    export LANG_ALL="C"
   fi
+
+  exec_command "ulimit -a" "System ulimit"                #  13.08.2007, 14:24 modified by Ralph Roth
+  exec_command "getconf -a" "System Configuration Variables"          ## at least SLES11, #  14.06.2011, 18:53 modified by Ralph Roth #* rar *#
+  ##### 19-Sept-2006, Ralph #####
+  if [ -x /usr/bin/mpstat ] ; then
+    exec_command "mpstat 1 5" "MP-Statistics"
+  fi
+  if [ -x /usr/bin/iostat ] ; then
+    exec_command "iostat" "IO-Statistics"
+  fi
+
+  # In "used memory.swap" section I would add :
+  # free -tl     (instead of free, because it gives some more useful infos, about HighMem and LowMem memory regions (zones))
+  # cat /proc/meminfo (in order to get some details of memory usage)
+
+  exec_command "free -toml;echo;free -tm;echo; swapon -s" "Used Memory and Swap"  #  04.07.2011, 16:13 modified by Ralph Roth #* rar *#
+
+  exec_command "cat /proc/meminfo" "Detailed Memory Usage (meminfo)"
+  exec_command "cat /proc/buddyinfo" "Zoned Buddy Allocator/Memory Fragmentation and Zones" #  09.01.2012 Ralph Roth
+  AddText "The number on the left is bigger than right (by factor 2)."
+  AddText "DMA zone is the first 16 MB of memory. DMA64 zone is the first 4 GB of memory on 64-bit Linux. Normal zone is between DMA and HighMem. HighMem zone is above 4 GB of memory." # ripped from Dusan Baljevic ## changed 20131211 by Ralph Roth
+
+      #   TODO
+      #           foreach my $bi ( @BUDDYINFO ) {
+      #             my @biarr = split(/\s+/, $bi);
+      #             $biarr[1] =~ s/,$//g;
+      #             print "$INFOSTR $biarr[0]$biarr[1]: Zone $biarr[3] has\n";
+      #             my $cntb = 1;
+      #             my @who = splice @biarr, 4;
+      #             for my $p (0 .. $#who) {
+      #                 print $who[$p], " free ", 2*(2**$cntb), "KB pages\n";
+      #                 $cntb++;
+      #             }
+
+  exec_command "cat /proc/slabinfo" "Kernel slabinfo Statistics" # changed 20131211 by Ralph Roth
+  AddText "Frequently used objects in the Linux kernel (buffer heads, inodes, dentries, etc.)  have their own cache.  The file /proc/slabinfo gives statistics."
+  exec_command "cat /proc/pagetypeinfo" "Additional page allocator information" # changed 20131211 by Ralph Roth
+  exec_command "cat /proc/zoneinfo" "Per-zone page allocator" # changed 20131211 by Ralph Roth
+
+  if [ -x /usr/bin/vmstat ] ; then        ## <c/m/a>  14.04.2009 - Ralph Roth
+    exec_command "vmstat 1 10" "VM-Statistics 1 10"
+    exec_command "vmstat -dn;vmstat -f" "VM-Statistics (Summary)"
+  fi
+
+  # sysutils
+  exec_command "uptime" "Uptime"
+  # exec_command "sar 1 9" "System Activity Report"
+  # exec_command "sar -b 1 9" "Buffer Activity"
+
+  [ -x /usr/bin/procinfo ] && exec_command "procinfo -a" "System status from /proc" #  15.11.2004, 14:09 modified by Ralph Roth
+  # usage: pstree [ -a ] [ -c ] [ -h | -H pid ] [ -l ] [ -n ] [ -p ] [ -u ]
+  #               [ -G | -U ] [ pid | user]
+
+  #### 20070228 Oliver Schwabedissen, RH4/SLES9 don't support -A, RHEL 5.6 supports -A (#  08.04.2011, 11:31 modified by Ralph Roth #* rar *#)
+  # if [ "$REDHAT" = "yes" ] ; then ## 20100914 Alfred Menken SLES10/SLESS11 support -A
+  #   exec_command "pstree -p -a -l -G" "Active Process Overview" # 090102006
+
+  exec_command "pstree -p -a  -l -G -A" "Active Process - Tree Overview" #  15.11.2004/2011, 14:09 modified by Ralph.Roth
+  exec_command "ps -ef | cut -c39- | sort -nr | head -25 | awk '{ printf(\"%10s   %s\\n\", \$1, \$2); }'" "Top load processes"
+  exec_command "ps -e -o 'vsz pid ruser cpu time args' |sort -nr|head -25" "Top memory consuming processes"
+  exec_command topFDhandles "Top file handles consuming processes" # 24.01.2013
+  AddText "Hint: Number of open file handles should be less than ulimit -n ("$(ulimit -n)")"
+
+  [ -x /usr/bin/pidstat ] && exec_command "pidstat -lrud" "pidstat - Statistics for Linux Tasks" #  10.11.2012, 07:35 modified by Ralph Roth #* rar *#
+
+  exec_command "last| grep boot" "reboots"
+  exec_command "alias"  "Alias"
+  [ -r /etc/inittab ] && exec_command "grep -vE '^#|^ *$' /etc/inittab" "inittab"
+  ## This may report NOTHING on RHEL 3+4 ##
+  [ -x /sbin/chkconfig ] && exec_command "/sbin/chkconfig" "Services Startup"  ## chkconfig -A // SLES // xinetd missing
+  [ -x /sbin/chkconfig ] && exec_command "/sbin/chkconfig --list" "Services Runlevel" # rar, fixed 2805-2005 for FC4
+  [ -x /sbin/chkconfig ] && exec_command "/sbin/chkconfig -l --deps" "Services Runlevel and dependencies" #*# Alexander De Bernardi 25.02.2011
+  [ -x /usr/sbin/service ] && exec_command "/usr/sbin/service --status-all 2> /dev/null" "Services - Status"   #  09.11.2011/12022013 by Ralph Roth #* rar *#
+  [ -x  /usr/sbin/sysv-rc-conf ] && exec_command " /usr/sbin/sysv-rc-conf --list" "Services Runlevel" # rr, 1002-2008
+
+  if [ "$GENTOO" = "yes" ] ; then   ## 2007-02-27 Oliver Schwabedissen
+    [ -x /bin/rc-status ]  && exec_command "/bin/rc-status --list" "Defined runlevels"
+    [ -x /sbin/rc-update ] && exec_command "/sbin/rc-update show --verbose" "Init scripts and their runlevels"
+  fi
+
+  if [ "$ARCH" = "yes" ] ; then   ## M.Weiller, LUG-Ottobrunn.de, 2013-02-04
+    [ -x /usr/bin/systemctl ] && exec_command "/usr/bin/systemctl list-unit-files | grep enabled" "Systend: installed unit"
+    [ -x /usr/bin/systemctl ] && exec_command "/usr/bin/systemctl --failed" "Systend: failed units"
+  fi
+
   if [ -d /etc/rc.config.d ] ; then
-    # PJC: added filters for SuSEFirewall and indented comments
-    exec_command "find /etc/rc.config.d -name '*.config' -exec grep -vE -e '(^#|^ *$)' -e '^ *true$' -e '^[[:space:]]*#' -e '[{]|[}]' {} \; | sort" "Parameter /etc/rc.config.d"
+    exec_command " grep -v ^# /etc/rc.config.d/* | grep '=[0-9]'" "Runlevel Settings"
   fi
-fi
+  [ -r /etc/inittab ] && exec_command "awk '!/#|^ *$/ && /initdefault/' /etc/inittab" "default runlevel"
+  exec_command "/sbin/runlevel" "current runlevel"
 
-if [ "$GENTOO" = "yes" ] ; then ## 2007-02-28 Oliver Schwabedissen
-  exec_command "grep -vE '^#|^ *$' /etc/rc.conf | sort" "Parameter /etc/rc.conf"
-  exec_command "find /etc/conf.d -type f -exec grep -vE '^#|^ *$' {} /dev/null \;" "Parameter /etc/conf.d"
-fi
+  ##
+  ## we want to display the Boot Messages too
+  ## 30Jan2003 it233 FRU
+  if [ -e /var/log/boot.msg ] ; then
+    exec_command "grep 'Boot logging' /var/log/boot.msg" "Last Boot Date"
+    exec_command "grep -v '|====' /var/log/boot.msg " "Boot Messages, last Boot"
+  fi
 
-if [ -e /proc/sysvipc ] ; then
-  exec_command "ipcs" "IPC Status"
-  exec_command "ipcs -u" "IPC Summary"
-  exec_command "ipcs -l" "IPC Limits"
-  ## ipcs -ma ???
-fi
+  # MiMe: SUSE && UNITEDLINUX
+  # MiMe: until SuSE 7.3: params in /etc/rc.config and below /etc/rc.config.d/
+  # MiMe; since SuSE 8.0 including UL: params below /etc/sysconfig
+  if [ "$SUSE" = "yes" ] || [ "$UNITEDLINUX" = "yes" ] ; then
+    if [ -d /etc/sysconfig ] ; then
+      # MiMe:
+      exec_command "find /etc/sysconfig -type f -not -path '*/scripts/*' -exec grep -vE '^#|^ *$' {} /dev/null \; | sort" "Parameter /etc/sysconfig"
+    fi
+    if [ -e /etc/rc.config ] ; then
+      # PJC: added filters for SuSE rc_ variables
+      # PJC: which were in rc.config in SuSE 6
+      # PJC: and moved to /etc/rc.status in 7+
+      exec_command "grep -vE -e '(^#|^ *$)' -e '^ *rc_' -e 'rc.status' /etc/rc.config | sort" "Parameter /etc/rc.config"
+    fi
+    if [ -d /etc/rc.config.d ] ; then
+      # PJC: added filters for SuSEFirewall and indented comments
+      exec_command "find /etc/rc.config.d -name '*.config' -exec grep -vE -e '(^#|^ *$)' -e '^ *true$' -e '^[[:space:]]*#' -e '[{]|[}]' {} \; | sort" "Parameter /etc/rc.config.d"
+    fi
+  fi
 
-if [ -x /usr/sbin/pwck ] ; then
-  exec_command "/usr/sbin/pwck -r && echo Okay" "integrity of password files"
-fi
+  if [ "$GENTOO" = "yes" ] ; then ## 2007-02-28 Oliver Schwabedissen
+    exec_command "grep -vE '^#|^ *$' /etc/rc.conf | sort" "Parameter /etc/rc.conf"
+    exec_command "find /etc/conf.d -type f -exec grep -vE '^#|^ *$' {} /dev/null \;" "Parameter /etc/conf.d"
+  fi
 
-if [ -x /usr/sbin/grpck ] ; then
-  exec_command "/usr/sbin/grpck -r && echo Okay" "integrity of group files"
-fi
+  if [ -e /proc/sysvipc ] ; then
+    exec_command "ipcs" "IPC Status"
+    exec_command "ipcs -u" "IPC Summary"
+    exec_command "ipcs -l" "IPC Limits"
+    ## ipcs -ma ???
+  fi
 
-dec_heading_level
+  if [ -x /usr/sbin/pwck ] ; then
+    exec_command "/usr/sbin/pwck -r && echo Okay" "integrity of password files"
+  fi
+
+  if [ -x /usr/sbin/grpck ] ; then
+    exec_command "/usr/sbin/grpck -r && echo Okay" "integrity of group files"
+  fi
+
+  dec_heading_level
 
 fi # terminates CFG_SYSTEM wrapper
 
-#
+# -----------------------------------------------------------------------------
 # Begin: "Arch Linux spezial section"
 ## M.Weiller, LUG-Ottobrunn.de, 2013-02-04
 if [ "$ARCH" == "yes" ] ; then
@@ -339,7 +360,7 @@ if [ "$ARCH" == "yes" ] ; then
   dec_heading_level
 fi
 # End: "Arch Linux spezial section"
-#
+# -----------------------------------------------------------------------------
 
 #
 # CFG_CRON
@@ -349,105 +370,105 @@ then # else skip to next paragraph
 paragraph "Cron and At"
 inc_heading_level
 
-for FILE in cron.allow cron.deny
-    do
-        if [ -r /etc/$FILE ]
-        then
-        exec_command "cat /etc/$FILE" "$FILE"
-        else
-        exec_command "echo /etc/$FILE" "$FILE not found!"
-        fi
-    done
+  for FILE in cron.allow cron.deny
+      do
+	  if [ -r /etc/$FILE ]
+	  then
+	  exec_command "cat /etc/$FILE" "$FILE"
+	  else
+	  exec_command "echo /etc/$FILE" "$FILE not found!"
+	  fi
+      done
 
-## Linux SuSE user /var/spool/cron/tabs and NOT crontabs
-## 30jan2003 it233 FRU
-##  SuSE has the user crontabs under /var/spool/cron/tabs
-##  RedHat has the user crontabs under /var/spool/cron
-##  UnitedLinux uses /var/spool/cron/tabs (MiMe)
-##  Arch Linux has the user crontabs under /var/spool/cron  ## M.Weiller, LUG-Ottobrunn.de, 2013-02-04
-if [ "$SUSE" == "yes" ] ; then
-  usercron="/var/spool/cron/tabs"
-fi
-if [ "$REDHAT" == "yes" ] ; then
-  usercron="/var/spool/cron"
-fi
-if [ "$SLACKWARE" == "yes" ] ; then
-  usercron="/var/spool/cron/crontabs"
-fi
-if [ "$DEBIAN" == "yes" ] ; then
-  usercron="/var/spool/cron/crontabs"
-fi
-if [ "$GENTOO" == "yes" ] ; then    ## 2007-02-27 Oliver Schwabedissen
-  usercron="/var/spool/cron/crontabs"
-fi
-if [ "$UNITEDLINUX" == "yes" ] ; then
-  usercron="/var/spool/cron/tabs"
-fi
-if [ "$ARCH" == "yes" ] ; then      ## M.Weiller, LUG-Ottobrunn.de, 2013-02-04
-  usercron="/var/spool/cron"
-fi
-# ##
-# alph@osuse122rr:/etc/cron.d> ll
-# -rw-r--r-- 1 root root 1754 29. Nov 16:21 -?			## !
-# -rw-r--r-- 1 root root  319  1. Nov 2011  ClusterTools2
-# -rw-r--r-- 1 root root 1754 29. Nov 16:21 --help		## !
+  ## Linux SuSE user /var/spool/cron/tabs and NOT crontabs
+  ## 30jan2003 it233 FRU
+  ##  SuSE has the user crontabs under /var/spool/cron/tabs
+  ##  RedHat has the user crontabs under /var/spool/cron
+  ##  UnitedLinux uses /var/spool/cron/tabs (MiMe)
+  ##  Arch Linux has the user crontabs under /var/spool/cron  ## M.Weiller, LUG-Ottobrunn.de, 2013-02-04
+  if [ "$SUSE" == "yes" ] ; then
+    usercron="/var/spool/cron/tabs"
+  fi
+  if [ "$REDHAT" == "yes" ] ; then
+    usercron="/var/spool/cron"
+  fi
+  if [ "$SLACKWARE" == "yes" ] ; then
+    usercron="/var/spool/cron/crontabs"
+  fi
+  if [ "$DEBIAN" == "yes" ] ; then
+    usercron="/var/spool/cron/crontabs"
+  fi
+  if [ "$GENTOO" == "yes" ] ; then    ## 2007-02-27 Oliver Schwabedissen
+    usercron="/var/spool/cron/crontabs"
+  fi
+  if [ "$UNITEDLINUX" == "yes" ] ; then
+    usercron="/var/spool/cron/tabs"
+  fi
+  if [ "$ARCH" == "yes" ] ; then      ## M.Weiller, LUG-Ottobrunn.de, 2013-02-04
+    usercron="/var/spool/cron"
+  fi
+  # ##
+  # alph@osuse122rr:/etc/cron.d> ll
+  # -rw-r--r-- 1 root root 1754 29. Nov 16:21 -?			## !
+  # -rw-r--r-- 1 root root  319  1. Nov 2011  ClusterTools2
+  # -rw-r--r-- 1 root root 1754 29. Nov 16:21 --help		## !
 
-ls $usercron/* > /dev/null 2>&1
-if [ $? -eq 0 ]
-then
-        _echo  "\n\n<B>Crontab files:</B>" >> $HTML_OUTFILE_TEMP
-        for FILE in $usercron/*
-        do
-                exec_command "cat $FILE | grep -v ^#" "For user `basename $FILE`"
-        done
-else
-        echo "No crontab files for user.<br>" >> $HTML_OUTFILE_TEMP
-fi
+  ls $usercron/* > /dev/null 2>&1
+  if [ $? -eq 0 ]
+  then
+	  _echo  "\n\n<B>Crontab files:</B>" >> $HTML_OUTFILE_TEMP
+	  for FILE in $usercron/*
+	  do
+		  exec_command "cat $FILE | grep -v ^#" "For user `basename $FILE`"
+	  done
+  else
+	  echo "No crontab files for user.<br>" >> $HTML_OUTFILE_TEMP
+  fi
 
-##
-## we do also a listing of utility cron files
-## under /etc/cron.d 30Jan2003 it233 FRU
-ls /etc/cron.d/* > /dev/null 2>&1
-if [ $? -eq 0 ]
-then
-        _echo "\n\n<br><B>/etc/cron.d files:</B>" >> $HTML_OUTFILE_TEMP
-        for FILE in /etc/cron.d/*
-        do
-                exec_command "cat $FILE | grep -v ^#" "For utility `basename $FILE`"
-        done
-else
-        echo "No /etc/cron.d files for utlities." >> $HTML_OUTFILE_TEMP
-fi
+  ##
+  ## we do also a listing of utility cron files
+  ## under /etc/cron.d 30Jan2003 it233 FRU
+  ls /etc/cron.d/* > /dev/null 2>&1
+  if [ $? -eq 0 ]
+  then
+	  _echo "\n\n<br><B>/etc/cron.d files:</B>" >> $HTML_OUTFILE_TEMP
+	  for FILE in /etc/cron.d/*
+	  do
+		  exec_command "cat $FILE | grep -v ^#" "For utility `basename $FILE`"
+	  done
+  else
+	  echo "No /etc/cron.d files for utlities." >> $HTML_OUTFILE_TEMP
+  fi
 
-if [ -f /etc/crontab ] ; then
-  exec_command "_echo  'Crontab:\n';cat /etc/crontab | grep -vE '^#|^ *$'" "/etc/crontab"
-fi
+  if [ -f /etc/crontab ] ; then
+    exec_command "_echo  'Crontab:\n';cat /etc/crontab | grep -vE '^#|^ *$'" "/etc/crontab"
+  fi
 
-atconfigpath="/etc"
-if [ "$GENTOO" == "yes" ] ; then    ## 2007-02-27 Oliver Schwabedissen
-    atconfigpath="/etc/at"
-fi
+  atconfigpath="/etc"
+  if [ "$GENTOO" == "yes" ] ; then    ## 2007-02-27 Oliver Schwabedissen
+      atconfigpath="/etc/at"
+  fi
 
-for FILE in at.allow at.deny
+  for FILE in at.allow at.deny
 
-    do
-        if [ -r $atconfigpath/$FILE ]
-        then
-            exec_command "cat $atconfigpath/$FILE " "$atconfigpath/$FILE"
-        else
-            exec_command "echo $atconfigpath/$FILE" "No $atconfigpath/$FILE"
-        fi
-    done
+      do
+	  if [ -r $atconfigpath/$FILE ]
+	  then
+	      exec_command "cat $atconfigpath/$FILE " "$atconfigpath/$FILE"
+	  else
+	      exec_command "echo $atconfigpath/$FILE" "No $atconfigpath/$FILE"
+	  fi
+      done
 
-## work around by Ralph for missing at
-#(whereis at > /dev/null) || exec_command "at -l" "AT Scheduler"
-# sorry - don't work here (Michael)
-# now we try this
-if [ -x /usr/bin/at ] ; then
-  exec_command "at -l" "AT Scheduler"
-fi
+  ## work around by Ralph for missing at
+  #(whereis at > /dev/null) || exec_command "at -l" "AT Scheduler"
+  # sorry - don't work here (Michael)
+  # now we try this
+  if [ -x /usr/bin/at ] ; then
+    exec_command "at -l" "AT Scheduler"
+  fi
 
-#exec_command "_echo  'Crontab:\n';cat /etc/crontab | grep -vE '#|^ *$';_echo '\nAT Scheduler:\n';at -l" "/etc/crontab and AT Scheduler"
+  #exec_command "_echo  'Crontab:\n';cat /etc/crontab | grep -vE '#|^ *$';_echo '\nAT Scheduler:\n';at -l" "/etc/crontab and AT Scheduler"
 
 dec_heading_level
 fi #terminate CFG_CRON wrapper
