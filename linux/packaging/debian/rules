@@ -62,8 +62,12 @@ binary-indep: build
 		debian/cfg2html/usr/share/cfg2html/ \
 		debian/cfg2html/var/log/cfg2html/
 
+	if [ $$(basename $$PWD) != "linux" ]; then \
+		cd linux ; \
+	fi
+
 	# copy cfg2html components into directories
-	cp -av etc/* debian/cfg2html/etc/cfg2html/
+	cp -av conf/* debian/cfg2html/etc/cfg2html/
 	cp -av ../cfg2html debian/cfg2html/usr/sbin/
 	cp -av cfg2html-linux.sh debian/cfg2html/usr/share/cfg2html/
 	cp -avLr lib debian/cfg2html/usr/share/cfg2html/
