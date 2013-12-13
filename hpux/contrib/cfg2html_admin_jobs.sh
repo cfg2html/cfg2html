@@ -223,7 +223,7 @@ function server2html {
 
     echo '</pre>'
     echo "<p>`date` by server2html</p>"
-    echo '<p>index.html file created by code of Gratien D\'haese - GNU License v3</p>'
+    echo "<p>index.html file created by code of Gratien D\'haese - GNU License v3</p>"
     echo '</body>'
     echo '</html>'
 }
