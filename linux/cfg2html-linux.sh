@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html-linux.sh,v 6.13 2013/12/11 16:11:27 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.14 2013/12/18 06:51:16 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2013 by Ralph Roth  -*- http://rose.rult.at -*-
 
@@ -218,10 +218,9 @@ then # else skip to next paragraph
   # free -tl     (instead of free, because it gives some more useful infos, about HighMem and LowMem memory regions (zones))
   # cat /proc/meminfo (in order to get some details of memory usage)
 
-  exec_command "free -toml;echo;free -tm;echo; swapon -s" "Used Memory and Swap"  #  04.07.2011, 16:13 modified by Ralph Roth #* rar *#
-
-  exec_command "cat /proc/meminfo" "Detailed Memory Usage (meminfo)"
-  exec_command "cat /proc/buddyinfo" "Zoned Buddy Allocator/Memory Fragmentation and Zones" #  09.01.2012 Ralph Roth
+  exec_command "free -toml;echo;free -tm;echo; swapon -s" "Used Memory and Swap"  		#  04.07.2011, 16:13 modified by Ralph Roth #* rar *#
+  exec_command "cat /proc/meminfo; echo THP:; cat /sys/kernel/mm/transparent_hugepage/enabled" "Detailed Memory Usage (meminfo)"  	# changed 20131218 by Ralph Roth
+  exec_command "cat /proc/buddyinfo" "Zoned Buddy Allocator/Memory Fragmentation and Zones" 	#  09.01.2012 Ralph Roth
   AddText "The number on the left is bigger than right (by factor 2)."
   AddText "DMA zone is the first 16 MB of memory. DMA64 zone is the first 4 GB of memory on 64-bit Linux. Normal zone is between DMA and HighMem. HighMem zone is above 4 GB of memory." # ripped from Dusan Baljevic ## changed 20131211 by Ralph Roth
 
@@ -237,10 +236,10 @@ then # else skip to next paragraph
       #                 $cntb++;
       #             }
 
-  exec_command "cat /proc/slabinfo" "Kernel slabinfo Statistics" # changed 20131211 by Ralph Roth
+  exec_command "cat /proc/slabinfo" "Kernel slabinfo Statistics" 	# changed 20131211 by Ralph Roth
   AddText "Frequently used objects in the Linux kernel (buffer heads, inodes, dentries, etc.)  have their own cache.  The file /proc/slabinfo gives statistics."
-  exec_command "cat /proc/pagetypeinfo" "Additional page allocator information" # changed 20131211 by Ralph Roth
-  exec_command "cat /proc/zoneinfo" "Per-zone page allocator" # changed 20131211 by Ralph Roth
+  exec_command "cat /proc/pagetypeinfo" "Additional page allocator information" 	# changed 20131211 by Ralph Roth
+  exec_command "cat /proc/zoneinfo" "Per-zone page allocator" 		# changed 20131211 by Ralph Roth
 
   if [ -x /usr/bin/vmstat ] ; then        ## <c/m/a>  14.04.2009 - Ralph Roth
     exec_command "vmstat 1 10" "VM-Statistics 1 10"
@@ -1671,12 +1670,12 @@ then # else skip to next paragraph
             $HPADUCLI -f $temphp/ADUreport.txt -r
     fi
 
+    # Where is hponcfg installed? /opt/hp/tools ???
     if [ -x /usr/lib/hponcfg ] ; then
-        /usr/lib/hponcfg -w -a $temphp/ilo.cfg
+        /usr/lib/hponcfg -a -w $temphp/ilo.cfg  	# closes issue #31 # changed 20131218 by Ralph Roth
     fi
-
     if [ -x /sbin/hponcfg ] ; then
-        /sbin/hponcfg -w -a $temphp/ilo.cfg
+        /sbin/hponcfg  -a -w $temphp/ilo.cfg  		# closes issue #31 # changed 20131218 by Ralph Roth
     fi
 
     if [ -x $DMIDECODE ] ;  then
@@ -1689,24 +1688,24 @@ then # else skip to next paragraph
     fi
 
     if [ -x /sbin/hplog ] ; then
-            exec_command "hplog -t -f -p" "Current Thermal Sensor, Fan & Power data"
+            exec_command "hplog -t -f -p" "Current Thermal Sensor, Fan and Power data"
             exec_command "hplog -v" "Proliant Integrated Management Log"
     fi
 
     if [ -r /var/log/hppldu.log ] ; then
-            exec_command "cat /var/log/hppldu.log" "Installation Log PSP 7.*"
+            exec_command "cat /var/log/hppldu.log" "Installation Log Proliant Support Pack 7.*"
     fi
 
     if [ -r /tmp/hppldu.cfg ] ; then
-            exec_command "cat /tmp/hppldu.cfg" "PSP 7.* Installation Settings file"
+            exec_command "cat /tmp/hppldu.cfg" "Proliant Support Pack 7.* Installation Settings file"
     fi
 
     if [ -r /var/hp/log/localhost/hpsum_log.txt ] ; then
-            exec_command "cat /var/hp/log/localhost/hpsum_log.txt" "Installation Log PSP 8.* using HP SUM"
+            exec_command "cat /var/hp/log/localhost/hpsum_log.txt" "Installation Log Proliant Support Pack 8.* using HP SUM"
     fi
 
     if [ -r /var/hp/log/localhost/hpsum_detail_log.txt ] ; then
-            exec_command "cat /var/hp/log/localhost/hpsum_detail_log.txt" "Detailed Installation Log PSP 8.* using HP SUM"
+            exec_command "cat /var/hp/log/localhost/hpsum_detail_log.txt" "Detailed Installation Log Proliant Support Pack 8.* using HP SUM"
     fi
 
     if [ -e /opt/compaq/cma.conf ] ; then

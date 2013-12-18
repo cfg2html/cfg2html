@@ -1,4 +1,9 @@
 #!/usr/bin/make -f
+
+# @(#) $Id: rules,v 6.13 2013/12/18 06:51:16 ralph Exp $
+# -------------------------------------------------------------------------
+# vim:ts=8:sw=4:sts=4 -*- coding: utf-8 -*- http://rose.rult.at/ - Ralph Roth
+
 # Sample debian/rules that uses debhelper.
 # GNU copyright 1997 to 1999 by Joey Hess.
 
@@ -26,7 +31,7 @@ configure-stamp:
 
 build: build-stamp
 
-build-stamp: configure-stamp 
+build-stamp: configure-stamp
 	dh_testdir
 
 	# Add here commands to compile the package.
@@ -91,7 +96,7 @@ binary-indep: build
 	# --- end custom part for installing
 	#
 
-#	dh_installdebconf	
+#	dh_installdebconf
 	dh_installdocs
 #	dh_installexamples
 #	dh_installmenu
