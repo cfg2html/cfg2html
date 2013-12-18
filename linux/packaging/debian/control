@@ -10,12 +10,15 @@ Architecture: all
 Provides: cfg2html
 Build-Depends: debhelper (>> 5.0.0)
 Depends: bash (>=2.0), debianutils(>=1.16), coreutils, psmisc
-Description: Collects Linux system configuration into a HTML and text file.  
- Config to HTML is the "swiss army knife" for the ASE, CE, sysadmin
- etc. I wrote it to get the nessary informations to plan an update,
- to performe basic trouble shooting or performance analysis.
+
+
+Description: Collects Linux system configuration into a HTML and text file.
+ cfg2html=Config to HTML is the "Swiss army knife" for the ASE, CE, sysadmin
+ etc. I wrote it to get the necessary information to plan an update,
+ to perform basic trouble shooting or performance analysis.
  As a bonus cfg2html creates a nice HTML and plain ASCII documentation from
- Linux System, Cron and At, installed Hardware, installed Software,
- Filesystems, Dump- and Swapconfiguration, LVM, Network Settings, 
- Kernel, Systemenhancements and Applications, Subsystems.
- 
+ Linux systems, cron and at, installed hardware, installed software,
+ file systems, dump- and swap configuration, LVM, network settings,
+ kernel, system enhancements and applications subsystems.
+ The newest versions are downloadable at:      http://rose.rult.at/
+ The newest beta versions are downloadable at: http://www.cfg2html.com
