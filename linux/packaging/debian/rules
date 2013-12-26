@@ -70,7 +70,7 @@ binary-indep: build
 		debian/cfg2html/var/log/cfg2html/
 
  
-	if [ $(CURDIR) != "linux" ]; then \
+	if [ $$(basename $(CURDIR)) != "linux" ]; then \
 		cd linux ; \
 	fi
 
