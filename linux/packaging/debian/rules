@@ -14,6 +14,8 @@ export DH_VERBOSE=1
 export DH_COMPAT=5
 # dh_installdeb: Compatibility levels before 4 are deprecated.
 
+#CURDIR := $(shell pwd)
+
 ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
 	CFLAGS += -g
 endif
@@ -67,7 +69,8 @@ binary-indep: build
 		debian/cfg2html/usr/share/cfg2html/ \
 		debian/cfg2html/var/log/cfg2html/
 
-	if [ $$(basename $$PWD) != "linux" ]; then \
+ 
+	if [ $(CURDIR) != "linux" ]; then \
 		cd linux ; \
 	fi
 
