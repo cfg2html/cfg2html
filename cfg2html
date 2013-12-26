@@ -22,6 +22,8 @@ if [ "$MY_OS" = "SunOS" -a ! -f /tmp/cfg2html.respawn ]; then
     exec /usr/bin/ksh $PRGNAME $args
 fi
 
+rm -f /tmp/cfg2html.respawn # get rid of the temporary lock as soon as possible
+
 ####
 
 PRODUCT="Config to HTML - cfg2html"
@@ -55,7 +57,7 @@ trap "DoExitTasks" 0 1 2 3 6 11 15
 # initialize defaults
 case $MY_OS in
     HP-UX) TMP_DIR="$(mktemp -d /tmp -p cfg2html_)" ;;
-    Linux|SunOS) TMP_DIR="$(mktemp -d cfg2html.XXXXXXXXXXXXXXX)" ;;
+    Linux|SunOS) TMP_DIR="$(mktemp -d /tmp/cfg2html.XXXXXXXXXXXXXXX)" ;;
     *) TMP_DIR="/tmp/${PROGRAM}_${RANDOM}" ;;				## hopefully AIX and SUN have $RANDOM too - why not using mktemp too, its safer! RR
 esac
 
