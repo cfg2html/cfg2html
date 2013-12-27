@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html,v 6.17 2013/12/02 08:50:02 ralph Exp $
+# @(#) $Id: cfg2html,v 6.18 2013/12/27 08:12:18 ralph Exp $
 # -------------------------------------------------------------------------
 # This is the wrapper for cfg2html for LINUX and HP-UX
 # CFG2HTML - license: see GPL v3
@@ -28,7 +28,7 @@ rm -f /tmp/cfg2html.respawn # get rid of the temporary lock as soon as possible
 
 PRODUCT="Config to HTML - cfg2html"
 # this CVS id is also used by the Makefiles to get the version number!
-CVS="$Id: cfg2html,v 6.17 2013/12/02 08:50:02 ralph Exp $"
+CVS="$Id: cfg2html,v 6.18 2013/12/27 08:12:18 ralph Exp $"
 PROGRAM=$(echo $CVS|cut -f2 -d" "|cut -f1 -d,)
 VERSION=6.16-git201312020913
 RELEASE_DATE="2013-12-02"
@@ -38,7 +38,7 @@ OS=$(uname)
 OS=$(echo $OS | tr 'A-Z' 'a-z' | sed -e 's/-//')
 CFG_CMDLINE=$*
 
-COPYRIGHT="Copyright (C) 1999-2013
+COPYRIGHT="Copyright (C) 1999-2014
     ROSE SWE, Dipl.-Ing. Ralph Roth"
 STARTTIME=$SECONDS
 
@@ -73,6 +73,7 @@ DEBUG=
 
 # If cfg2html is installed in a directory not in the PATH ## menguyj@yahoo.fr add 06.03.2012
 MYPATH=$(dirname $(type $0 | awk '{print $NF}')) # see issue #18
+
 # define our BASE_DIR according the location of our SHARE_DIR
 [[ -d $SHARE_DIR ]] && BASE_DIR="$SHARE_DIR" || BASE_DIR="${MYPATH}/$OS"
 
@@ -87,7 +88,7 @@ MYPATH=$(dirname $(type $0 | awk '{print $NF}')) # see issue #18
 # your personal config file if present will be read as last one (overrule previous settings!)
 [[ -f $CONFIG_DIR/local.conf ]] && . $CONFIG_DIR/local.conf
 
-# include functions
+# source the include functions
 for script in $BASE_DIR/lib/*.sh ; do
     [[ -f $script ]] && . $script
 done
@@ -98,7 +99,7 @@ if [[ -f $BASE_DIR/${PROGRAM}-${OS}.sh ]]; then
 elif [[ -f $BASE_DIR/bin/${PROGRAM}-${OS}.sh ]]; then
     . $BASE_DIR/bin/${PROGRAM}-${OS}.sh
 else
-    echo "ERROR: Did not find $BASE_DIR/[bin/]${PROGRAM}-${OS}.sh"
+    echo "ERROR: Could not find $BASE_DIR/[bin/]${PROGRAM}-${OS}.sh"
     exit 1
 fi
 RETCODE=$?

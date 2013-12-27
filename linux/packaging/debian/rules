@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
-# @(#) $Id: rules,v 6.13 2013/12/18 06:51:16 ralph Exp $
+# @(#) $Id: rules,v 6.14 2013/12/27 08:12:19 ralph Exp $
 # -------------------------------------------------------------------------
 # vim:ts=8:sw=4:sts=4 -*- coding: utf-8 -*- http://rose.rult.at/ - Ralph Roth
 
@@ -14,6 +14,7 @@ export DH_VERBOSE=1
 export DH_COMPAT=5
 # dh_installdeb: Compatibility levels before 4 are deprecated.
 
+# Is this globally set?
 #CURDIR := $(shell pwd)
 
 ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
@@ -69,7 +70,8 @@ binary-indep: build
 		debian/cfg2html/usr/share/cfg2html/ \
 		debian/cfg2html/var/log/cfg2html/
 
- 
+
+	# Where is CURDIR defined?
 	if [ $$(basename $(CURDIR)) != "linux" ]; then \
 		cd linux ; \
 	fi
