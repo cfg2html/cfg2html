@@ -14,9 +14,6 @@ export DH_VERBOSE=1
 export DH_COMPAT=5
 # dh_installdeb: Compatibility levels before 4 are deprecated.
 
-# Is this globally set? DESTDIR and CURDIR are debian vars
-#CURDIR := $(shell pwd)
-
 ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
 	CFLAGS += -g
 endif
@@ -72,13 +69,9 @@ binary-indep: build
 		debian/cfg2html/var/log/cfg2html/
 
 
-	# Where is CURDIR defined?
 	if [ $$(basename $$(pwd)) = "BUILD" ]; then \
-		ls -l ; cd cfg2html* ; \
-	fi
-
-	if [ $$(basename $$(pwd)) != "linux" ]; then \
-		cd linux ; \
+		echo "OBS BUILD environment" ; \
+		ls -l ; cd linux ; \
 	fi
 
 	dh_install --list-missing contrib/* contrib
