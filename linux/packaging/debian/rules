@@ -71,7 +71,9 @@ binary-indep: build
 
 	if [ $$(basename $$(pwd)) = "BUILD" ]; then \
 		echo "OBS BUILD environment" ; \
-		ls -l ; cd linux ; \
+		ls -l ; \
+		cd linux ; \
+		ls -l ; \
 	fi
 
 	dh_install --list-missing contrib/* contrib
