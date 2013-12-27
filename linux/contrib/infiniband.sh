@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# @(#)  $Id: infiniband.sh,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $ 
+# @(#)  $Id: infiniband.sh,v 2.4 2011-09-08 12:21:03 ralproth Exp $ 
 # ---------------------------------------------------------------------------
 # experimental plugin for cfg2html-linux. Ralph Roth
 
