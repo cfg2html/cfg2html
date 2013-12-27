@@ -14,7 +14,7 @@ export DH_VERBOSE=1
 export DH_COMPAT=5
 # dh_installdeb: Compatibility levels before 4 are deprecated.
 
-# Is this globally set?
+# Is this globally set? DESTDIR and CURDIR are debian vars
 #CURDIR := $(shell pwd)
 
 ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
@@ -36,6 +36,7 @@ build: build-stamp
 
 build-stamp: configure-stamp
 	dh_testdir
+	dh_testroot
 
 	# Add here commands to compile the package.
 	# comment the make doc stuff for OBS (asciidoc is not present)
