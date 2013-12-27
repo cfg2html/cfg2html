@@ -74,7 +74,7 @@ binary-indep: build
 
 	# Where is CURDIR defined?
 	if [ $$(basename $$(pwd)) = "BUILD" ]; then \
-		cd cfg2html_* ; \
+		ls -l ; cd cfg2html* ; \
 	fi
 
 	if [ $$(basename $$(pwd)) != "linux" ]; then \
