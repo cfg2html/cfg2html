@@ -70,19 +70,17 @@ binary-indep: build
 
 
 	if [ $$(basename $$(pwd)) = "BUILD" ]; then \
-		echo "OBS BUILD environment" ; \
-		ls -l ; \
 		cd linux ; \
 		ls -l ; \
 	fi
 
-	dh_install --list-missing contrib/* contrib
 	# copy cfg2html components into directories
 	cp -av etc/* debian/cfg2html/etc/cfg2html/
 	cp -av ../cfg2html debian/cfg2html/usr/sbin/
 	cp -av cfg2html-linux.sh debian/cfg2html/usr/share/cfg2html/
 	cp -avLr lib debian/cfg2html/usr/share/cfg2html/
 	cp -av plugins debian/cfg2html/usr/share/cfg2html/
+	cp -avr contrib debian/cfg2html/usr/share/cfg2html/
 
 	#find debian/cfg2html/usr/share/cfg2html -name '.gitignore' -exec rm -rf {} \;
 
