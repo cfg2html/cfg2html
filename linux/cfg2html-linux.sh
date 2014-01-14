@@ -1877,6 +1877,7 @@ then # else skip to next paragraph
     ###below partitioning and HPACUCLI is contributed by kgalal@gmail.com
     ## Changed 2011-09-05 Peter Boysen - Previous hpacucli commands was redundant.
     if [ -x /usr/sbin/hpacucli ] ; then
+	export INFOMGR_BYPASS_NONSA=1  # see issue #25
 #       exec_command "/usr/sbin/hpacucli controller all show" "HP SmartArray controllers Detected"   # added by jeroenkleen HP
 #       exec_command "/usr/sbin/hpacucli controller all show status" "HP SmartArray controllers Detected with Status"
 #       slotnum=`/usr/sbin/hpacucli controller all show | awk '{if($0!="")print $6}'`  # jkleen: this doesn't work (yet) for MSA1x000 controllers
