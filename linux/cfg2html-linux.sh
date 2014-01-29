@@ -265,7 +265,7 @@ then # else skip to next paragraph
   exec_command topFDhandles "Top file handles consuming processes" # 24.01.2013
   AddText "Hint: Number of open file handles should be less than ulimit -n ("$(ulimit -n)")"
 
-  [ -x /usr/bin/pidstat ] && exec_command "pidstat -lrud" "pidstat - Statistics for Linux Tasks" #  10.11.2012, 07:35 modified by Ralph Roth #* rar *#
+  [ -x /usr/bin/pidstat ] && exec_command "pidstat -lrud 2>/dev/null||pidstat -rud" "pidstat - Statistics for Linux Tasks" #  10.11.2012 modified by Ralph Roth #* rar *# fix for SLES11,SP2, 29.01.2014
 
   exec_command "last| grep boot" "reboots"
   exec_command "alias"  "Alias"
