@@ -1,6 +1,6 @@
-# @(#) $Id: cfg2html-linux.sh,v 6.14 2013/12/18 06:51:16 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.15 2014/01/29 21:46:39 ralph Exp $
 # -----------------------------------------------------------------------------------------
-# (c) 1997-2013 by Ralph Roth  -*- http://rose.rult.at -*-
+# (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-
 
 #  If you change this script, please mark your changes with for example
 #  ## <username> and send your diffs from the actual version to my mail
@@ -254,12 +254,10 @@ then # else skip to next paragraph
   [ -x /usr/bin/procinfo ] && exec_command "procinfo -a" "System status from /proc" #  15.11.2004, 14:09 modified by Ralph Roth
   # usage: pstree [ -a ] [ -c ] [ -h | -H pid ] [ -l ] [ -n ] [ -p ] [ -u ]
   #               [ -G | -U ] [ pid | user]
-
-  #### 20070228 Oliver Schwabedissen, RH4/SLES9 don't support -A, RHEL 5.6 supports -A (#  08.04.2011, 11:31 modified by Ralph Roth #* rar *#)
-  # if [ "$REDHAT" = "yes" ] ; then ## 20100914 Alfred Menken SLES10/SLESS11 support -A
-  #   exec_command "pstree -p -a -l -G" "Active Process Overview" # 090102006
-
   exec_command "pstree -p -a  -l -G -A" "Active Process - Tree Overview" #  15.11.2004/2011, 14:09 modified by Ralph.Roth
+  exec_command "ps -e -o ruser,pid,args | awk ' (($1+1) > 1) {print $0;} '" "Processes without an named owner"  # changed 20131211 by Ralph Roth, # changed 20140129 by Ralph Roth # cmd. line:1: ^ unexpected newline or end of string
+  AddText "The output should be empty!"
+  
   exec_command "ps -ef | cut -c39- | sort -nr | head -25 | awk '{ printf(\"%10s   %s\\n\", \$1, \$2); }'" "Top load processes"
   exec_command "ps -e -o 'vsz pid ruser cpu time args' |sort -nr|head -25" "Top memory consuming processes"
   exec_command topFDhandles "Top file handles consuming processes" # 24.01.2013
@@ -273,7 +271,7 @@ then # else skip to next paragraph
   ## This may report NOTHING on RHEL 3+4 ##
   [ -x /sbin/chkconfig ] && exec_command "/sbin/chkconfig" "Services Startup"  ## chkconfig -A // SLES // xinetd missing
   [ -x /sbin/chkconfig ] && exec_command "/sbin/chkconfig --list" "Services Runlevel" # rar, fixed 2805-2005 for FC4
-  [ -x /sbin/chkconfig ] && exec_command "/sbin/chkconfig -l --deps" "Services Runlevel and dependencies" #*# Alexander De Bernardi 25.02.2011
+  [ -x /sbin/chkconfig ] && exec_command "/sbin/chkconfig -l --deps" "Services Runlevel and Dependencies" #*# Alexander De Bernardi 25.02.2011
   [ -x /usr/sbin/service ] && exec_command "/usr/sbin/service --status-all 2> /dev/null" "Services - Status"   #  09.11.2011/12022013 by Ralph Roth #* rar *#
   [ -x  /usr/sbin/sysv-rc-conf ] && exec_command " /usr/sbin/sysv-rc-conf --list" "Services Runlevel" # rr, 1002-2008
 
