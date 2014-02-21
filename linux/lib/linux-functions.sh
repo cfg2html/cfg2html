@@ -18,14 +18,14 @@ function posixversion {
 function identify_linux_distribution {
     # check Linux distribution
     if [ -f /etc/gentoo-release ] ; then
-        distrib="`head -1 /etc/gentoo-release`"
+        distrib="$(head -1 /etc/gentoo-release)"
         GENTOO="yes"
     else
         GENTOO="no"
     fi
 
     if [ -f /etc/slackware-version ] ; then
-        distrib="`cat /etc/slackware-version`"
+        distrib="$(cat /etc/slackware-version)"
         SLACKWARE="yes"
     else
         SLACKWARE="no"
@@ -38,7 +38,7 @@ function identify_linux_distribution {
             distrib=$UBUNTU_VERSION
             UBUNTU="yes"
         else
-            distrib="Debian GNU/Linux Version `cat /etc/debian_version`"
+            distrib="Debian GNU/Linux Version $(cat /etc/debian_version)"
             UBUNTU="no"
         fi
         DEBIAN="yes"
@@ -47,21 +47,21 @@ function identify_linux_distribution {
     fi
 
     if [ -f /etc/SuSE-release ] ; then
-        distrib="`head -1 /etc/SuSE-release`"
+        distrib="$(head -1 /etc/SuSE-release)"
         SUSE="yes"
     else
         SUSE="no"
     fi
 
     if [ -f /etc/mandrake-release ] ; then
-        distrib="`head -1 /etc/mandrake-release`"
+        distrib="$(head -1 /etc/mandrake-release)"
         MANDRAKE="yes"
     else
         MANDRAKE="no"
     fi
 
     if [ -f /etc/redhat-release ] ; then
-        distrib="`head -1 /etc/redhat-release`"
+        distrib="$(head -1 /etc/redhat-release)"
         REDHAT="yes"
     else
         REDHAT="no"
@@ -69,7 +69,7 @@ function identify_linux_distribution {
 
     # MiMe: for UnitedLinux
     if [ -f /etc/UnitedLinux-release ] ; then
-        distrib="`head -1 /etc/UnitedLinux-release`"
+        distrib="$(head -1 /etc/UnitedLinux-release)"
         UNITEDLINUX="yes"
     else
         UNITEDLINUX="no"
@@ -77,12 +77,17 @@ function identify_linux_distribution {
 
     # M.Weiller, LUG-Ottobrunn.de, 2013-02-04
     if [ -f /etc/arch-release ] ; then
-        distrib="`head -1 /etc/os-release | cut -f2 -d'"'`"
+        distrib="$(head -1 /etc/os-release | cut -f2 -d'"')"
         ARCH="yes"
     else
         ARCH="no"
     fi
 
+    # left-overs - other tests can be added later
+    if [ -f /etc/system-release ] ; then
+        distrib="$(head -1 /etc/system-release)"
+        echo "$distrib" | grep -q -i "Amazon" && AWS="yes" || AWS="no"
+    fi
 }
 
 function topFDhandles {

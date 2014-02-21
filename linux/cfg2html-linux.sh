@@ -386,7 +386,7 @@ inc_heading_level
   if [ "$SUSE" == "yes" ] ; then
     usercron="/var/spool/cron/tabs"
   fi
-  if [ "$REDHAT" == "yes" ] ; then
+  if [ "$REDHAT" == "yes" ] || [ "$AWS" == "yes" ] ; then
     usercron="/var/spool/cron"
   fi
   if [ "$SLACKWARE" == "yes" ] ; then
