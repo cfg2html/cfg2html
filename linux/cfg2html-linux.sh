@@ -1474,15 +1474,15 @@ then # else skip to next paragraph
      if [ -x /usr/bin/lpstat ] ; then
      exec_command "/usr/bin/lpstat -t" "SYSV Printer Spooler and Printers"      #*# Alexander De Bernardi, 20100310
      fi
-     if [ -x /usr/bin/hp-info ] ; then
+#     if [ -x /usr/bin/hp-info ] ; then
 #
 # This for a bug in linux version
 # Found: cfg2html stalls (freeze) when hplip is installed
 # Cause: hp-info called in interactive mode, waits for a reply
 # EL, 1.84 - 25. Januar 2011
-     exec_command "echo q | /usr/bin/hp-info -i | \
-        /usr/bin/col" "HPLIP Printer Info"  #*# Alexander De Bernardi, 20100310
-     fi
+#     exec_command "echo q | /usr/bin/hp-info -i | \
+#        /usr/bin/col" "HPLIP Printer Info"  #*# Alexander De Bernardi, 20100310
+#     fi
 
     [ -r /etc/printcap ] && exec_command "grep -vE '^#|^ *$' /etc/printcap" "Printcap"
     [ -r /etc/hosts.lpd ] && exec_command "grep -vE '^#|^ *$' /etc/hosts.lpd" "hosts.lpd"
