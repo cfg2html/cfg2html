@@ -127,7 +127,7 @@ echo "HTML Output File  "$HTML_OUTFILE
 echo "Text Output File  "$TEXT_OUTFILE
 echo "Errors logged to  "$ERROR_LOG
 [[ -f $CONFIG_DIR/local.conf ]] && {
-    echo "Local config      "$CONFIG_DIR/local.conf
+    echo "Local config      "$CONFIG_DIR/local.conf "( $(grep -v -E '(^#|^$)' $CONFIG_DIR/local.conf | wc -l) )"
     }
 echo "Started at        "$DATEFULL
 echo "Command line used "$CFG_CMDLINE
