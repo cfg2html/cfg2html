@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html-linux.sh,v 6.15 2014/01/29 21:46:39 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.16 2014/02/21 14:42:33 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-
 
@@ -409,6 +409,10 @@ inc_heading_level
   # -rw-r--r-- 1 root root 1754 29. Nov 16:21 -?			## !
   # -rw-r--r-- 1 root root  319  1. Nov 2011  ClusterTools2
   # -rw-r--r-- 1 root root 1754 29. Nov 16:21 --help		## !
+
+# maybe this is generic?
+# for user in $(getent passwd|cut -f1 -d:); do echo "### Crontabs for $user ####"; crontab -u $user -l; done
+# changed 20140212 by Ralph Roth
 
   ls $usercron/* > /dev/null 2>&1
   if [ $? -eq 0 ]

@@ -1,8 +1,8 @@
-Comments: 	<Please edit /etc/config2html/systeminfo>
+Comments: 	<Please edit /etc/cfg2html/systeminfo>
 Company: 	Big Business
 Location: 	Server Room 01
 Contact: 	foo bar <Admin@foo.bar>
 Main Server:	BigBox
 URL:		http://www.cfg2html.com
 
-Hint: You should edit this file!
+Hint: You should edit this file with a plain text editor!
