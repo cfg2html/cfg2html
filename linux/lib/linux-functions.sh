@@ -1,3 +1,9 @@
+# @(#) $Id: linux-functions.sh,v 6.11 2014/02/28 11:35:48 ralph Exp $
+# -------------------------------------------------------------------------
+# vim:ts=8:sw=4:sts=4 -*- coding: utf-8 -*- cfg2html
+# Common functions for the Linux part of cfg2html
+
+
 function HostNames {
     uname -a
     echo  "DNS Domainname  = "`dnsdomainname `
@@ -88,6 +94,10 @@ function identify_linux_distribution {
         distrib="$(head -1 /etc/system-release)"
         echo "$distrib" | grep -q -i "Amazon" && AWS="yes" || AWS="no"
     fi
+
+    ### TODO: ####
+    # AWS backport from cfg2html 2.81 #
+
 }
 
 function topFDhandles {
