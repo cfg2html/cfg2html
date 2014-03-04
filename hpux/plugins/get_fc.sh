@@ -68,7 +68,12 @@ do
    if [ -r $FCDEV ]
    then
 	echo "\nAdapter $FCDEV"
+	echo "fcmsutil $FCDEV :"
+	fcmsutil $FCDEV | grep -v ^$
+	echo "\nfcmsutil $FCDEV vpd :"
 	fcmsutil $FCDEV vpd | grep -v ^$
+        echo "\nfcmsutil $FCDEV npiv_info :"
+        fcmsutil $FCDEV npiv_info | grep -v ^$
 	echo ""
    fi
 done
