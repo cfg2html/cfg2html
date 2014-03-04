@@ -1004,6 +1004,16 @@ then # else skip to next paragraph
     [ -r /etc/krb5.keytab ] && {
 	 [ -x /usr/sbin/ktutil ] && exec_command "echo \"rkt /etc/krb5.keytab \\n l -e \\n q\" | ktutil" "Kerberos 5 Keytab Configuration"
 	}
+    [ -x /usr/bin/adinfo ] && exec_command "/usr/bin/adinfo" "Active Directory zone configuration"
+    if [ -f /etc/centrifydc/centrifydc.conf ] ; then
+        exec_command "grep -v \# /etc/centrifydc/centrifydc.conf | rmnl | ssp" "Centrify Configuration file"
+    fi
+    if [ -f /etc/centrifydc/user.ignore ] ; then
+        exec_command "grep -v \# /etc/centrifydc/user.ignore | rmnl | ssp" "Centrify AD ignored users"
+    fi
+    if [ -f /etc/centrifydc/group.ignore ] ; then
+        exec_command "grep -v \# /etc/centrifydc/group.ignore | rmnl | ssp" "Centrify AD ignored groups"
+    fi
     
     cat_and_grep "/etc/services" "Internet Daemon Services"
     
