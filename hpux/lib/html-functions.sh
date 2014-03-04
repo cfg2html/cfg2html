@@ -97,9 +97,13 @@ function exec_command {
     echo "\n$EXECRES\n" >> $TEXT_OUTFILE_TEMP
 
     # Show each exec_command and elapsed secs
-    [[ "$CFG_TRACETIME" = "yes" ]] &&
-	typeset -R3 SECS=$SECONDS &&
-	echo "$SECS secs: $(echo $1 | cut -c-79)"
+    if [[ "$CFG_TRACETIME" = "yes" ]]; then 
+	typeset -R3 SECS=$SECONDS
+	#echo "$SECS secs: $(echo $1 | cut -c-79)"
+	Log "$SECS secs: $(echo $1 | cut -c-79)"
+	echo "$SECS secs: $(echo $1 | cut -c-79)\n" >> $TEXT_OUTFILE_TEMP
+	echo "<h6>$SECS secs: $(echo $1 | cut -c-79)</h6>" >> $HTML_OUTFILE_TEMP
+    fi
 }
 
 function close_html {
