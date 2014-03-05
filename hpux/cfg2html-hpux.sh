@@ -813,12 +813,12 @@ then # else skip to next paragraph
     inc_heading_level
     
 #   exec_command "bdf -i" "Filesystems and Usage"
-    exec_command "$PLUGINS/bdfmegs.sh -c 1 -v" "Filesystems and Usage"
+    exec_command "$PLUGINS/bdfmegs.sh -c 1 -vl" "Local Filesystems and Usage"
 
 # inode count not useful anymore
 #   AddText "Hint: VxFS has unlimited inodes, ninode limit is only valid for HFS file systems!"
 
-    exec_command "df -g" "Filesystem Settings"
+    exec_command "df -gl" "Local Filesystem Settings"
     cat_and_grep "/etc/fstab" "Mountpoints (fstab)"
     AddText "Hint: Available file system types: $(fstyp -l|fmt)"	#  28.11.2007, 09:44 modified by Ralph Roth
 
@@ -828,6 +828,8 @@ then # else skip to next paragraph
     exec_command "mount -lp|sort -u" "Active Local Mountpoints (sorted by source)"
     AddText "Hint: /sbin/vxtunefs mount_point to get JFS parameters"
     
+    exec_command "mount -v | grep -v -E '(vxfs|hfs)'" "Autofs and NFS mounted Filesystems"
+
     [ -s /etc/vx/tunefstab ] && exec_command "cat /etc/vx/tunefstab" "JFS/VXFS tuneable parameters"
     
     if [ -f /etc/exports ] ; then
