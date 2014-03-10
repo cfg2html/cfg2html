@@ -32,7 +32,7 @@ _VERSION="cfg2html-linux version $VERSION "  # this a common stream so we don?t 
 #
 #
 
-while getopts ":o:shcSflkenaHLvhpPA:2:10" Option   ##  -0 -1 -2 backported from HPUX
+while getopts ":o:shcSTflkenaHLvhpPA:2:10" Option   ##  -T -0 -1 -2 backported from HPUX
 do
   case $Option in
     o     ) OUTDIR=$OPTARG;;
@@ -55,6 +55,7 @@ do
     2     ) CFG_DATE="_"$(date +$OPTARG) ;;
     1     ) CFG_DATE="_"$(date +%d-%b-%Y) ;;
     0     ) CFG_DATE="_"$(date +%d-%b-%Y-%H%M) ;;
+    T     ) CFG_TRACETIME="yes";;   # show each exec_command with timestamp
     *     ) echo "Unimplemented option chosen. Try -h for help!"; exit 1;;   # DEFAULT
   esac
 done

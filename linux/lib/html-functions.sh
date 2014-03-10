@@ -94,7 +94,10 @@ paragraph() {
 
 function exec_command {
 
-    _echo ".\c"  # fails under Ubuntu/Linit Mint based systems!?
+    # Start elpased time and show command if -T set
+    SECONDS=0
+
+    [[ "$CFG_TRACETIME" = "no" ]] && _echo ".\c"  # fails under Ubuntu/Linit Mint based systems!?
 
     _echo "\n---=[ $2 ]=----------------------------------------------------------------" | cut -c1-74 >> $TEXT_OUTFILE_TEMP
     echo "       - $2" >> $TEXT_OUTFILE
@@ -155,6 +158,15 @@ function exec_command {
 
     _echo "<LI><A NAME=\"Inhalt-$2\"></A><A HREF=\"#$2\" title=\"$1\">$2</A>" >> $HTML_OUTFILE
     echo "$EXECRES" >> $TEXT_OUTFILE_TEMP
+
+    # Show each exec_command and elapsed secs
+    if [[ "$CFG_TRACETIME" = "yes" ]]; then 
+        SECS=$SECONDS
+        Log "$SECS secs: $(echo $1 | cut -c-79)"
+        echo "$SECS secs: $(echo $1 | cut -c-79)\n" >> $TEXT_OUTFILE_TEMP
+        echo "<h6>$SECS secs: $(echo $1 | cut -c-79)</h6>" >> $HTML_OUTFILE_TEMP
+    fi
+
 
 }
 
