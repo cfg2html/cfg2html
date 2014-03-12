@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html-linux.sh,v 6.16 2014/02/21 14:42:33 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.18 2014/03/12 21:52:56 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-
 
@@ -18,7 +18,7 @@ CFGSH=$_
 # | (__|  _| (_| |/ __/| | | | |_| | | | | | |_____| | | | | | |_| |>  <
 #  \___|_|  \__, |_____|_| |_|\__|_| |_| |_|_|     |_|_|_| |_|\__,_/_/\_\
 #           |___/
-#  HP Proliant Edition script
+#  system collector script
 #
 # ---------------------------------------------------------------------------
 
@@ -258,7 +258,7 @@ then # else skip to next paragraph
   exec_command "pstree -p -a  -l -G -A" "Active Process - Tree Overview" #  15.11.2004/2011, 14:09 modified by Ralph.Roth
   exec_command "ps -e -o ruser,pid,args | awk ' (($1+1) > 1) {print $0;} '" "Processes without an named owner"  # changed 20131211 by Ralph Roth, # changed 20140129 by Ralph Roth # cmd. line:1: ^ unexpected newline or end of string
   AddText "The output should be empty!"
-  
+
   exec_command "ps -ef | cut -c39- | sort -nr | head -25 | awk '{ printf(\"%10s   %s\\n\", \$1, \$2); }'" "Top load processes"
   exec_command "ps -e -o 'vsz pid ruser cpu time args' |sort -nr|head -25" "Top memory consuming processes"
   exec_command topFDhandles "Top file handles consuming processes" # 24.01.2013
@@ -1509,7 +1509,7 @@ then # else skip to next paragraph
 ## 31Jan2003 it233 FRU U.Frey
 ## 3/5/08 Modified/added functionality by krtmrrsn@yahoo.com, Marc Korte.
 ##  Some things have changed in NetBU 6.x.
-##  Made a seperate section for Veritas Netbackup
+##  Made a separate section for Veritas Netbackup
     if [ -e /usr/openv/netbackup/bp.conf ] ; then
 
       paragraph "Veritas Netbackup Configuration"
@@ -1529,6 +1529,34 @@ then # else skip to next paragraph
           fi
       dec_heading_level
     fi
+
+# ### Backport // needs to be fixed
+# ##############################################################################
+# ###   Puppet settings
+# ###   Made by Dusan.Baljevic@ieee.org ###
+#     paragraph "Puppet Configuration Management System"
+#     inc_heading_level
+#     exec_command "ps -ef | grep -E 'puppetmaster[d]'" "Active Puppet Master"
+#     exec_command "ps -ef | grep -E 'puppet[d]'" "Active Puppet Client"
+#     exec_command "puppetd -v" "Puppet Client agent version"
+#     exec_command "puppet config print all" "Puppet configuration"
+#     exec_command "puppet config print modulepath" "Puppet configuration module
+#     exec_command "puppetca -l -a" "Puppet certificates"
+#     exec_command "puppet resource user" "Users in Puppet Resource Abstraction
+#     exec_command "puppet resource package" "Packages in Puppet Resource Abstra
+#     exec_command "puppet resource service" "Services in Puppet Resource Abstra
+# ##############################################################################
+
+####BACKPORT####
+## SAP stuff # changed 20140213 by Ralph Roth
+# -----------------------------------------------------------------------------
+if [ -x /usr/sap/hostctrl/exe/saphostexec ]
+then
+    exec_command "/usr/sap/hostctrl/exe/saphostexec -version" "Installed SAP Components"
+    exec_command "ps fax | grep -i ' pf=' | grep -v grep" "Active SAP Processes"
+fi ## SAP
+
+##
 
 ###########################################################################
 # { changed/added 28.01.2004 (17:56) by Ralph Roth }
