@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html-linux.sh,v 6.18 2014/03/12 21:52:56 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.19 2014/03/18 10:06:39 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-
 
@@ -330,6 +330,11 @@ then # else skip to next paragraph
     exec_command "ipcs -u" "IPC Summary"
     exec_command "ipcs -l" "IPC Limits"
     ## ipcs -ma ???
+  fi
+
+  ###  Made by Dusan.Baljevic@ieee.org ### 16.03.2014
+  if [ -x /usr/sbin/authconfig ] ; then
+    exec_command "/usr/sbin/authconfig --test" "System authentication resources"
   fi
 
   if [ -x /usr/sbin/pwck ] ; then
