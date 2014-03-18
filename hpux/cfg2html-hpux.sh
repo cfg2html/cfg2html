@@ -297,6 +297,7 @@ then # else skip to next paragraph
     inc_heading_level
     
     if [ -f /usr/sbin/ioscan ] ; then
+	# using the 'k' option is safe (even when there is a hanging ioscan process)
 #       exec_command "ioscan -fnk; echo; ioscan -fk" "Hardware with H/W-Path"
         exec_command "ioscan -fk" "Hardware with H/W-Path"
         exec_command "ioscan -fnk" "Hardware including device files"
@@ -308,14 +309,20 @@ then # else skip to next paragraph
     if [ $osrev100  -ge 1131  ] ; then         	    # added by Marc Heinrich, July 2008
         AddText "Last ioscan="$(ioscan -t)
         exec_command "ioscan -fNnk" "HP-UX $osrevdot Hardware with Agile View"
-        exec_command "ioscan -m hwpath" "Legacy and LUN Mapping"
         exec_command "ioscan -km dsf" "HP-UX $osrevdot Map Legacy and Agile DSFs"   # -k added, # <c/m/a>  14.08.2008 - Ralph Roth
         AddText "Legacy/Agile devices files usage? "$(insf -Lv)                 #  19.03.2010, 14:52 modified by Ralph Roth
         exec_command "$PLUGINS/get_path_1131.sh" "HP-UX 11.31 Disk and Tape Information"
-	# 3 ER by TB, 11. März 2011
-        exec_command "ioscan -P health" "Full list of I/O health status"
-        exec_command "ioscan -P health | grep -v -e online -e N/A" "Short list of I/O health status"
-        exec_command "ioscan -s" "List the stale entries present in the system"
+	if $(_check_cmd_already_running "ioscan") ; then
+	    # do not run ioscan to avoid the risk of a hanging ioscan process, as there is already an ioscan busy
+	    AddText "Warning: ioscan process(es) still active:
+$(UNIX95= ps -ef | grep ioscan | grep -v grep)"
+        else
+            exec_command "ioscan -m hwpath" "Legacy and LUN Mapping"
+	    # 3 ER by TB, 11. März 2011
+            exec_command "ioscan -P health" "Full list of I/O health status"
+            exec_command "ioscan -P health | grep -v -e online -e N/A" "Short list of I/O health status"
+            exec_command "ioscan -s" "List the stale entries present in the system"
+	fi
     fi
     ### stefan introduced here a bug with formating
     #exec_command "echo 'Physical: \c' ; /usr/sam/lbin/getmem | tr '\012' ' ' ; echo 'MBytes'" "Physical Memory"
