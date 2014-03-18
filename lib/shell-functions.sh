@@ -106,3 +106,14 @@ function _echo {
     echo $arg "$*"
 } # echo is not the same between UNIX and Linux
 
+function _check_cmd_already_running {
+    # input arg (str): cmd to look for in ps output
+    # output: 1 (not running); 0 (already running)
+    # usage: if $(_check_cmd_already_running "cmcld") ; then
+    # echo cmcld running
+    # else
+    # echo cmcld not running
+    # fi
+
+    ps -ef | grep "$1" | grep -q -v grep && return 0 || return 1
+}
