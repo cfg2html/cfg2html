@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html-linux.sh,v 6.19 2014/03/18 10:06:39 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.20 2014/03/18 11:52:22 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-
 
@@ -12,6 +12,7 @@ CFGSH=$_
 #*vim:numbers:ruler
 
 # ---------------------------------------------------------------------------
+# NEW VERSION - v6/github/GPL
 #        __       ____  _     _             _       _ _
 #   ___ / _| __ _|___ \| |__ | |_ _ __ ___ | |     | (_)_ __  _   ___  __
 #  / __| |_ / _` | __) | '_ \| __| '_ ` _ \| |_____| | | '_ \| | | \ \/ /
@@ -1535,22 +1536,39 @@ then # else skip to next paragraph
       dec_heading_level
     fi
 
-# ### Backport // needs to be fixed
-# ##############################################################################
-# ###   Puppet settings
-# ###   Made by Dusan.Baljevic@ieee.org ###
-#     paragraph "Puppet Configuration Management System"
-#     inc_heading_level
-#     exec_command "ps -ef | grep -E 'puppetmaster[d]'" "Active Puppet Master"
-#     exec_command "ps -ef | grep -E 'puppet[d]'" "Active Puppet Client"
-#     exec_command "puppetd -v" "Puppet Client agent version"
-#     exec_command "puppet config print all" "Puppet configuration"
-#     exec_command "puppet config print modulepath" "Puppet configuration module
-#     exec_command "puppetca -l -a" "Puppet certificates"
-#     exec_command "puppet resource user" "Users in Puppet Resource Abstraction
-#     exec_command "puppet resource package" "Packages in Puppet Resource Abstra
-#     exec_command "puppet resource service" "Services in Puppet Resource Abstra
-# ##############################################################################
+
+### new stuff with 2.83 by Dusan
+##############################################################################
+###  Puppet settings
+###  Made by Dusan.Baljevic@ieee.org ### 12.03.2014
+     dec_heading_level
+     paragraph "Puppet Configuration Management System"
+     inc_heading_level
+     exec_command "ps -ef | grep -E 'puppetmaster[d]'" "Active Puppet Master"
+     exec_command "ps -ef | grep -E 'puppet[d]'" "Active Puppet Client"
+     [ -x /usr/sbin/puppetd ] && exec_command "/usr/sbin/puppetd -v" "Puppet Client agent version"
+     [ -x /usr/bin/puppet ] && exec_command "/usr/bin/puppet config print all" "Puppet configuration"
+     [ -x /usr/bin/puppet ] && exec_command "/usr/bin/puppet config print modulepath" "Puppet configuration module paths"
+     [ -x /usr/sbin/puppetca ] && exec_command "/usr/sbin/puppetca -l -a" "Puppet certificates"
+     [ -x /usr/bin/puppet ] && exec_command "/usr/bin/puppet resource user" "Users in Puppet Resource Abstraction Layer (RAL)"
+     [ -x /usr/bin/puppet ] && exec_command "/usr/bin/puppet resource package" "Packages in Puppet Resource Abstraction Layer (RAL)"
+     [ -x /usr/bin/puppet ] && exec_command "/usr/bin/puppet resource service" "Services in Puppet Resource Abstraction Layer (RAL)"
+##############################################################################
+
+###  Chef settings
+###  Made by Dusan.Baljevic@ieee.org ### 16.03.2014
+     dec_heading_level
+     paragraph "Chef Configuration Management System"
+     inc_heading_level
+     [ -x /opt/chef-server/bin/chef-server-ctl ] && exec_command "/opt/chef-server/bin/chef-server-ctl test" "Chef Server"
+     [ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife list -R /" "Chef full status"
+     [ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife environment list -w" "Chef list of environments"
+     [ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife client list" "Chef list of registered API clients"
+     [ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife cookbook list" "Chef list of registered cookbooks"
+     [ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife data bag list" "Chef list of data bags"
+     [ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife diff" "Chef differences between local chef-repo and files on server"
+     [ -x /opt/chef-server/embedded/bin/chef-client ] && exec_command "/opt/chef-server/embedded/bin/chef-client -v" "Chef Client"
+##############################################################################
 
 ####BACKPORT####
 ## SAP stuff # changed 20140213 by Ralph Roth
