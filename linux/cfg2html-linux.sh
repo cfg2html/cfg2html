@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html-linux.sh,v 6.20 2014/03/18 11:52:22 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.22 2014/03/19 08:16:44 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-
 
@@ -1537,38 +1537,73 @@ then # else skip to next paragraph
     fi
 
 
-### new stuff with 2.83 by Dusan
-##############################################################################
-###  Puppet settings
-###  Made by Dusan.Baljevic@ieee.org ### 12.03.2014
-     dec_heading_level
-     paragraph "Puppet Configuration Management System"
-     inc_heading_level
-     exec_command "ps -ef | grep -E 'puppetmaster[d]'" "Active Puppet Master"
-     exec_command "ps -ef | grep -E 'puppet[d]'" "Active Puppet Client"
-     [ -x /usr/sbin/puppetd ] && exec_command "/usr/sbin/puppetd -v" "Puppet Client agent version"
-     [ -x /usr/bin/puppet ] && exec_command "/usr/bin/puppet config print all" "Puppet configuration"
-     [ -x /usr/bin/puppet ] && exec_command "/usr/bin/puppet config print modulepath" "Puppet configuration module paths"
-     [ -x /usr/sbin/puppetca ] && exec_command "/usr/sbin/puppetca -l -a" "Puppet certificates"
-     [ -x /usr/bin/puppet ] && exec_command "/usr/bin/puppet resource user" "Users in Puppet Resource Abstraction Layer (RAL)"
-     [ -x /usr/bin/puppet ] && exec_command "/usr/bin/puppet resource package" "Packages in Puppet Resource Abstraction Layer (RAL)"
-     [ -x /usr/bin/puppet ] && exec_command "/usr/bin/puppet resource service" "Services in Puppet Resource Abstraction Layer (RAL)"
-##############################################################################
+### new stuff with 2.83 by Dusan // # changed 20140319 by Ralph Roth
+if [ -x /usr/bin/puppet ]
+then
+    ##############################################################################
+    ###  Puppet settings
+    ###  Made by Dusan.Baljevic@ieee.org ### 12.03.2014
+	dec_heading_level
+	paragraph "Puppet Configuration Management System"
+	inc_heading_level
+	exec_command "ps -ef | grep -E 'puppetmaster[d]'" "Active Puppet Master"
+	exec_command "ps -ef | grep -E 'puppet[d]'" "Active Puppet Client"
+	[ -x /usr/sbin/puppetd ] && exec_command "/usr/sbin/puppetd -v" "Puppet Client agent version"
+	[ -x /usr/bin/puppet ] && exec_command "/usr/bin/puppet config print all" "Puppet configuration"
+	[ -x /usr/bin/puppet ] && exec_command "/usr/bin/puppet config print modulepath" "Puppet configuration module paths"
+	[ -x /usr/sbin/puppetca ] && exec_command "/usr/sbin/puppetca -l -a" "Puppet certificates"
+	[ -x /usr/bin/puppet ] && exec_command "/usr/bin/puppet resource user" "Users in Puppet Resource Abstraction Layer (RAL)"
+	[ -x /usr/bin/puppet ] && exec_command "/usr/bin/puppet resource package" "Packages in Puppet Resource Abstraction Layer (RAL)"
+	[ -x /usr/bin/puppet ] && exec_command "/usr/bin/puppet resource service" "Services in Puppet Resource Abstraction Layer (RAL)"
+    ##############################################################################
+fi # puppet
 
-###  Chef settings
-###  Made by Dusan.Baljevic@ieee.org ### 16.03.2014
-     dec_heading_level
-     paragraph "Chef Configuration Management System"
-     inc_heading_level
-     [ -x /opt/chef-server/bin/chef-server-ctl ] && exec_command "/opt/chef-server/bin/chef-server-ctl test" "Chef Server"
-     [ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife list -R /" "Chef full status"
-     [ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife environment list -w" "Chef list of environments"
-     [ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife client list" "Chef list of registered API clients"
-     [ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife cookbook list" "Chef list of registered cookbooks"
-     [ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife data bag list" "Chef list of data bags"
-     [ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife diff" "Chef differences between local chef-repo and files on server"
-     [ -x /opt/chef-server/embedded/bin/chef-client ] && exec_command "/opt/chef-server/embedded/bin/chef-client -v" "Chef Client"
-##############################################################################
+if  [ -x /opt/chef-server/embedded/bin/knife ]
+then
+    ###  Chef settings
+    ###  Made by Dusan.Baljevic@ieee.org ### 16.03.2014
+	dec_heading_level
+	paragraph "Chef Configuration Management System"
+	inc_heading_level
+	[ -x /opt/chef-server/bin/chef-server-ctl ] && exec_command "/opt/chef-server/bin/chef-server-ctl test" "Chef Server"
+	[ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife list -R /" "Chef full status"
+	[ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife environment list -w" "Chef list of environments"
+	[ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife client list" "Chef list of registered API clients"
+	[ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife cookbook list" "Chef list of registered cookbooks"
+	[ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife data bag list" "Chef list of data bags"
+	[ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife diff" "Chef differences between local chef-repo and files on server"
+	[ -x /opt/chef-server/embedded/bin/chef-client ] && exec_command "/opt/chef-server/embedded/bin/chef-client -v" "Chef Client"
+    ##############################################################################
+fi
+
+# this may need reworking - works only if CFEngine agent is installed. # changed 20140319 by Ralph Roth
+if [ -x /var/cfengine/bin/cfagent ]
+then
+    ### new stuff with 2.85 by Dusan
+    ##############################################################################
+    ###  CFEngine settings
+    ###  Made by Dusan.Baljevic@ieee.org ### 19.03.2014
+	dec_heading_level
+	paragraph "CFEngine Configuration Management System"
+	inc_heading_level
+	exec_command "ps -ef | grep -E 'cfserv[d]|cf-server[d]'" "Active CFEngine Server"
+	exec_command "ps -ef | grep -E 'cfagen[t]|cf-agen[t]'" "Active CFEngine Agent"
+	[ -x /var/cfengine/bin/cfagent ] && exec_command "/var/cfengine/bin/cfagent -V" "CFEngine v2 Agent version"
+	[ -x /var/cfengine/bin/cfagent ] && exec_command "/var/cfengine/bin/cfagent -p -v" "CFEngine v2 classes"
+	[ -x /var/cfengine/bin/cfagent ] && exec_command "/var/cfengine/bin/cfagent --no-lock --verbose --no-splay" "CFEngine v2 managed client status"
+	[ -x /var/cfengine/bin/cfagent ] && exec_command "/var/cfengine/bin/cfagent -n" "CFEngine v2 pending actions for managed client (dry-run)"
+	[ -x /var/cfengine/bin/cfshow ] && exec_command "/var/cfengine/bin/cfshow --active" "CFEngine v2 dump of active database"
+	[ -x /var/cfengine/bin/cfshow ] && exec_command "/var/cfengine/bin/cfshow --classes" "CFEngine v2 dump of classes database"
+
+	[ -x /var/cfengine/bin/cf-serverd ] && exec_command "/var/cfengine/bin/cf-serverd --version" "CFEngine v3 Server version"
+	[ -x /var/cfengine/bin/cf-agent ] && exec_command "/var/cfengine/bin/cf-agent --version" "CFEngine v3 Agent version"
+	[ -x /var/cfengine/bin/cf-report ] && exec_command "/var/cfengine/bin/cf-report -q --show promises" "CFEngine v3 promises"
+	[ -x /var/cfengine/bin/cf-promises ] && exec_command "/var/cfengine/bin/cf-promises -v" "CFEngine v3 validation of policy code"
+	[ -x /var/cfengine/bin/cf-agent ] && exec_command "/var/cfengine/bin/cf-agent -n" "CFEngine v3 pending actions for managed client (dry-run)"
+    ##############################################################################
+fi # CFEngine
+
+##############################################################
 
 ####BACKPORT####
 ## SAP stuff # changed 20140213 by Ralph Roth
