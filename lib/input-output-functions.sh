@@ -6,7 +6,7 @@
 # keep PID of main process
 MASTER_PID=$$
 # USR1 is used to abort on errors, not using Print to always print to the original STDOUT, even if quiet
-trap "echo 'Aborting due to an error, check $ERROR_LOG for details' ; kill $MASTER_PID" USR1
+trap "echo 'FATAL: Aborting due to an error, check $ERROR_LOG for details' ; kill $MASTER_PID" USR1
 
 LF="
 "

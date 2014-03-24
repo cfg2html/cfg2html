@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html-linux.sh,v 6.22 2014/03/19 08:16:44 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.24 2014/03/24 17:00:03 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-
 
@@ -162,7 +162,7 @@ echo "Text Output File  "$TEXT_OUTFILE
 echo "Partitions        "$OUTDIR/$BASEFILE.partitions.save
 echo "Errors logged to  "$ERROR_LOG
 [[ -f $CONFIG_DIR/local.conf ]] && {
-    echo "Local config      "$CONFIG_DIR/local.conf "( $(grep -v -E '(^#|^$)' $CONFIG_DIR/local.conf | wc -l) )"
+    echo "Local config      "$CONFIG_DIR/local.conf "( $(grep -v -E '(^#|^$)' $CONFIG_DIR/local.conf | wc -l) lines)"
     }
 
 echo "Started at        "$DATEFULL
@@ -282,9 +282,13 @@ then # else skip to next paragraph
     [ -x /sbin/rc-update ] && exec_command "/sbin/rc-update show --verbose" "Init scripts and their runlevels"
   fi
 
-  if [ "$ARCH" = "yes" ] ; then   ## M.Weiller, LUG-Ottobrunn.de, 2013-02-04
-    [ -x /usr/bin/systemctl ] && exec_command "/usr/bin/systemctl list-unit-files | grep enabled" "Systend: installed unit"
-    [ -x /usr/bin/systemctl ] && exec_command "/usr/bin/systemctl --failed" "Systend: failed units"
+  ## OpenSUSE 12.x # changed 20140213 by Ralph Roth ##BACKPORT##
+  [ -x /usr/bin/systemctl ] && exec_command "/usr/bin/systemctl" "Systemd: System and Service Manager"
+  [ -x /usr/bin/systemctl ] && exec_command "/usr/bin/systemctl list-units --type service" "Systemd: All Services"
+  [ -x /usr/bin/systemctl ] && exec_command "systemctl list-unit-files" " Systemd: All Unit Files"
+
+  if [ "$ARCH" = "yes" ] ; then   ## M.Weiller, LUG-Ottobrunn.de, 2013-02-04 ## OpenSUSE also and SLES12?
+    [ -x /usr/bin/systemctl ] && exec_command "/usr/bin/systemctl --failed" "Systemd: Failed Units"
   fi
 
   if [ -d /etc/rc.config.d ] ; then
