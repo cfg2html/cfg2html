@@ -19,6 +19,7 @@ function usage {
     echo "  -H            disable: Hardware"
     echo "  -L            disable: Screen tips inline"
     echo "  -S            disable: Software"
+    echo "  -T            enable:  trace timings in output (txt, html and err)"
     echo "  -M            disable: Serviceguard and Quorum Server collector"
     echo "  -U            disable: User accounts/security sensitive data collection"
     echo "  -P            enable: cfg2html plugin architecture" # anaumann 2009/08/24

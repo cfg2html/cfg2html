@@ -20,6 +20,7 @@ function usage {
   echo "    -s      disable: System"
   echo "    -c      disable: Cron"
   echo "    -S      disable: Software"
+  echo "    -T      enable:  trace timings in output (txt, html and err)"
   echo "    -f      disable: Filesystem"
   echo "    -l      disable: LVM"
   echo "    -L      disable: Screen tips inline"
