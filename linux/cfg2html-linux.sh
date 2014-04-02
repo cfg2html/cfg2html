@@ -933,7 +933,7 @@ if [ $REDHAT = "yes" ] && [ -n $(ps -ef | awk '/\/sbin\/multipathd/ {print $NF}'
       exec_command "/sbin/multipath -v2 -d -ll" "Multipath Devices Basic Information"
       exec_command "/sbin/multipath -v3 -d -ll" "Multipath Devices Detailed Information"
       exec_command "grep -vE '^#|^ *$' /etc/multipath.conf" "Multipath Configuration File"
-      exec_command "for MultiPath in \$(/sbin/multipath -v1 -d -l); do ls -l /dev/mapper/\${MultiPath}; done" "Device Mapper Files"
+      exec_command "for MultiPath in \$(/sbin/multipath -v1 -d -l); do ls -l /dev/mapper/\${MultiPath} 2>/dev/null; done" "Device Mapper Files"
       exec_command "cat /var/lib/multipath/bindings" "Multipath Bindings"
 
       dec_heading_level
