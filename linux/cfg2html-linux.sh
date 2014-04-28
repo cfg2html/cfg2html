@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html-linux.sh,v 6.24 2014/03/24 17:00:03 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.26 2014/04/28 05:48:05 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-
 
@@ -1546,19 +1546,36 @@ if [ -x /usr/bin/puppet ]
 then
     ##############################################################################
     ###  Puppet settings
-    ###  Made by Dusan.Baljevic@ieee.org ### 12.03.2014
+    ###  Made by Dusan.Baljevic@ieee.org ### 12.03.2014, # changed 20140425 by Ralph Roth, # changed 20140428 by Dusan, backported from 2.90
 	dec_heading_level
 	paragraph "Puppet Configuration Management System"
 	inc_heading_level
-	exec_command "ps -ef | grep -E 'puppetmaster[d]'" "Active Puppet Master"
+	exec_command "ps -ef | grep -E 'puppetmaster[d]|puppet maste[r]'" "Active Puppet Master"
 	exec_command "ps -ef | grep -E 'puppet[d]'" "Active Puppet Client"
-	[ -x /usr/sbin/puppetd ] && exec_command "/usr/sbin/puppetd -v" "Puppet Client agent version"
-	[ -x /usr/bin/puppet ] && exec_command "/usr/bin/puppet config print all" "Puppet configuration"
-	[ -x /usr/bin/puppet ] && exec_command "/usr/bin/puppet config print modulepath" "Puppet configuration module paths"
-	[ -x /usr/sbin/puppetca ] && exec_command "/usr/sbin/puppetca -l -a" "Puppet certificates"
-	[ -x /usr/bin/puppet ] && exec_command "/usr/bin/puppet resource user" "Users in Puppet Resource Abstraction Layer (RAL)"
-	[ -x /usr/bin/puppet ] && exec_command "/usr/bin/puppet resource package" "Packages in Puppet Resource Abstraction Layer (RAL)"
-	[ -x /usr/bin/puppet ] && exec_command "/usr/bin/puppet resource service" "Services in Puppet Resource Abstraction Layer (RAL)"
+
+	if [ -x /usr/sbin/puppetd ]; then
+           exec_command "/usr/sbin/puppetd -V" "Puppet Client agent version"
+        else
+	   exec_command "/usr/bin/puppet agent -V" "Puppet Client agent version"
+        fi
+
+        exec_command "/usr/bin/puppet status master" "Puppet Server status"
+
+        PUPPETCHK=$(puppet help | awk '$1 == "config" {print}')
+        if [ "$PUPPETCHK" ] ; then
+	   exec_command "/usr/bin/puppet config print all" "Puppet configuration"
+	   exec_command "/usr/bin/puppet config print modulepath" "Puppet configuration module paths"
+        fi
+
+	if [ -x /usr/sbin/puppetca ]; then
+           exec_command "/usr/sbin/puppetca -l -a" "Puppet certificates"
+	else
+           exec_command "/usr/bin/puppet ca list --all" "Puppet certificates"
+        fi
+
+	exec_command "/usr/bin/puppet resource user" "Users in Puppet Resource Abstraction Layer (RAL)"
+	exec_command "/usr/bin/puppet resource package" "Packages in Puppet Resource Abstraction Layer (RAL)"
+	exec_command "/usr/bin/puppet resource service" "Services in Puppet Resource Abstraction Layer (RAL)"
     ##############################################################################
 fi # puppet
 
