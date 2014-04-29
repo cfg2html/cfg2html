@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html-linux.sh,v 6.26 2014/04/28 05:48:05 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.27 2014/04/29 16:16:55 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-
 
@@ -797,10 +797,10 @@ then # else skip to next paragraph
     #     #TODO:#BUG:# stderr output from "zypper ls; echo ''; zypper pt":
     #     System management is locked by the application with pid 1959 (/usr/lib/packagekitd).
     #     Close this application before trying again.
-        if [ -r /etc/zypp/zypp.conf ]       ## fix for JW's SLES 10
+        if [ -r /etc/zypp/zypp.conf ]       ## fix for JW's SLES 10, backported to 2.91
         then
-            exec_command "zypper -n ls; echo ''; echo | zypper -n pt " "zypper: Services and Patterns"       #*#   Ralph Roth, Mittwoch, 16. März 2011
-            exec_command "zypper  -n ps" "zypper: Processes which need restart after update"       #*#   Alexander De Bernardi 17.02.2011
+            exec_command "zypper -n ls; echo ''; echo | zypper -n pt " "zypper: Services and Patterns"       #*#   Ralph Roth, Mittwoch, 16. March 2011
+            exec_command "zypper -n ps" "zypper: Processes which need restart after update"       #*#   Alexander De Bernardi 17.02.2011
             exec_command "zypper -n lr --details" "zypper: List repositories"                     #*#   Alexander De Bernardi 17.02.2011
             exec_command "zypper -n lu" "zypper: List pending updates"                            #*#   Alexander De Bernardi 17.02.2011
             exec_command "zypper -n lp" "zypper: List pending patches"                            #*#   Alexander De Bernardi 17.02.2011
@@ -1546,7 +1546,7 @@ if [ -x /usr/bin/puppet ]
 then
     ##############################################################################
     ###  Puppet settings
-    ###  Made by Dusan.Baljevic@ieee.org ### 12.03.2014, # changed 20140425 by Ralph Roth, # changed 20140428 by Dusan, backported from 2.90
+    ###  Made by Dusan.Baljevic@ieee.org ### 12.03.2014, # changed 20140425 by Ralph Roth, # changed 20140428 by Dusan, backported from 2.90, 2.91
 	dec_heading_level
 	paragraph "Puppet Configuration Management System"
 	inc_heading_level
@@ -1573,9 +1573,11 @@ then
            exec_command "/usr/bin/puppet ca list --all" "Puppet certificates"
         fi
 
+        # seems to crash plain installed servers, puppet not configured ## changed 20140429 by Ralph Roth
 	exec_command "/usr/bin/puppet resource user" "Users in Puppet Resource Abstraction Layer (RAL)"
-	exec_command "/usr/bin/puppet resource package" "Packages in Puppet Resource Abstraction Layer (RAL)"
-	exec_command "/usr/bin/puppet resource service" "Services in Puppet Resource Abstraction Layer (RAL)"
+	#exec_command "/usr/bin/puppet resource package" "Packages in Puppet Resource Abstraction Layer (RAL)"
+	#exec_command "/usr/bin/puppet resource service" "Services in Puppet Resource Abstraction Layer (RAL)"
+
     ##############################################################################
 fi # puppet
 
