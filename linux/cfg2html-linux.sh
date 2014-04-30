@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html-linux.sh,v 6.27 2014/04/29 16:16:55 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.28 2014/04/30 17:23:42 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-
 
@@ -1515,7 +1515,7 @@ then # else skip to next paragraph
       fi
     fi
 
-## we want to display Veritas netbackup configurations
+## we want to display Veritas Netbackup configurations
 ## 31Jan2003 it233 FRU U.Frey
 ## 3/5/08 Modified/added functionality by krtmrrsn@yahoo.com, Marc Korte.
 ##  Some things have changed in NetBU 6.x.
@@ -1573,9 +1573,11 @@ then
            exec_command "/usr/bin/puppet ca list --all" "Puppet certificates"
         fi
 
-        # seems to crash plain installed servers, puppet not configured ## changed 20140429 by Ralph Roth
+
 	exec_command "/usr/bin/puppet resource user" "Users in Puppet Resource Abstraction Layer (RAL)"
-	#exec_command "/usr/bin/puppet resource package" "Packages in Puppet Resource Abstraction Layer (RAL)"
+	exec_command "/usr/bin/puppet resource package" "Packages in Puppet Resource Abstraction Layer (RAL)"
+	# SUSE-SU-2014:0155-1 # seems to crash plain installed servers, puppet not configured ## changed 20140429 by Ralph Roth
+	# Bug References: 835122,853982 - CVE References: CVE-2013-4761 - puppet-2.6.18-0.12.1
 	#exec_command "/usr/bin/puppet resource service" "Services in Puppet Resource Abstraction Layer (RAL)"
 
     ##############################################################################
