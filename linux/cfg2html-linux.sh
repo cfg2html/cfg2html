@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html-linux.sh,v 6.28 2014/04/30 17:23:42 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.29 2014/05/07 19:18:39 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-
 
@@ -539,7 +539,7 @@ if [ -f /proc/scsi/scsi ] ;then
 else
   # Debian 6.06 # 24.01.2013, doesn't have -p option yet!
   #        -p, --protection        Output additional data integrity (protection) information.
-  [ -x /usr/bin/lsscsi ] && exec_command "/usr/bin/lsscsi -lv" "SCSI Devices"  ## Alternate Method!, Mittwoch, 16. März 2011
+  [ -x /usr/bin/lsscsi ] && exec_command "/usr/bin/lsscsi -lv" "SCSI Devices"  ## Alternate Method!, Mittwoch, 16. March 2011
 fi
 
 if [ -x "${FDISKCMD}" -a -x "${GREPCMD}" -a -x "${SEDCMD}" -a -x "${AWKCMD}" -a -x "${SMARTCTL}" ]
@@ -1023,8 +1023,8 @@ then # else skip to next paragraph
   paragraph "Network Settings"
   inc_heading_level
 
-  exec_command "/sbin/ifconfig" "LAN Interfaces Settings (ifconfig)"    #D011 -- 16. März 2011,  28. Dezember 2011, ER by Heiko Andresen
-  exec_command "ip addr" "LAN Interfaces Settings (ip addr)"            #D011 -- 16. März 2011,  28. Dezember 2011, ER by Heiko Andresen
+  exec_command "/sbin/ifconfig" "LAN Interfaces Settings (ifconfig)"    #D011 -- 16. March 2011,  28. Dezember 2011, ER by Heiko Andresen
+  exec_command "ip addr" "LAN Interfaces Settings (ip addr)"            #D011 -- 16. March 2011,  28. Dezember 2011, ER by Heiko Andresen
   exec_command "ip -s l" "Detailed NIC Statistics"                      #07.11.2011, 21:33 modified by Ralph Roth #* rar *#
 
   if [ -x /usr/sbin/ethtool ]     ###  22.11.2010, 23:44 modified by Ralph Roth
@@ -1642,10 +1642,10 @@ fi ## SAP
 ##
 
 ###########################################################################
-# { changed/added 28.01.2004 (17:56) by Ralph Roth }
+# { changed/added 28.01.2004 by Ralph Roth }
     if [ -r /etc/cmcluster.conf ] ; then
         dec_heading_level
-        paragraph "Serviceguard"
+        paragraph "Serviceguard/SGLX"
         inc_heading_level
         . ${SGCONFFILE:=/etc/cmcluster.conf}   # get env. setting, rar 12.05.2005
         PATH=$PATH:$SGSBIN:$SGLBIN
@@ -1660,24 +1660,29 @@ fi ## SAP
         exec_command "ls -l $SGCONF" "Files in $SGCONF"
     fi
 
-######## SLES 11 SP1 Pacemaker stuff ########## Mittwoch, 16. März 2011 ##### Ralph Roth ####
-    [ -x /usr/sbin/corosync-cfgtool ] && exec_command "/usr/sbin/corosync-cfgtool -s" "Corosync TOTEM Status/Active Rings"
+######## SLES 11 SP1 Pacemaker stuff ########## Mittwoch, 16. March 2011 ##### Ralph Roth ####
+    [ -x /usr/sbin/corosync-cfgtool ] && exec_command "/usr/sbin/corosync-cfgtool -s;corosync -v" "Corosync TOTEM Status/Active Rings"
+    # see also:  corosync-objctl runtime.totem.pg.mrp.srp.members
+    [ -x /usr/sbin/corosync-objctl ] && exec_command "/usr/sbin/corosync-objctl" "Corosync Object Database" # changed 20140507 by Ralph Roth
+
     if [ -x /usr/sbin/crm ] # pacemaker #
     then
         exec_command "/usr/sbin/crm_mon -rnA1" "Cluster Configuration"  		## 281113, rr
         exec_command "/usr/sbin/crm -D plain configure show" "Cluster Configuration"
         exec_command "/usr/sbin/crm -D plain status" "Cluster Status"
     fi
-    [ -x /usr/sbin/clusterstate ] && exec_command "/usr/sbin/clusterstate --all" "Status of pacemaker HA cluster" ##  04.04.2012, 14:27 modified by Ralph Roth #* rar *#
 
-    # only if ClusterTools2/SLES11 HAE are installed #  04.04.2012, 14:52 modified by Ralph Roth #* rar *#
+    [ -x /usr/sbin/clusterstate ] && exec_command "/usr/sbin/clusterstate --all" "Status of pacemaker HA cluster" ##  04.04.2012, 14:27 modified by Ralph Roth #* rar *#
+    [ -x /usr/sbin/crm_simulate ] && exec_command "/usr/sbin/crm_simulate -LsU" "Current Cluster status, scores and utilization" ## changed 20140507 by Ralph Roth
+
+    # only if ClusterTools2/SLES11 HAE are installed #  04.04.2012, modified by Ralph Roth #* rar *#
     [ -x /usr/sbin/grep_cluster_patterns ] && exec_command "/usr/sbin/grep_cluster_patterns --show"  "Output of grep_cluster_patterns"
     for i in  grep_error_patterns  grep_cluster_transition cs_show_scores cs_list_failcounts
     do
         [ -x /usr/sbin/$i ] && exec_command "$i" "ClusterTool2: Output of $i"
     done
 
-######## RHEL 5.x CRM stuff ######## Freitag, 18. März 2011 #### Ralph Roth ####
+######## RHEL 5.x CRM stuff ######## 18. March 2011 #### Ralph Roth ####
     if [ -x /usr/sbin/cman_tool ]
     then
         exec_command "/usr/sbin/cman_tool status"   "Cluster Resource Manager Status"
@@ -1685,7 +1690,7 @@ fi ## SAP
         exec_command "/usr/sbin/cman_tool services" "Cluster Resource Manager Services"
     fi
 
-####### Red Hat Cluster Suite configuration  #  04.07.2011, 16:23 modified by Ralph Roth #* rar *#
+####### Red Hat Cluster Suite configuration  #  04.07.2011, modified by Ralph Roth #* rar *#
     if [ -r /etc/cluster/cluster.conf ]
     then
         exec_command "/usr/sbin/clustat" "Cluster Status"   ## ER by David Williams
@@ -1698,7 +1703,7 @@ fi ## SAP
     fi
 dec_heading_level
 
-fi  #"$CFG_APPLICATIONS"# <m>  23.04.2008, 2145 -  Ralph Roth
+fi  #"$CFG_APPLICATIONS"# <m>  23.04.2008 -  Ralph Roth
 
 ##########################################################################
 ##
@@ -1711,7 +1716,7 @@ if [ -s /etc/oratab ] ; then    # exists and >0
   paragraph "Oracle Configuration"
   inc_heading_level
 
-  exec_command "grep -vE '^#|^$|:N' /etc/oratab " "Configured Oracle Databases Startups"        #  27.10.2011, 15:01 modified by Ralph Roth #* rar *#
+  exec_command "grep -vE '^#|^$|:N' /etc/oratab " "Configured Oracle Databases Startups"        #  27.10.2011, modified by Ralph Roth #* rar *#
 
   ##
   ## Display each Oracle initSID.ora File
