@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html-linux.sh,v 6.29 2014/05/07 19:18:39 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 1.1 2014/05/14 00:38:33 root Exp root $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-
 
@@ -199,6 +199,19 @@ then # else skip to next paragraph
       [ -r $i ] && exec_command "cat $i" "OS Specific Release Information ($i)"
   done
 
+  ### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
+
+  if [ -x /usr/bin/virsh ] ; then
+    exec_command "/usr/bin/virsh list" "virsh Virtualization Support Status"
+    exec_command "/usr/bin/virsh sysinfo" "virsh XML Hypervisor Sysinfo"
+  fi
+
+  if [ -x /usr/sbin/virt-what ] ; then
+    exec_command "/usr/sbin/virt-what" "Virtual Machine Check"
+  fi
+
+  ### End changes by Dusan.Baljevic@ieee.org ### 14.05.2014
+
   if [ -x /usr/bin/locale ] ; then
     exec_command posixversion "POSIX Standards/Settings"
     exec_command "locale" "locale specific information"
@@ -268,6 +281,18 @@ then # else skip to next paragraph
   [ -x /usr/bin/pidstat ] && exec_command "pidstat -lrud 2>/dev/null||pidstat -rud" "pidstat - Statistics for Linux Tasks" #  10.11.2012 modified by Ralph Roth #* rar *# fix for SLES11,SP2, 29.01.2014
 
   exec_command "last| grep boot" "reboots"
+
+  ### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
+
+  if [ -x /usr/bin/systemd-analyze ] ; then
+     exec_command "/usr/bin/systemd-analyze" "systemd-analyze Boot Performance Profiler"
+     exec_command "/usr/bin/systemd-analyze blame" "systemd-analyze Boot Sequence and Performance Profiler"
+  fi
+
+  [ -r /etc/init/bootchart.conf ] && exec_command "grep -vE '^#' /etc/init/bootchart.conf" "bootchart Boot Sequence and Performance Profiler"
+
+  ### End changes by Dusan.Baljevic@ieee.org ### 13.05.2014
+
   exec_command "alias"  "Alias"
   [ -r /etc/inittab ] && exec_command "grep -vE '^#|^ *$' /etc/inittab" "inittab"
   ## This may report NOTHING on RHEL 3+4 ##
@@ -504,6 +529,15 @@ DMIDECODE=`which dmidecode`; if [ -n "$DMIDECODE" ] && [ -x $DMIDECODE ] ; then 
 # then
 #   exec_command "dmidecode" "/usr/sbin/dmidecode output"
 # fi
+
+### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
+
+BIOSDECODE=$(which biosdecode)
+if [ -n "$BIOSDECODE" ] && [ -x $BIOSDECODE ] ; then
+  exec_command "$BIOSDECODE" "biosdecode"
+fi
+
+### End changes by Dusan.Baljevic@ieee.org ### 13.05.2014
 
 HWINFO=`which hwinfo`; if [ -n "$HWINFO" ] && [ -x $HWINFO ] ; then exec_command "$HWINFO 2> /dev/null" "Hardware List (hwinfo)"; fi
 LSHW=`which lshw`; if [ -n "$LSHW" ] && [ -x $LSHW ] ; then exec_command "$LSHW" "Hardware List (lshw)"; fi ##  13.12.2004, 15:53 modified by Ralph Roth
@@ -750,6 +784,23 @@ then
 # [ -x /usr/contrib/bin/inquiry256.ksh ] && exec_command "/usr/contrib/bin/inquiry256.ksh" "SureStore E Disk Array XP256 Mapping (inquiry/obsolete)"
 fi
 
+### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
+
+if [ -x /usr/sbin/evainfo ]
+then
+  AddText "Hint: evainfo displays a maximum of 1024 paths on Linux-based hosts"
+  exec_command "/usr/sbin/evainfo -a -l 2>/dev/null" "HP P6000/EVA Disk Array LUNs"
+  exec_command "/usr/sbin/evainfo -g -W 2>/dev/null" "HP P6000/EVA Disk Array Status with Generic Device Names"
+fi
+
+if [ -x /usr/bin/HP3PARInfo ]
+then
+  exec_command "/usr/bin/HP3PARInfo -i 2>/dev/null" "HP 3PAR Disk Array Status"
+  exec_command "/usr/bin/HP3PARInfo -f 2>/dev/null" "HP 3PAR Disk Array LUNs"
+fi
+
+### End changes by Dusan.Baljevic@ieee.org ### 13.05.2014
+
 dec_heading_level
 
 fi # terminates CFG_HARDWARE wrapper
@@ -851,6 +902,15 @@ then # else skip to next paragraph
   fi
   # end ARCH
 
+  ### Begin changes by Dusan.Baljevic@ieee.org ### 14.05.2014
+
+  if [ -x /usr/sbin/aa-status ]
+  then
+   exec_command "/usr/sbin/aa-status" "AppArmor LSM for Name-based Mandatory Access Control"
+  fi
+
+  ### End changes by Dusan.Baljevic@ieee.org ### 14.05.2014
+
   #### programming stuff ##### plugin for cfg2html/linux/hpux #  22.11.2005, 16:03 modified by Ralph Roth
   exec_command ProgStuff "Software Development: Programs and Versions"
 
@@ -862,7 +922,7 @@ fi # terminates CFG_SOFTWARE wrapper
 if [ "$CFG_FILESYS" != "no" ]
 then # else skip to next paragraph
 
-paragraph "Filesystems, Dump- and Swapconfiguration"
+paragraph "Filesystems, Dump and Swap configuration"
 inc_heading_level
 
 
@@ -1141,6 +1201,15 @@ then # else skip to next paragraph
       exec_command "/sbin/iptables-save -c" "Firewall: iptables saved rules" ## rr, 120704 added, -c 101111, rar
     fi
   fi
+
+  ### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
+
+  if [ -x /usr/sbin/ufw ] ; then
+    exec_command "/usr/sbin/ufw status" "Netfilter Firewall"
+    exec_command "/usr/sbin/ufw app list" "Netfilter Firewall Application Profiles"
+  fi
+
+  ### End changes by Dusan.Baljevic@ieee.org ### 14.05.2014
 
   if [ -x /usr/sbin/tcpdchk ] ; then
     exec_command "/usr/sbin/tcpdchk -v" "tcpd wrapper"

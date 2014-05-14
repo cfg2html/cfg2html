@@ -1,5 +1,5 @@
 For details see cfg2html.html
-@(#)$Id: AUTHORS,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $
+@(#)$Id: AUTHORS,v 1.1 2014/05/14 00:39:18 root Exp root $
 ---------------------------------------------------------------------------
     _         _   _
 Co / \  _   _| |_| |__   ___  _ __ ___
@@ -45,3 +45,6 @@ Michael Meyer:
 Alexander De Bernardi (AB)
 	SuSE stuff an other enhancements.
         SuSE: zypper, chkconfig: -l --deps
+
+Dusan Baljevic (dusan.baljevic@ieee.org)
+	Added checks for Puppet, Chef, CFengine, HP3PARInfo, evainfo, and ors
