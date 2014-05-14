@@ -23,7 +23,7 @@ PATH=$PATH:/opt/fcms/bin        #  13.12.2007, 10:10 modified by Ralph Roth
 
 count=0
 # get_fc.sh, Martin Kalmbach / 2003-07-19
-if [ `ls /dev/td* /dev/fcd* /dev/fcms* 2>/dev/null | wc -l` != 0 ]
+if [ $( ls /dev/td* /dev/fcd* /dev/fcms* /dev/fcoc* 2>/dev/null | wc -l ) != 0 ]
 then
   echo "Hardware       Device      N_Port Port"
   echo "Path           File        World Wide Name     State   Topology       Type                Disk-Instances"
@@ -33,9 +33,9 @@ else
   exit
 fi
 
-for FCDEV in `ls /dev/td* /dev/fcms* /dev/fcd*  2>/dev/null`
+for FCDEV in $(ls /dev/td* /dev/fcms* /dev/fcd* /dev/fcoc* 2>/dev/null)
 do                      # not found
- if [ -r $FCDEV ] && [ `fcmsutil $FCDEV 2>/dev/null |grep -i topo | wc -l` != 0 ]
+ if [ -r $FCDEV ] && [ $(fcmsutil $FCDEV 2>/dev/null |grep -i topo | wc -l) != 0 ]
  then
   TOPOLOGY=`fcmsutil $FCDEV | grep Topology | awk '{ print $3 }'`
   WWN=`fcmsutil $FCDEV | grep "Port World" |grep "N_Port"| awk '{ print $7 }'`
@@ -50,7 +50,7 @@ do                      # not found
   fi
 
   DEVINST=""
-  for i in `ioscan -fkH$HWPATH | grep ^ext_bus | awk '{ print $2 }'`
+  for i in $(ioscan -fkH$HWPATH | grep ^ext_bus | awk '{ print $2 }')
   do
     DEVINST="$DEVINST,c$i"
   done
@@ -63,7 +63,7 @@ done
 echo "# FC Cards: "$count"\n"
 
 ##### add here new stuff, e.g. vpd
-for FCDEV in `ls /dev/td*  /dev/fcd*   2>/dev/null`
+for FCDEV in $(ls /dev/td*  /dev/fcd* /dev/fcoc*  2>/dev/null)
 do
    if [ -r $FCDEV ]
    then
