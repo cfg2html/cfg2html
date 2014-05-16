@@ -8,7 +8,7 @@
 product = cfg2html
 
 all: 
-	i=`uname -s`; case $$i in HP-UX) make depot;; Linux) make rpm;; AIX) make aix-rpm;; *) make help;; esac
+	i=`uname -s`; case $$i in HP-UX) make depot;; Linux) make rpm;; *) make help;; esac
 
 help:
 	@echo "+-----------------------------+"
@@ -17,7 +17,6 @@ help:
 	@echo "|    HP-UX: \"make depot\"    |"
 	@echo "|    Linux: \"make rpm\"      |"
 	@echo "|    Linux: \"make deb\"      |"
-	@echo "|    AIX:   \"make aix-rpm\"  |"
 	@echo "+-----------------------------+"
 
 depot:
@@ -29,10 +28,7 @@ rpm:
 deb:
 	make -C linux deb
 
-aix-rpm:
-	make -C aix rpm
-
 clean:
-	i=`uname -s`; case $$i in HP-UX) gmake -C hpux clean;; Linux) make -C linux clean;;  AIX) make -C aix clean;; *) make help;; esac
+	i=`uname -s`; case $$i in HP-UX) gmake -C hpux clean;; Linux) make -C linux clean;; *) make help;; esac
 
 
