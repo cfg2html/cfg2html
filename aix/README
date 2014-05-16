@@ -2,9 +2,9 @@ For details see cfg2html.html
 @(#) $Header: /home/cvs/cfg2html/cfg2html/linux/README,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $
 
 
-This is the READ ME for cfg2html-linux version 2.xx (c) by ROSE SWE, Dipl.-Ing. Ralph Roth
+This is the README for cfg2html-aix version 6.xx (c) by ROSE SWE, Dipl.-Ing. Ralph Roth
 
-!! WARNING, USE the cfg2html-linux script AT YOUR OWN RISK !!
+!! WARNING, USE the cfg2html-aix script AT YOUR OWN RISK !!
 -------------------------------------------------------------
 
 
@@ -34,31 +34,7 @@ XP48/256/512, Network Node Manager and DataProtector etc. are included.
 To install and to execute cfg2html you must be root! A normal user account
 will not work!
 
-tar ball: To install the script, edit the Makefile and type make install.
-If you use the packages, read the man pages for dpkg or rpm to install.
-
-On SLES/OpenSUSE
-
-# zypper in cfg2html_linux-2.*.rpm
-
-On the other RPM boxes where cfg2html is already installed do this:
-
-# rpm -hiv cfg2html-linux-1.24-7.noarch.rpm
-Preparing...                ########################################### [100%]
-        file /usr/bin/cfg2html-linux from install of cfg2html-linux-1.24-7 conflicts with file from package cfg2html-linux-1.23-11
-        file /usr/share/man/man8/cfg2html-linux.8.gz from install of cfg2html-linux-1.24-7 conflicts with file from package cfg2html-linux-1.23-11
-# rpm -hiv --freshen cfg2html-linux-1.24-7.noarch.rpm
-Preparing...                ########################################### [100%]
-   1:cfg2html-linux         ########################################### [100%]
-
-hklinx01:~/cfg> sudo rpm -hiv cfg2html-linux-1.74-1.noarch.rpm
-Password:
-Preparing...                ########################################### [100%]
-        file /etc/cfg2html/plugins from install of cfg2html-linux-1.74-1 conflicts with file from package cfg2html-linux-1.61-2
-        file /usr/bin/cfg2html from install of cfg2html-linux-1.74-1 conflicts with file from package cfg2html-linux-1.61-2
-        file /usr/bin/cfg2html-linux from install of cfg2html-linux-1.74-1 conflicts with file from package cfg2html-linux-1.61-2
-        file /usr/share/man/man8/cfg2html-linux.8.gz from install of cfg2html-linux-1.74-1 conflicts with file from package cfg2html-linux-1.61-2
-
+Working on it...
 
 
 
