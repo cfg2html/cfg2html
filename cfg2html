@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html,v 6.21 2014/03/21 15:11:13 ralph Exp $
+# @(#) $Id: cfg2html,v 6.22 2014/05/16 15:58:57 ralph Exp $
 # -------------------------------------------------------------------------
 # This is the wrapper for cfg2html for LINUX and HP-UX
 # CFG2HTML - license: see GPL v3
@@ -12,6 +12,7 @@ PRGNAME=$0
 MY_OS=$(uname -s)
 args=$@
 
+### this is not optimal and should be simplified. case ...
 if [ "$MY_OS" = "Linux" -a ! -f /tmp/cfg2html.respawn ]; then
     touch /tmp/cfg2html.respawn
     exec /bin/bash -O extglob $PRGNAME $args
@@ -35,7 +36,7 @@ rm -f /tmp/cfg2html.respawn # get rid of the temporary lock as soon as possible
 
 PRODUCT="Config to HTML - cfg2html"
 # this CVS id is also used by the Makefiles to get the version number!
-CVS="$Id: cfg2html,v 6.21 2014/03/21 15:11:13 ralph Exp $"
+CVS="$Id: cfg2html,v 6.22 2014/05/16 15:58:57 ralph Exp $"
 PROGRAM=$(echo $CVS|cut -f2 -d" "|cut -f1 -d,)
 #VERSION=6.20
 VERSION=$(echo $CVS|cut -f3 -d" ")
@@ -119,7 +120,7 @@ if [ $RETCODE -eq 0 ]
 then
 	echo "No errors reported."
 else
-	echo "Returncode=$RETCODE (see $ERROR_LOG)"
+	echo "Returncode=$RETCODE (see file $ERROR_LOG)"
 fi
 
 # cleanup
