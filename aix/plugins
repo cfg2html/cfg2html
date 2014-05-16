@@ -1,0 +1,18 @@
+# @(#) $Id: plugins,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $
+#
+# Plugin configuration file
+#
+# CFG2HTML_PLUGIN_DIR points to the file where cfg2html will find the plugins
+# (eg. /usr/libexec/cfg2html-plugins)
+#
+# CFG2HTML_PLUGIN_DIR=/etc/cfg2html/plugindir
+
+
+# CFG2HTML_PLUGINS can contain the (whitespace separated) list of plugins
+# to enable(the filename within $CFG2HTML_PLUGIN_DIR) or the keyword "all" to
+# enable all the plugins found in the plugin directory
+#
+# CFG2HTML_PLUGINS="foo dummyplugin"
+# or
+# CFG2HTML_PLUGINS="all"
+
