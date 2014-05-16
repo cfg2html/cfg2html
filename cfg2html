@@ -24,6 +24,10 @@ if [ "$MY_OS" = "SunOS" -a ! -f /tmp/cfg2html.respawn ]; then
     touch /tmp/cfg2html.respawn
     exec /usr/bin/ksh $PRGNAME $args
 fi
+if [ "$MY_OS" = "AIX" -a ! -f /tmp/cfg2html.respawn ]; then
+    touch /tmp/cfg2html.respawn
+    exec /usr/bin/ksh $PRGNAME $args
+fi
 
 rm -f /tmp/cfg2html.respawn # get rid of the temporary lock as soon as possible
 

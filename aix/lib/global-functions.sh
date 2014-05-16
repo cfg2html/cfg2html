@@ -1,0 +1,1 @@
+../../hpux/lib/global-functions.sh

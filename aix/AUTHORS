@@ -1,0 +1,13 @@
+For details see cfg2html.html
+@(#)$Id: AUTHORS,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $
+---------------------------------------------------------------------------
+    _         _   _
+Co / \  _   _| |_| |__   ___  _ __ ___
+  / _ \| | | | __| '_ \ / _ \| '__/ __|
+ / ___ \ |_| | |_| | | | (_) | |  \__ \
+/_/   \_\__,_|\__|_| |_|\___/|_|  |___/	for the AIX port
+---------------------------------------------------------------------------
+
+
+Didac Oliveira <didac@brainupdaters.net>
+	AIX collectors on the cfg2html next generation version (cfg2html 6.xx)
