@@ -1,0 +1,155 @@
+head	1.2;
+access;
+symbols;
+locks
+	dusan:1.2; strict;
+comment	@# @;
+
+
+1.2
+date	2014.05.18.10.16.55;	author dusan;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2014.05.18.10.14.13;	author dusan;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@added Dusan baljevi changes
+@
+text
+@2014-05-18 Dusan.Baljevic@@ieee.org
+	* Complete rewrite of Solaris tests to merge with mainstream cfg2html
+	6.x
+	* Extensive number of new tests
+	* Support for Solaris 11
+
+2012-04-04 jerome ROBERT <www.admin-sys.com>
+	* cfg2html_solaris:
+	  Fixed bug align
+
+	* cfg2html_solaris:
+	Add metaset
+
+	* cfg2html_solaris:
+	Add plugins clustersun.sh	
+
+	* cfg2html_solaris:
+	add: svcs -x
+
+	* cfg2html_solaris:
+        Fixed bug list_disks
+
+2008-10-03  John Taisto <jr@@e-integration>
+
+	* cfg2html_solaris:
+	Fixed bug for excludeing zones -- missing in actual 'Z' in getopts.
+
+	* cfg2html_solaris:
+	Fixed bug in get_zones function -- Properly handle global zones; can't perform
+        zonecfg export on global zones.
+
+	* cfg2html_solaris:
+	Fixed bug in get_zones function -- Properly handle if run from a non-global zone.
+
+	* cfg2html_solaris:
+        Fixed bug where CFG_PRINTER's default is set to no--although I can see the appeal
+        to doing that. ;)
+
+	* cfg2html_solaris:
+        Fixed bug where no zpool binary exists and error is generated.  This will
+        happen on all solaris version under Solaris 10 update 2 and will happen on
+        hosts that we installed without zfs that are Solaris 10 update 2 or newer.
+
+	* Changelog:
+	Fixed bug misspelling of changed.
+
+	* cfg2html_solaris:
+        + Separated information from different zfs list's by type: filesystem,
+        volume, and snapshot.
+
+	* cfg2html_solaris:
+        + Modified "vxdisk list" to "vxdisk -o alldgs list"  Reason:
+        The disk group column shows imported disk groups as normal and shows
+        all other disk groups in parentheses.
+
+	* cfg2html_solaris:
+        + Revised the version functionality to display version and the release date of that
+        version.
+
+	* cfg2html_solaris:
+        + Added the -b option to change the background CCS section of the body of the html
+        generated.  You can use this option for customizing your HTML pages background. 
+        You can simply change the color as the example in the -h shows or you can change the
+        color and add a positioned image with repeat or no-repeat like so:
+        -b "#666666 url('company_logo.png') no-repeat fixed top;"
+
+2005-05-19  Ralph Roth  <ralproth@@hpul80>
+
+	* cfg2html_sun-VCS.sh:
+	fixed Log cvs keyword that contributors changed :)
+
+	* pack.sh, plugins/get_sap.sh, cfg2html_sun.sh:
+	+ pack: rcs2log, fixed Log cvs keyword that contributors changed :)
+
+	* pack.sh, plugins/VCS_plugin.sh, plugins/cluster_node_status.ksh:
+	New files provided by Keiran Sweet, (version 1.11)
+
+	* cfg2html_sun.sh: SUN collector update by Keiran Sweet
+
+2004-06-03  Ralph Roth  <ralproth@@hpul80>
+
+	* cfg2html_sun.sh: Small changes made by MVL
+
+2004-06-02  Ralph Roth  <ralproth@@hpul80>
+
+	* plugins/VxVM_collect.sh, plugins/crontab_collect.sh, cfg2html_sun.sh:
+	Checked in new version from MVL, send back for testing
+
+2004-04-29  Ralph Roth  <ralproth@@hpul80>
+
+	* cfg2html_sun.sh: Send to MVL
+
+2004-04-26  Ralph Roth  <ralproth@@hpul80>
+
+	* plugins/VxVM_collect.sh, plugins/crontab_collect.sh, plugins/get_sap.sh:
+	+ ripped and added the plugisn from the HPUX stream
+
+	* cfg2html_sun.sh: ! Merged the enhancements from MVL
+
+2004-04-19  Ralph Roth  <ralproth@@hpul80>
+
+	* plugins/get_sap.sh: New file.
+
+	* plugins/get_sap.sh: Version 1.6 from MVL
+	+ password
+	+ printers
+	- ibmdpo
+
+	* plugins/get_sap.sh: Onsite Fixes (aw)
+
+	* cfg2html_sun.sh: New file.
+
+	* cfg2html_sun.sh: Version 1.6 from MVL
+	+ password
+	+ printers
+	- ibmdpo
+
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 6
+@
