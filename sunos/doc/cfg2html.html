@@ -1,416 +1,853 @@
-<html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=iso-8859-1">
+	<TITLE> cfg2html authors and maintenance overview </TITLE>
+	<META NAME="GENERATOR" CONTENT="LibreOffice 4.0.2.1 (Linux)">
+	<META NAME="AUTHOR" CONTENT="Ralph Roth">
+	<META NAME="CREATED" CONTENT="0;0">
+	<META NAME="CHANGEDBY" CONTENT="Ralph Roth">
+	<META NAME="CHANGED" CONTENT="20140519;16030800">
+	<META NAME="DESCRIPTION" CONTENT="Created with ViM">
+	<META NAME="KEYWORDS" CONTENT="cfg2html, rose swe">
+	<META NAME="copyright" CONTENT="http://rose.rult.at">
+	<META NAME="owner" CONTENT="Ralph Roth">
+	<META NAME="CHANGEDBY" CONTENT="Ralph Roth">
+	<STYLE TYPE="text/css">
+	<!--
+		@page { size: 21cm 29.7cm; margin-left: 2cm; margin-right: 1cm; margin-top: 1cm; margin-bottom: 1cm }
+		P { margin-bottom: 0.21cm }
+		P.c7 { margin-bottom: 0cm }
+		P.c5 { border-top: none; border-bottom: 1.10pt double #808080; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0cm; padding-right: 0cm }
+		P.c3 { text-align: left }
+		P.c1 { text-align: center }
+		PRE.western { font-family: "DejaVu Sans Mono", monospace; font-size: 10pt }
+		PRE.cjk { font-family: "Droid Sans Fallback", monospace; font-size: 10pt }
+		PRE.ctl { font-family: "DejaVu Sans Mono", monospace; font-size: 10pt }
+		H2 { margin-bottom: 0.21cm; page-break-after: avoid }
+		H2.western { font-family: "Liberation Serif", serif; font-size: 18pt; font-weight: bold }
+		H2.cjk { font-family: "Droid Sans Fallback"; font-size: 18pt; font-weight: bold }
+		H2.ctl { font-family: "Arial"; font-size: 18pt; font-weight: bold }
+		H1 { margin-bottom: 0.21cm; page-break-after: avoid }
+		H1.western { font-family: "Liberation Serif", serif; font-size: 24pt; font-weight: bold }
+		H1.cjk { font-family: "Droid Sans Fallback"; font-size: 24pt; font-weight: bold }
+		H1.ctl { font-family: "Arial"; font-size: 24pt; font-weight: bold }
+		A:link { color: #3300ff; so-language: zxx; text-decoration: underline }
+		STRONG { font-weight: bold }
+		EM { font-style: italic }
+		CITE { font-style: italic }
+		A:visited { color: #800000; so-language: zxx; text-decoration: underline }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="de-DE" LINK="#3300ff" VLINK="#800000" DIR="LTR">
+<P STYLE="margin-bottom: 0.5cm; border-top: none; border-bottom: 1px double #808080; border-left: none; border-right: none; padding: 0cm">
+<BR><BR>
+</P>
+<H1 LANG="en-US" CLASS="western">cfg2html overview, authors,
+maintenance overview and license agreement
+</H1>
+<P><STRONG><SPAN LANG="en-US">cfg2html</SPAN></STRONG> <SPAN LANG="en-US">is
+short for &quot; </SPAN><STRONG><SPAN LANG="en-US">Config to HTML</SPAN></STRONG>
+<SPAN LANG="en-US">&quot; and is a UNIX shell script initially
+developed by Ralph Roth <A HREF="http://watercooler.hpl.hp.com/ralph.roth">[1]</A>,
+for creating system configuration summaries in HTML. Besides it
+creates an HTML documentation it also creates a plain ASCII system
+configuration documentation. </SPAN>
+</P>
+<P LANG="en-US">Some consider it to be the &quot;Swiss army knife&quot;
+for the Account Support Engineer, Consultant, Customer Engineer,
+System administrator etc. Originally developed in 1998/1999 to plan a
+system update, it was also found useful to perform basic
+troubleshooting or performance analysis. The production of a nice
+HTML and plain ASCII documentation is part of this utility.
+</P>
+<P LANG="en-US">Originally developed strictly for HP-UX, it now
+supports
+</P>
+<UL>
+	<LI><PRE LANG="en-US" CLASS="western" STYLE="margin-bottom: 0.5cm">HP-UX 10.xx/11.xx</PRE>
+	<LI><PRE LANG="en-US" CLASS="western" STYLE="margin-bottom: 0.5cm">SCO-UNIX</PRE>
+	<LI><PRE LANG="en-US" CLASS="western" STYLE="margin-bottom: 0.5cm">AIX</PRE>
+	<LI><PRE LANG="en-US" CLASS="western" STYLE="margin-bottom: 0.5cm">Sun OS/Solaris</PRE>
+	<LI><PRE LANG="en-US" CLASS="western" STYLE="margin-bottom: 0.5cm">Linux systems</PRE>
+	<LI><PRE LANG="en-US" CLASS="western" STYLE="margin-bottom: 0.5cm">Brocade switches and small Linux routers like OpenWRT, FreiFunk and embedded systems</PRE>
+</UL>
+<P><SPAN LANG="en-US">Cfg2html is a UNIX shell script similar to
+check_config or get_config, except that it creates a HTML (and plain
+ASCII) system documentation for HP-UX 10.xx/11.xx, Integrity Virtual
+Machines, SCO-UNIX, AIX, Sun OS and Linux systems. Plug-ins for SAP,
+Oracle, Informix, Serviceguard, Fiber Channel/SAN, TIP/ix, Ignite-UX
+<A HREF="http://hpedia.hp.com/wiki/Ignite-UX">[2]</A>, Mass Storage
+like MAS, EVAx000, XP48/128/256/512/1024, 1x000/2x000, Network Node
+Manager and DataProtector etc. are included. </SPAN>
+</P>
+<P LANG="en-US">All HP-UX 11.31 (v3) issues should be fixed with
+version 4.41 or higher - any feedback is welcome. Legacy view and
+agile view should work.
+</P>
+<P><SPAN LANG="en-US">All support, downloads and discussion for
+cfg2html is preformed through Yahoo Groups, see
+<A HREF="http://tech.groups.yahoo.com/group/cfg2html">http://tech.groups.yahoo.com/group/cfg2html</A>.
+As of </SPAN><SPAN LANG="en-US">May 2014</SPAN><SPAN LANG="en-US">
+the group consists of 1</SPAN><SPAN LANG="en-US">27</SPAN><SPAN LANG="en-US">00
+members. The email traffic is low, approximately one message per week
+on the mailing list. </SPAN>
+</P>
+<P><SPAN LANG="en-US">Original HP-UX Version: Ralph Roth, ROSE SWE,
+<A HREF="http://rose.rult.at/">http://rose.rult.at</A> </SPAN>
+</P>
+<HR>
+<H1 LANG="en-US" CLASS="western"><A NAME="Contents"></A>Contents
+</H1>
+<P><SPAN LANG="en-US"><A HREF="#Contents">Contents</A> </SPAN>
+</P>
+<P><SPAN LANG="en-US"><A HREF="#cfg2html%20Versions%20and%20ports">cfg2html
+versions and ports</A> </SPAN>
+</P>
+<P><SPAN LANG="en-US"><A HREF="#cfg2html%20authors">cfg2html authors</A>
+</SPAN>
+</P>
+<P><SPAN LANG="en-US"><A HREF="#Patching_">Patching</A> </SPAN>
+</P>
+<P><SPAN LANG="en-US"><A HREF="#End-User%20License%20Agreement%20for%20the%20cfg2html%20package">End-User
+License Agreement for the cfg2html package</A> </SPAN>
+</P>
+<P><SPAN LANG="en-US"><A HREF="#Links%20and%20URLS">Links and URLS</A>
+</SPAN>
+</P>
+<P><SPAN LANG="en-US"><A HREF="#GNU%20PGP%20Keys">GNU PGP Keys</A> </SPAN>
+</P>
+<HR>
+<H1 CLASS="western"><A NAME="cfg2html Versions and ports"></A><SPAN LANG="en-US">cfg2html
+versions and ports (<A HREF="#Contents">Contents</A>) </SPAN>
+</H1>
+<P LANG="en-US">Below you see the development tree cfg2html has taken
+the last years.
+</P>
+<P CLASS="c1"><FONT COLOR="#000000"><FONT COLOR="#000000"><IMG SRC="cfg2html_Development_Tree.jpg" NAME="Grafik1" ALT="cfg2html evolution tree" ALIGN=BOTTOM BORDER=1></FONT>
+</FONT>
+</P>
+<H1 CLASS="western"><A NAME="cfg2html authors"></A><FONT COLOR="#000000"><SPAN LANG="en-US">cfg2html
+authors (<A HREF="#Contents">Contents</A>) </SPAN></FONT>
+</H1><A NAME="AutoNumber1"></A>
+<TABLE WIDTH=680 CELLPADDING=3 CELLSPACING=0>
+	<COL WIDTH=155>
+	<COL WIDTH=107>
+	<COL WIDTH=95>
+	<COL WIDTH=107>
+	<COL WIDTH=185>
+	<TR>
+		<TD WIDTH=155 STYLE="border-top: 1px double #000080; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0.08cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><STRONG><SPAN LANG="en-US">Operating System</SPAN></STRONG>
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: 1px double #000080; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0.08cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><STRONG><SPAN LANG="en-US">Sourcecode Maintainer (CVS)</SPAN></STRONG>
+						</P>
+		</TD>
+		<TD WIDTH=95 STYLE="border-top: 1px double #000080; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0.08cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><STRONG><SPAN LANG="en-US">Main authors</SPAN></STRONG>
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: 1px double #000080; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0.08cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><STRONG><SPAN LANG="en-US">Contributors</SPAN></STRONG>
+			</P>
+		</TD>
+		<TD WIDTH=185 STYLE="border: 1px double #000080; padding: 0.08cm">
+			<P><STRONG><SPAN LANG="en-US">Remarks/ToDo's</SPAN></STRONG>
+			</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=155 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><STRONG><SPAN LANG="en-US">HP-UX 11.xx PA-RISC/IA64</SPAN></STRONG>
+						</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><SPAN LANG="en-US"><A HREF="mailto:cfg2html@hotmail.com?subject=%5Bcfg2html%5D%20about:cfg2html.html%20-%20Question">Ralph
+			Roth</A> </SPAN>
+			</P>
+		</TD>
+		<TD WIDTH=95 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><SPAN LANG="en-US"><A HREF="mailto:cfg2html@hotmail.com?subject=%5Bcfg2html%5D-Authors">Ralph
+			Roth</A> </SPAN>
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><SPAN LANG="en-US">Martin Kalmbach<BR>Marc Heinrich<BR><A HREF="https://ecardfile.com/id/Tbrix">Thomas
+			Brix</A><BR>Michael Meier<BR>and others.... </SPAN>
+			</P>
+		</TD>
+		<TD WIDTH=185 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: 1px double #000080; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0.08cm">
+			<P LANG="en-US">see ToDo.txt
+			</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=155 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><STRONG><SPAN LANG="en-US">Linux IA32</SPAN></STRONG>
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P LANG="en-US" STYLE="margin-bottom: 0.5cm">Ralph Roth
+			</P>
+			<P LANG="en-US">Michael Meifert
+			</P>
+		</TD>
+		<TD WIDTH=95 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P STYLE="margin-bottom: 0.5cm"><SPAN LANG="en-US"><A HREF="mailto:dk3hg@users.sourceforge.net">Michael
+			Meifert</A> </SPAN>
+			</P>
+			<P LANG="en-US">Ralph Roth
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><SPAN LANG="en-US"><A HREF="mailto:Jeroen.Kleen@hp.com">Jeroen
+			Kleen</A><BR><A HREF="mailto:kgalal@gmail.com">Kareem
+			Galal</A><BR>Michael Meier </SPAN>
+			</P>
+		</TD>
+		<TD WIDTH=185 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: 1px double #000080; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0.08cm">
+			<P LANG="en-US" STYLE="margin-bottom: 0.5cm">Development platform
+			is Debian Linux
+			</P>
+			<P LANG="en-US">Problem: Merge side project (cfg2html-linux124HP)
+			by Jeroen Kleen into common a stream.
+			</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=155 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><STRONG><SPAN LANG="en-US">Linux IA64/IPF</SPAN></STRONG>
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P LANG="en-US" CLASS="c1">-- // --
+			</P>
+		</TD>
+		<TD WIDTH=95 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P LANG="en-US" CLASS="c1">&lt; you?&gt;
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P LANG="en-US">Ralph Roth
+			</P>
+		</TD>
+		<TD WIDTH=185 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: 1px double #000080; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0.08cm">
+			<P LANG="en-US">EFI related stuff has to be included!
+			</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=155 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><STRONG><SPAN LANG="en-US">Linux PA-RISC</SPAN></STRONG>
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P LANG="en-US" CLASS="c1">-- // --
+			</P>
+		</TD>
+		<TD WIDTH=95 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P LANG="en-US">Ralph Roth
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm"></TD>
+		<TD WIDTH=185 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: 1px double #000080; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0.08cm">
+			<P LANG="en-US">Linux 2.4.26-32 #1 Sat Jul 31 20:01:18 CEST 2004
+			parisc GNU/Linux
+			</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=155 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><STRONG><SPAN LANG="en-US">Brocade 4.xx Switches</SPAN></STRONG>
+						</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P LANG="en-US">Ralph Roth
+			</P>
+		</TD>
+		<TD WIDTH=95 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P LANG="en-US">Ralph Roth
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm"></TD>
+		<TD WIDTH=185 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: 1px double #000080; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0.08cm">
+			<P LANG="en-US">Linux 2.4.19 kernel only?
+			</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=155 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><STRONG><SPAN LANG="en-US">Sun Solaris/</SPAN></STRONG><STRONG><SPAN LANG="en-US">SUN
+			OS</SPAN></STRONG>
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P LANG="en-US">Ralph Roth
+			</P>
+		</TD>
+		<TD WIDTH=95 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P STYLE="margin-bottom: 0.5cm"><SPAN LANG="en-US">Dusan Baljevic
+			</SPAN><SPAN LANG="en-US">(</SPAN><SPAN LANG="en-US">Vk2COT</SPAN><SPAN LANG="en-US">)</SPAN></P>
+			<P><SPAN LANG="en-US"><A HREF="mailto:Gert.Leerdam@getronics.com">Gert
+			Leerdam</A><BR><A HREF="mailto:marc.vanlaethem@hp.com">Marc van
+			Laethem</A><BR>Trond Eirik Aune </SPAN>
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><SPAN LANG="en-US">Eduardo Diaz<BR><A HREF="mailto:keiran@gmail.com">Keiran
+			Sweet</A><BR><A HREF="mailto:Jeroen.Kleen@hp.com">Jeroen Kleen</A>
+			</SPAN>
+			</P>
+		</TD>
+		<TD WIDTH=185 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: 1px double #000080; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0.08cm">
+			<P LANG="en-US">Problem: Merge 1.10 and 2.1 streams
+			</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=155 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><STRONG><A HREF="http://cfg2html.sourceforge.net/"><SPAN LANG="en-US">AIX</SPAN></A></STRONG>
+						</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P CLASS="c3"><SPAN LANG="en-US"><A HREF="mailto:Andreas.Wizemann@FVVaG.de">Andreas
+			Wizemann</A> </SPAN>
+			</P>
+		</TD>
+		<TD WIDTH=95 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P LANG="en-US" STYLE="margin-bottom: 0.5cm">Didac Oliveira</P>
+			<P LANG="en-US" STYLE="margin-bottom: 0.5cm">Andreas Wizemann
+			</P>
+			<P><SPAN LANG="en-US"><A HREF="mailto:Gert.Leerdam@getronics.com">Gert
+			Leerdam</A> </SPAN>
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><SPAN LANG="en-US"><A HREF="mailto:olaf.morgenstern@web.de">Olaf
+			Morgenstern</A><BR>Jim Lane<BR>Marco Stork<BR>Witold Owoc<BR>Chris
+			Paulheim<BR><A HREF="mailto:Andreas.Wizemann@fvvag.de">Andreas
+			Wizemann</A> </SPAN>
+			</P>
+		</TD>
+		<TD WIDTH=185 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: 1px double #000080; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0.08cm">
+			<P LANG="en-US" STYLE="margin-bottom: 0.5cm">Problem: Various
+			(buggy) version exists and should be merged into one common 2.x
+			stream!
+			</P>
+			<P LANG="en-US">2.7 stream is now hosted on sf.net
+			</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=155 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><STRONG><SPAN LANG="en-US">OpenWRT</SPAN></STRONG>
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P LANG="en-US" CLASS="c3">Ralph Roth
+			</P>
+		</TD>
+		<TD WIDTH=95 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P LANG="en-US">Ralph Roth
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm"></TD>
+		<TD WIDTH=185 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: 1px double #000080; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0.08cm">
+			<P LANG="en-US">early beta stage
+			</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=155 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><STRONG><SPAN LANG="en-US">SCO</SPAN></STRONG>
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P LANG="en-US" CLASS="c1">-- // --
+			</P>
+		</TD>
+		<TD WIDTH=95 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><SPAN LANG="en-US"><A HREF="mailto:damen@triple-p.nl">Jan Damen</A>
+			</SPAN>
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm"></TD>
+		<TD WIDTH=185 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: 1px double #000080; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0.08cm"></TD>
+	</TR>
+	<TR>
+		<TD COLSPAN=5 WIDTH=672 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: 1px double #000080; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0.08cm">
+			<P><STRONG><SPAN LANG="en-US">Tools and plugins</SPAN></STRONG>
+			</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=155 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><STRONG><SPAN LANG="en-US">do-cfg</SPAN></STRONG>
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P LANG="en-US" CLASS="c1">-- // --
+			</P>
+		</TD>
+		<TD WIDTH=95 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><SPAN LANG="en-US"><A HREF="mailto:albert.wanders@essent.nl">Albert
+			Wanders</A> </SPAN>
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P LANG="en-US">Giuseppe Gentile
+			</P>
+		</TD>
+		<TD WIDTH=185 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: 1px double #000080; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0.08cm">
+			<P LANG="en-US">HP-UX and SUN tested
+			</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=155 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><STRONG><SPAN LANG="en-US">runcfg2html</SPAN></STRONG>
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P LANG="en-US" CLASS="c1">-- // --
+			</P>
+		</TD>
+		<TD WIDTH=95 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><SPAN LANG="en-US"><A HREF="mailto:Andrew.Wilkin@lands.nsw.gov.au">Andrew
+			Wilkin</A> </SPAN>
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm"></TD>
+		<TD WIDTH=185 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: 1px double #000080; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0.08cm">
+			<P LANG="en-US">runcfg2html will be updated by Andrew (09.2004?).
+			</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=155 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><STRONG><SPAN LANG="en-US">user plugins</SPAN></STRONG>
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><BR>
+			</P>
+		</TD>
+		<TD WIDTH=95 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><SPAN LANG="en-US"><A HREF="mailto:dxmaniac@web.de">Andre
+			Naumann</A> </SPAN>
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm"></TD>
+		<TD WIDTH=185 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: 1px double #000080; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0.08cm">
+			<P LANG="en-US">Linux + HP-UX
+			</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=155 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><STRONG><A HREF="http://ora2html.sourceforge.net/"><SPAN LANG="en-US">ora2html</SPAN></A></STRONG>
+						</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P LANG="en-US" CLASS="c1">-- // --
+			</P>
+		</TD>
+		<TD WIDTH=95 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><SPAN LANG="en-US"><A HREF="mailto:Yngve.Clausen@itpp.no">Yngve
+			Clausen</A> </SPAN>
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm"></TD>
+		<TD WIDTH=185 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: 1px double #000080; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0.08cm">
+			<P LANG="en-US">Last updated: Aug 31 2005
+			</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD COLSPAN=5 WIDTH=672 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: 1px double #000080; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0.08cm">
+			<P><STRONG><SPAN LANG="en-US">Webspace</SPAN></STRONG>
+			</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=155 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><STRONG><A HREF="http://www.cfg2html.com/"><SPAN LANG="en-US">www.cfg2html.com</SPAN></A></STRONG>
+						</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P LANG="en-US" CLASS="c1">-- // --
+			</P>
+		</TD>
+		<TD WIDTH=95 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><SPAN LANG="en-US"><A HREF="mailto:marc.eberhart@e-projecta.com?subject=%5Bcfg2html%5D%20webspace">Marc
+			Eberhart</A> - e-projecta GmbH </SPAN>
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm"></TD>
+		<TD WIDTH=185 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: 1px double #000080; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0.08cm">
+			<P LANG="en-US">Newest beta stuff only!
+			</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD COLSPAN=5 WIDTH=672 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: 1px double #000080; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0.08cm">
+			<P><STRONG><SPAN LANG="en-US">New cfg2html version (aka cfg2html
+			II or cfg2html next generation)</SPAN></STRONG> &ndash; Dead!
+			</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=155 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P LANG="en-US"><STRIKE>cfg2html </STRIKE>
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P LANG="en-US">Chris, Ralph Roth
+			</P>
+		</TD>
+		<TD WIDTH=95 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><SPAN LANG="en-US"><A HREF="mailto:ttestmy@yahoo.com">Chris</A>
+			</SPAN>
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm"></TD>
+		<TD WIDTH=185 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: 1px double #000080; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0.08cm">
+			<P><SPAN LANG="en-US">New version (2009), supports Linux, HP-UX
+			and AIX </SPAN>
+			</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD COLSPAN=5 WIDTH=672 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: 1px double #000080; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P LANG="en-US">New cfg2html 6.xx version on github</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=155 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P LANG="en-US">Cfg2html for Linux, HP-UX, AIX und SUN
+			</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P LANG="en-US">Gratien D'haese, Ralph Roth</P>
+		</TD>
+		<TD WIDTH=95 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P>Didac Oliveira</P>
+			<P>Dusan Baljevic</P>
+		</TD>
+		<TD WIDTH=107 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: none; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0cm">
+			<P><BR>
+			</P>
+		</TD>
+		<TD WIDTH=185 STYLE="border-top: none; border-bottom: 1px double #000080; border-left: 1px double #000080; border-right: 1px double #000080; padding-top: 0cm; padding-bottom: 0.08cm; padding-left: 0.08cm; padding-right: 0.08cm">
+			<P LANG="en-US"><BR>
+			</P>
+		</TD>
+	</TR>
+</TABLE>
+<P><BR><BR>
+</P>
+<P><FONT COLOR="#000000"><SPAN LANG="en-US">If you want to send us an
+email, </SPAN></FONT><STRONG><FONT COLOR="#000000"><SPAN LANG="en-US">use
+[cfg2html] in the beginning of the subject</SPAN></FONT></STRONG><FONT COLOR="#000000">
+</FONT><FONT COLOR="#000000"><SPAN LANG="en-US">- otherwise the
+chance is high that our spam filters simply deletes your message! The
+best way to contact Ralph is via instant messenger! Please don't send
+support questions. We don't have the time to answer and they'll
+probably be ignored. Bug fixes, or patches that add something useful
+will be gratefully accepted, however. </SPAN></FONT>
+</P>
+<H1 CLASS="western"><A NAME="Patching_"></A><FONT COLOR="#000000"><SPAN LANG="en-US">Patching
+(<A HREF="#Contents">Contents</A>) </SPAN></FONT>
+</H1>
+<P LANG="en-US"><FONT COLOR="#000000">Please note that all
+contribution to cfg2html must be copyright free, because cfg2html is
+now under an Open Source License (GPL v3)! </FONT>
+</P>
+<H2 LANG="en-US" CLASS="western"><FONT COLOR="#000000">OK, I fixed a
+bug, how do I make a diff? </FONT>
+</H2>
+<P LANG="en-US"><FONT COLOR="#000000">That is quite easy. First, get
+yourself GNU diff. The other diffs will work, too, but this tutorial
+only applies to GNU diff. We want unified diffs! </FONT>
+</P>
+<P LANG="en-US"><FONT COLOR="#000000">1. If you change cfg2html,
+please mark your changes with for example # &lt; name&gt; , &lt;
+date&gt; . Do not forget to remove all backup files from your editor.
+</FONT>
+</P>
+<P LANG="en-US"><FONT COLOR="#000000">2. Rename the directory with
+your new, patched cfg2html-x.xx to, say, cfg2html-x.xx.patched </FONT>
+</P>
+<P LANG="en-US"><FONT COLOR="#000000">3. Unpack the original
+distribution tar ball. DO NOT LEAVE in this directory files e.g. from
+a cfg2html run. Only the original distribution! </FONT>
+</P>
+<P LANG="en-US"><FONT COLOR="#000000">4. Now type: </FONT>
+</P>
+<PRE CLASS="western" STYLE="margin-bottom: 0.5cm"><FONT COLOR="#000000">diff -uNr cfg2html-x.xx cfg2html-x.xx.patched | gzip -c &gt; cfg2html-x.xx.diff.gz </FONT></PRE><P LANG="en-US">
+<FONT COLOR="#000000">This is for GNU diff. You vendors diff may not
+know the -u option, in which case you should try -c instead. </FONT>
+</P>
+<P><FONT COLOR="#000000"><SPAN LANG="en-US">5. Now send the
+compressed diff to my email address: <A HREF="mailto:cfg2hthml@hotmail.com">cfg2hthml@hotmail.com</A>
+(subject [cfg2html] PATCH: + your text) </SPAN></FONT>
+</P>
+<P LANG="en-US"><FONT COLOR="#000000">The -u creates a unified diff,
+which has 3 lines of context per default. This has the advantage that
+patches can be applied to other versions of cfg2html, too. </FONT>
+</P>
+<P LANG="en-US"><FONT COLOR="#000000">The -N treats new files as
+empty. That means if you add a file, diff will put it in the diff,
+too. This has the advantage that your file is not lost. It has the
+disadvantage that Makefile and so on are put into the diff, too. So
+for patches where you do not add new files, you can omit the -N. </FONT>
+</P>
+<P LANG="en-US"><FONT COLOR="#000000">The -r means recursive. For
+cfg2html this is only important if you change stuff in sub
+directories. But it is good habit to use it. </FONT>
+</P>
+<H2 LANG="en-US" CLASS="western"><FONT COLOR="#000000">How to apply
+the Patches/Diffs? </FONT>
+</H2>
+<PRE CLASS="western"><FONT COLOR="#000000">$ gunzip delta-1-14-3rar.gz </FONT>
+<FONT COLOR="#000000">$ patch -p0 &lt; delta-1-14-3rar </FONT>
+<FONT COLOR="#000000">patching file cfg2html-linux-1.14/cfg2html-linux </FONT>
+<FONT COLOR="#000000">patching file cfg2html-linux-1.14/cfg2html_urls.html </FONT></PRE><H1 CLASS="western">
+<FONT COLOR="#000000"><SPAN LANG="en-US">Using github to request a
+pull merge</SPAN></FONT></H1>
+<P STYLE="margin-bottom: 0cm"><FONT COLOR="#000000"><SPAN LANG="en-US">First
+of all you need to fork cfg2html/cfg2html at github.  That requires that you already have an github account.</SPAN></FONT></P>
+<P STYLE="margin-bottom: 0cm"><IMG SRC="cfg2html_html_65218e6e.jpg" NAME="graphics1" ALT="Inline image 1" ALIGN=BOTTOM WIDTH=472 HEIGHT=19 BORDER=0></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">1- git clone
+https://<A HREF="http://github.com/cfg2html/cfg2html.git" TARGET="_blank">github.com/&lt;userid&gt;/cfg2html</A></P>
+<P STYLE="margin-bottom: 0cm">2- Put &lt;yourcode&gt; folder in
+place.</P>
+<P STYLE="margin-bottom: 0cm">3- git add &lt;yourcode&gt;</P>
+<P STYLE="margin-bottom: 0cm">4- git status</P>
+<P STYLE="margin-bottom: 0cm">5- git commit -m 'what you have
+enhanced + your name'</P>
+<P STYLE="margin-bottom: 0cm">6- git push</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">After you pushed up the changes, goto
+your &lt;userid&gt;<A HREF="http://github.com/cfg2html/cfg2html.git" TARGET="_blank">/cfg2html</A>
+fork at github and push the Pull Request Button.</P>
+<P STYLE="margin-bottom: 0cm"><IMG SRC="cfg2html_html_698bc9a2.jpg" NAME="graphics2" ALT="Inline image 2" ALIGN=BOTTOM WIDTH=269 HEIGHT=42 BORDER=0></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">Add your comments and wait until Ralph
+or Gratien can merge the changes. ;)</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<H1 CLASS="western"><A NAME="End-User License Agreement for the cfg2html package"></A>
+<FONT COLOR="#000000"><SPAN LANG="en-US">End-User License Agreement
+for the cfg2html package (<A HREF="#Contents">Contents</A>) </SPAN></FONT>
+</H1>
+<P LANG="en-US" CLASS="c5"><FONT COLOR="#000000">Note: This license
+will change in future to the GNU Public License v3 </FONT>
+</P>
+<P><STRONG><FONT COLOR="#000000"><SPAN LANG="en-US">LIMITED
+WARRANTY/NO WARRANTIES.</SPAN></FONT></STRONG><FONT COLOR="#000000">
+</FONT><FONT COLOR="#000000"><SPAN LANG="en-US">The authors of this
+Software expressly disclaims any warranty for the SOFTWARE PRODUCT.
+The SOFTWARE PRODUCT and any related documentation is provided &quot;as
+is&quot; without warranty of any kind, either express or implied,
+including, without limitation, the implied warranties or
+merchantability, fitness for a particular purpose, or disarrangement.
+The entire risk arising out of use or performance of the SOFTWARE
+PRODUCT remains with you. </SPAN></FONT>
+</P>
+<P><STRONG><FONT COLOR="#000000"><SPAN LANG="en-US">NO LIABILITY FOR
+DAMAGES.</SPAN></FONT></STRONG><FONT COLOR="#000000"> </FONT><FONT COLOR="#000000"><SPAN LANG="en-US">In
+no event shall the authors of this Software be liable for any
+special, consequential, incidental or indirect damages whatsoever
+(including, without limitation, damages for loss of business profits,
+business interruption, loss of business information, or any other
+pecuniary loss) arising out of the use of or inability to use this
+product, even if the authors of this Software is aware of the
+possibility of such damages and known defects. </SPAN></FONT>
+</P>
+<P><STRONG><FONT COLOR="#000000"><SPAN LANG="en-US">WARNING:</SPAN></FONT></STRONG><FONT COLOR="#000000">
+</FONT><FONT COLOR="#000000"><SPAN LANG="en-US">cfg2html may hang or
+harm your productive system! This is caused by faulty or hardware
+related software such as *FDISK, diagnostic tools etc. For this
+reason the usage of cfg2html on a productive or mission critical
+system is not encouraged! cfg2html also tends to fill up your file
+system with large log files and uses your CPU for collecting. If this
+is a problem for you or your system then simply do not use this
+program. </SPAN></FONT>
+</P>
+<P><EM><STRONG><FONT COLOR="#000000"><SPAN LANG="en-US">This software
+contains bugs! This software is not supported at all! The authors do
+not have the time, budget and equipment to support this free product.
+The only way to get support is via the cfg2html mailing list!</SPAN></FONT></STRONG></EM><FONT COLOR="#000000">
+</FONT>
+</P>
+<H1 CLASS="western"><A NAME="Links and URLS"></A><FONT COLOR="#000000"><SPAN LANG="en-US">More
+Links and URLS ( <A HREF="#Contents">Contents</A>) </SPAN></FONT>
+</H1>
+<H2 LANG="en-US" CLASS="western"><FONT COLOR="#000000">References </FONT>
+</H2>
+<P LANG="en-US"><FONT COLOR="#000000">If you can, add places where
+you have seen cfg2html mentioned, particularly &quot;Dead Tree&quot;
+mentions, please add them to this article. </FONT>
+</P>
+<UL>
+	<LI><P><CITE><FONT COLOR="#000000"><SPAN LANG="en-US">David A.
+	Bandel (2003). &quot;Upfront&quot;. </SPAN></FONT></CITE><CITE><EM><FONT COLOR="#000000"><SPAN LANG="en-US">Linux
+	Journal</SPAN></FONT></EM></CITE><CITE><FONT COLOR="#000000"> </FONT></CITE><CITE><FONT COLOR="#000000"><SPAN LANG="en-US">.
+	On line copy <A HREF="http://www.linuxjournal.com/article/6495">http://www.linuxjournal.com/article/6495</A></SPAN></FONT></CITE><FONT COLOR="#000000">
+	</FONT>
+	</P>
+</UL>
+<UL>
+	<LI><P LANG="en-US" CLASS="c7" STYLE="margin-bottom: 0.5cm"><FONT COLOR="#000000">The
+	newest versions are down loadable at </FONT>
+	</P>
+	<UL>
+		<LI><P CLASS="c7" STYLE="margin-bottom: 0.5cm"><FONT COLOR="#000000"><SPAN LANG="en-US"><A HREF="http://www.cfg2html.com/">http://www.cfg2html.com</A>
+		(all stuff) </SPAN></FONT>
+		</P>
+		<LI><P><FONT COLOR="#000000"><SPAN LANG="en-US"><A HREF="http://www.cfg2html.com/">http://www.cfg2html.com</A>
+		(only new betas) </SPAN></FONT>
+		</P>
+	</UL>
+</UL>
+<UL>
+	<LI><P CLASS="c7" STYLE="margin-bottom: 0.5cm"><FONT COLOR="#000000"><SPAN LANG="en-US">To
+	get a new version visit: <A HREF="http://www.cfg2html.com/">http://www.cfg2html.com</A>,
+	and subscribe to the cfg2html mailing list </SPAN></FONT>
+	</P>
+	<LI><P CLASS="c7" STYLE="margin-bottom: 0.5cm"><FONT COLOR="#000000"><SPAN LANG="en-US">Oracle
+	only version <A HREF="http://ora2html.sourceforge.net/">http://ora2html.sourceforge.net/</A>
+	</SPAN></FONT>
+	</P>
+	<LI><P><FONT COLOR="#000000"><SPAN LANG="en-US">AIX only version
+	<A HREF="http://cfg2html.sourceforge.net/">http://cfg2html.sourceforge.net/</A>
+	</SPAN></FONT>
+	</P>
+</UL>
+<UL>
+	<LI><P CLASS="c7" STYLE="margin-bottom: 0.5cm"><FONT COLOR="#000000"><SPAN LANG="en-US">A
+	recommendation of the Public Administration of Switzerland:
+	<A HREF="http://www.opengovernment.ch/software/cfg2html">http://www.opengovernment.ch/software/cfg2html</A>
+	</SPAN></FONT>
+	</P>
+	<LI><P CLASS="c7" STYLE="margin-bottom: 0.5cm"><FONT COLOR="#000000"><SPAN LANG="en-US">Sun
+	BigAdmin System Administration Portal (yes, there's a typo in the
+	link):
+	<A HREF="http://www.sun.com/bigadmin/jsp/descFile.jsp?url=descAll/coniguration_to_html">http://www.sun.com/bigadmin/jsp/descFile.jsp?url=descAll/coniguration_to_html</A>
+	</SPAN></FONT>
+	</P>
+	<LI><P CLASS="c7" STYLE="margin-bottom: 0.5cm"><FONT COLOR="#000000"><SPAN LANG="en-US">Mentioned
+	at
+	<A HREF="http://www.cyberpro.com.au/Tips_n_Tricks/Linux_Related_Tips/Setup_cfg2html_-_System_Reporting_Tool/">http://www.cyberpro.com.au/Tips_n_Tricks/Linux_Related_Tips/Setup_cfg2html_-_System_Reporting_Tool/</A>
+	</SPAN></FONT>
+	</P>
+	<LI><P CLASS="c7" STYLE="margin-bottom: 0.5cm"><FONT COLOR="#000000"><SPAN LANG="en-US">Mentioned
+	at the Weblog of Thomas Schimana:
+	<A HREF="http://schimana.net/2006/07/25/system-dokumentation-mit-cfg2html/">http://schimana.net/2006/07/25/system-dokumentation-mit-cfg2html/</A>
+	</SPAN></FONT>
+	</P>
+	<LI><P CLASS="c7" STYLE="margin-bottom: 0.5cm"><FONT COLOR="#000000"><SPAN LANG="en-US">At
+	CentOS forum:
+	<A HREF="http://www.centos.org/modules/newbb/viewtopic.php?topic_id=6670">http://www.centos.org/modules/newbb/viewtopic.php?topic_id=6670</A>
+	</SPAN></FONT>
+	</P>
+	<LI><P CLASS="c7" STYLE="margin-bottom: 0.5cm"><FONT COLOR="#000000"><SPAN LANG="en-US">At
+	John's Unix Resource:
+	<A HREF="http://www.dogs-chod.co.uk/howto/aixhow.htm#perf">http://www.dogs-chod.co.uk/howto/aixhow.htm#perf</A>
+	</SPAN></FONT>
+	</P>
+	<LI><P CLASS="c7" STYLE="margin-bottom: 0.5cm"><FONT COLOR="#000000"><SPAN LANG="en-US">At
+	the Linux Journal: <A HREF="http://www.linuxjournal.com/article/6495">http://www.linuxjournal.com/article/6495</A>
+	</SPAN></FONT>
+	</P>
+	<LI><P CLASS="c7" STYLE="margin-bottom: 0.5cm"><FONT COLOR="#000000"><SPAN LANG="en-US">An
+	Interview with Siem Korteweg about the System Configuration
+	Collector at Linux Security.com:
+	<A HREF="http://www.linuxsecurity.com/content/view/117330/49/">http://www.linuxsecurity.com/content/view/117330/49/</A>
+	</SPAN></FONT>
+	</P>
+	<LI><P><FONT COLOR="#000000"><SPAN LANG="en-US">Freshmet page:
+	<A HREF="http://freshmeat.net/projects/cfg2html/?topic_id=253">http://freshmeat.net/projects/cfg2html/?topic_id=253</A>
+	</SPAN></FONT>
+	</P>
+</UL>
+<H2 CLASS="western"><BR><BR>
+</H2>
+<H1 CLASS="western"><A NAME="GNU PGP Keys"></A><FONT COLOR="#000000"><SPAN LANG="en-US">GNU
+PGP Keys ( <A HREF="#Contents">Contents</A>) </SPAN></FONT>
+</H1>
+<P LANG="en-US"><FONT COLOR="#000000">GPG key is used for secure
+email communication and to sign/verify the Linux packages </FONT>
+</P>
+<PRE CLASS="western"><FONT COLOR="#000000">    </FONT>
 
-<head>
-<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
-<meta http-equiv="Content-Language" content="en">
-<meta name="ProgId" content="FrontPage.Editor.Document">
-<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-<title>cfg2html authors and maintenance overview</title>
-<style type="text/css">
- div.c3 {text-align: left}
- span.c2 {color: #FF0000}
- b.c1 {font-size: 120%}
-     div.c4 {text-align: center}
-</style>
-</head>
+<FONT COLOR="#000000"><SPAN LANG="en-US">pub  1024D/3426A369 1998-04-29 ROSE SWE, Dipl.-Ing. Ralph Roth </SPAN></FONT>
+<FONT COLOR="#000000">     <SPAN LANG="en-US">Key fingerprint = 5128 28B8 C884 4F86 5245  8076 4CEA 247E 3426 A369</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">uid                            ROSE SWE, Dipl.-Ing. Ralph Roth </SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">sub  1536g/1D5D72F1 1998-04-29</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">-----BEGIN PGP PUBLIC KEY BLOCK-----</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">Version: GnuPG v1.2.4 (GNU/Linux)</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">Comment: http://rose.rult.at</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">mQGiBDVHgrERBADJUnA7XSGy/5h/LaaoVIgfrBrN/+e33JDnOlpi8qnsy//HQgjV</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">BG02COM52VQx6st8SXIh5UA06KZwzc4ntUJtVr1oJ7PN5EwmrfKWU/lOiPXIFNfD</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">+6dnOXqy52R9REGdGKIAqMSkq02GaosQImiHdl8z7Z7pvBWrWYhxvX8qDQCg/3VD</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">x4UOGRMg0JHYY70F/X8nQk8D/07FTYLSs04g5lo2qipl1xbBLuH3lw8DLceQzDkQ</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">9exovKbvIpHVOQDUZWFalm7d8j49kZSYa/0PGAr/r7yHveErYE+MASn/hLWtqjLZ</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">0SVDaP4w5GBSUCpAq05JwYRTmAaaIt8cfAYk82pB4pLQyykCQRMDAyzKwn/012PW</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">ZCVjA/9YkqEMIPRUvBFQmyJ6JMxgR18sBajziLCZxaIGj6/x+gd01GTUJR9k0Nyz</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">VmPwWcal1J//Gzo5qKO5rAFYJMTL5t9I5Q08UOJJIpx5UmUFgFKrFD4e5NTr7PEy</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">xphPr4RFjmHazv3imlDotioDF2oKuejSIOwbUJg2WAzyxhuVvLQ2Uk9TRSBTV0Us</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">IERpcGwuLUluZy4gUmFscGggUm90aCA8cm9zZV9zd2VAaG90bWFpbC5jb20+iFYE</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">EBECAA4FAjrXdeUECwMCAQIZAQASCRBM6iR+NCajaQdlR1BHAAEBMtEAniCGwsiW</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">vnk8zia2tYjWJy9bcdXLAJ44FXDDVKZLzvpP9oVIuWk9oHbMZokBHAQQAQEABgUC</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">Otd2GQAKCRCcxWwzNQ9rU2urB/45mx2SX6m6yf2vYSXhQJkPnsgCQTNBmTjsIbB7</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">SAhd1SPks9Br6YLaVWQXaurKREzXmZjReiUWS9MAshXW+MyshEx4C4Y8xLIWy9pF</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">TjVU9I3iIXDQpWDaPYCG549Xfj/vS+o1ZaHdczrKF8fv08AadQYCzY6zIZFBe7zm</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">6eXEpFoqk4a+svBAuwUwhgdVlp76k9he2JsgpVzZe7jdSgGs+sGOZ6cb5AU36+3z</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">6JNeyHHSh7vAew9zx+jScMYHzr+hijic0nuVkTfXhRqFwVKRIgk2c7Pu0O1xsw0M</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">XUqka4dan05LVRHxLUnh/5dBJddLKQ6Vw8tI/SEbJg3P0i/PtDNST1NFIFNXRSwg</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">RGlwbC4tSW5nLiBSYWxwaCBSb3RoIDxSYWxwaFJvdGhAZ214Lm5ldD6IUwQQEQIA</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">CwUCNUeCsQQLAwIBABIJEEzqJH40JqNpB2VHUEcAAQF49ACgxx3Ft8/y+wF/ynRt</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">6fTFPka/BlIAn0RXO/i1S7GQqUm8WSYDzSvN3PMJiEYEEBECAAYFAjW1VdwACgkQ</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">eVn+TOMsnWOA8wCgw/suUSfga65YEEB8jjb4W1WpD94An2G95O3gkHymBnNDCJZi</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">KX8izpxjiEYEEBECAAYFAjY4VEcACgkQmsp4k2gPOscHNQCfdrJLNDxgOT+geNQn</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">HYvuwqG/kk0AmgLyc85KAMO46YfG0laNNQM5arAyiQEcBBABAQAGBQI613S7AAoJ</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">EJzFbDM1D2tT73YIAOnTqgLshSfEQmkbbXScS8nNzjAhdNnJBdkkB9+EHe1fNBHf</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">kIqQ2P8KYVKiTqb4JRW6Fzf/vOfNXFVfKJAP5n34h2flzhFMW7n2tUSqb8XtrlfP</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">aEeiFslGO0Xb627aJHCDd1Xtw2QXM8hQHrCfTSG7yYsCNroGP9UDsYw60UBYhgE9</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">ZdlVIv1FpeEqEBlBh+eJ7tBucxXpaWxWdGnaCLu/xnlWUmmYOrXScUNv7yOiw24W</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">e/6rL/4DNbHY5W8Kd1/pGAGNmQwfRh1GalAy9tQnJPAEN1s27xU0BKvfjWdaF0Na</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">/L0p33LrTiewSp4CX1TGdDo28R8TBGT/oA1nwauJAFUDBRA2OPVO//pgOsw3QqUB</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">AeE+Af9H7cjueHQqZfTIhxQs5A/f6ZC/xoV/U84vEsTtdYjfNezCOYdQtWwquMlw</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">9gfC+Y0m35ekrXfLcsptsCz+uH7zuQGNBDVHgrEQBgD49Vlf3HZSTz09jdvOmeFX</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">klnN/biudE/F/Ha8g8VHMGHOfMlm/xX5u/2RXscBqtNbno2gpXI61Brwv0YAWCvl</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">9Ij9WE5J280gtJ3kkQc2azNsOA1FHQ98iLMcfFstjvbzySPAQ/ClWxiNjrtVjLhd</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">ONM0/XwXV0OjHRhs3jMhLLUq/zzhsSlAGBGNfISnCnLWhsQDGcgHKXrKlQzZlp+r</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">0ApQmwJG0wg9ZqRdQZ+cfL2JSyIZJrqrol7DVelYfEcAAgIGAN4ZMTzwL+bkAcU+</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">FTdZmI5UKjplHkV6z3LNfANpiKq6TMlToI/iffe4Jy4K35LYzXj3A78fCsIkOHGI</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">eH4u7Fe/9GJd/Tc5yuDl0wK/d43JLA3M27ZxKxQxaWHJ8P7lxBGmFbnZpaIR4rvh</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">qTXRElnK9swSNVASF3mSS8AJjY+KwidoFkulXxyPL0DFpUZah3zyETaKFNNI0Alz</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">7l1k+3MRuB2rYLfLjFePPTMcRpOINrbZ96EcEzV/qJqmN5DhD4hOBBgRAgAGBQI1</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">R4KxABIJEEzqJH40JqNpB2VHUEcAAQF6IwCgh0fqSraIVy1/s0Julv8rMuSbG0wA</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">nA5v4lyYqsa/9e5Hz3LLzV3QMWat</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">=afAR</SPAN></FONT>
+<FONT COLOR="#000000"><SPAN LANG="en-US">-----END PGP PUBLIC KEY BLOCK-----</SPAN></FONT>
 
-<body>
-
-<hr>
-<h1>cfg2html authors and maintenance overview and license agreement</h1>
-<hr>
-<h1><a name="Contents">Contents</a></h1>
-<p><a href="#Contents">Contents</a></p>
-<p><a href="#cfg2html Versions and ports">cfg2html versions and ports</a></p>
-<p><a href="#cfg2html authors">cfg2html authors</a></p>
-<p><a href="#End-User License Agreement for the cfg2html package">End-User 
-License Agreement for the cfg2html package</a></p>
-<p><a href="#Links and URLS">Links and URLS</a></p>
-<p><a href="#GNU PGP Keys">GNU PGP Keys</a></p>
-<hr>
-<h1><a name="cfg2html Versions and ports">cfg2html versions and ports</a> (<a href="#Contents">Contents</a>)
-</h1>
-<p>Below you see the development tree cfg2html has taken the last years.</p>
-<p align="center">
-<img border="0" src="cfg2html_Development_Tree.jpg" width="720" height="540"></p>
-<h1><a name="cfg2html authors">cfg2html authors</a> (<a href="#Contents">Contents</a>)
-</h1>
-<p>&nbsp;</p>
-<div class="c3">
-  <table border="1" id="AutoNumber1" cellpadding="3" bordercolor="#000080" cellspacing="3">
-    <tr>
-      <td width="20%" bgcolor="#00FFFF"><b class="c1">Operating System</b></td>
-      <td width="20%" bgcolor="#00FFFF"><b class="c1">Sourcecode Maintainer 
-      (CVS)</b></td>
-      <td width="20%" bgcolor="#00FFFF"><b class="c1">Main authors</b></td>
-      <td width="20%" bgcolor="#00FFFF"><b class="c1">Contributors</b></td>
-      <td width="20%" bgcolor="#00FFFF"><b class="c1">Remarks/ToDo's</b></td>
-    </tr>
-    <tr>
-      <td width="20%"><b>HP-UX 11.xx PA-RISC/IA64</b></td>
-      <td width="20%">
-      <a href="mailto:cfg2html@hotmail.com?subject=[cfg2html] about:cfg2html.html - Question">
-      Ralph Roth</a></td>
-      <td width="20%">
-      <a href="mailto:cfg2html@hotmail.com?subject=[cfg2html]-Authors">Ralph 
-      Roth</a></td>
-      <td width="20%">Martin Kalmbach <br>
-      <a href="https://ecardfile.com/id/Tbrix">Thomas Brix</a><br>
-      and others....</td>
-      <td width="20%">see ToDo.txt</td>
-    </tr>
-    <tr>
-      <td width="20%"><b>Linux IA32</b></td>
-      <td width="20%">Ralph Roth<p>Michael Meifert</td>
-      <td width="20%"><a href="mailto:dk3hg@users.sourceforge.net">Michael 
-      Meifert</a> <br>
-      Michael Meier <br>
-      Ralph Roth</td>
-      <td width="20%">&nbsp;</td>
-      <td width="20%">Development platform is Debian Linux</td>
-    </tr>
-    <tr>
-      <td width="20%"><b>Linux IA64/IPF</b></td>
-      <td width="20%">
-      <p align="center">-- // --</td>
-      <td width="20%">
-      <p align="center">&lt;you?&gt;</td>
-      <td width="20%">Ralph Roth</td>
-      <td width="20%">EFI releated stuff has to be included!</td>
-    </tr>
-    <tr>
-      <td width="20%"><b>Linux PA-RISC</b></td>
-      <td width="20%">
-      <p align="center">-- // --</td>
-      <td width="20%">Ralph Roth</td>
-      <td width="20%">&nbsp;</td>
-      <td width="20%">Linux 2.4.26-32 #1 Sat Jul 31 20:01:18 CEST 2004 parisc 
-      GNU/Linux</td>
-    </tr>
-    <tr>
-      <td width="20%"><b>Brocade 4.xx Switches</b></td>
-      <td width="20%">Ralph Roth</td>
-      <td width="20%">Ralph Roth</td>
-      <td width="20%">&nbsp;</td>
-      <td width="20%">Linux 2.4.19 kernel</td>
-    </tr>
-    <tr>
-      <td width="20%"><b>Sun Solaris</b></td>
-      <td width="20%">Ralph Roth</td>
-      <td width="20%"><a href="mailto:Gert.Leerdam@getronics.com">Gert Leerdam</a>
-      <br>
-      <a href="mailto:marc.vanlaethem@hp.com">Marc van Laethem</a> <br>
-      <a href="mailto:teaune@online.no">Trond Eirik Aune</a></td>
-      <td width="20%">Eduardo Diaz<br>
-      <a href="mailto:keiran@gmail.com">Keiran Sweet</a></td>
-      <td width="20%"><span class="c2">Problem: Merge 1.10 and 2.1 streams
-      <p>&nbsp;</span></td>
-    </tr>
-    <tr>
-      <td width="20%"><b>AIX</b></td>
-      <td width="20%">&nbsp;</td>
-      <td width="20%"><a href="mailto:Gert.Leerdam@getronics.com">Gert Leerdam</a></td>
-      <td width="20%">Olaf Morgenstern <br>
-      Jim Lane <br>
-      Marco Stork<br>
-      Witold Owoc</td>
-      <td width="20%">&nbsp;</td>
-    </tr>
-    <tr>
-      <td width="20%"><b>SCO</b></td>
-      <td width="20%">&nbsp;</td>
-      <td width="20%"><a href="mailto:damen@triple-p.nl">Jan Damen</a></td>
-      <td width="20%">&nbsp;</td>
-      <td width="20%">&nbsp;</td>
-    </tr>
-    <tr>
-      <td width="100%" bgcolor="#00FFFF" colspan="5"><b>Tools and plugins</b></td>
-    </tr>
-    <tr>
-      <td width="20%"><b>do-cfg</b></td>
-      <td width="20%">&nbsp;</td>
-      <td width="20%"><a href="mailto:albert.wanders@essent.nl">Albert Wanders</a></td>
-      <td width="20%">Giuseppe Gentile</td>
-      <td width="20%">HP-UX and SUN tested</td>
-    </tr>
-    <tr>
-      <td width="20%"><b>runcfg2html</b></td>
-      <td width="20%">&nbsp;</td>
-      <td width="20%"><a href="mailto:Andrew.Wilkin@lands.nsw.gov.au">Andrew 
-      Wilkin</a></td>
-      <td width="20%">&nbsp;</td>
-      <td width="20%">runcfg2html will be updated by Andrew (09.2004?).</td>
-    </tr>
-    <tr>
-      <td width="20%"><b>ora2html</b></td>
-      <td width="20%">&nbsp;</td>
-      <td width="20%"><a href="mailto:Yngve.Clausen@itpp.no">Yngve Clausen</a></td>
-      <td width="20%">&nbsp;</td>
-      <td width="20%">Last updated: 28-Jan-2003</td>
-    </tr>
-    <tr>
-      <td width="100%" colspan="5" bgcolor="#00FFFF"><b>Webspace</b></td>
-    </tr>
-    <tr>
-      <td width="20%"><b><a href="http://www.cfg2html.com">www.cfg2html.com</a>
-      </b></td>
-      <td width="20%">&nbsp;</td>
-      <td width="20%">
-      <a href="mailto:marc.eberhart@e-projecta.com?subject=[cfg2html] webspace">
-      Marc Eberhart</a> - e-projecta GmbH</td>
-      <td width="20%">&nbsp;</td>
-      <td width="20%">Newest beta stuff only!</td>
-    </tr>
-  </table>
-</div>
-<p>If you want to send us an email, <b>use [cfg2html] in the beginning of the 
-subject </b>- otherwise the chance is high that our spam filters simply deletes 
-your message!</p>
-<p></p>
-<h1><a name="End-User License Agreement for the cfg2html package">End-User 
-License Agreement for the cfg2html package</a> (<a href="#Contents">Contents</a>)
-</h1>
-<pre>This End-User License Agreement (&quot;EULA&quot;) is a legal agreement between you
-(either an individual or a single entity) and the mentioned authors (ROSE
-SWE and cfg2html authors, see this file or AUTHORS/Linux or Readme.txt/hpux) of this
-Software for the software product identified above, which includes computer
-software and may include associated media, printed materials, and &quot;online&quot;
-or electronic documentation (&quot;SOFTWARE PRODUCT&quot;). By installing, copying, or
-otherwise using the SOFTWARE PRODUCT, you agree to be bounded by the terms
-of this EULA. If you do not agree to the terms of this EULA, do not install
-or use the SOFTWARE PRODUCT.
-
-SOFTWARE PRODUCT LICENSE. All versions of the SOFTWARE PRODUCT are protected by
-copyright laws and international copyright treaties, as well as other
-intellectual property laws and treaties. The sole property belongs to ROSE SWE,
-the cfg2html authors and maybe 3rd party (status currently unknown).
-
-<b>1. GRANT OF LICENSE.</b> This EULA grants you the following rights:
-Installation and use. You may install and use an unlimited number of copies of
-the SOFTWARE PRODUCT.
-
-Reproduction and Distribution. You may reproduce and distribute an unlimited
-number of copies of the SOFTWARE PRODUCT; provided that each copy shall be a
-true and complete copy, including all copyright and trademark notices, and shall
-be accompanied by a copy of this EULA (e.g. original tar/depot/rpm/deb archives). 
-
-<b>2. DESCRIPTION OF OTHER RIGHTS AND LIMITATIONS. </b> You can reverse engineer,
-decompile, or disassemble the SOFTWARE PRODUCT. Please send modified versions
-back to the authors using diff(1) files suitable for patch(1). See the file
-readme.txt for details.
-
-Separation of Components. The SOFTWARE PRODUCT is licensed as a single product.
-
-Termination. Without prejudice to any other rights, the authors of this Software
-may terminate this EULA if you fail to comply with the terms and conditions of
-this EULA. In such event, you must destroy all copies of the SOFTWARE PRODUCT
-and all of its component parts.
-
-<b>3. COPYRIGHT.</b> All title and copyrights in and to the SOFTWARE PRODUCT
-(including but not limited to any images, photographs, animations, video, audio,
-music, text, and &quot;applets&quot; incorporated into the SOFTWARE PRODUCT),
-the accompanying printed materials, and any copies of the SOFTWARE PRODUCT are
-owned by the authors of this Software. The SOFTWARE PRODUCT is protected by
-copyright laws and international treaty provisions. Therefore, you must treat
-the SOFTWARE PRODUCT like any other copyrighted material.
-
-<b>LIMITED WARRANTY
-</b>
-<b>NO WARRANTIES.</b> The authors of this Software expressly disclaims any warranty
-for the SOFTWARE PRODUCT. The SOFTWARE PRODUCT and any related documentation
-is provided &quot;as is&quot; without warranty of any kind, either express or implied,
-including, without limitation, the implied warranties or merchantability,
-fitness for a particular purpose, or disarrangement. The entire risk arising
-out of use or performance of the SOFTWARE PRODUCT remains with you.
-
-<b>NO LIABILITY FOR DAMAGES.</b> In no event shall the authors of this Software be
-liable for any special, consequential, incidental or indirect damages
-whatsoever (including, without limitation, damages for loss of business
-profits, business interruption, loss of business information, or any other
-pecuniary loss) arising out of the use of or inability to use this product,
-even if the authors of this Software is aware of the possibility of such
-damages and known defects.
-
-<b>WARNING:</b> cfg2html may hang or harm your productive system! This is caused by
-faulty or hardware related software such as *FDISK, diagnostic tools etc. For
-this reason the usage of cfg2html on a mission critical system is not
-encouraged! cfg2html also tends to fill up your file system with large log
-files. If this is a problem for your system then simply do not use this program.</pre>
-<pre><i><b>This software contains bugs!
-This software is not supported at all - neither by HP nor by the authors!</b></i></pre>
-<pre>&nbsp;</pre>
-<h1><a name="Links and URLS">Links and URLS</a> (<a href="#Contents">Contents</a>)
-</h1>
-<div class="c4">
-  <div style="PADDING-BOTTOM: 0px; PADDING-TOP: 0px">
-    <b>cfg2html - Main external pages<br>
-&nbsp;</b><table style="BORDER-COLLAPSE: collapse" borderColor="#111111" cellSpacing="4" cellPadding="6" bgColor="#ffff80" border="1">
-      <tr bgColor="#ffff80">
-        <td align="middle" width="381">come.to/cfg2html -
-        <a style="COLOR: #9f0000" href="http://come.to/cfg2html">cfg2html.sh</a>
-        <br>
-        <a style="COLOR: #9f0000" href="http://come.to/cfg2html">A Free 
-        UNIX/Win32 System Configuration to HTML <span lang="en-gb">Converter</span> 
-        Utility</a> </td>
-        <td align="middle" width="291">
-        <a style="COLOR: #9f0000" href="http://www.cfg2html.com">
-        www.cfg2html.com</a>
-        <p>(Download Area only)</p>
-        <p>currently under construction</td>
-        <td align="middle" width="445">
-        <a style="COLOR: #9f0000" href="http://groups.yahoo.com/group/cfg2html/">
-        Yahoo! Groups: cfg2html</a> </td>
-      </tr>
-    </table>
-    <p><b>&nbsp;cfg2html - Related stuff</b></p>
-    <table id="AutoNumber1" style="BORDER-COLLAPSE: collapse" borderColor="#000000" cellSpacing="1" bgColor="#ffff80" border="1">
-      <tr>
-        <td style="BORDER-RIGHT: 1px solid; BORDER-TOP: 1px solid; BORDER-LEFT: 1px solid; BORDER-BOTTOM: 1px solid" width="33%" height="42">
-        <p align="center">
-        <a style="COLOR: #9f0000" href="http://freshmeat.net/projects/cfg2html/?topic_id=253">
-        freshmeat.net Project details for cfg2html</a></td>
-        <td style="BORDER-TOP-WIDTH: 1px; BORDER-TOP-COLOR: #ffffff" width="33%" height="42">
-        <p align="center">
-        <a style="COLOR: #9f0000" href="http://software.hp.com/products/SCMGR/scmtools.html#config">
-        HP Service control Manager - Open Source Tools</a></td>
-        <td style="BORDER-TOP-WIDTH: 1px; BORDER-TOP-COLOR: #ffffff" width="34%" height="42">
-        <p align="center">
-        <a style="COLOR: #9f0000" href="http://www.shelldorado.de/goodcoding/cmdargs.html">
-        SHELL dorado - Good Shell Coding Practices</a></td>
-      </tr>
-      <tr>
-        <td style="BORDER-LEFT-WIDTH: 1px; BORDER-LEFT-COLOR: #ffffff" width="33%" height="21">
-        <p align="center">
-        <a style="COLOR: #9f0000" href="http://www.backupcentral.com/sysaudit.html">
-        Backupcentral -&nbsp; sysaudit</a></td>
-        <td width="33%" height="21">
-        <p align="center">
-        <a style="COLOR: #9f0000" href="http://81.57.112.113/dev/config2xml/">
-        http://81.57.112.113/dev/config2xml/</a></td>
-        <td width="34%" height="21">
-        <p align="center">
-        <a style="COLOR: #9f0000" href="http://h30097.www3.hp.com/manage/download.html">
-        Tru64 Collectors</a></td>
-      </tr>
-      <tr>
-        <td style="BORDER-LEFT-WIDTH: 1px; BORDER-LEFT-COLOR: #ffffff" width="33%" height="25">
-        <p align="center">&nbsp;</td>
-        <td width="33%" height="25">
-        <p align="center">&nbsp;</td>
-        <td width="34%" height="25">
-        <p align="center">&nbsp;</td>
-      </tr>
-    </table>
-    <p><b>&nbsp;cfg2html - HP Internal Stuff</b></p>
-    <table style="BORDER-COLLAPSE: collapse" borderColor="#111111" cellSpacing="0" cellPadding="0" border="1">
-      <tr bgColor="#ffff80">
-        <td align="middle">
-        <a style="COLOR: #9f0000" href="http://support.neth.hp.com/ESSO/Operations/healthcheck_applic.shtml">
-        HP Services Site Tools</a> </td>
-        <td align="middle">
-        <a style="COLOR: #9f0000" href="http://htmsysinfo.sourceforge.net/">
-        htmsysinfo</a> </td>
-        <td align="middle" colSpan="2">
-        <a style="COLOR: #9f0000" href="http://hprtdt58.grc.hp.com/documents/scripts/">
-        http--hprtdt58.grc.hp.com-documents-scripts-</a> </td>
-        <td align="middle">
-        <a style="COLOR: #9f0000" href="http://15.155.200.49/~tbrix/">Thomas' 
-        tools collection</a> </td>
-        <td align="middle">
-        <a style="COLOR: #9f0000" href="http://woodstock.mayfield.hp.com/mobile_eserv_home/Programs/SysCollect/sysinfo_system_collect/home.htm">
-        Sysinfo-System Collect Project Home Page</a> </td>
-      </tr>
-      <tr bgColor="#ffff80">
-        <td align="middle">
-        <a style="COLOR: #9f0000" href="http://www.grc.hp.com/cgi-bin/table?nickel&showall">
-        Web Sheet nickel</a> </td>
-        <td>
-        <p align="center">
-        <a style="COLOR: #9f0000" href="http://bbx0135.bbn.hp.com/~ralproth/cfg2html/index.html">
-        HP internal cfg2html Download Link</a> (ASO BBN) </td>
-        <td>
-        <p align="center">
-        <a style="COLOR: #9f0000" href="http://bbx0135.bbn.hp.com/~ralproth/index.html">
-        Ralph Roth's HP internal home page</a> (ASO BBN) </td>
-        <td>
-        <p align="center">
-        <a style="COLOR: #9f0000" href="http://bbx0135.bbn.hp.com/~ralproth/tdox/index.html">
-        Ralph Roth's technical Papers</a> (ASO BBN) </td>
-        <td>
-        <p align="center">
-        <a style="COLOR: #9f0000" href="http://ecu.atl.hp.com/CD3_new/UTILS/CFG2HTML/">
-        ECU CD3 - cfg2html</a> </td>
-      </tr>
-    </table>
-  </div>
-</div>
-<hr>
-<p></p>
-<h1><a name="GNU PGP Keys">GNU PGP Keys</a> (<a href="#Contents">Contents</a>)
-</h1>
-<pre> Used to sign the Debian packages
-
-
-pub  1024D/3426A369 1998-04-29 ROSE SWE, Dipl.-Ing. Ralph Roth <rose_swe@hotmail.com>
-     Key fingerprint = 5128 28B8 C884 4F86 5245  8076 4CEA 247E 3426 A369
-uid                            ROSE SWE, Dipl.-Ing. Ralph Roth <ralphroth@gmx.net>
-sub  1536g/1D5D72F1 1998-04-29
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-Version: GnuPG v1.2.4 (GNU/Linux)
-Comment: http://come.to/rose_swe
-
-mQGiBDVHgrERBADJUnA7XSGy/5h/LaaoVIgfrBrN/+e33JDnOlpi8qnsy//HQgjV
-BG02COM52VQx6st8SXIh5UA06KZwzc4ntUJtVr1oJ7PN5EwmrfKWU/lOiPXIFNfD
-+6dnOXqy52R9REGdGKIAqMSkq02GaosQImiHdl8z7Z7pvBWrWYhxvX8qDQCg/3VD
-x4UOGRMg0JHYY70F/X8nQk8D/07FTYLSs04g5lo2qipl1xbBLuH3lw8DLceQzDkQ
-9exovKbvIpHVOQDUZWFalm7d8j49kZSYa/0PGAr/r7yHveErYE+MASn/hLWtqjLZ
-0SVDaP4w5GBSUCpAq05JwYRTmAaaIt8cfAYk82pB4pLQyykCQRMDAyzKwn/012PW
-ZCVjA/9YkqEMIPRUvBFQmyJ6JMxgR18sBajziLCZxaIGj6/x+gd01GTUJR9k0Nyz
-VmPwWcal1J//Gzo5qKO5rAFYJMTL5t9I5Q08UOJJIpx5UmUFgFKrFD4e5NTr7PEy
-xphPr4RFjmHazv3imlDotioDF2oKuejSIOwbUJg2WAzyxhuVvLQ2Uk9TRSBTV0Us
-IERpcGwuLUluZy4gUmFscGggUm90aCA8cm9zZV9zd2VAaG90bWFpbC5jb20+iFYE
-EBECAA4FAjrXdeUECwMCAQIZAQASCRBM6iR+NCajaQdlR1BHAAEBMtEAniCGwsiW
-vnk8zia2tYjWJy9bcdXLAJ44FXDDVKZLzvpP9oVIuWk9oHbMZokBHAQQAQEABgUC
-Otd2GQAKCRCcxWwzNQ9rU2urB/45mx2SX6m6yf2vYSXhQJkPnsgCQTNBmTjsIbB7
-SAhd1SPks9Br6YLaVWQXaurKREzXmZjReiUWS9MAshXW+MyshEx4C4Y8xLIWy9pF
-TjVU9I3iIXDQpWDaPYCG549Xfj/vS+o1ZaHdczrKF8fv08AadQYCzY6zIZFBe7zm
-6eXEpFoqk4a+svBAuwUwhgdVlp76k9he2JsgpVzZe7jdSgGs+sGOZ6cb5AU36+3z
-6JNeyHHSh7vAew9zx+jScMYHzr+hijic0nuVkTfXhRqFwVKRIgk2c7Pu0O1xsw0M
-XUqka4dan05LVRHxLUnh/5dBJddLKQ6Vw8tI/SEbJg3P0i/PtDNST1NFIFNXRSwg
-RGlwbC4tSW5nLiBSYWxwaCBSb3RoIDxSYWxwaFJvdGhAZ214Lm5ldD6IUwQQEQIA
-CwUCNUeCsQQLAwIBABIJEEzqJH40JqNpB2VHUEcAAQF49ACgxx3Ft8/y+wF/ynRt
-6fTFPka/BlIAn0RXO/i1S7GQqUm8WSYDzSvN3PMJiEYEEBECAAYFAjW1VdwACgkQ
-eVn+TOMsnWOA8wCgw/suUSfga65YEEB8jjb4W1WpD94An2G95O3gkHymBnNDCJZi
-KX8izpxjiEYEEBECAAYFAjY4VEcACgkQmsp4k2gPOscHNQCfdrJLNDxgOT+geNQn
-HYvuwqG/kk0AmgLyc85KAMO46YfG0laNNQM5arAyiQEcBBABAQAGBQI613S7AAoJ
-EJzFbDM1D2tT73YIAOnTqgLshSfEQmkbbXScS8nNzjAhdNnJBdkkB9+EHe1fNBHf
-kIqQ2P8KYVKiTqb4JRW6Fzf/vOfNXFVfKJAP5n34h2flzhFMW7n2tUSqb8XtrlfP
-aEeiFslGO0Xb627aJHCDd1Xtw2QXM8hQHrCfTSG7yYsCNroGP9UDsYw60UBYhgE9
-ZdlVIv1FpeEqEBlBh+eJ7tBucxXpaWxWdGnaCLu/xnlWUmmYOrXScUNv7yOiw24W
-e/6rL/4DNbHY5W8Kd1/pGAGNmQwfRh1GalAy9tQnJPAEN1s27xU0BKvfjWdaF0Na
-/L0p33LrTiewSp4CX1TGdDo28R8TBGT/oA1nwauJAFUDBRA2OPVO//pgOsw3QqUB
-AeE+Af9H7cjueHQqZfTIhxQs5A/f6ZC/xoV/U84vEsTtdYjfNezCOYdQtWwquMlw
-9gfC+Y0m35ekrXfLcsptsCz+uH7zuQGNBDVHgrEQBgD49Vlf3HZSTz09jdvOmeFX
-klnN/biudE/F/Ha8g8VHMGHOfMlm/xX5u/2RXscBqtNbno2gpXI61Brwv0YAWCvl
-9Ij9WE5J280gtJ3kkQc2azNsOA1FHQ98iLMcfFstjvbzySPAQ/ClWxiNjrtVjLhd
-ONM0/XwXV0OjHRhs3jMhLLUq/zzhsSlAGBGNfISnCnLWhsQDGcgHKXrKlQzZlp+r
-0ApQmwJG0wg9ZqRdQZ+cfL2JSyIZJrqrol7DVelYfEcAAgIGAN4ZMTzwL+bkAcU+
-FTdZmI5UKjplHkV6z3LNfANpiKq6TMlToI/iffe4Jy4K35LYzXj3A78fCsIkOHGI
-eH4u7Fe/9GJd/Tc5yuDl0wK/d43JLA3M27ZxKxQxaWHJ8P7lxBGmFbnZpaIR4rvh
-qTXRElnK9swSNVASF3mSS8AJjY+KwidoFkulXxyPL0DFpUZah3zyETaKFNNI0Alz
-7l1k+3MRuB2rYLfLjFePPTMcRpOINrbZ96EcEzV/qJqmN5DhD4hOBBgRAgAGBQI1
-R4KxABIJEEzqJH40JqNpB2VHUEcAAQF6IwCgh0fqSraIVy1/s0Julv8rMuSbG0wA
-nA5v4lyYqsa/9e5Hz3LLzV3QMWat
-=afAR
------END PGP PUBLIC KEY BLOCK-----
-</pre>
-<hr>
-<p></p>
-<p>Last edited:
-    <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%d.%m.%Y" startspan -->19.05.2005<!--webbot bot="Timestamp" endspan i-checksum="12549" --> 
-- CVS: $Id: cfg2html.html,v 2.9 2005/01/19 20:00:57 ralproth Exp $</p>
-
-</body>
-
-</html>
+</PRE>
+<HR>
+<P><FONT COLOR="#000000"><SPAN LANG="en-US"><A HREF="http://counter.li.org/person/">Linux
+user #364373</A> </SPAN></FONT>
+</P>
+<P LANG="en-US"><FONT COLOR="#000000">
+Last edited: @(#) $Id: cfg2html.html,v 5.18 2014/05/19 14:08:28 ralph Exp $ </FONT>
+</P>
+</BODY>
+</HTML>
