@@ -658,6 +658,8 @@ then # else skip to next paragraph
 
    exec_command "lshal" "HAL devices"
 
+   exec_command "devreserv" "Devices currently reserved for exclusive use"
+
    exec_command "iostat -En" "I/O device error status"
 
    exec_command "stmsboot -L" "Solaris I/O multipathing (STMS and MPxIO)"
@@ -945,7 +947,7 @@ EOF
 
    exec_command "croinfo" "Chassis, Receptacle and Occupant info"
  
-   exec_command "diskinfo" "Diskinfo"
+   exec_command "diskinfo -v | nawk NF" "Diskinfo"
 
    dec_heading_level
 fi
