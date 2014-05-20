@@ -1,15 +1,10 @@
-head	1.2;
+head	1.1;
 access;
 symbols;
 locks
-	dusan:1.2; strict;
+	dusan:1.1; strict;
 comment	@# @;
 
-
-1.2
-date	2014.05.18.11.09.55;	author dusan;	state Exp;
-branches;
-next	1.1;
 
 1.1
 date	2014.05.18.06.28.39;	author dusan;	state Exp;
@@ -21,9 +16,9 @@ desc
 @@
 
 
-1.2
+1.1
 log
-@*** empty log message ***
+@Initial revision
 @
 text
 @function open_html {
@@ -39,7 +34,7 @@ text
 	<META NAME="DESCRIPTION" CONTENT="Config to HTML (cfg2html for Linux)">
 	<META NAME="subject" CONTENT="$VERSION on $RECHNER by $MAILTO and $MAILTORALPH">
 	<style type="text/css">
-	/* (c) 2001 - 2014 by ROSE SWE, Ralph Roth - http://rose.rult.at
+	/* (c) 2001- 2013 by ROSE SWE, Ralph Roth - http://rose.rult.at
 	* CSS for cfg2html.sh, 12.04.2001, initial creation
 	*/
 
@@ -219,22 +214,7 @@ function close_html {
     cat $TEXT_OUTFILE_TEMP >> $TEXT_OUTFILE
     rm $HTML_OUTFILE_TEMP $TEXT_OUTFILE_TEMP
     _echo  "\n\nCreated "$DATEFULL" with " $PROGRAM $VERSION " \n" >> $TEXT_OUTFILE
-    _echo "Solaris port maintained by Dusan Baljevic" >> $HTML_OUTFILE_TEMP
-    _echo  "(c) 1998 - 2014 by ROSE SWE, Ralph Roth" >> $TEXT_OUTFILE
+    _echo  "(c) 1998- 2013 by ROSE SWE, Ralph Roth" >> $TEXT_OUTFILE
 }
 
-@
-
-
-1.1
-log
-@Initial revision
-@
-text
-@d14 1
-a14 1
-	/* (c) 2001- 2013 by ROSE SWE, Ralph Roth - http://rose.rult.at
-d194 2
-a195 1
-    _echo  "(c) 1998- 2013 by ROSE SWE, Ralph Roth" >> $TEXT_OUTFILE
 @
