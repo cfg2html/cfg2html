@@ -8,7 +8,7 @@
 product = cfg2html
 
 all: 
-	i=`uname -s`; case $$i in HP-UX) make depot;; Linux) make rpm;; *) make help;; esac
+	i=`uname -s`; case $$i in HP-UX) make depot;; Linux) make rpm;; SunOS) echo "Run \"make sunos\"";; *) make help;; esac
 
 help:
 	@echo "+-----------------------------+"
@@ -17,6 +17,7 @@ help:
 	@echo "|    HP-UX: \"make depot\"    |"
 	@echo "|    Linux: \"make rpm\"      |"
 	@echo "|    Linux: \"make deb\"      |"
+	@echo "|    SunOS: \"make sunos\"    |"
 	@echo "+-----------------------------+"
 
 depot:
@@ -31,4 +32,5 @@ deb:
 clean:
 	i=`uname -s`; case $$i in HP-UX) gmake -C hpux clean;; Linux) make -C linux clean;; *) make help;; esac
 
-
+sunos: sunos/cfg2html-SunOS.sh
+	cd sunos && make install

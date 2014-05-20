@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html-SunOS.sh,v 1.4 2014/05/18 11:01:11 dusan Exp dusan $
+# @(#) $Id: cfg2html-SunOS.sh,v 1.5 2014/05/20 10:41:38 dusan Exp dusan $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-
 
@@ -336,6 +336,8 @@ then # else skip to next paragraph
    fi
 
    exec_command "ps -efl${PSFLAG}" "Processes"
+
+   exec_command "${PLUGIN}/detailed-process-stat.pl" "${PLUGIN}/detailed-process-stat.pl"
 
    exec_command "ptree -a -c" "Active Process - Tree Overview"
 
@@ -1422,6 +1424,9 @@ dec_heading_level
 fi
 # terminates CFG_APPLICATIONS wrapper
 
+#
+# execute system log check
+#
 paragraph "System logs"
 inc_heading_level
 exec_command "cat /etc/syslog.conf" "/etc/syslog.conf" 
@@ -1434,14 +1439,72 @@ exec_command "dmesg" "dmesg logfile"
 
 dec_heading_level
 
-paragraph "Banners"
+#
+# execute Mail Transfer Agent check 
+#
+paragraph "Standard Mail Transfer Agents"
 inc_heading_level
-exec_command "cat /etc/motd" "/etc/motd" 
 
-exec_command "cat /etc/issue" "/etc/issue" 
+svcs -a | while read LLINE
+do
+   export LLINE
+   if [ "$( echo $LLINE | grep -i postfix)" ]; then
+      AddText "MTA is seemingly Postfix"
+
+      POSTFIXCFG="$(postconf -n)"
+
+      exec_dommand "postconf -n" "Postfix configuration summary"
+
+      for PFILE in /etc/postfix/*.cf
+      do
+         [ -s "$PFILE" ] && exec_command "cat $PFILE" "Postfix config file $PFILE"
+      done
+
+      exec_command "showq" "Postfix mail queue"
+
+      exec_command "qshape" "Postfix queue shape"
+   fi
+ 
+   if [ "$( echo $LLINE | grep -i smtp:sendmail)" ]; then
+      AddText "MTA is seemingly Sendmail"
+
+      for SFILE in /etc/mail/*.cf
+      do
+         [ -s "$SFILE" ] && exec_command "cat $SFILE" "Sendmail config file $SFILE"
+      done
+
+      exec_command "mailq" "Sendmail mail queue"
+
+      exec_command "mailstats" "Sendmail mail statistics"
+   fi
+done
+
+EXIMCHK="$(exiwhat)"
+if [ "$EXIMCHK" ]; then
+   AddText "MTA is seemingly Exim"
+
+   exec_command "exim -bP" "Exim configuration settings"
+
+   exec_command "exim -bp" "Exim mail queue"
+fi
 
 dec_heading_level
 
+#
+# execute banners check 
+#
+paragraph "Banners"
+inc_heading_level
+
+exec_command "cat /etc/motd" "/etc/motd"
+
+exec_command "cat /etc/issue" "Generic banner /etc/issue" 
+
+dec_heading_level
+
+#
+# execute Explorer check 
+#
 paragraph "Explorer - diagnostic collector"
 inc_heading_level
 
@@ -1491,7 +1554,7 @@ if [ -f $CONFIG_DIR/files ] ; then
       exec_command "egrep -v '(^#|^ *$)' $i" "File: $i"
     fi
   done
-  AddText "You can customize this entry by editing /etc/cfg2html/files"
+  AddText "You can customize this entry by editing ${CONFIG_DIR}/files"
   dec_heading_level
 fi
 
