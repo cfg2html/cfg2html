@@ -5,7 +5,7 @@ eval 'exec perl -S $0 ${1+"$@"} 2>/dev/null'
 # Designed by:  Dusan U. Baljevic (dusan.baljevic@ieee.org)
 # Coded by:     Dusan U. Baljevic (dusan.baljevic@ieee.org)
 
-$ENV{'PATH'} = "/usr/bin:/usr/sbin:/sbin:/bin:/usr/ccs/bin:/etc";
+$ENV{'PATH'} = "/usr/bin:/usr/sbin:/sbin:/bin";
 
 use strict;
 
@@ -20,33 +20,30 @@ my @PSPROC   = ();
 my @PSZOMBIE = (); 
 my @PSREST   = (); 
 my $PSFLAG   = q{};
-my $System   = q{}; 
 my $Hostname = q{};
 my $Maj      = q{};
 my $Version  = q{};
-my $Hardware = q{};
 my $Major    = q{};
 my $Minor    = q{};
-my $Patch    = q{};
 
 if ( eval "require POSIX" ) {
    import POSIX 'uname';
    import POSIX qw(locale_h);
-   ( $System, $Hostname, $Maj, $Version, $Hardware ) = uname();
+   ( undef, $Hostname, $Maj, $Version, undef ) = uname();
    if ("$Maj") {
-      ( $Major, $Minor, $Patch ) = split( /\./, $Maj );
+      ( $Major, $Minor, undef ) = split( /\./, $Maj );
    }
 }
 
 if ( !"$Hostname" ) {
     my $VH = `uname -a 2>&1`;
-    ( $System, $Hostname, $Maj, undef, $Hardware, undef ) =
+    ( undef, $Hostname, $Maj, undef, undef, undef ) =
       split( /\s+/, $VH );
     $Version = $Maj;
-    ( $Major, $Minor, $Patch ) = split( /\./, $Maj );
+    ( $Major, $Minor, undef ) = split( /\./, $Maj );
 }
 
-if ( "$Major" >= 10 ) {
+if ( "$Minor" >= 10 ) {
    $PSFLAG="Z";
 }
 
@@ -87,14 +84,14 @@ if ( open( KM, "ps -efl${PSFLAG} |" ) ) {
          }
       }
 
-      if ( "$Major" >= 10 ) {
-         if( $userid[3] =~ /^[0-9]+$/ ) {
-            print "WARN: Process \"$psline\" without owner defined in password database (\"$userid[3]\")\n";
+      if ( "$Minor" >= 10 ) {
+         if( $userid[4] =~ /^[0-9]+$/ ) {
+            print "WARN: Process \"$psline\" without owner defined in password database (\"$userid[4]\")\n";
          }
       }
       else {
-         if( $userid[2] =~ /^[0-9]+$/ ) {
-            print "WARN: Process \"$psline\" without owner defined in password database (\"$userid[2]\")\n";
+         if( $userid[3] =~ /^[0-9]+$/ ) {
+            print "WARN: Process \"$psline\" without owner defined in password database (\"$userid[3]\")\n";
          }
       }
    }
