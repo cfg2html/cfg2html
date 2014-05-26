@@ -38,7 +38,7 @@ PATH=$PATH:/opt/omni/bin:/opt/omni/lbin:/opt/omni/sbin:/usr/openv/netbackup
 PATH=$PATH:/usr/openv/netbackup/bin:/usr/openv/netbackup/bin/goodies
 PATH=$PATH:/var/cfengine/bin:/opt/EMCpower/bin:/opt/local/bin:/usr/cluster/bin
 PATH=$PATH:/opt/OV/bin/OpC/utils:/opt/OV/bin:/opt/flexlm/bin
-PATH=$PATH:/opt/chef-server/bin:/opt/chef-server/embedded/bin
+PATH=$PATH:/opt/chef-server/bin:/opt/chef-server/embedded/bin:/opt/chef/bin
 PATH=$PATH:/usr/sap/hostctrl/exe:/opt/SUNWsamfs/bin:/opt/SUNWsamfs/sbin
 PATH=$PATH:/opt/netapp/santools/bin:/opt/Ontap/santools/bin:/usr/symcli/bin
 PATH=$PATH:/opt/SUNWexplo/bin
@@ -52,24 +52,25 @@ PLUGIN="/usr/share/cfg2html/plugins"
 
 # use "no" to disable a collection
 #
-CFG_SYSTEM="yes"
+CFG_APPLICATIONS="yes"
 CFG_BOOT="yes"
-CFG_KERNEL="yes"
 CFG_HARDWARE="yes"
+CFG_GIF="yes"
+CFG_PLUGINS="no"
 CFG_FILESYS="yes"
 CFG_DISKS="yes"
+CFG_VOLMGR="yes"
+CFG_KERNEL="yes"
+CFG_FILES="yes"
+CFG_LICENSE="yes"
 CFG_NETWORK="yes"
 CFG_PRINTER="yes"
 CFG_CRON="yes"
-CFG_PASSWD="yes"
-CFG_SOFTWARE="yes"
-CFG_FILES="yes"
-CFG_APPLICATIONS="yes"
 CFG_CLUSTER="yes"
-CFG_VOLMGR="yes"
-CFG_LICENSE="yes"
-CFG_PLUGINS="no"
-CFG_GIF="yes"
+CFG_PASSWD="yes"
+CFG_SYSTEM="yes"
+CFG_SOFTWARE="yes"
+CFG_LOCAL="yes"
 
 if [ -d "/var/log/cfg2html" ]; then
    OUTDIR="/var/log/cfg2html"
@@ -88,25 +89,26 @@ usage() {
    echo "  -v     output version information and exit"
    echo "  -h     display this help and exit"
    echo
-   echo "  use the following options to disable collections:"
+   echo "  use the following options to disable/enable collections:"
    echo
-   echo "  -s     disable: System"
-   echo "  -k     disable: Kernel"
-   echo "  -H     disable: Hardware"
-   echo "  -C     disable: Cluster"
-   echo "  -f     disable: Filesystems"
-   echo "  -d     disable: Disks"
-   echo "  -n     disable: Network"
-   echo "  -P     disable: Printers"
-   echo "  -c     disable: Cron"
-   echo "  -p     disable: Passwords"
-   echo "  -e     enable:  Plugins"
-   echo "  -s     disable: Software"
-   echo "  -F     disable: Files"
    echo "  -a     disable: Applications"
    echo "  -b     disable: Boot System"
+   echo "  -c     disable: Cron"
+   echo "  -C     disable: Cluster"
+   echo "  -d     disable: Disks"
    echo "  -D     disable: Volume Manager"
-   echo "  -l     disable: Licenses"
+   echo "  -e     enable:  Plugins"
+   echo "  -f     disable: Filesystems"
+   echo "  -F     disable: Local Files"
+   echo "  -H     disable: Hardware"
+   echo "  -k     disable: Kernel"
+   echo "  -l     disable: Files"
+   echo "  -L     disable: Licenses"
+   echo "  -n     disable: Network"
+   echo "  -p     disable: Passwords"
+   echo "  -P     disable: Printers"
+   echo "  -s     disable: System"
+   echo "  -S     disable: Software"
    echo "  -x     don't create background images"
    echo
 }
@@ -115,7 +117,7 @@ usage() {
 # getopt
 #
 
-while getopts ":o:vbhsHeflLdDnpPcCFax" Option ; do
+while getopts ":o:vabcCdDefFhHklLnpPsSx" Option ; do
    case $Option in
       o  ) OUTDIR=$OPTARG;;
       v  ) echo "\nScript name: $VERSION"; echo "Released on: $RELEASED_ON\n";  exit;;
@@ -126,8 +128,10 @@ while getopts ":o:vbhsHeflLdDnpPcCFax" Option ; do
       x  ) CFG_GIF="no";;
       e  ) CFG_PLUGINS="yes";;
       f  ) CFG_FILESYS="no";;
+      F  ) CFG_LOCAL="yes";;
       d  ) CFG_DISKS="no";;
       D  ) CFG_VOLMGR="no";;
+      k  ) CFG_KERNEL="no";;
       l  ) CFG_FILES="no";;
       L  ) CFG_LICENSE="no";;
       n  ) CFG_NETWORK="no";;
@@ -135,7 +139,8 @@ while getopts ":o:vbhsHeflLdDnpPcCFax" Option ; do
       c  ) CFG_CRON="no";;
       C  ) CFG_CLUSTER="no";;
       p  ) CFG_PASSWD="no";;
-      s  ) CFG_SOFTWARE="no";;
+      s  ) CFG_SYSTEM="no";;
+      S  ) CFG_SOFTWARE="no";;
       *  ) echo "Unimplemented option. Try -h for help!";exit 1;; # DEFAULT
    esac
 done
@@ -264,11 +269,15 @@ then # else skip to next paragraph
 
    exec_command "uname -sr" "OS, Kernel version"
 
+   exec_command "uname -X" "Extended uname status"
+
    [ -r /etc/release ] && exec_command "cat /etc/release" "OS specific release information /etc/release"
 
    exec_command "uname -mi" "Hardware type"
 
    exec_command "prtconf | awk '/^Memory size:/ { print \$3 }'" "Memory size (MB)"
+
+   exec_command "pagesize" "Pagesize (bytes)"
 
    exec_command "psrinfo -v" "CPUs"
 
@@ -298,9 +307,7 @@ then # else skip to next paragraph
 
    exec_command "who -r | awk '/run-level/ {print \$3}'" "Runlevel"
 
-   if [ -x /usr/bin/locale ] ; then
-      exec_command "locale" "locale specific information"
-   fi
+   exec_command "locale" "locale specific information"
 
    exec_command "ulimit -a" "System ulimit" 
 
@@ -648,6 +655,12 @@ then # else skip to next paragraph
 
    exec_command "prtconf -v" "Prtconf"
 
+   PATHINST="/etc/path_to_inst"
+
+   if [ -f "$PATHINST" ] ; then
+      exec_command "cat $PATHINST" "Device instance number file ($PATHINST)"
+   fi
+
    exec_command "getdevpolicy" "System device policy"
 
    exec_command "prtpicl -v" "Prtpicl tree"
@@ -655,6 +668,8 @@ then # else skip to next paragraph
    exec_command "sysdef" "Sysdef"
 
    exec_command "sgscan" "Sgscan status"
+
+   exec_command "scanpci -v" "Scan PCI"
 
    exec_command "lshal" "HAL devices"
 
@@ -753,6 +768,10 @@ then # else skip to next paragraph
    exec_command "zonestat -q -r summary -z 5 -T i -R high $STATCNT" "Zone statistics"
 
    exec_command "zonep2vchk" "Global zone's P2V migration"
+
+   exec_command "ldominfo -p" "Ldominfo"
+
+   exec_command "virtinfo -a" "Virtinfo"
 
    exec_command "ldm -V" "Logical Domains (LDoms)"
 
@@ -1034,6 +1053,10 @@ then # else skip to next paragraph
 
    exec_command "cat /etc/resolv.conf" "DNS resolver /etc/resolv.conf"
 
+   exec_command "nawk NF /etc/nscd.conf" "Name Service Cache Daemon /etc/nscd.conf"
+
+   exec_command "nscd -g" "Name Service Cache Daemon statistics"
+
    exec_command "cat /etc/nsswitch.conf" "Name service configuration /etc/nsswitch.conf"
 
    exec_command "ypwhich 2>&1" "NIS server status"
@@ -1083,6 +1106,8 @@ then # else skip to next paragraph
    exec_command "cat /etc/services" "Internet Daemon Services"
 
    exec_command "cat /etc/protocols" "/etc/protocols"
+
+   exec_command "cat /etc/rpc" "/etc/rpc"
 
    exec_command "rpcinfo -p " "RPC (Portmapper)"
 
@@ -1160,6 +1185,14 @@ if [ "$CFG_PASSWD" != "no" ] ; then
 
    exec_command "cat /etc/passwd" "/etc/passwd"
 
+   for pw in $(awk -F: '{print $6}' /etc/passwd | sort | uniq) 
+   do
+      if [ -f "$pw/.rhosts" ] ; then
+         exec_command "cat $pw/.rhosts" "$pw/.rhosts"
+         AddText "The output should be empty!"
+      fi
+   done
+
    exec_command "cat /etc/shadow" "/etc/shadow"
 
    exec_command "cat /etc/group" "/etc/group"
@@ -1201,6 +1234,8 @@ if [ "$CFG_PASSWD" != "no" ] ; then
    do
       exec_command "nawk NF $sd" "Sudoers file $sd"
    done
+
+   exec_command "auths list" "List authorizations"
 
    exec_command "roles" "RBAC roles"
 
@@ -1336,7 +1371,8 @@ then # else skip to next paragraph
       exec_command "puppet resource service" "Services in Puppet Resource Abstraction Layer (RAL)"
    fi # puppet
 
-   if  [ -x /opt/chef-server/embedded/bin/knife ]
+   CHEFSRV="$(chef-server-ctl 2>/dev/null)"
+   if  [ "$CHEFSRV" ]
    then
       dec_heading_level
       paragraph "Chef Configuration Management System"
@@ -1346,15 +1382,15 @@ then # else skip to next paragraph
 
       exec_command "knife list -R /" "Chef full status"
 
-      exec_command "/opt/chef-server/embedded/bin/knife environment list -w" "Chef list of environments"
+      exec_command "knife environment list -w" "Chef list of environments"
 
-      exec_command "/opt/chef-server/embedded/bin/knife client list" "Chef list of registered API clients"
+      exec_command "knife client list" "Chef list of registered API clients"
 
-      exec_command "/opt/chef-server/embedded/bin/knife cookbook list" "Chef list of registered cookbooks"
+      exec_command "knife cookbook list" "Chef list of registered cookbooks"
 
-      exec_command "/opt/chef-server/embedded/bin/knife data bag list" "Chef list of data bags"
+      exec_command "knife data bag list" "Chef list of data bags"
 
-      exec_command "/opt/chef-server/embedded/bin/knife diff" "Chef differences between local chef-repo and files on server"
+      exec_command "knife diff" "Chef differences between local chef-repo and files on server"
 
       exec_command "chef-client -v" "Chef Client"
    fi
@@ -1372,7 +1408,7 @@ then # else skip to next paragraph
 
       exec_command "cfagent -V" "CFEngine v2 Agent version"
 
-      exec_command "/var/cfengine/bin/cfagent -p -v" "CFEngine v2 classes"
+      exec_command "cfagent -p -v" "CFEngine v2 classes"
 
       exec_command "cfagent --no-lock --verbose --no-splay" "CFEngine v2 managed client status"
 
@@ -1404,8 +1440,8 @@ then # else skip to next paragraph
 
       for DB in $(grep ':' /etc/oratab|egrep -v '^#|:N$') 
       do
-         Ora_Home=$(echo $DB | awk -F: '{print \$2}')
-         Sid=$(echo $DB | awk -F: '{print \$1}')
+         Ora_Home=$(echo $DB | awk -F: '{print $2}')
+         Sid=$(echo $DB | awk -F: '{print $1}')
          Init=${Ora_Home}/dbs/init${Sid}.ora
          if [ -r "$Init" ]
          then
@@ -1433,11 +1469,22 @@ paragraph "System logs"
 inc_heading_level
 exec_command "cat /etc/syslog.conf" "/etc/syslog.conf" 
 
-exec_command "cat /etc/logadm.conf" "/etc/logadm.conf" 
+exec_command "cat /etc/logadm.conf" "Logadm master config /etc/logadm.conf" 
+
+for LFILE in /etc/logadm.d/*.conf
+do
+   [ -s "$LFILE" ] && exec_command "cat $LFILE" "Logadm config $LFILE"
+done
+
+NFSLOG="/etc/nfs/nfslog.conf"
+
+[ -f "$NFSLOG" ] && exec_command "cat $NFSLOG" "NFS logfile $NFSLOG"
 
 exec_command "cat /var/adm/messages" "/var/adm/messages"
 
 exec_command "dmesg" "dmesg logfile" 
+
+exec_command "fmdump -m -v" "Fault Management log" 
 
 dec_heading_level
 
@@ -1505,6 +1552,24 @@ exec_command "cat /etc/issue" "Generic banner /etc/issue"
 dec_heading_level
 
 #
+# execute FTP check 
+#
+paragraph "FTP Services"
+inc_heading_level
+
+exec_command "cat /etc/ftpusers" "/etc/ftpusers"
+exec_command "nawk NF /etc/proftpd.conf" "/etc/proftpd.conf"
+
+for fls in $(ls /etc/ftpd/* )
+do
+   if [ -f $fls ] ; then
+      exec_command "nawk NF $fls" "$fls"
+   fi
+done
+
+dec_heading_level
+
+#
 # execute Explorer check 
 #
 paragraph "Explorer - diagnostic collector"
@@ -1546,21 +1611,25 @@ fi
 #
 # collect local files
 #
-if [ -f $CONFIG_DIR/files ] ; then
-  paragraph "Local files"
-  inc_heading_level
-  . $CONFIG_DIR/files
-  for i in $FILES
-  do
-    if [ -f $i ] ; then
-      exec_command "egrep -v '(^#|^ *$)' $i" "File: $i"
-    fi
-  done
-  AddText "You can customize this entry by editing ${CONFIG_DIR}/files"
-  dec_heading_level
-fi
+# CFG_LOCAL
+#
+if [ "$CFG_LOCAL" != "no" ]
+then # else skip to next paragraph
+   if [ -f $CONFIG_DIR/files ] ; then
+      paragraph "Local files"
+      inc_heading_level
 
-dec_heading_level
+      for i in $(cat $CONFIG_DIR/files)
+      do
+         if [ -f $i ] ; then
+            exec_command "egrep -v ^# $i" "File: $i"
+         fi
+      done
+      AddText "You can customize this entry by editing ${CONFIG_DIR}/files"
+
+      dec_heading_level
+   fi
+fi
 
 close_html
 
