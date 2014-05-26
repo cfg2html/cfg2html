@@ -3,6 +3,7 @@
 
 product = cfg2html
 BASEDIR = /usr/share/cfg2html
+ETCDIR = /etc/cfg2html
 OWNER = root:root
 PERMSD = 755 
 PERMSF = 644 
@@ -27,6 +28,7 @@ lib-tmp:
 	cp lib/* lib-tmp/ ; fi
 
 install: cfg2html-SunOS.sh
+	@if [ ! -d ${ETCDIR} ]; then mkdir -p ${ETCDIR}; chmod ${PERMSD} ${ETCDIR}; chown ${OWNER} ${ETCDIR}; fi
 	@if [ ! -d ${BASEDIR} ]; then mkdir -p ${BASEDIR}; chmod ${PERMSD} ${BASEDIR}; \
         chown ${OWNER} ${BASEDIR}; fi 
 	@if [ -f ../cfg2html ]; then cp -p ../cfg2html /usr/sbin;\
@@ -38,6 +40,8 @@ install: cfg2html-SunOS.sh
         chmod ${PERMSF} ${BASEDIR}/etc/*; chown ${OWNER} ${BASEDIR}/etc/*; fi
 	@if [ -d ./plugins ]; then cp -pr ./plugins ${BASEDIR}; \
         chmod ${PERMSD} ${BASEDIR}/plugins/*; chown ${OWNER} ${BASEDIR}/plugins/*; fi
+	@if [ -f doc/cfg2html.8 ]; then cp -p doc/cfg2html.8 /usr/share/man/man8;\
+        chmod ${PERMSF} /usr/share/man/man8/cfg2html.8; chown ${OWNER} /usr/share/man/man8/cfg2html.8; fi
 	echo "Installation done."
 
 archive: 

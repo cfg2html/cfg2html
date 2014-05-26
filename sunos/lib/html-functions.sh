@@ -183,8 +183,8 @@ function close_html {
 
     echo "<hr>" >> $HTML_OUTFILE
     _echo "</P><P>\n<hr><FONT COLOR=blue>Created "$DATEFULL" with " $PROGRAM $VERSION "</font>" >> $HTML_OUTFILE_TEMP
-    _echo "</P><P>\n<FONT COLOR=blue>Solaris port maintained by <A HREF="mailto:dusan.baljevic@ieee.org?subject=$VERSION_">Dusan Baljevic</A></P></font>" >> $HTML_OUTFILE_TEMP
-    _echo "</P><P>\n<FONT COLOR=blue>Copyright and maintained by <A HREF="mailto:$MAILTORALPH?subject=$VERSION_">Ralph Roth, ROSE SWE, </A></P></font>" >> $HTML_OUTFILE_TEMP
+    _echo "</P><P>\n<FONT COLOR=blue>Solaris port by <A HREF="mailto:dusan.baljevic@ieee.org?subject=$VERSION_">Dusan Baljevic</A></P></font>" >> $HTML_OUTFILE_TEMP
+    _echo "</P><P>\n<FONT COLOR=blue>Copyright and maintained by <A HREF="mailto:$MAILTORALPH?subject=$VERSION_">Ralph Roth, ROSE SWE </A></P></font>" >> $HTML_OUTFILE_TEMP
     #echo " <FONT COLOR=blue>Maintained by <A HREF="mailto:$MAILTO?subject=$VERSION_">Jeroen Kleen, EMEA ISS CC Engineer</A></P></font>" >> $HTML_OUTFILE_TEMP
     _echo "<hr><center> <A HREF="http://www.cfg2html.com">[ Download cfg2html from external home page ]</b></A></center></P><hr></BODY></HTML>\n" >> $HTML_OUTFILE_TEMP
     cat $HTML_OUTFILE_TEMP >>$HTML_OUTFILE

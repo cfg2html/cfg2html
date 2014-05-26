@@ -16,6 +16,7 @@ function usage {
    echo "  -H     disable: Hardware"
    echo "  -C     disable: Cluster"
    echo "  -f     disable: Filesystems"
+   echo "  -F     disable: Locval Files"
    echo "  -d     disable: Disks"
    echo "  -n     disable: Network"
    echo "  -P     disable: Printers"
