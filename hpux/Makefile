@@ -24,7 +24,7 @@ lib-tmp:
 	cp lib/* lib-tmp/ ; fi
 
 man: doc/cfg2html.8
-	@if [ -f doc/cfg2html.8 ]; then cp -p doc/cfg2html.8 doc/cfg2html.8.txt; \
+	@if [ -f doc/cfg2html.8 ]; then cp -p doc/cfg2html.8 doc/cfg2html.8.save; \
 	compress doc/cfg2html.8 ; mv -f doc/cfg2html.8.Z doc/cfg2html.8 ; fi
 
 rewrite: $(psf_file)
@@ -46,7 +46,7 @@ depot: clean lib-tmp man rewrite
 	/usr/sbin/swpackage -vv -d $$depot_file  -x target_type=tape -s $(depot_dir) \* ; \
 	echo "File depot location is $$depot_file" ; rm -rf lib-tmp ; \
 	rm -f /tmp/cfg2html_bundle.psf ; \
-	mv -f doc/cfg2html.8.txt doc/cfg2html.8 ; \
+	mv -f doc/cfg2html.8.save doc/cfg2html.8 ; \
 	mv -f $(psf_file).save $(psf_file) ; \
 	mv -f ../cfg2html.save ../cfg2html ; \
 	echo "Done."
