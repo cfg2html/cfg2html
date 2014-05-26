@@ -1,0 +1,200 @@
+.\" Copyright (c) 2014 by Dusan Baljevic <dusan.baljevic@ieee.org> and Ralph Roth
+.\"$Id: cfg2html.8,v 6.4 2014/05/25 16:20:04 dusan Exp $
+
+.TH cfg2html-SunOS 8 "25.05.2014"
+
+.SH NAME
+cfg2html-SunOS.sh \- creates a nice HTML and plain ASCII documentation of your SunOS/Solaris system. WARNING, use this script AT YOUR OWN RISK.
+
+.SH SYNOPSIS
+
+.B cfg2html-SunOS.sh
+.RB [ \-ovabcCdDefFhHklLnpPsSx ]
+.IR option ...
+.br
+
+.SH DESCRIPTION
+
+The
+.B cfg2html-SunOS.sh
+script is the "swiss army knife" for the consultant, support engineer, customer engineer, sysadmin etc. We wrote it to get the necessary information to plan an update,
+to perform basic trouble shooting or performance analysis. As a bonus
+.B cfg2html
+creates a nice HTML and plain ASCII documentation. If you like,
+write your description of the system into
+.B /etc/cfg2html/systeminfo
+
+example:
+.TP
+  Main database server using special software.
+.TP
+  Contact: Micky Mouse <admin@foo.bar>
+.TP
+  Location: Mars Moon
+.TP
+and so on.
+
+.TP
+.B /etc/cfg2html/files
+if this file exists, you can add your own files to collect - see example included.
+
+.SS Switches
+The following switches are available from the command line:
+.TP
+.B \-o
+set directory to write or use the environment
+variable OUTDIR="/path/to/dir" (directory must exist)
+.TP
+.B \-v
+print version information and exit
+.TP
+.B \-h
+print help options and exit 
+.BR
+
+use the following options to disable collections:
+.TP
+.B \-a
+disable: Applications
+.TP
+.B \-b
+disable: Boot System
+.TP
+.B \-c
+disable: Cron
+.TP
+.B \-C
+disable: Cluster
+.TP
+.B \-d
+disable: Disks
+.TP
+.B \-D
+disable: Volume Manager
+.TP
+.B \-e
+enable: Plugins
+.TP
+.B \-f
+disable: Filesystems
+.TP
+.B \-F
+disable: Local files in /etc/cfg2html/files
+.TP
+.B \-H
+disable: Hardware
+.TP
+.B \-k
+disable: Kernel
+.TP
+.B \-l
+disable: Files
+.TP
+.B \-L
+disable: Licenses
+.TP
+.B \-n
+disable: Network
+.TP
+.B \-p
+disable: Password
+.TP
+.B \-P
+disable: Printing
+.TP
+.B \-s
+disable: System
+.TP
+.B \-S
+disable: Software
+.TP
+.B \-x
+don't create background images
+
+.SH FILES
+
+.TP
+.B /usr/sbin/cfg2html
+The front-end script.
+.TP
+.B /usr/share/cfg2html/cfg2html-SunOS.sh
+The script.
+
+.TP
+.B /etc/cfg2html/systeminfo
+your system description
+
+.TP
+.B /etc/cfg2html/files
+collect your own files
+
+.TP
+.B <hostname>.html
+the documentation in html form
+
+.TP
+.B <hostname>.txt
+the documentation in ascii form
+
+.TP
+.B <hostname>.err
+error logfile
+
+.TP
+.B /usr/share/man/man8/cfg2html.8.gz
+The man page.
+
+.TP
+.B README
+Additional documentation and installation instructions.
+
+.SH "SEE ALSO"
+
+.B README
+and
+.B AUTHORS
+file in the source directory.
+
+.SH NOTES
+Only
+.B root
+can run the
+.B cfg2html-SunOS.sh
+script. For security reasons it is better to store the HTML and ASCII files
+in a safe place where only root user have access or remove the
+files from your file system.
+
+.SH CONTACTING
+If you like the script, and you want to learn more about
+the  script,  or  want to see a feature added to it that
+isn't already here, then please subscribe to the project mailing list.
+The project web page is at
+.B http://www.cfg2html.com
+the mailing list is at
+.B http://groups.yahoo.com/cfg2html
+and the source code is hosted on
+.B https://github.com/cfg2html/cfg2html
+
+.SH WARNINGS
+use the
+.B cfg2html-SunOS.sh
+script at your own risk!
+.SH DIAGNOSTICS
+
+.B cfg2html-SunOS.sh
+writes errors to <hostname>.err
+
+.SH BUGS
+There are probably some bugs. This script is 
+successfully used on many systems. If you find a bug or have a
+comment or suggestion about the script, please email them at the address
+in the
+.I AUTHORS
+section. We love to hear from you :-)
+
+.SH AUTHORS
+Original cfg2html HP-UX version written by Ralph Roth <cfg2html@hotmail.com>
+and next-generation ported to Solaris by Dusan Baljevic <dusan.baljevic@ieee.org>.
+.SH MAINTAINERS
+GIThub repository is maintained by Ralph Roth and Gratien D'haese.
+See the source code for complete history and credits.
