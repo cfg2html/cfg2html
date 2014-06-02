@@ -1,0 +1,13 @@
+For details see cfg2html.html
+@(#)$Id: AUTHORS,v 1.1 2014/05/18 06:32:58 dusan Exp dusan $
+---------------------------------------------------------------------------
+    _         _   _
+Co / \  _   _| |_| |__   ___  _ __ ___
+  / _ \| | | | __| '_ \ / _ \| '__/ __|
+ / ___ \ |_| | |_| | | | (_) | |  \__ \
+/_/   \_\__,_|\__|_| |_|\___/|_|  |___/	for the BSD port
+---------------------------------------------------------------------------
+
+Dusan Baljevic (dusan.baljevic@ieee.org)
+        BSD collectors for cfg2html next generation (cfg2html v.6.xx)
+
