@@ -1,0 +1,7 @@
+To ensure that BSD port for cfg2html is in line with other operating systems,
+the only pre-requisite to use it is to have Bash installed.
+
+If Bash is not a default shell, execute:
+
+# bash cfg2html
+

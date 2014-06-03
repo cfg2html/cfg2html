@@ -8,17 +8,18 @@
 product = cfg2html
 
 all: 
-	i=`uname -s`; case $$i in HP-UX) make depot;; Linux) make rpm;; SunOS) echo "Run \"make sunos\"";; *) make help;; esac
+	i=`uname -s`; case $$i in HP-UX) make depot;; Linux) make rpm;; SunOS) echo "Run \"make sunos\"";; FreeBSD|OpenBSD|NetBSD) echo "Run \"make freebsd\"";;*) make help;; esac
 
 help:
-	@echo "+-----------------------------+"
-	@echo "|    cfg2html Makefile        |"
-	@echo "|    =================        |"
-	@echo "|    HP-UX: \"make depot\"    |"
-	@echo "|    Linux: \"make rpm\"      |"
-	@echo "|    Linux: \"make deb\"      |"
-	@echo "|    SunOS: \"make sunos\"    |"
-	@echo "+-----------------------------+"
+	@echo "+--------------------------------------------+"
+	@echo "|    cfg2html Makefile                       |"
+	@echo "|    =================                       |"
+	@echo "|    HP-UX: \"make depot\"                     |"
+	@echo "|    Linux: \"make rpm\"                       |"
+	@echo "|    Linux: \"make deb\"                       |"
+	@echo "|    SunOS: \"make sunos\"                     |"
+	@echo "|    FreeBSD|OpenBSD|NetBSD: \"make bsd\"      |"
+	@echo "+--------------------------------------------+"
 
 depot:
 	gmake -C hpux depot
@@ -30,7 +31,10 @@ deb:
 	make -C linux deb
 
 clean:
-	i=`uname -s`; case $$i in HP-UX) gmake -C hpux clean;; Linux) make -C linux clean;; *) make help;; esac
+	i=`uname -s`; case $$i in HP-UX) gmake -C hpux clean;; Linux) make -C linux clean;; FreeBSD) make -C freebsd clean;;*) make help;; esac
 
 sunos: sunos/cfg2html-SunOS.sh
 	cd sunos && make install
+
+bsd: bsd/cfg2html-bsd.sh
+	cd bsd && make install

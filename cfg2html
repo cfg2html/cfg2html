@@ -25,6 +25,10 @@ if [ "$MY_OS" = "SunOS" -a ! -f /tmp/cfg2html.respawn ]; then
     touch /tmp/cfg2html.respawn
     exec /usr/bin/ksh $PRGNAME $args
 fi
+if [ "`echo $MY_OS | grep BSD`" -a ! -f /tmp/cfg2html.respawn ]; then
+    touch /tmp/cfg2html.respawn
+    exec /usr/local/bin/bash $PRGNAME $args
+fi
 if [ "$MY_OS" = "AIX" -a ! -f /tmp/cfg2html.respawn ]; then
     touch /tmp/cfg2html.respawn
     exec /usr/bin/ksh $PRGNAME $args
@@ -103,13 +107,17 @@ for script in $BASE_DIR/lib/*.sh ; do
 done
 
 # source the main program, e.g. cfg2html-hpux.sh
-if [[ -f $BASE_DIR/${PROGRAM}-${OS}.sh ]]; then
-    . $BASE_DIR/${PROGRAM}-${OS}.sh
-elif [[ -f $BASE_DIR/bin/${PROGRAM}-${OS}.sh ]]; then
-    . $BASE_DIR/bin/${PROGRAM}-${OS}.sh
+if [ "`echo $MY_OS | grep BSD`" ]; then
+    . $BASE_DIR/${PROGRAM}-bsd.sh
 else
-    echo "ERROR: Could not find $BASE_DIR/[bin/]${PROGRAM}-${OS}.sh"
-    exit 1
+    if [[ -f $BASE_DIR/${PROGRAM}-${OS}.sh ]]; then
+        . $BASE_DIR/${PROGRAM}-${OS}.sh
+    elif [[ -f $BASE_DIR/bin/${PROGRAM}-${OS}.sh ]]; then
+        . $BASE_DIR/bin/${PROGRAM}-${OS}.sh
+    else
+        echo "ERROR: Could not find $BASE_DIR/[bin/]${PROGRAM}-${OS}.sh"
+        exit 1
+    fi
 fi
 RETCODE=$?
 
