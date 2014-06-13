@@ -6,3 +6,4 @@ cfg2html-6*git*.noarch.rpm
 cfg2html*.deb
 *,v
 RCS/
+linux/debian/
