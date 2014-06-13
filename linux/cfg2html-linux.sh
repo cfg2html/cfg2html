@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html-linux.sh,v 6.30 2014/05/14 18:11:02 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.31 2014/06/13 08:01:27 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-
 
@@ -311,6 +311,9 @@ then # else skip to next paragraph
   [ -x /usr/bin/systemctl ] && exec_command "/usr/bin/systemctl" "Systemd: System and Service Manager"
   [ -x /usr/bin/systemctl ] && exec_command "/usr/bin/systemctl list-units --type service" "Systemd: All Services"
   [ -x /usr/bin/systemctl ] && exec_command "systemctl list-unit-files" " Systemd: All Unit Files"
+
+  ## new 20140613 by Ralph Roth
+  [ -x /usr/bin/journalctl ] && exec_command "/usr/bin/journalctl -b -p 3 --no-pager" "Systemd Journal with Errors and Warnings"
 
   if [ "$ARCH" = "yes" ] ; then   ## M.Weiller, LUG-Ottobrunn.de, 2013-02-04 ## OpenSUSE also and SLES12?
     [ -x /usr/bin/systemctl ] && exec_command "/usr/bin/systemctl --failed" "Systemd: Failed Units"
