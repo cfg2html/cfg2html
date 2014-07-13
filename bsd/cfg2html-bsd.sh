@@ -962,7 +962,14 @@ then # else skip to next paragraph
 
    exec_command "aide -v" "AIDE status"
 
-   exec_command "twadmin --print-cfgfile" "Tripwire status"
+   TWIRE=$(twadmin --print-cfgfile)
+   
+   if [ "$TWIRE" ]
+   then
+       exec_command "echo $TWIRE" "Tripwire status"
+   else
+       exec_command "tripwire -preprocess" "Tripwire status"
+   fi
  
 dec_heading_level
 fi
