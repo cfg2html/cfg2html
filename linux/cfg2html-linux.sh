@@ -1732,6 +1732,10 @@ fi ## SAP
         exec_command "ls -l $SGCONF" "Files in $SGCONF"
     fi
 
+    dec_heading_level
+    paragraph "Cluster Services"
+    inc_heading_level
+
 ######## SLES 11 SP1 Pacemaker stuff ########## Mittwoch, 16. March 2011 ##### Ralph Roth ####
     [ -x /usr/sbin/corosync-cfgtool ] && exec_command "/usr/sbin/corosync-cfgtool -s;corosync -v" "Corosync TOTEM Status/Active Rings"
     # see also:  corosync-objctl runtime.totem.pg.mrp.srp.members
