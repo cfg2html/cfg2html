@@ -1,3 +1,4 @@
+# 
 # @(#) $Id: cfg2html-linux.sh,v 6.32 2014/07/25 12:40:14 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-
@@ -195,6 +196,7 @@ then # else skip to next paragraph
   CPUPOWER=$(which cpupower)
   if [ -n "$CPUPOWER" ] && [ -x "$CPUPOWER" ] ; then
       exec_command "$CPUPOWER info" "Processor power related kernel or hardware configuration"
+      exec_command "$CPUPOWER idle-info" "Processor idle state information"  ## closes issue #53 - rr, 20140725
   fi
 
   exec_command  HostNames "uname & hostname"
