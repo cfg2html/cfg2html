@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html-linux.sh,v 6.30 2014/05/14 18:11:02 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.31 2014/06/13 08:01:27 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-
 
@@ -190,9 +190,24 @@ then # else skip to next paragraph
   exec_command "cat /proc/cpuinfo; echo; /usr/bin/lscpu;" "CPU and Model info" #  20.08.2012, 15:59 modified by Ralph Roth #* rar *#
   [ -x /usr/bin/cpufreq-info ] && exec_command cpufreq-info "CPU Freq Kernel Information"
 
+  # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 15 July 2013
+  #
+  CPUPOWER=$(which cpupower)
+  if [ -n "$CPUPOWER" ] && [ -x "$CPUPOWER" ] ; then
+      exec_command "$CPUPOWER info" "Processor power related kernel or hardware configuration"
+  fi
+
   exec_command  HostNames "uname & hostname"
   exec_command "uname -n" "Host alias"
   exec_command "uname -sr" "OS, Kernel version"
+
+  # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 15 July 2013
+  #
+  HOSTNAMECTL=$(which hostnamectl)
+  if [ -n "$HOSTNAMECTL" ] && [ -x "$HOSTNAMECTL" ] ; then
+      exec_command "$HOSTNAMECTL" "Hostname settings"
+  fi
+
   [ -x /usr/bin/lsb_release ] && exec_command "/usr/bin/lsb_release -a" "Linux Standard Base Version"
   for i in /etc/*-release
   do
@@ -284,12 +299,14 @@ then # else skip to next paragraph
 
   ### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
 
-  if [ -x /usr/bin/systemd-analyze ] ; then
-     exec_command "/usr/bin/systemd-analyze" "systemd-analyze Boot Performance Profiler"
-     exec_command "/usr/bin/systemd-analyze blame" "systemd-analyze Boot Sequence and Performance Profiler"
+  SYSTEMD=$(which systemd-analyze)
+  if [ -x $SYSTEMD ] ; then
+     exec_command "$SYSTEMD" "systemd-analyze Boot Performance Profiler"
+     exec_command "$SYSTEMD blame" "systemd-analyze Boot Sequence and Performance Profiler"
   fi
 
   [ -r /etc/init/bootchart.conf ] && exec_command "grep -vE '^#' /etc/init/bootchart.conf" "bootchart Boot Sequence and Performance Profiler"
+  [ -r /etc/systemd/bootchart.conf ] && exec_command "grep -vE '^#' /etc/systemd/bootchart.conf" "bootchart Boot Sequence and Performance Profiler"
 
   ### End changes by Dusan.Baljevic@ieee.org ### 13.05.2014
 
@@ -311,6 +328,9 @@ then # else skip to next paragraph
   [ -x /usr/bin/systemctl ] && exec_command "/usr/bin/systemctl" "Systemd: System and Service Manager"
   [ -x /usr/bin/systemctl ] && exec_command "/usr/bin/systemctl list-units --type service" "Systemd: All Services"
   [ -x /usr/bin/systemctl ] && exec_command "systemctl list-unit-files" " Systemd: All Unit Files"
+
+  ## new 20140613 by Ralph Roth
+  [ -x /usr/bin/journalctl ] && exec_command "/usr/bin/journalctl -b -p 3 --no-pager" "Systemd Journal with Errors and Warnings"
 
   if [ "$ARCH" = "yes" ] ; then   ## M.Weiller, LUG-Ottobrunn.de, 2013-02-04 ## OpenSUSE also and SLES12?
     [ -x /usr/bin/systemctl ] && exec_command "/usr/bin/systemctl --failed" "Systemd: Failed Units"
@@ -1039,6 +1059,7 @@ then # else skip to next paragraph
                 "2")
                   exec_command "ls -al /dev/mapper/*" "Volumegroup Device Files"
                   exec_command "lvm version" "LVM global info"
+                  exec_command "lvm dumpconfig" "LVM dumpconfig"
                   exec_command "vgdisplay -v | awk -F' +' '/PV Name/ {print \$4}'" "Available Physical Groups"
                   exec_command "vgdisplay -s | awk -F\\\" '{print \$2}'" "Available Volume Groups"
                   exec_command "vgdisplay -v | awk -F' +' '/LV Name/ {print \$4}'" "Available Logical Volumes"
@@ -1306,6 +1327,15 @@ then # else skip to next paragraph
     exec_command "$NTPQ -p" "XNTP Time Protocol Daemon"
   fi
 
+  # Chronyc is replacement for standard NTP, now default in RHEL/CentOS 7
+  # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 13 July 2013
+  #
+  CHRONYC=$(which chronyc)
+  if [ -n "$CHRONYC" ] && [ -x "$CHRONYC" ] ; then
+    exec_command "$CHRONYC -n sourcestats" "CHRONY Time Protocol Daemon sources"
+    exec_command "$CHRONYC -n tracking" "CHRONY Time Protocol Daemon tracking"
+  fi
+
   exec_command "hwclock -r" "Time: HWClock" # rr, 20121201
   [ -f /etc/ntp.conf ] && exec_command "grep  -vE '^#|^ *$' /etc/ntp.conf" "ntp.conf"
   [ -f /etc/shells ] && exec_command "grep  -vE '^#|^ *$'  /etc/shells" "FTP Login Shells"
@@ -1443,6 +1473,13 @@ then # else skip to next paragraph
     if [ -x /sbin/sysctl ] ; then ##  11.01.2010, 10:44 modified by Ralph Roth
       exec_command "/sbin/sysctl -a 2> /dev/null | sort -u" "configured kernel variables at runtime"  ## rr, 20120212
       exec_command "cat /etc/sysctl.conf | sort -u |grep -v -e ^# -e ^$" "configured kernel variables in /etc/sysctl.conf"
+    fi
+
+    # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 15 July 2013
+    #
+    BOOTCTL=$(which bootctl)
+    if [ -n "$BOOTCTL" ] && [ -x "$BOOTCTL" ] ; then
+      exec_command "$BOOTCTL status | awk NF" "Firmware and boot manager settings"
     fi
 
     if [ -f "/etc/rc.config" ] ; then
