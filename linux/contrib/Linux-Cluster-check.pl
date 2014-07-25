@@ -3,7 +3,7 @@
 # Description: Linux Cluster status verification 
 #              Results are displayed on stdout or redirected to a file
 #
-# Last Update:  2 July 2014
+# Last Update:  15 July 2014
 # Designed by:  Dusan U. Baljevic (dusan.baljevic@ieee.org)
 # Coded by:     Dusan U. Baljevic (dusan.baljevic@ieee.org)
 # 
@@ -30,13 +30,11 @@
 # Like all scripts and programs, this one will continue to
 # change as our needs change.
 
-#
 # Define important environment variables
 #
 $ENV{'PATH'} = "/bin:/usr/sbin:/sbin:/usr/bin:/usr/local/bin";
 $ENV{'PATH'} = "$ENV{PATH}:/usr/local/qs/bin:/opt/qs/bin:/etc/init.d";
 
-#
 # Define Shell
 #
 $ENV{'SHELL'} = '/bin/sh' if $ENV{'SHELL'} ne '';
@@ -85,6 +83,12 @@ my $LOCKDIR  = q{};
 my $THRESHOLD = q{};
 my @cmannode = ();
 my $vgformat = q{};
+my @VGCHKARR = (); 
+
+# Delay and count values for commands vmstat, ioscan, and sar...
+#
+my $ITERATIONS = 10;
+my $DELAY      = 2;
 
 # LVM Locking types
 #
@@ -95,18 +99,27 @@ my %LVMLOCKARR = ( "0", "locking disabled (risk of corrupting metadata)",
                    "4", "locking enforces read-only metadata",
                );
 
-print "VOLUME MANAGER STATUS\n";
-print "---------------------\n";
+sub print_header {
+   my $lline = shift;
+   print "$lline\n";
+   print "\n";
+}
+
+# Create syslog entry about Cluster checks
+#
+`clulog -s 5 "Brief Linux Cluster verification tests underway"`;
+
+print_header("*** LOGICAL VOLUME MANAGER STATUS ***");
 
 my @lsblk = `lsblk -f 2>/dev/null`;
 if ( "@lsblk" ) {
-    print "INFO: File systems and raids\n";
+    print "$INFOSTR File systems and raids\n";
     print @lsblk;
 }
 
 my @lsblkdet = `lsblk -t 2>/dev/null`;
 if ( "@lsblkdet" ) {
-    print "\nINFO: Block devices\n";
+    print "\n$INFOSTR: Block devices\n";
     print @lsblkdet;
 }
 
@@ -142,18 +155,18 @@ if ( @PVSCAN != 0 ) {
    print @PVSCAN;
 }
 
-my @LVSCANALL = `lvs -o+seg_all 2>/dev/null`;
+my @LVSCANALL = `lvs -o+seg_all 2>/dev/null | cat -s -`;
 if ( @LVSCANALL != 0 ) {
    print "\n$INFOSTR LVM logical volume status\n";
    print @LVSCANALL;
 }
 else {
-   my @LVSCANALL = `lvs 2>/dev/null`;
+   my @LVSCANALL = `lvs 2>/dev/null | cat -s -`;
    print "\n$INFOSTR LVM logical volume status\n";
    print @LVSCANALL;
 }
 
-my @LVMDSCAN = `lvmdiskscan 2>/dev/null`;
+my @LVMDSCAN = `lvmdiskscan 2>/dev/null | cat -s -`;
 if ( @LVMDSCAN != 0 ) {
    print "\n$INFOSTR LVM disk scan\n";
    print @LVMDSCAN;
@@ -188,22 +201,15 @@ if ( open( NN, "vgdisplay -vv --partial 2>/dev/null |" ) ) {
          $MAXPV{$vgname} = $maxpv;
          if ( $vgformat eq "lvm2" ) {
             if ( $maxpv == 0 ) {
-               print
-"$PASSSTR Max PV not limited for lvm2 volume group $vgname\n";
+               push( @VGCHKARR, "$PASSSTR Max PV not limited for lvm2 volume group $vgname\n");
             }
          }
          else {
             if ( $maxpv < $THRESHOLD_MAX_PV ) {
-               print
-               "$WARNSTR Max PV ($maxpv) below the threshold ";
-               print
-               "($THRESHOLD_MAX_PV) for volume group $vgname\n";
+               push( @VGCHKARR, "$WARNSTR Max PV ($maxpv) below the threshold ($THRESHOLD_MAX_PV) for volume group $vgname\n");
             }
             else {
-               print
-               "$PASSSTR Max PV ($maxpv) satisfies the threshold ";
-               print
-               "(minimum $THRESHOLD_MAX_PV) for volume group $vgname\n";
+               push( @VGCHKARR, "$PASSSTR Max PV ($maxpv) satisfies the threshold (minimum $THRESHOLD_MAX_PV) for volume group $vgname\n");
            }
         }
      }
@@ -216,24 +222,16 @@ if ( open( NN, "vgdisplay -vv --partial 2>/dev/null |" ) ) {
         if ( $vgformat ne "lvm2" ) {
            my $pvthresh = int( $curpv / $maxpv ) * 100;
            if ( $curpv == $maxpv ) {
-              print
-              "$ERRSTR Current PV ($curpv) reached Max PV threshold ";
-              print "in volume group $vgname\n";
+              push( @VGCHKARR, "$ERRSTR Current PV ($curpv) reached Max PV threshold in volume group $vgname\n");
            }
            elsif ( $pvthresh == $THRESHOLD ) {
-              print
-              "$WARNSTR Current PV ($curpv) reached 90% of Max PV ";
-               print "($maxpv) in volume group $vgname\n";
+              push( @VGCHKARR, "$WARNSTR Current PV ($curpv) reached 90% of Max PV ($maxpv) in volume group $vgname\n");
            }
            elsif ( $pvthresh > $THRESHOLD ) {
-              print
-              "$WARNSTR Current PV ($curpv) exceeds 90% of Max PV ";
-              print "($maxpv) in volume group $vgname\n";
+              push( @VGCHKARR, "$WARNSTR Current PV ($curpv) exceeds 90% of Max PV ($maxpv) in volume group $vgname\n");
            }
            else {
-              print
-              "$PASSSTR Current PV ($curpv) below 90% of Max PV ";
-              print "($maxpv) in volume group $vgname\n";
+              push( @VGCHKARR, "$PASSSTR Current PV ($curpv) below 90% of Max PV ($maxpv) in volume group $vgname\n");
           }
        }
     }
@@ -243,14 +241,14 @@ if ( open( NN, "vgdisplay -vv --partial 2>/dev/null |" ) ) {
        ( undef, undef, my $vgstat ) = split( /\s+/, $_ );
        chomp($vgstat);
        if ( $vgstat eq "resizable" ) {
-          print "$PASSSTR Volume group $vgname is resizable\n";
+          push( @VGCHKARR, "$PASSSTR Volume group $vgname is resizable\n");
        }
        else {
-          print "$WARNSTR Volume group is not resizable\n";
+          push( @VGCHKARR, "$WARNSTR Volume group is not resizable\n");
        }
     }
 
-    if ( grep( /^Free  PE/, $_ ) ) {
+    if ( grep( /^Free  PE|Free PE/, $_ ) ) {
        $_ =~ s/^\s+//g;
        ( undef, undef, my $freepe2 ) = split( /\//, $_ );
        $freepe2 =~ s/^\s+//g;
@@ -258,10 +256,10 @@ if ( open( NN, "vgdisplay -vv --partial 2>/dev/null |" ) ) {
        ( undef, my $freepe ) = split( /\s+/, $_ );
        chomp($freepe);
        if ( $freepe == 0 ) {
-          print "$ERRSTR No free PEs available in volume group $vgname\n";
+          push( @VGCHKARR, "$ERRSTR No free PEs available in volume group $vgname\n");
        }
        else {
-          print "$PASSSTR $freepe free PEs available in volume group $vgname\n";
+          push( @VGCHKARR, "$PASSSTR $freepe free PEs available in volume group $vgname\n");
        }
        $VGfpe{$vgname} = $freepe;
     }
@@ -315,8 +313,11 @@ if ( open( NN, "vgdisplay -vv --partial 2>/dev/null |" ) ) {
   }
   close(NN);
 
+   if ( @VGCHKARR ) {
+      print @VGCHKARR;
+   }
   foreach my $vgnn ( @MYVGS ) {
-  my @vgcfgr = `vgcfgrestore -l $vgnn 2>/dev/null`;
+  my @vgcfgr = `vgcfgrestore -l $vgnn 2>/dev/null | cat -s -`;
      if ( "@vgcfgr" ) {
         print "\n$INFOSTR vgcfgrestore status for volume group $vgnn\n";
         print @vgcfgr;
@@ -330,13 +331,45 @@ else {
    print "$WARNSTR Cannot run vgdisplay\n";
 }
 
+print_header("*** GLOBAL FILE SYSTEM (GFS) STATUS ***");
+
 my @gfstool  = `gfs_tool list 2>/dev/null`;
 my @gfstool2 = `gfs2_tool list 2>/dev/null`;
 my @gfssvc   = `service gfs status 2>/dev/null`;
 my @gfssvc2  = `service gfs2 status 2>/dev/null`;
+my @mline    = ();
+my $fsreal   = q{};
+my $fsdev    = q{};
+my $fstype   = q{};
+my @GFSARR   = ();
+my @GFS2ARR  = ();
+my @GFSDEVARR  = ();
+my @GFS2DEVARR = ();
+
+if ( open( MM, "mount | sort |" ) ) {
+   while (<MM>) {
+      next if ( grep( /^$/, $_ ) );
+      chomp($_);
+      @mline = split(/\s+/, $_);
+      $fsreal = $mline[2];
+      $fsdev = $mline[0];
+      $fstype = $mline[4];
+      if ( $fstype eq "gfs" )  {
+         push( @GFSARR, $fsreal );
+         push( @GFSDEVARR, $fsdev );
+      }
+      else {
+         if ( $fstype eq "gfs2" )  {
+            push( @GFS2ARR, $fsreal );
+            push( @GFS2DEVARR, $fsdev );
+         }
+      }
+   }
+   close(MM);
+}
 
 if (@gfstool) {
-   print "\n$INFOSTR GFS file system listing\n";
+   print "$INFOSTR GFS file system listing\n";
    print @gfstool;
 
    my @gfstooldf  = `gfs_tool df 2>/dev/null`;
@@ -344,10 +377,40 @@ if (@gfstool) {
       print "\n$INFOSTR GFS file system status\n";
       print @gfstooldf;
    }
+
+   foreach my $gfsfs ( @GFSARR ) {
+      my @gfstoolext  = `gfs_tool gettune $gfsfs 2>/dev/null`;
+      if (@gfstoolext) {
+         print "\n$INFOSTR GFS file system $gfsfs tunables\n";
+         print @gfstoolext;
+      }
+
+      my @gfstoolcnt  = `gfs_tool counters $gfsfs 2>/dev/null`;
+      if (@gfstoolcnt) {
+         print "\n$INFOSTR GFS file system $gfsfs counters\n";
+         print @gfstoolcnt;
+      }
+   }
+
+   foreach my $gfsdev ( @GFSDEVARR ) {
+      my @gfsdevchk  = `gfs2_edit -p sb inum statfs master $gfsdev 2>/dev/null`;
+      if (@gfsdevchk) {
+         print "\n$INFOSTR GFS device $gfsdev selected internal structures\n";
+         print @gfsdevchk;
+      }
+   }
+
+   if (@gfssvc) {
+      print "\n$INFOSTR GFS service status\n";
+      print @gfssvc;
+   }
+}
+else {
+   print "$INFOSTR GFS not installed or unused on local node\n";
 }
 
 if (@gfstool2) {
-   print "\n$INFOSTR GFS2 file system listing\n";
+   print "$INFOSTR GFS2 file system listing\n";
    print @gfstool2;
 
    my @gfstooldf2  = `gfs2_tool df 2>/dev/null`;
@@ -355,24 +418,109 @@ if (@gfstool2) {
       print "\n$INFOSTR GFS2 file system status\n";
       print @gfstooldf2;
    }
+
+   foreach my $gfs2fs ( @GFS2ARR ) {
+      my @gfstool2ext  = `gfs2_tool gettune $gfs2fs 2>/dev/null`;
+      if (@gfstool2ext) {
+         print "\n$INFOSTR GFS2 file system $gfs2fs tunables\n";
+         print @gfstool2ext;
+      }
+   }
+
+   foreach my $gfs2dev ( @GFS2DEVARR ) {
+      my @gfs2devchk  = `gfs2_edit -p sb inum statfs master $gfs2dev 2>/dev/null`;
+      if (@gfs2devchk) {
+         print "\n$INFOSTR GFS2 device $gfs2dev selected internal structures\n";
+         print @gfs2devchk;
+      }
+   }
+
+   if (@gfssvc2) {
+      print "\n$INFOSTR GFS2 service status\n";
+      print @gfssvc2;
+   }
+}
+else {
+   print "$INFOSTR GFS2 not installed or unused on local node\n";
 }
 
-if (@gfssvc) {
-   print "\n$INFOSTR GFS service status\n";
-   print @gfssvc;
+print "\n";
+print_header("*** SYSTEM PERFORMANCE STATUS ON CURRENT NODE ***");
+
+my @USED = `free -t`;
+print @USED;
+
+my @pcpu = `ps -e -o pcpu,cpu,nice,state,cputime,args --sort -pcpu 2>/dev/null`;
+if ( "@pcpu" ) {
+   print "\n$INFOSTR List processes by CPU activity\n";
+   print @pcpu;
 }
 
-if (@gfssvc2) {
-   print "\n$INFOSTR GFS2 service status\n";
-   print @gfssvc2;
+my @cpupoweri = `cpupower idle-info 2>/dev/null`;
+if ( "@cpupoweri" ) {
+   print "\n$INFOSTR CPU idle kernel information\n";
+   print @cpupoweri;
 }
 
-print "LINUX CLUSTER STATUS\n";
-print "--------------------\n";
+my @pmem = `ps -e -o rss,args --sort -rss | pr -TW\$COLUMNS 2>/dev/null`;
+if ( "@pmem" ) {
+   print "\n$INFOSTR List processes by memory usage\n";
+   print @pmem;
+}
+else {
+   @pmem = `ps aux --sort pmem 2>/dev/null`;
+   if ( "@pmem" ) {
+      print "\n$INFOSTR List processes by memory usage\n";
+      print @pmem;
+   }
+}
+
+my @TOP = `top -n 1 2>/dev/null`;
+if ( "@TOP" ) {
+   print "\n$INFOSTR Top activity\n";
+   print @TOP;
+}
+
+my @VMSTATS = `vmstat -s 2>/dev/null`;
+if ( "@VMSTATS" ) {
+   print "\n$INFOSTR Virtual memory counters\n";
+   print @VMSTATS;
+}
+
+my @AASTAT = `aa-status 2>/dev/null`;
+if ( "@AASTAT" ) {
+   print "\n$INFOSTR Programs confined to limited set of resources in AppArmor\n";
+   print @AASTAT;
+}
+
+my @VMSTAT = `vmstat $DELAY $ITERATIONS 2>/dev/null`;
+if ( "@VMSTAT" ) {
+   print "\n$INFOSTR Virtual memory statistics\n";
+   print @VMSTAT;
+}
+
+my @SARD = `sar -d $DELAY $ITERATIONS 2>/dev/null`;
+if ( "@SARD" ) {
+   print "\n$INFOSTR SA Disk activity\n";
+   print @SARD;
+}
+
+my @IOSTATD = `iostat -dxNhtz $DELAY $ITERATIONS 2>/dev/null`;
+if ( "@IOSTATD" ) {
+   print @IOSTATD;
+}
+
+my @MPSTAT = `mpstat -P ALL $DELAY $ITERATIONS 2>/dev/null`;
+if ( "@MPSTAT" ) {
+   print @MPSTAT;
+   print "\n";
+}
+
+print_header("*** LINUX CLUSTER STATUS ***");
 
 if ( -s $PVGconf ) {
    if ( open( PVGC, "awk NF $PVGconf 2>/dev/null |" ) ) {
-      print "\n$INFOSTR LVM configuration file $PVGconf\n";
+      print "$INFOSTR LVM configuration file $PVGconf\n";
       while (<PVGC>) {
          next if ( grep( /#/, $_ ) );
          print $_;

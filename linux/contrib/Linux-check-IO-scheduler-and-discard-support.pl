@@ -3,7 +3,7 @@
 # Description: Basic check if I/O scheduler and discard option on Linux servers
 #              Results are displayed on stdout or redirected to a file
 #
-# Last Update:  13 June 2014
+# Last Update:  24 July 2014
 # Designed by:  Dusan U. Baljevic (dusan.baljevic@ieee.org)
 # Coded by:     Dusan U. Baljevic (dusan.baljevic@ieee.org)
 # 
@@ -57,42 +57,20 @@ if ( open( LSBK, "lsblk -io KNAME,TYPE,SCHED,ROTA,DISC-GRAN,DISC-MAX |" ) ) {
        chomp($_);
        my @LSLN = split( /\s+/, $_ );
 
-       # Default Ubuntu virtual machine does not set scheduler:
+       # For virtual disks, elevator settings apply only on older kernels
+       # (before 3.13). This behavior was changed in the kernel because
+       # it does not make sense to run an elevator on virtual devices.
+       # The same applies on bare metal for LVM and RAID: they no longer
+       # have their own elevator. Instead the IO is passed straightxi
+       # down the stack to the real disk where there is a single elevator
+       # managing all IO to that disk, whether it comes from different
+       # virtual machines, or logical volumes...
        #
-       # lsblk -io KNAME,TYPE,SCHED,ROTA,DISC-GRAN,DISC-MAX
-       # KNAME TYPE SCHED    ROTA DISC-GRAN DISC-MAX
-       # sr0   rom  deadline    1        0B       0B
-       # vda   disk             1        0B       0B
-       # vda1  part             1        0B       0B
-       # vda2  part             1        0B       0B
-       # vda5  part             1        0B       0B
-       # dm-0  lvm              1        0B       0B
-       # dm-1  lvm              1        0B       0B
+       # For "real" disk devices, an example:
        #
-       # cat /sys/block/vda/queue/scheduler 
-       # none
+       # cat /sys/block/sda/queue/scheduler 
+       # noop anticipatory [deadline] cfq  
        #
-       # ... which is different from SUSE 13:
-       #
-       # lsblk -io KNAME,TYPE,SCHED,ROTA,DISC-GRAN,DISC-MAX
-       # KNAME TYPE SCHED ROTA DISC-GRAN DISC-MAX
-       # sr0   rom  cfq      1        0B       0B
-       # vda   disk cfq      1        0B       0B
-       # vda1  part cfq      1        0B       0B
-       # vda2  part cfq      1        0B       0B
-       # dm-0  lvm           1        0B       0B
-       # dm-1  lvm           1        0B       0B
-       #
-       # ... and Oracle Linux 6
-       #
-       # KNAME TYPE SCHED    ROTA DISC-GRAN DISC-MAX
-       # sr0   rom  deadline    1        0B       0B
-       # vda   disk deadline    1        0B       0B
-       # vda1  part deadline    1        0B       0B
-       # vda2  part deadline    1        0B       0B
-       # dm-0  lvm              1        0B       0B
-       # dm-1  lvm              1        0B       0B
- 
        my $DTYPE = $LSLN[1];
        if ( "$DTYPE" eq "disk" ) {
            my $DISCMAX = $LSLN[$#LSLN];
