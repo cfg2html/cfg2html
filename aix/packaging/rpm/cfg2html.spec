@@ -1,23 +1,13 @@
-#%define rpmrelease 
-
-### Work-around the fact that OpenSUSE/SLES _always_ defined both :-/
-##%if 0%{?sles_version} == 0
-##%undefine sles_version
-##%endif
-
-Name:		cfg2html
-Version:	6.24
-#Release:	1%{?rpmrelease}%{?dist}
-Release:	aix	
-Summary:	Config 2 HTML is a tool to collect system information in HTML and ASCII format
-
-Group:		Applications/File
-License:	GPLv3
-URL:		http://cfg2html.com/
+Name: cfg2html
+Version: 6.24
+Release: aix	
+Summary: Config 2 HTML is a tool to collect system information in HTML and ASCII format
+Group: Applications/File
+License: GPLv3
+URL: http://cfg2html.com/
 Source: cfg2html-6.24.tar.gz
-#Source1:	%{name}.cron
-BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
-BuildArch:	noarch
+BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
+BuildArch: noarch
 
 #BuildRequires:	
 #Requires:	bash
