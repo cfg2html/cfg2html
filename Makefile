@@ -14,11 +14,13 @@ help:
 	@echo "+--------------------------------------------+"
 	@echo "|    cfg2html Makefile                       |"
 	@echo "|    =================                       |"
-	@echo "|    HP-UX: \"make depot\"                     |"
-	@echo "|    Linux: \"make rpm\"                       |"
-	@echo "|    Linux: \"make deb\"                       |"
-	@echo "|    SunOS: \"make sunos\"                     |"
-	@echo "|    FreeBSD|OpenBSD|NetBSD: \"make bsd\"      |"
+	@echo "|    HP-UX: \"make depot\"                   |"
+	@echo "|    Linux: \"make rpm\"                     |"
+	@echo "|    Linux: \"make deb\"                     |"
+	@echo "|    SunOS: \"make sunos\"                   |"
+	@echo "|    FreeBSD|OpenBSD|NetBSD: \"make bsd\"    |"
+	@echo "|    AIX:   \"make aix-rpm\"                 |"
+	@echo "|    AIX:   \"make aix-dist\"                |"
 	@echo "+--------------------------------------------+"
 
 depot:
@@ -38,3 +40,9 @@ sunos: sunos/cfg2html-SunOS.sh
 
 bsd: bsd/cfg2html-bsd.sh
 	cd bsd && make install
+
+aix-rpm:
+	make -C aix rpm
+
+aix-dist:
+	make -C aix dist
