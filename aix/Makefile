@@ -26,7 +26,7 @@ endif
 else
 git_branch = cfg2html-$(version)
 endif
-git_branch ?= master
+#git_branch ?= master
 
 date := $(shell date --date="$(git_date)" +%Y%m%d%H%M)
 release_date := $(shell date --date="$(git_date)" +%Y-%m-%d)
@@ -46,13 +46,13 @@ distversion = $(version)
 rpmrelease = %nil
 ##obsproject = home:gdha
 ##obspackage = $(name)-$(version)
-ifeq ($(OFFICIAL),)
-    distversion = $(version)-git$(date)
+#ifeq ($(OFFICIAL),)
+#    distversion = $(version)-git$(date)
 ##    debrelease = 0git$(date)
-    rpmrelease = .git$(date)
+#    rpmrelease = .git$(date)
 ##    obsproject = home:gdha
 ##    obspackage = $(name)
-endif
+#endif
 
 .PHONY: doc
 
@@ -210,7 +210,6 @@ rpm: dist
 	@echo -e "\033[1m== Building RPM package $(name)-$(distversion) ==\033[0;0m"
 	cd .. ; \
 	rpmbuild -tb  \
-		--define "_rpmfilename %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm" \
-		--define "debug_package %{nil}" \
+		--define "_rpmfilename %%{NAME}-%%{VERSION}-aix.rpm" \
 		--define "_rpmdir %(pwd)" $(name)-$(distversion).tar.gz
 
