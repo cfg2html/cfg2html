@@ -300,6 +300,8 @@ then # else skip to next paragraph
   exec_command "last| grep boot" "reboots"
 
   ### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
+  #     stderr output from " blame":
+  #     /usr/share/cfg2html/lib/html-functions.sh: line 107: blame: command not found
 
   SYSTEMD=$(which systemd-analyze)
   if [ -x $SYSTEMD ] ; then
