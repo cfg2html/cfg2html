@@ -1,4 +1,5 @@
-# @(#) $Id: cfg2html-linux.sh,v 6.31 2014/06/13 08:01:27 ralph Exp $
+#
+# @(#) $Id: cfg2html-linux.sh,v 6.32 2014/07/25 12:40:14 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-
 
@@ -195,6 +196,7 @@ then # else skip to next paragraph
   CPUPOWER=$(which cpupower)
   if [ -n "$CPUPOWER" ] && [ -x "$CPUPOWER" ] ; then
       exec_command "$CPUPOWER info" "Processor power related kernel or hardware configuration"
+      exec_command "$CPUPOWER idle-info" "Processor idle state information"  ## closes issue #53 - rr, 20140725
   fi
 
   exec_command  HostNames "uname & hostname"
@@ -298,6 +300,8 @@ then # else skip to next paragraph
   exec_command "last| grep boot" "reboots"
 
   ### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
+  #     stderr output from " blame":
+  #     /usr/share/cfg2html/lib/html-functions.sh: line 107: blame: command not found
 
   SYSTEMD=$(which systemd-analyze)
   if [ -x $SYSTEMD ] ; then
@@ -1765,6 +1769,10 @@ fi ## SAP
         exec_command "netstat -a |fgrep hacl" "Serviceguard Sockets"
         exec_command "ls -l $SGCONF" "Files in $SGCONF"
     fi
+
+    dec_heading_level
+    paragraph "Cluster Services"
+    inc_heading_level
 
 ######## SLES 11 SP1 Pacemaker stuff ########## Mittwoch, 16. March 2011 ##### Ralph Roth ####
     [ -x /usr/sbin/corosync-cfgtool ] && exec_command "/usr/sbin/corosync-cfgtool -s;corosync -v" "Corosync TOTEM Status/Active Rings"

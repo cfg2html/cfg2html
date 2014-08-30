@@ -204,7 +204,7 @@ $(name)-$(distversion).tar.gz:
 	@echo -e "\033[1m== Building archive $(name)-$(distversion) ==\033[0;0m"
 	cd .. ; \
 	git checkout $(git_branch) ; \
-	git ls-tree -r --name-only --full-tree $(git_branch) | grep -v -E '(^bin|^hpux|^doc)' | \
+	git ls-tree -r --name-only --full-tree $(git_branch) | grep -v -E '(^bin|^hpux|^doc|^aix|^bsd|^sunos)' | \
 		tar -czf $(name)-$(distversion).tar.gz --transform='s,^,$(name)-$(distversion)/,S' --files-from=-
 
 rpm: dist

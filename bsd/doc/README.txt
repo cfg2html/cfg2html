@@ -239,7 +239,7 @@ SCO port           :  Jan Damen, Support Specialist, jdamen@triple-p.nl
 AIX port           :  Gert Leerdam, Gert.Leerdam@getronics.com
 
 Win32              :  Ralph Roth, beta version, NOT USEABLE YET
-          						Better use GetConfig:  www.getconfig.com
+          	      Better use GetConfig:  www.getconfig.com
 
 
  _   _               ____   ____            _             _
@@ -261,7 +261,6 @@ AIM:    	rose69swe (69 is the year of my birth :)
 MSN:    	cfg2html//rose_swe
 Yahoo:  	rose_swe
 IRC:    	rose_swe, r0se_swe on #virus
-Jabber/HP:  	Ralph.Roth@jabber.hp.com
 Jabber/Org:	cfg2html@jabber.org
 
 

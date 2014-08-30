@@ -1,1 +1,1 @@
-../../hpux/lib/global-functions.sh
+../../lib/global-functions.sh
