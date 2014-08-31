@@ -229,6 +229,21 @@ then # else skip to next paragraph
 
   ### End changes by Dusan.Baljevic@ieee.org ### 14.05.2014
 
+  ### Begin changes by Dusan.Baljevic@ieee.org ### 31.08.2014
+
+  if [ -x /usr/bin/machinectl ] ; then
+    exec_command "/usr/bin/machinectl --version" "Systemd Virtual Machine and Container Version"
+    exec_command "/usr/bin/machinectl list" "Systemd Virtual Machine and Container Status"
+  fi
+
+  if [ -x /usr/bin/VBoxManage ] ; then
+    exec_command "/usr/bin/VBoxManage -v" "VirtualBox Version"
+    exec_command "/usr/bin/VBoxManage list systemproperties" "VirtualBox System Properties"
+    exec_command "/usr/bin/VBoxManage list vms" "VirtualBox VMS"
+  fi
+
+  ### End changes by Dusan.Baljevic@ieee.org ### 31.08.2014
+
   if [ -x /usr/bin/locale ] ; then
     exec_command posixversion "POSIX Standards/Settings"
     exec_command "locale" "locale specific information"
