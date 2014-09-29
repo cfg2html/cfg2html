@@ -1,5 +1,5 @@
 #
-# @(#) $Id: cfg2html-linux.sh,v 6.32 2014/07/25 12:40:14 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.34 2014/09/27 08:12:08 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-
 
@@ -964,54 +964,52 @@ then # else skip to next paragraph
 paragraph "Filesystems, Dump and Swap configuration"
 inc_heading_level
 
-
-
-exec_command "grep -v '^#' /etc/fstab | column -t" "Filesystem Tab"  # 281211, rr
-exec_command "df -k" "Filesystems and Usage"
-exec_command "my_df" "All Filesystems and Usage"
-if [ -x /sbin/dumpe2fs ]
-then
-   exec_command "display_ext_fs_param" "Filesystems parameters"
-fi
-exec_command "mount" "Local Mountpoints"
-exec_command PartitionDump "Disk Partition Layout"        #  30.03.2011, 20:00 modified by Ralph Roth #** rar **#
-#
-if [ -x /sbin/sfdisk ]
-then
-    sfdisk -d > $OUTDIR/$BASEFILE.partitions.save
-    exec_command "cat $OUTDIR/$BASEFILE.partitions.save" "Disk Partitions to restore from"
-    AddText "To restore your partitions use the saved file: $BASEFILE.partitions.save, read the man page for sfdisk for usage. (Hint: sfdisk --force /dev/device < file.save)"
-fi
-#*#
-#*# Alexander De Bernard 20100310
-#*#
-
-MD_FILE="/etc/mdadm.conf"
-MD_CMD="/sbin/mdadm"
-
-if [ -f ${MD_FILE} ]
-then
-    exec_command "grep -vE '^#|^ *$' ${MD_FILE}" "MD Configuration File"
-    if [ -x ${MD_CMD} ]
+    exec_command "grep -v '^#' /etc/fstab | column -t" "Filesystem Table"  # 281211, rr
+    exec_command "df -k" "Filesystems and Usage"
+    exec_command "my_df" "All Filesystems and Usage"
+    if [ -x /sbin/dumpe2fs ]
     then
-        MD_DEV=$(grep "ARRAY" ${MD_FILE} | awk '{print $2;}')
-        #         stderr output from "/sbin/mdadm --detail ":   ## SLES 11
-        #         mdadm: No devices given.
-        for d in "$MD_DEV"
-        do
-            exec_command "${MD_CMD} --detail ${d}" "MD Device Setup of $d"
-        done
-    else
-        AddText "${MD_FILE} exists but no ${MD_CMD} command"
+      exec_command "display_ext_fs_param" "Filesystems parameters"	# needs fixing, 20140929 by Ralph Roth
     fi
-fi
+    exec_command "mount" "Local Mountpoints"
+    exec_command PartitionDump "Disk Partition Layout"        #  30.03.2011, 20:00 modified by Ralph Roth #** rar **#
+    #
+    if [ -x /sbin/sfdisk ]
+    then
+	sfdisk -d > $OUTDIR/$BASEFILE.partitions.save
+	exec_command "cat $OUTDIR/$BASEFILE.partitions.save" "Disk Partitions to restore from"
+	AddText "To restore your partitions use the saved file: $BASEFILE.partitions.save, read the man page for sfdisk for usage. (Hint: sfdisk --force /dev/device < file.save)"
+    fi
+    #*#
+    #*# Alexander De Bernard 20100310
+    #*#
 
-# for LVM using sed
-exec_command "/sbin/fdisk -l|sed 's/8e \ Unknown/8e \ LVM/g'" "Disk Partitions"
+    MD_FILE="/etc/mdadm.conf"
+    MD_CMD="/sbin/mdadm"
 
-if [ -f /etc/exports ] ; then
-    exec_command "grep -vE '^#|^ *$' /etc/exports" "NFS Filesystems"
-fi
+    if [ -f ${MD_FILE} ]
+    then
+	exec_command "grep -vE '^#|^ *$' ${MD_FILE}" "MD Configuration File"
+	if [ -x ${MD_CMD} ]
+	then
+	    MD_DEV=$(grep "ARRAY" ${MD_FILE} | awk '{print $2;}')
+	    #         stderr output from "/sbin/mdadm --detail ":   ## SLES 11
+	    #         mdadm: No devices given.
+	    for d in "$MD_DEV"
+	    do
+		exec_command "${MD_CMD} --detail ${d}" "MD Device Setup of $d"
+	    done
+	else
+	    AddText "${MD_FILE} exists but no ${MD_CMD} command"
+	fi
+    fi
+
+    # for LVM using sed
+    exec_command "/sbin/fdisk -l|sed 's/8e \ Unknown/8e \ LVM/g'" "Disk Partitions"
+
+    if [ -f /etc/exports ] ; then
+	exec_command "grep -vE '^#|^ *$' /etc/exports" "NFS Filesystems"
+    fi
 
 dec_heading_level
 

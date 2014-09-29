@@ -24,6 +24,7 @@ cfg2html*.deb
 #
 # rest
 #
+descript.ion
 *,v
 *.gz
 *.bz2

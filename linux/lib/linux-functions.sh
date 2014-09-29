@@ -144,12 +144,16 @@ function ProgStuff {
 
 function display_ext_fs_param {
     #function used in FILESYS added 2011.09.02 by Peter Boysen
+    # fixes, changed 20140924 by Ralph Roth
     for fs in $(grep ext[2-4] /proc/mounts | awk '{print $1}' | sort -u)
     do
+        echo "Dumping: "$fs
         dumpe2fs -h $fs  2> /dev/null   ## -> dumpe2fs 1.41.3 (12-Oct-2008)
+         ##TODO## better: tune2fs -l  ??? rr, 20140929
         echo
     done
 }
+
 
 function PartitionDump {
     if [ -x /sbin/fdisk ]; then
