@@ -281,8 +281,11 @@ then # else skip to next paragraph
     
     if [ "$CFG_SECURITY" != "yes" ]
     then    #  31.08.2005, 15:37 modified by Ralph Roth
-        exec_command "$PLUGINS/getpwd.hppa" "User accounts"
-        exec_command "$PLUGINS/getpwd.hppa -g" "Groups"
+        #exec_command "$PLUGINS/getpwd.hppa" "User accounts"
+	# modified getpwd.hhp into pwget/grget by gdha on 8/oct/2014
+        exec_command "pwget" "User accounts"
+        #exec_command "$PLUGINS/getpwd.hppa -g" "Groups"
+        exec_command "grget" "Groups"
     fi
     dec_heading_level
     
