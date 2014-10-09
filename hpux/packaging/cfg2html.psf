@@ -97,7 +97,6 @@ product
 	file -m 755 -o root -g sys get_xpluns.sh
 	file -m 755 -o root -g sys get_xpsum.sh
 	file -m 755 -o root -g sys getlp.sh
-	file -m 755 -o root -g sys getpwd.hppa
 	file -m 755 -o root -g sys head01.html
 	file -m 755 -o root -g sys head02.html
 	file -m 755 -o root -g sys head03.html
