@@ -578,6 +578,7 @@ fi
 
 ### End changes by Dusan.Baljevic@ieee.org ### 13.05.2014
 
+LSCPU=`which lscpu`; if [ -n "$LSCPU" ] && [ -x $LSCPU ] ; then exec_command "$LSCPU" "CPU architecture"; fi # see #52
 HWINFO=`which hwinfo`; if [ -n "$HWINFO" ] && [ -x $HWINFO ] ; then exec_command "$HWINFO 2> /dev/null" "Hardware List (hwinfo)"; fi
 LSHW=`which lshw`; if [ -n "$LSHW" ] && [ -x $LSHW ] ; then exec_command "$LSHW" "Hardware List (lshw)"; fi ##  13.12.2004, 15:53 modified by Ralph Roth
 LSDEV=`which lsdev`; if [ -n "$LSDEV" ] && [ -x $LSDEV ] ; then exec_command "$LSDEV" "Hardware List (lsdev)"; fi
