@@ -1176,6 +1176,7 @@ then # else skip to next paragraph
 	fi
 
       exec_command "netstat -s" "Summary statistics for each protocol"
+      [ -x /usr/sbin/nstat ] && exec_command "/usr/sbin/nstat" "Other Network statistics" # gdha, 13/oct/2014 #47
       exec_command "netstat -i" "Kernel Interface table"
       # MiMe: iptables since 2.4.x
       # MiMe: iptable_nat realisiert dabei das Masquerading
