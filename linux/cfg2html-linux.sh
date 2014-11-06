@@ -418,6 +418,9 @@ then # else skip to next paragraph
     exec_command "/usr/sbin/grpck -r && echo Okay" "integrity of group files"
   fi
 
+  exec_command "cat /etc/passwd" "Password File"  # Added by Dusan.Baljevic@ieee.org 6/11/2014
+  exec_command "cat /etc/shadow" "Shadow File"  # Added by Dusan.Baljevic@ieee.org 6/11/2014
+  exec_command "cat /etc/sudoers" "Sudo Config"  # Added by Dusan.Baljevic@ieee.org 6/11/2014
   dec_heading_level
 
 fi # terminates CFG_SYSTEM wrapper
