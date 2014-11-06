@@ -312,6 +312,10 @@ then # else skip to next paragraph
 
   [ -x /usr/bin/pidstat ] && exec_command "pidstat -lrud 2>/dev/null||pidstat -rud" "pidstat - Statistics for Linux Tasks" #  10.11.2012 modified by Ralph Roth #* rar *# fix for SLES11,SP2, 29.01.2014
 
+  exec_command "tuned-adm list" "Tuned Profiles"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org 
+  exec_command "tuned-adm active" "Tuned Active Profile Status"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org 
+  exec_command "numactl --hardware" "NUMA Inventory of Available Nodes on the System"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org 
+
   exec_command "last| grep boot" "reboots"
 
   ### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
@@ -414,6 +418,9 @@ then # else skip to next paragraph
     exec_command "/usr/sbin/grpck -r && echo Okay" "integrity of group files"
   fi
 
+  exec_command "cat /etc/passwd" "Password File"  # Added by Dusan.Baljevic@ieee.org 6/11/2014
+  exec_command "cat /etc/shadow" "Shadow File"  # Added by Dusan.Baljevic@ieee.org 6/11/2014
+  exec_command "cat /etc/sudoers" "Sudo Config"  # Added by Dusan.Baljevic@ieee.org 6/11/2014
   dec_heading_level
 
 fi # terminates CFG_SYSTEM wrapper
@@ -1012,6 +1019,11 @@ inc_heading_level
 	exec_command "grep -vE '^#|^ *$' /etc/exports" "NFS Filesystems"
     fi
 
+    exec_command "kdumpctl status" "Kdump Status"                #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
+    exec_command "cat /proc/diskdump" "Diskdump Status"          #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
+    exec_command "cat /etc/sysconfig/dump" "SuSE LKCD Config"    #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
+    exec_command "lkcd -q" "SuSE LKCD Status"                    #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
+ 
 dec_heading_level
 
 fi # terminates CFG_FILESYS wrapper
@@ -1125,6 +1137,8 @@ then # else skip to next paragraph
   exec_command "/sbin/ifconfig" "LAN Interfaces Settings (ifconfig)"    #D011 -- 16. March 2011,  28. Dezember 2011, ER by Heiko Andresen
   exec_command "ip addr" "LAN Interfaces Settings (ip addr)"            #D011 -- 16. March 2011,  28. Dezember 2011, ER by Heiko Andresen
   exec_command "ip -s l" "Detailed NIC Statistics"                      #07.11.2011, 21:33 modified by Ralph Roth #* rar *#
+  exec_command "nmcli nm status" "NetworkManager Status"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org 
+  exec_command "nmcli connection show" "NetworkManager Connections"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org 
 
   if [ -x /usr/sbin/ethtool ]     ###  22.11.2010, 23:44 modified by Ralph Roth
   then
@@ -1347,13 +1361,15 @@ then # else skip to next paragraph
   fi
 
   # Chronyc is replacement for standard NTP, now default in RHEL/CentOS 7
-  # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 13 July 2013
+  # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 13 July 2014
   #
   CHRONYC=$(which chronyc)
   if [ -n "$CHRONYC" ] && [ -x "$CHRONYC" ] ; then
     exec_command "$CHRONYC -n sourcestats" "CHRONY Time Protocol Daemon sources"
     exec_command "$CHRONYC -n tracking" "CHRONY Time Protocol Daemon tracking"
   fi
+
+  exec_command "timedatectl status" "System Time and Date Status"  # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 6 November 2014
 
   exec_command "hwclock -r" "Time: HWClock" # rr, 20121201
   [ -f /etc/ntp.conf ] && exec_command "grep  -vE '^#|^ *$' /etc/ntp.conf" "ntp.conf"
