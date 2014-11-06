@@ -1,5 +1,5 @@
 #
-# @(#) $Id: cfg2html-linux.sh,v 6.32 2014/07/25 12:40:14 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.34 2014/09/27 08:12:08 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-
 
@@ -312,6 +312,10 @@ then # else skip to next paragraph
 
   [ -x /usr/bin/pidstat ] && exec_command "pidstat -lrud 2>/dev/null||pidstat -rud" "pidstat - Statistics for Linux Tasks" #  10.11.2012 modified by Ralph Roth #* rar *# fix for SLES11,SP2, 29.01.2014
 
+  exec_command "tuned-adm list" "Tuned Profiles"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org 
+  exec_command "tuned-adm active" "Tuned Active Profile Status"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org 
+  exec_command "numactl --hardware" "NUMA Inventory of Available Nodes on the System"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org 
+
   exec_command "last| grep boot" "reboots"
 
   ### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
@@ -578,6 +582,7 @@ fi
 
 ### End changes by Dusan.Baljevic@ieee.org ### 13.05.2014
 
+LSCPU=`which lscpu`; if [ -n "$LSCPU" ] && [ -x $LSCPU ] ; then exec_command "$LSCPU" "CPU architecture"; fi # see #52
 HWINFO=`which hwinfo`; if [ -n "$HWINFO" ] && [ -x $HWINFO ] ; then exec_command "$HWINFO 2> /dev/null" "Hardware List (hwinfo)"; fi
 LSHW=`which lshw`; if [ -n "$LSHW" ] && [ -x $LSHW ] ; then exec_command "$LSHW" "Hardware List (lshw)"; fi ##  13.12.2004, 15:53 modified by Ralph Roth
 LSDEV=`which lsdev`; if [ -n "$LSDEV" ] && [ -x $LSDEV ] ; then exec_command "$LSDEV" "Hardware List (lsdev)"; fi
@@ -964,55 +969,58 @@ then # else skip to next paragraph
 paragraph "Filesystems, Dump and Swap configuration"
 inc_heading_level
 
-
-
-exec_command "grep -v '^#' /etc/fstab | column -t" "Filesystem Tab"  # 281211, rr
-exec_command "df -k" "Filesystems and Usage"
-exec_command "my_df" "All Filesystems and Usage"
-if [ -x /sbin/dumpe2fs ]
-then
-   exec_command "display_ext_fs_param" "Filesystems parameters"
-fi
-exec_command "mount" "Local Mountpoints"
-exec_command PartitionDump "Disk Partition Layout"        #  30.03.2011, 20:00 modified by Ralph Roth #** rar **#
-#
-if [ -x /sbin/sfdisk ]
-then
-    sfdisk -d > $OUTDIR/$BASEFILE.partitions.save
-    exec_command "cat $OUTDIR/$BASEFILE.partitions.save" "Disk Partitions to restore from"
-    AddText "To restore your partitions use the saved file: $BASEFILE.partitions.save, read the man page for sfdisk for usage. (Hint: sfdisk --force /dev/device < file.save)"
-fi
-#*#
-#*# Alexander De Bernard 20100310
-#*#
-
-MD_FILE="/etc/mdadm.conf"
-MD_CMD="/sbin/mdadm"
-
-if [ -f ${MD_FILE} ]
-then
-    exec_command "grep -vE '^#|^ *$' ${MD_FILE}" "MD Configuration File"
-    if [ -x ${MD_CMD} ]
+    exec_command "grep -v '^#' /etc/fstab | column -t" "Filesystem Table"  # 281211, rr
+    exec_command "df -k" "Filesystems and Usage"
+    exec_command "my_df" "All Filesystems and Usage"
+    if [ -x /sbin/dumpe2fs ]
     then
-        MD_DEV=$(grep "ARRAY" ${MD_FILE} | awk '{print $2;}')
-        #         stderr output from "/sbin/mdadm --detail ":   ## SLES 11
-        #         mdadm: No devices given.
-        for d in "$MD_DEV"
-        do
-            exec_command "${MD_CMD} --detail ${d}" "MD Device Setup of $d"
-        done
-    else
-        AddText "${MD_FILE} exists but no ${MD_CMD} command"
+      exec_command "display_ext_fs_param" "Filesystems parameters"	# needs fixing, 20140929 by Ralph Roth
     fi
-fi
+    exec_command "mount" "Local Mountpoints"
+    exec_command PartitionDump "Disk Partition Layout"        #  30.03.2011, 20:00 modified by Ralph Roth #** rar **#
+    #
+    if [ -x /sbin/sfdisk ]
+    then
+	sfdisk -d > $OUTDIR/$BASEFILE.partitions.save
+	exec_command "cat $OUTDIR/$BASEFILE.partitions.save" "Disk Partitions to restore from"
+	AddText "To restore your partitions use the saved file: $BASEFILE.partitions.save, read the man page for sfdisk for usage. (Hint: sfdisk --force /dev/device < file.save)"
+    fi
+    #*#
+    #*# Alexander De Bernard 20100310
+    #*#
 
-# for LVM using sed
-exec_command "/sbin/fdisk -l|sed 's/8e \ Unknown/8e \ LVM/g'" "Disk Partitions"
+    MD_FILE="/etc/mdadm.conf"
+    MD_CMD="/sbin/mdadm"
 
-if [ -f /etc/exports ] ; then
-    exec_command "grep -vE '^#|^ *$' /etc/exports" "NFS Filesystems"
-fi
+    if [ -f ${MD_FILE} ]
+    then
+	exec_command "grep -vE '^#|^ *$' ${MD_FILE}" "MD Configuration File"
+	if [ -x ${MD_CMD} ]
+	then
+	    MD_DEV=$(grep "ARRAY" ${MD_FILE} | awk '{print $2;}')
+	    #         stderr output from "/sbin/mdadm --detail ":   ## SLES 11
+	    #         mdadm: No devices given.
+	    for d in "$MD_DEV"
+	    do
+		exec_command "${MD_CMD} --detail ${d}" "MD Device Setup of $d"
+	    done
+	else
+	    AddText "${MD_FILE} exists but no ${MD_CMD} command"
+	fi
+    fi
 
+    # for LVM using sed
+    exec_command "/sbin/fdisk -l|sed 's/8e \ Unknown/8e \ LVM/g'" "Disk Partitions"
+
+    if [ -f /etc/exports ] ; then
+	exec_command "grep -vE '^#|^ *$' /etc/exports" "NFS Filesystems"
+    fi
+
+    exec_command "kdumpctl status" "Kdump Status"                #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
+    exec_command "cat /proc/diskdump" "Diskdump Status"          #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
+    exec_command "cat /etc/sysconfig/dump" "SuSE LKCD Config"    #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
+    exec_command "lkcd -q" "SuSE LKCD Status"                    #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
+ 
 dec_heading_level
 
 fi # terminates CFG_FILESYS wrapper
@@ -1126,6 +1134,8 @@ then # else skip to next paragraph
   exec_command "/sbin/ifconfig" "LAN Interfaces Settings (ifconfig)"    #D011 -- 16. March 2011,  28. Dezember 2011, ER by Heiko Andresen
   exec_command "ip addr" "LAN Interfaces Settings (ip addr)"            #D011 -- 16. March 2011,  28. Dezember 2011, ER by Heiko Andresen
   exec_command "ip -s l" "Detailed NIC Statistics"                      #07.11.2011, 21:33 modified by Ralph Roth #* rar *#
+  exec_command "nmcli nm status" "NetworkManager Status"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org 
+  exec_command "nmcli connection show" "NetworkManager Connections"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org 
 
   if [ -x /usr/sbin/ethtool ]     ###  22.11.2010, 23:44 modified by Ralph Roth
   then
@@ -1178,6 +1188,7 @@ then # else skip to next paragraph
 	fi
 
       exec_command "netstat -s" "Summary statistics for each protocol"
+      [ -x /usr/sbin/nstat ] && exec_command "/usr/sbin/nstat" "Other Network statistics" # gdha, 13/oct/2014 #47
       exec_command "netstat -i" "Kernel Interface table"
       # MiMe: iptables since 2.4.x
       # MiMe: iptable_nat realisiert dabei das Masquerading
@@ -1347,13 +1358,15 @@ then # else skip to next paragraph
   fi
 
   # Chronyc is replacement for standard NTP, now default in RHEL/CentOS 7
-  # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 13 July 2013
+  # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 13 July 2014
   #
   CHRONYC=$(which chronyc)
   if [ -n "$CHRONYC" ] && [ -x "$CHRONYC" ] ; then
     exec_command "$CHRONYC -n sourcestats" "CHRONY Time Protocol Daemon sources"
     exec_command "$CHRONYC -n tracking" "CHRONY Time Protocol Daemon tracking"
   fi
+
+  exec_command "timedatectl status" "System Time and Date Status"  # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 6 November 2014
 
   exec_command "hwclock -r" "Time: HWClock" # rr, 20121201
   [ -f /etc/ntp.conf ] && exec_command "grep  -vE '^#|^ *$' /etc/ntp.conf" "ntp.conf"
