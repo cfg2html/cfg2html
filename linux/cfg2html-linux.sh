@@ -973,7 +973,7 @@ paragraph "Filesystems, Dump and Swap configuration"
 inc_heading_level
 
     exec_command "grep -v '^#' /etc/fstab | column -t" "Filesystem Table"  # 281211, rr
-    exec_command "df -k" "Filesystems and Usage"
+    exec_command "timeout -k 10 df -k" "Filesystems and Usage"   # gdha, 1/Dec/2014, to avoid stale NFS hangs
     exec_command "my_df" "All Filesystems and Usage"
     if [ -x /sbin/dumpe2fs ]
     then
