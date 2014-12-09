@@ -1,14 +1,14 @@
 #
-# @(#) $Id: cfg2html-linux.sh,v 6.34 2014/09/27 08:12:08 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.37 2014/12/09 21:42:13 ralph Exp $
 # -----------------------------------------------------------------------------------------
-# (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-
+# (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
 
 #  If you change this script, please mark your changes with for example
 #  ## <username> and send your diffs from the actual version to my mail
 #  address: cfg2html*hotmail.com -- details see in the documentation
 
 CFGSH=$_
-# unset "-set -vx" for debugging purpose, after the exec 2> statement all debug infos will go the errorlog file (*.err)
+# unset "-set -vx" for debugging purpose, after the exec 2> statement all debug info will go the errorlog file (*.err)
 #set -vx
 #*vim:numbers:ruler
 
@@ -312,9 +312,9 @@ then # else skip to next paragraph
 
   [ -x /usr/bin/pidstat ] && exec_command "pidstat -lrud 2>/dev/null||pidstat -rud" "pidstat - Statistics for Linux Tasks" #  10.11.2012 modified by Ralph Roth #* rar *# fix for SLES11,SP2, 29.01.2014
 
-  exec_command "tuned-adm list" "Tuned Profiles"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org 
-  exec_command "tuned-adm active" "Tuned Active Profile Status"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org 
-  exec_command "numactl --hardware" "NUMA Inventory of Available Nodes on the System"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org 
+  exec_command "tuned-adm list" "Tuned Profiles"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org
+  exec_command "tuned-adm active" "Tuned Active Profile Status"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org
+  exec_command "numactl --hardware" "NUMA Inventory of Available Nodes on the System"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org
 
   exec_command "last| grep boot" "reboots"
 
@@ -973,14 +973,17 @@ paragraph "Filesystems, Dump and Swap configuration"
 inc_heading_level
 
     exec_command "grep -v '^#' /etc/fstab | column -t" "Filesystem Table"  # 281211, rr
-    exec_command "timeout -k 10 df -k" "Filesystems and Usage"   # gdha, 1/Dec/2014, to avoid stale NFS hangs
+    exec_command "timeout 10 df -k" "Filesystems and Usage"   # gdha, 1/Dec/2014, to avoid stale NFS hangs // timeout -k 10 df -h -> timeout: invalid time interval ?df? # changed 20141209 by Ralph Roth
+
     exec_command "my_df" "All Filesystems and Usage"
     if [ -x /sbin/dumpe2fs ]
     then
-      exec_command "display_ext_fs_param" "Filesystems parameters"	# needs fixing, 20140929 by Ralph Roth
+      exec_command "display_ext_fs_param" "Filesystems Parameters"	# needs fixing, 20140929 by Ralph Roth
     fi
     exec_command "mount" "Local Mountpoints"
     exec_command PartitionDump "Disk Partition Layout"        #  30.03.2011, 20:00 modified by Ralph Roth #** rar **#
+    #
+    # maybe some parted -l stuff here?  # changed 20141209 by Ralph Roth
     #
     if [ -x /sbin/sfdisk ]
     then
@@ -1023,7 +1026,7 @@ inc_heading_level
     exec_command "cat /proc/diskdump" "Diskdump Status"          #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
     exec_command "cat /etc/sysconfig/dump" "SuSE LKCD Config"    #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
     exec_command "lkcd -q" "SuSE LKCD Status"                    #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
- 
+
 dec_heading_level
 
 fi # terminates CFG_FILESYS wrapper
@@ -1137,8 +1140,8 @@ then # else skip to next paragraph
   exec_command "/sbin/ifconfig" "LAN Interfaces Settings (ifconfig)"    #D011 -- 16. March 2011,  28. Dezember 2011, ER by Heiko Andresen
   exec_command "ip addr" "LAN Interfaces Settings (ip addr)"            #D011 -- 16. March 2011,  28. Dezember 2011, ER by Heiko Andresen
   exec_command "ip -s l" "Detailed NIC Statistics"                      #07.11.2011, 21:33 modified by Ralph Roth #* rar *#
-  exec_command "nmcli nm status" "NetworkManager Status"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org 
-  exec_command "nmcli connection show" "NetworkManager Connections"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org 
+  exec_command "nmcli nm status" "NetworkManager Status"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org
+  exec_command "nmcli connection show" "NetworkManager Connections"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org
 
   if [ -x /usr/sbin/ethtool ]     ###  22.11.2010, 23:44 modified by Ralph Roth
   then
