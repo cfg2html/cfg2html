@@ -1407,7 +1407,7 @@ then # else skip to next paragraph
 # and read requests in particular, was a primary focus of the new (four) I/O
 # schedulers. The default I/O Elevator in the v2.6 Linux kernel is the
 # anticipatory scheduler. RedHat RHEL4/5.6 and Novell/SUSE SLES 9-11
-# installations overwrite this with the “CFQ scheduler”.
+# installations overwrite this with the Â“CFQ schedulerÂ”.
 # see also
 #     # blockdev -v --getra /dev/sda
 #     get readahead: 1024
@@ -1454,7 +1454,7 @@ then # else skip to next paragraph
     if [ "$DEBIAN" = "yes" ] ; then
         exec_command "dpkg -l | grep -i -e Kernel-image -e Linux-image" "Kernel related DEBs"
     fi
-    [ -x /usr/sbin/get_sebool ] && exec_command "/usr/sbin/get_sebool -a" "SELinux Settings"
+    [ -x /usr/sbin/getsebool ] && exec_command "/usr/sbin/getsebool -a" "SELinux Settings"
 
     who -b 2>/dev/null > /dev/null && exec_command "who -b" "System boot" #  23.03.2006, 13:18 modified by Ralph Roth
     exec_command "cat /proc/cmdline" "Kernel command line"
