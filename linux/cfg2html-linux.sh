@@ -316,7 +316,7 @@ then # else skip to next paragraph
   exec_command "tuned-adm active" "Tuned Active Profile Status"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org
   exec_command "numactl --hardware" "NUMA Inventory of Available Nodes on the System"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org
 
-  exec_command "last| grep boot" "reboots"
+  exec_command "last| grep boot" "reboots"	###	better?   last -n 15 reboot  #### RR, 2014-12-19  ### TODO ###
 
   ### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
   #     stderr output from " blame":
