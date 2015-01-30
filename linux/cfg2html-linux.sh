@@ -1,7 +1,7 @@
 #
-# @(#) $Id: cfg2html-linux.sh,v 6.37 2014/12/09 21:42:13 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.38 2015/01/12 07:00:56 ralph Exp $
 # -----------------------------------------------------------------------------------------
-# (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
+# (c) 1997-2015 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
 
 #  If you change this script, please mark your changes with for example
 #  ## <username> and send your diffs from the actual version to my mail
@@ -27,7 +27,7 @@ CFGSH=$_
 ## /usr/lib64/qt-3.3/bin:/usr/kerberos/sbin:/usr/kerberos/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin
 PATH=$PATH:/sbin:/bin:/usr/sbin:/opt/omni/bin:/opt/omni/sbin  ## this is a fix for wrong su root (instead for su - root)
 
-_VERSION="cfg2html-linux version $VERSION "  # this a common stream so we don?t need the "Proliant stuff"
+_VERSION="cfg2html-linux version $VERSION "  # this a common stream so we don?t need the "Proliant stuff" anymore
 
 #
 # getopt
@@ -78,9 +78,9 @@ MAILTORALPH="cfg2html&#64;&#104;&#111;&#116;&#109;&#97;&#105;&#108;&#46;&#99;&#1
 #####################################################################
 
 # cfg2html-linux ported (c) by Michael Meifert, SysAdm from HP-UX version
-# using debian potato, woody
+# using Debian potato, woody
 
-# This is the "swiss army knife" for the ASE, CE, sysadmin etc. I wrote it to
+# This is the "Swiss army knife" for the ASE, CE, sysadmin etc. I wrote it to
 # get the needed information to plan an update, to perform basic trouble
 # shooting or performance analysis. As a bonus cfg2html creates a nice HTML and
 # plain ASCII documentation. If you are missing something, let me know it!
@@ -91,8 +91,8 @@ MAILTORALPH="cfg2html&#64;&#104;&#111;&#116;&#109;&#97;&#105;&#108;&#46;&#99;&#1
 #              nickel, snapshoot, vim and a idea from a similar
 #              script i have seen on-site.
 #####################################################################
-# 11-Mar-2001  initial creation for debian GNU Linux i386
-#              based on Cfg2Html Version 1.15.06/HP-UX by
+# 11-Mar-2001  initial creation for Debian GNU Linux i386
+#              based on cfg2html Version 1.15.06/HP-UX by
 #              by ROSE SWE, Dipl.-Ing. Ralph Roth
 #              ported to Linux  by Michael Meifert
 #####################################################################
@@ -1617,7 +1617,7 @@ then # else skip to next paragraph
     [ -n "$SWAT" ] && exec_command  "echo $SWAT" "Samba: SWAT-Port"
 
     [ -x /usr/sbin/smbstatus ] && exec_command "/usr/sbin/smbstatus 2>/dev/null" "Samba (smbstatus)"
-    ### Debian...., maybe a smbstatus -V/samba -V is usefull
+    ### Debian...., maybe a smbstatus -V/samba -V is useful
     [ -x /usr/bin/smbstatus ] && exec_command "/usr/bin/smbstatus 2>/dev/null" "Samba (smbstatus)"  ## fixed 2007-02-27 Oliver Schwabedissen
     [ -x /usr/bin/testparm ] && exec_command "/usr/bin/testparm -s 2> /dev/null" "Samba Configuration (testparm)" #  09.01.2008, 14:53 modified by Ralph Roth
     [ -f /etc/samba/smb.conf ] && exec_command "cat /etc/samba/smb.conf" "Samba Configuration (smb.conf)" #*#  Alexander De Bernardi, 20100421 testparm does not show complete config
