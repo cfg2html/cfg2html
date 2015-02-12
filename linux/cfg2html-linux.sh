@@ -1,5 +1,5 @@
 #
-# @(#) $Id: cfg2html-linux.sh,v 6.38 2015/01/12 07:00:56 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.39 2015/02/12 16:15:26 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2015 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
 
@@ -316,8 +316,12 @@ then # else skip to next paragraph
   exec_command "tuned-adm active" "Tuned Active Profile Status"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org
   exec_command "numactl --hardware" "NUMA Inventory of Available Nodes on the System"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org
 
-  exec_command "last| grep boot" "reboots"	###	better?   last -n 15 reboot  #### RR, 2014-12-19  ### TODO ###
-
+  if [ -x /usr/bin/journalctl ]
+  then
+	exec_command "/usr/bin/journalctl --list-boots --no-pager| tail -25" "Last 25 Reboots"   ## changed 20150212 by Ralph Roth
+  else
+  	exec_command "last| grep boot | head -25" "Last 25 Reboots"	### RR, 2014-12-19  ##CHANGED##FIXED## 20150212 by Ralph Roth
+  fi
   ### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
   #     stderr output from " blame":
   #     /usr/share/cfg2html/lib/html-functions.sh: line 107: blame: command not found

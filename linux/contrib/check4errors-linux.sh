@@ -1,6 +1,6 @@
-# @(#) $Id: check4errors-linux.sh,v 1.7 2013/12/20 13:00:17 ralph Exp $
+# @(#) $Id: check4errors-linux.sh,v 6.13 2015/02/12 16:15:26 ralph Exp $
 # --=---------------------------------------------------------------------=---
-# Written and (c) 1997 - 2013 by Ralph Roth  -*- http://rose.rult.at -*-
+# Written and (c) 1997 - 2015 by Ralph Roth  -*- http://rose.rult.at -*-
 
 LANG=C
 
@@ -37,6 +37,9 @@ ps -e -o ruser,pid,args | awk ' ($1+1) > 1 {print $0;} '		# changed 20131211 by 
 
 # Linker Cache? # changed 20131219 by Ralph Roth
 ldconfig -p 2>&1 |grep -v  "/lib" | grep -v "libs found in cache"
+
+# file fragmentation?
+# # filefrag *| sort -nr -k 2
 
 
 ## ----------------------------------------------------------------------------- ##
