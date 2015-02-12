@@ -1,8 +1,13 @@
-cfg2html (6.12) UNRELEASED; urgency=low
+cfg2html (6.26-2) UNRELEASED; urgency=low
 
+  [ Ralph Roth ]
   * 6.13 upstream
 
- -- Ralph Roth <ralph>  Wed, 18 Dec 2013 08:14:31 +0100
+  [ ralph ]
+  * This is 6.26 upstream
+  * Bumped version number vom 6.12 to 6.26
+
+ -- ralph <ralph@le6540g.fritz.box>  Thu, 12 Feb 2015 19:42:34 +0100
 
 cfg2html (6.11) unstable; urgency=low
 

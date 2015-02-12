@@ -1,6 +1,12 @@
 #!/bin/sh
 #
 # /etc/cron.weekly/cfg2html
+#
+# Please keep in mind that we put under /etc/cron.d/ by the installation an own crontab entry like this:
+#
+#  $> /etc/cron.d > cat cfg2html 
+#  21 0 * * 4 root /usr/sbin/cfg2html -2\%Y\%m\%d > /dev/null 2>&1
+#
 
 [ -x /usr/bin/cfg2html ] || exit 0
 
