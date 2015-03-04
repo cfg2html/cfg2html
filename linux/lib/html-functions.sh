@@ -11,7 +11,7 @@ function open_html {
 	<META NAME="DESCRIPTION" CONTENT="Config to HTML (cfg2html for Linux)">
 	<META NAME="subject" CONTENT="$VERSION on $RECHNER by $MAILTO and $MAILTORALPH">
 	<style type="text/css">
-	/* (c) 2001- 2014 by ROSE SWE, Ralph Roth - http://rose.rult.at
+	/* (c) 2001- 2015 by ROSE SWE, Ralph Roth - http://rose.rult.at
 	* CSS for cfg2html.sh, 12.04.2001, initial creation
 	*/
 
@@ -183,12 +183,12 @@ function close_html {
     echo "<hr>" >> $HTML_OUTFILE
     _echo "</P><P>\n<hr><FONT COLOR=blue>Created "$DATEFULL" with " $PROGRAM $VERSION "</font>" >> $HTML_OUTFILE_TEMP
     _echo "</P><P>\n<FONT COLOR=blue>Copyright and maintained by <A HREF="mailto:$MAILTORALPH?subject=$VERSION_">Ralph Roth, ROSE SWE, </A></P></font>" >> $HTML_OUTFILE_TEMP
-    #echo " <FONT COLOR=blue>Maintained by <A HREF="mailto:$MAILTO?subject=$VERSION_">Jeroen Kleen, EMEA ISS CC Engineer</A></P></font>" >> $HTML_OUTFILE_TEMP
     _echo "<hr><center> <A HREF="http://www.cfg2html.com">[ Download cfg2html from external home page ]</b></A></center></P><hr></BODY></HTML>\n" >> $HTML_OUTFILE_TEMP
     cat $HTML_OUTFILE_TEMP >>$HTML_OUTFILE
     cat $TEXT_OUTFILE_TEMP >> $TEXT_OUTFILE
     rm $HTML_OUTFILE_TEMP $TEXT_OUTFILE_TEMP
     _echo  "\n\nCreated "$DATEFULL" with " $PROGRAM $VERSION " \n" >> $TEXT_OUTFILE
-    _echo  "(c) 1998- 2014 by ROSE SWE, Ralph Roth" >> $TEXT_OUTFILE
+    _echo  "(c) 1998- 2015 by ROSE SWE, Ralph Roth and others" >> $TEXT_OUTFILE
 }
 
+## end ##

@@ -205,7 +205,7 @@ then # else skip to next paragraph
 
   # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 15 July 2013
   #
-  HOSTNAMECTL=$(which hostnamectl)
+  HOSTNAMECTL=$(which hostnamectl 2>/dev/null)
   if [ -n "$HOSTNAMECTL" ] && [ -x "$HOSTNAMECTL" ] ; then
       exec_command "$HOSTNAMECTL" "Hostname settings"
   fi
@@ -378,21 +378,21 @@ then # else skip to next paragraph
   fi
 
   # MiMe: SUSE && UNITEDLINUX
-  # MiMe: until SuSE 7.3: params in /etc/rc.config and below /etc/rc.config.d/
-  # MiMe; since SuSE 8.0 including UL: params below /etc/sysconfig
+  # MiMe: until SUSE 7.3: params in /etc/rc.config and below /etc/rc.config.d/
+  # MiMe; since SUSE 8.0 including UL: params below /etc/sysconfig
   if [ "$SUSE" = "yes" ] || [ "$UNITEDLINUX" = "yes" ] ; then
     if [ -d /etc/sysconfig ] ; then
       # MiMe:
       exec_command "find /etc/sysconfig -type f -not -path '*/scripts/*' -exec grep -vE '^#|^ *$' {} /dev/null \; | sort" "Parameter /etc/sysconfig"
     fi
     if [ -e /etc/rc.config ] ; then
-      # PJC: added filters for SuSE rc_ variables
-      # PJC: which were in rc.config in SuSE 6
+      # PJC: added filters for SUSE rc_ variables
+      # PJC: which were in rc.config in SUSE 6
       # PJC: and moved to /etc/rc.status in 7+
       exec_command "grep -vE -e '(^#|^ *$)' -e '^ *rc_' -e 'rc.status' /etc/rc.config | sort" "Parameter /etc/rc.config"
     fi
     if [ -d /etc/rc.config.d ] ; then
-      # PJC: added filters for SuSEFirewall and indented comments
+      # PJC: added filters for SUSEFirewall and indented comments
       exec_command "find /etc/rc.config.d -name '*.config' -exec grep -vE -e '(^#|^ *$)' -e '^ *true$' -e '^[[:space:]]*#' -e '[{]|[}]' {} \; | sort" "Parameter /etc/rc.config.d"
     fi
   fi
@@ -463,9 +463,9 @@ inc_heading_level
 	  fi
       done
 
-  ## Linux SuSE user /var/spool/cron/tabs and NOT crontabs
+  ## Linux SUSE user /var/spool/cron/tabs and NOT crontabs
   ## 30jan2003 it233 FRU
-  ##  SuSE has the user crontabs under /var/spool/cron/tabs
+  ##  SUSE has the user crontabs under /var/spool/cron/tabs
   ##  RedHat has the user crontabs under /var/spool/cron
   ##  UnitedLinux uses /var/spool/cron/tabs (MiMe)
   ##  Arch Linux has the user crontabs under /var/spool/cron  ## M.Weiller, LUG-Ottobrunn.de, 2013-02-04
@@ -594,7 +594,7 @@ HWINFO=`which hwinfo`; if [ -n "$HWINFO" ] && [ -x $HWINFO ] ; then exec_command
 LSHW=`which lshw`; if [ -n "$LSHW" ] && [ -x $LSHW ] ; then exec_command "$LSHW" "Hardware List (lshw)"; fi ##  13.12.2004, 15:53 modified by Ralph Roth
 LSDEV=`which lsdev`; if [ -n "$LSDEV" ] && [ -x $LSDEV ] ; then exec_command "$LSDEV" "Hardware List (lsdev)"; fi
 LSHAL=`which lshal`; if [ -n "$LSHAL" ] && [ -x $LSHAL ] ; then exec_command "$LSHAL" "List of Devices (lshal)"; fi
-LSUSB=`which lsusb`; if [ -n "$LSUSB" ] && [ -x $LSUSB ] ; then exec_command "$LSUSB" "USB devices"; fi ## SuSE? #  12.11.2004, 15:04 modified by Ralph Roth
+LSUSB=`which lsusb`; if [ -n "$LSUSB" ] && [ -x $LSUSB ] ; then exec_command "$LSUSB" "USB devices"; fi ## SUSE? #  12.11.2004, 15:04 modified by Ralph Roth
 
 LSPCI=`which lspci`
 if [ -n "$LSPCI" ] && [ -x $LSPCI ] ; then
@@ -751,7 +751,7 @@ HDPARM=`which hdparm`
 # -i   display drive identification
 # -I   detailed/current information directly from drive
 
-#  -i   display drive identification (SuSE 10u1)
+#  -i   display drive identification (SUSE 10u1)
 #  -I   detailed/current information directly from drive
 #  --Istdin  reads identify data from stdin as ASCII hex
 #  --Istdout writes identify data to stdout as ASCII hex
@@ -1026,10 +1026,15 @@ inc_heading_level
 	exec_command "grep -vE '^#|^ *$' /etc/exports" "NFS Filesystems"
     fi
 
-    exec_command "kdumpctl status" "Kdump Status"                #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
+    if [ -x /usr/sbin/kdumptool ]
+    then
+	 exec_command "/usr/sbin/kdumptool dump_config; echo; /usr/sbin/kdumptool find_kernel; echo; /usr/sbin/kdumptool print_target" "Kdump Status (kdumptool)" ##CHANGED##FIXED## 20150304 by Ralph Roth
+    else
+    	exec_command "kdumpctl status" "Kdump Status"            #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014  (not on SLES11!) // 04.03.2015 Ralph Roth
+    fi # /usr/sbin/kdumptool
     exec_command "cat /proc/diskdump" "Diskdump Status"          #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
-    exec_command "cat /etc/sysconfig/dump" "SuSE LKCD Config"    #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
-    exec_command "lkcd -q" "SuSE LKCD Status"                    #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
+    exec_command "cat /etc/sysconfig/dump" "SUSE LKCD Config"    #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
+    exec_command "lkcd -q" "SUSE LKCD Status"                    #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
 
 dec_heading_level
 
@@ -1141,15 +1146,19 @@ then # else skip to next paragraph
   paragraph "Network Settings"
   inc_heading_level
 
-  exec_command "/sbin/ifconfig" "LAN Interfaces Settings (ifconfig)"    #D011 -- 16. March 2011,  28. Dezember 2011, ER by Heiko Andresen
+  exec_command "/sbin/ifconfig" "LAN Interfaces Settings (ifconfig)"    #D011 -- 16. March 2011,  28. Dezember 2011, ER by Heiko Andresen // remove? deprecated! ###TODO###
   exec_command "ip addr" "LAN Interfaces Settings (ip addr)"            #D011 -- 16. March 2011,  28. Dezember 2011, ER by Heiko Andresen
   exec_command "ip -s l" "Detailed NIC Statistics"                      #07.11.2011, 21:33 modified by Ralph Roth #* rar *#
-  exec_command "nmcli nm status" "NetworkManager Status"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org
-  exec_command "nmcli connection show" "NetworkManager Connections"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org
+  # nmcli not available on SLES11##FIXED## 20150304 by Ralph Roth
+  if [ -x /usr/bin/nmcli ]
+  then
+      exec_command "nmcli nm status" "NetworkManager Status"     		#06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org##FIXED## 20150304 by Ralph Roth
+      exec_command "nmcli connection show" "NetworkManager Connections"     	#06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org##FIXED## 20150304 by Ralph Roth
+  fi ## /usr/bin/nmcli
 
   if [ -x /usr/sbin/ethtool ]     ###  22.11.2010, 23:44 modified by Ralph Roth
   then
-      LANS=$(ifconfig|grep ^[a-z]|grep -v ^lo|awk '{print $1;}')	# RR: ifconfig is decrecapted -> ip a? 13.11.2013
+      LANS=$(ifconfig|grep ^[a-z]|grep -v ^lo|awk '{print $1;}')	# RR: ifconfig is decrecapted -> ip a? 13.11.2013 ###TODO###
       for i in $LANS
       do
 	  exec_command "/usr/sbin/ethtool $i 2>/dev/null; /usr/sbin/ethtool -i $i" "Ethernet Settings for Interface "$i
@@ -1446,13 +1455,13 @@ then # else skip to next paragraph
     fi
 
     if [ -f /etc/sysconfig/kernel ] ; then
-      exec_command "grep -vE '^#|^ *$' /etc/sysconfig/kernel" "Modules for the ramdisk" # rar, SuSE only
+      exec_command "grep -vE '^#|^ *$' /etc/sysconfig/kernel" "Modules for the ramdisk" # rar, SUSE only
       exec_command "sed -e '/^#/d;/^$/d;/^[[:space:]]*$/d' /etc/sysconfig/kernel" "Missing Kernel Modules" # changed 20130205 by Ralph Roth
       AddText "See: Modules failing to load at boot time - TID 7005784"
     fi
 
     if [ "$DEBIAN" = "no" ] && [ "SLACKWARE" = "no" ] ; then
-            which rpm > /dev/null  && exec_command "rpm -qa | grep -e ^k_def -e ^kernel -e k_itanium -e k_smp -e ^linux" "Kernel RPMs" # rar, SuSE+RH+Itanium2
+            which rpm > /dev/null  && exec_command "rpm -qa | grep -e ^k_def -e ^kernel -e k_itanium -e k_smp -e ^linux" "Kernel RPMs" # rar, SUSE+RH+Itanium2
     fi
 
     if [ "$DEBIAN" = "yes" ] ; then
@@ -1490,12 +1499,12 @@ then # else skip to next paragraph
     fi
 
     if [ "$DEBIAN" = "no" ] && [ "$SLACKWARE" = "no" ] && [ "$GENTOO" = "no" ] ; then  ## fixed 2007-02-27 Oliver Schwabedissen
-            which rpm > /dev/null  && exec_command "rpm -qi glibc" "libc6 Version (RPM)" # rar, SuSE+RH
+            which rpm > /dev/null  && exec_command "rpm -qi glibc" "libc6 Version (RPM)" # rar, SUSE+RH
     fi
 
     exec_command "/sbin/ldconfig -vN  2>/dev/null" "Run-time link bindings"		### changed 20130730 by Ralph Roth
 
-    # MiMe: SuSE patched kernel params into /proc
+    # MiMe: SUSE patched kernel params into /proc
     if [ -e /proc/config.gz ] ; then
       exec_command "zcat /proc/config.gz | grep -vE '^#|^ *$'" "Kernelparameter /proc/config.gz"
     else
