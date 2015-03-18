@@ -41,3 +41,6 @@ if [[ -f "/tmp/local.conf.$(date +'%Y-%m-%d')" ]] ; then
     /usr/bin/mv -f "/tmp/local.conf.$(date +'%Y-%m-%d')"  "/opt/cfg2html/etc/local.conf.$(date +'%Y-%m-%d')"
     /usr/bin/echo "       * Restored original local.conf as /opt/cfg2html/etc/local.conf.$(date +'%Y-%m-%d')"
 fi
+
+# make sure that directory has the proper mode
+chmod 755 /opt/cfg2html
