@@ -75,7 +75,7 @@ binary-indep: build
 	fi
 
 	# copy cfg2html components into directories
-	cp -av etc/default.conf debian/cfg2html/etc/cfg2html/
+	cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/cfg2html/
 	cp -av etc/local.conf debian/cfg2html/etc/cfg2html/
 	cp -av ../cfg2html debian/cfg2html/usr/sbin/
 	cp -av cfg2html-linux.sh debian/cfg2html/usr/share/cfg2html/
