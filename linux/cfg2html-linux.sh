@@ -1,5 +1,5 @@
 #
-# @(#) $Id: cfg2html-linux.sh,v 6.39 2015/02/12 16:15:26 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.42 2015/04/06 08:47:28 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2015 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
 
@@ -305,6 +305,7 @@ then # else skip to next paragraph
   exec_command "ps -e -o ruser,pid,args | awk ' (($1+1) > 1) {print $0;} '" "Processes without an named owner"  # changed 20131211 by Ralph Roth, # changed 20140129 by Ralph Roth # cmd. line:1: ^ unexpected newline or end of string
   AddText "The output should be empty!"
 
+  ## ps aux --sort=-%cpu,-%mem|head -25 ## 06.03.2015
   exec_command "ps -ef | cut -c39- | sort -nr | head -25 | awk '{ printf(\"%10s   %s\\n\", \$1, \$2); }'" "Top load processes"
   exec_command "ps -e -o 'vsz pid ruser cpu time args' |sort -nr|head -25" "Top memory consuming processes"
   exec_command topFDhandles "Top file handles consuming processes" # 24.01.2013
@@ -568,287 +569,282 @@ then # else skip to next paragraph
 paragraph "Hardware"
 inc_heading_level
 
-RAM=`awk -F': *' '/MemTotal/ {print $2}' /proc/meminfo`
-# RAM=`cat /proc/meminfo | grep MemTotal | awk -F\: '{print $2}' | awk -F\  '{print $1 " " $2}'`
-exec_command "echo $RAM" "Physical Memory"
+  RAM=`awk -F': *' '/MemTotal/ {print $2}' /proc/meminfo`
+  # RAM=`cat /proc/meminfo | grep MemTotal | awk -F\: '{print $2}' | awk -F\  '{print $1 " " $2}'`
+  exec_command "echo $RAM" "Physical Memory"
 
-## Murray Barton, 14/4/2010
-DMIDECODE=`which dmidecode`; if [ -n "$DMIDECODE" ] && [ -x $DMIDECODE ] ; then exec_command "$DMIDECODE 2> /dev/null" "DMI Table Decoder"; fi
+  ## Murray Barton, 14/4/2010
+  DMIDECODE=`which dmidecode`; if [ -n "$DMIDECODE" ] && [ -x $DMIDECODE ] ; then exec_command "$DMIDECODE 2> /dev/null" "DMI Table Decoder"; fi
 
-# if [ -e /usr/sbin/dmidecode ]           ## this could be moved out to common stuff (e.g. useful to get serial number, # 26.03.2010 Ralph Roth)
-# then
-#   exec_command "dmidecode" "/usr/sbin/dmidecode output"
-# fi
+  ### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
 
-### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
-
-BIOSDECODE=$(which biosdecode)
-if [ -n "$BIOSDECODE" ] && [ -x $BIOSDECODE ] ; then
-  exec_command "$BIOSDECODE" "biosdecode"
-fi
-
-### End changes by Dusan.Baljevic@ieee.org ### 13.05.2014
-
-LSCPU=`which lscpu`; if [ -n "$LSCPU" ] && [ -x $LSCPU ] ; then exec_command "$LSCPU" "CPU architecture"; fi # see #52
-HWINFO=`which hwinfo`; if [ -n "$HWINFO" ] && [ -x $HWINFO ] ; then exec_command "$HWINFO 2> /dev/null" "Hardware List (hwinfo)"; fi
-LSHW=`which lshw`; if [ -n "$LSHW" ] && [ -x $LSHW ] ; then exec_command "$LSHW" "Hardware List (lshw)"; fi ##  13.12.2004, 15:53 modified by Ralph Roth
-LSDEV=`which lsdev`; if [ -n "$LSDEV" ] && [ -x $LSDEV ] ; then exec_command "$LSDEV" "Hardware List (lsdev)"; fi
-LSHAL=`which lshal`; if [ -n "$LSHAL" ] && [ -x $LSHAL ] ; then exec_command "$LSHAL" "List of Devices (lshal)"; fi
-LSUSB=`which lsusb`; if [ -n "$LSUSB" ] && [ -x $LSUSB ] ; then exec_command "$LSUSB" "USB devices"; fi ## SUSE? #  12.11.2004, 15:04 modified by Ralph Roth
-
-LSPCI=`which lspci`
-if [ -n "$LSPCI" ] && [ -x $LSPCI ] ; then
-  exec_command "$LSPCI -v" "PCI devices"
-else
-  if [ -f /proc/pci ] ; then
-    exec_command "cat /proc/pci" "PCI devices"
+  BIOSDECODE=$(which biosdecode)
+  if [ -n "$BIOSDECODE" ] && [ -x $BIOSDECODE ] ; then
+    exec_command "$BIOSDECODE" "biosdecode"
   fi
-fi
 
-PCMCIA=`grep pcmcia /proc/devices | cut -d" " -f2`
-if [ "$PCMCIA" = "pcmcia"  ] ; then
-  if [ -x /sbin/cardctl ] ; then
-    exec_command "/sbin/cardctl status;/sbin/cardctl config;/sbin/cardctl ident" "PCMCIA"
+  ### End changes by Dusan.Baljevic@ieee.org ### 13.05.2014 ### needs cleanup, e.g. 2> /dev/null - 06.04.2015, rr
+
+  LSCPU=`which lscpu`; if [ -n "$LSCPU" ] && [ -x $LSCPU ] ; then exec_command "$LSCPU" "CPU architecture"; fi # see #52
+  HWINFO=`which hwinfo`; if [ -n "$HWINFO" ] && [ -x $HWINFO ] ; then exec_command "$HWINFO 2> /dev/null" "Hardware List (hwinfo)"; fi  ## see issue #83, rr
+  LSHW=`which lshw`; if [ -n "$LSHW" ] && [ -x $LSHW ] ; then exec_command "$LSHW" "Hardware List (lshw)"; fi ##  13.12.2004, 15:53 modified by Ralph Roth
+  LSDEV=`which lsdev`; if [ -n "$LSDEV" ] && [ -x $LSDEV ] ; then exec_command "$LSDEV" "Hardware List (lsdev)"; fi
+  LSHAL=`which lshal`; if [ -n "$LSHAL" ] && [ -x $LSHAL ] ; then exec_command "$LSHAL" "List of Devices (lshal)"; fi
+  LSUSB=`which lsusb`; if [ -n "$LSUSB" ] && [ -x $LSUSB ] ; then exec_command "$LSUSB" "List of USB devices"; fi ## SUSE? #  12.11.2004, 15:04 modified by Ralph Roth
+
+  LSPCI=`which lspci`
+  if [ -n "$LSPCI" ] && [ -x $LSPCI ] ; then
+    exec_command "$LSPCI -v" "PCI devices"
+  else
+    if [ -f /proc/pci ] ; then
+      exec_command "cat /proc/pci" "PCI devices"
+    fi
   fi
-fi
-[ -r /proc/acpi/info ] && exec_command "cat /proc/acpi/info" "ACPI" #  06.04.2006, 17:44 modified by Ralph Roth
 
-if [ -f /etc/kbd/default.kmap.gz ] ; then
-  exec_command "zcat /etc/kbd/default.kmap.gz | head -1 | sed s/#//" "Keymap"
-fi
-exec_command "cat /proc/ioports" "IoPorts"
-exec_command "cat /proc/interrupts" "Interrupts"
-if [ -f /proc/scsi/scsi ] ;then
-  exec_command "find /proc/scsi" "SCSI Components" #  22.11.2004, 16:08 modified by Ralph.Roth
-  exec_command "cat /proc/scsi/scsi" "SCSI Devices"
-else
-  # Debian 6.06 # 24.01.2013, doesn't have -p option yet!
-  #        -p, --protection        Output additional data integrity (protection) information.
-  [ -x /usr/bin/lsscsi ] && exec_command "/usr/bin/lsscsi -lv" "SCSI Devices"  ## Alternate Method!, Mittwoch, 16. March 2011
-fi
+  PCMCIA=`grep pcmcia /proc/devices | cut -d" " -f2`
+  if [ "$PCMCIA" = "pcmcia"  ] ; then
+    if [ -x /sbin/cardctl ] ; then
+      exec_command "/sbin/cardctl status;/sbin/cardctl config;/sbin/cardctl ident" "PCMCIA"
+    fi
+  fi
+  [ -r /proc/acpi/info ] && exec_command "cat /proc/acpi/info" "ACPI" #  06.04.2006, 17:44 modified by Ralph Roth
 
-if [ -x "${FDISKCMD}" -a -x "${GREPCMD}" -a -x "${SEDCMD}" -a -x "${AWKCMD}" -a -x "${SMARTCTL}" ]
-then
-    exec_command DoSmartInfo "SMART disk drive features and information"
-fi
+  if [ -f /etc/kbd/default.kmap.gz ] ; then
+    exec_command "zcat /etc/kbd/default.kmap.gz | head -1 | sed s/#//" "Keymap"
+  fi
+  exec_command "cat /proc/ioports" "IoPorts"
+  exec_command "cat /proc/interrupts" "Interrupts"
+  if [ -f /proc/scsi/scsi ] ;then
+    exec_command "find /proc/scsi" "SCSI Components" #  22.11.2004, 16:08 modified by Ralph.Roth
+    exec_command "cat /proc/scsi/scsi" "SCSI Devices"
+  else
+    # Debian 6.06 # 24.01.2013, doesn't have -p option yet!
+    #        -p, --protection        Output additional data integrity (protection) information.
+    [ -x /usr/bin/lsscsi ] && exec_command "/usr/bin/lsscsi -lv" "SCSI Devices"  ## Alternate Method!, Mittwoch, 16. March 2011
+  fi
 
-## rar, 13.02.2004
-## Changed 15.05.2006 (09:30) by Peter Lindblom, HP, STCC EMEA, changed title from SCSI Devices SCSI Disk Devices
-[ -x /usr/sbin/lssd ] && exec_command "/usr/sbin/lssd" "SCSI Disk Devices"
+  if [ -x "${FDISKCMD}" -a -x "${GREPCMD}" -a -x "${SEDCMD}" -a -x "${AWKCMD}" -a -x "${SMARTCTL}" ]
+  then
+      exec_command DoSmartInfo "SMART disk drive features and information"
+  fi
 
-## Added 15.05.2006 (09:30) by Peter Lindblom, HP, STCC EMEA
-[ -x /usr/sbin/lssg ] && exec_command "/usr/sbin/lssg" "Generic SCSI Devices"
+  ## rar, 13.02.2004
+  ## Changed 15.05.2006 (09:30) by Peter Lindblom, HP, STCC EMEA, changed title from SCSI Devices SCSI Disk Devices
+  [ -x /usr/sbin/lssd ] && exec_command "/usr/sbin/lssd" "SCSI Disk Devices"
 
-## rar, 13.02.2004
-## Added 15.05.2006 (09:30) by Peter Lindblom, HP, STCC EMEA, Added the echo between the command to get a new line and move it down below lssg and lssd.
-[ -x /usr/sbin/adapter_info ] && exec_command "/usr/sbin/adapter_info;echo;/usr/sbin/adapter_info -v" "Adapterinfo/WWN"
-### ------------------------------------------------------------------------------
+  ## Added 15.05.2006 (09:30) by Peter Lindblom, HP, STCC EMEA
+  [ -x /usr/sbin/lssg ] && exec_command "/usr/sbin/lssg" "Generic SCSI Devices"
 
-#### Start of Fibre HBA info. added 12.05.2006 (15:13) by Peter Lindblom, HP, STCC EMEA
+  ## rar, 13.02.2004
+  ## Added 15.05.2006 (09:30) by Peter Lindblom, HP, STCC EMEA, Added the echo between the command to get a new line and move it down below lssg and lssd.
+  [ -x /usr/sbin/adapter_info ] && exec_command "/usr/sbin/adapter_info;echo;/usr/sbin/adapter_info -v" "Adapterinfo/WWN"
+  ### ------------------------------------------------------------------------------
 
- if [ -f /tmp/fibrehba.txt ]
- then
-   rm /tmp/fibrehba.txt
- fi
+  #### Start of Fibre HBA info. added 12.05.2006 (15:13) by Peter Lindblom, HP, STCC EMEA
 
- # capture /proc/scsi/qla2200
+  if [ -f /tmp/fibrehba.txt ]
+  then
+    rm /tmp/fibrehba.txt
+  fi
 
- if [ -d /proc/scsi/qla2200 ]
- then
-   for file in /proc/scsi/qla2200/*
-    do
-      mcat $file >>/tmp/fibrehba.txt
-    done
- fi
+  # capture /proc/scsi/qla2200
 
- # capture /proc/scsi/qla2300
+  if [ -d /proc/scsi/qla2200 ]
+  then
+    for file in /proc/scsi/qla2200/*
+      do
+        mcat $file >>/tmp/fibrehba.txt
+      done
+  fi
 
- if [ -d /proc/scsi/qla2300 ]
- then
-    for file in /proc/scsi/qla300/*
-    do
-      mcat $file >>/tmp/fibrehba.txt
-     done
- fi
+  # capture /proc/scsi/qla2300
 
- # capture /proc/scsi/qla2xxx
+  if [ -d /proc/scsi/qla2300 ]
+  then
+      for file in /proc/scsi/qla300/*
+      do
+        mcat $file >>/tmp/fibrehba.txt
+      done
+  fi
 
- if [ -d /proc/scsi/qla2xxx ]
- then
-    for file in /proc/scsi/qla2xxx/*
-     do
-      mcat $file >>/tmp/fibrehba.txt
-     done
- fi
+  # capture /proc/scsi/qla2xxx
 
-
- # capture /proc/scsi/lpfc
-
- if [ -d /proc/scsi/lpfc ]
- then
-    for file in /proc/scsi/lpfc/*
-     do
-      mcat $file >>/tmp/fibrehba.txt
-     done
- fi
-
- if [ -f /tmp/fibrehba.txt ]
- then
-   exec_command "cat /tmp/fibrehba.txt" "Fibre Channel Host Bus Adapters"
-   rm /tmp/fibrehba.txt
- fi
-
-#### End of Fibre HBA info.
+  if [ -d /proc/scsi/qla2xxx ]
+  then
+      for file in /proc/scsi/qla2xxx/*
+      do
+        mcat $file >>/tmp/fibrehba.txt
+      done
+  fi
 
 
-## rar, 13.02.2004
-[ -x /usr/sbin/spmgr ] && exec_command "/usr/sbin/spmgr display" "SecurePath - Manager"
-[ -r /etc/CPQswsp/sppf ] && exec_command "cat /etc/CPQswsp/sppf" "SecurePath - Bindings"
-[ -r /etc/CPQswsp/hsx.conf ] && exec_command "cat /etc/CPQswsp/hsx.conf" "SecurePath - Preferred Path Settings"
-[ -r /etc/CPQswsp/swsp.conf ] && exec_command "cat /etc/CPQswsp/swsp.conf" "SecurePath - Path, Load Balance & Auto restore settings"
-[ -r /etc/CPQswsp/notify.ini ] && exec_command "cat /etc/CPQswsp/notify.ini" "SecurePath - email address notification settings"
-[ -r /etc/CPQswsp/spmgr_alias ] && exec_command "cat /etc/CPQswsp/spmgr_alias" "SecurePath - Alias Name file"
-[ -r /etc/CPQswsp/spmgr_stop_list ] && exec_command "cat /etc/CPQswsp/spmgr_stop_list" "SecurePath - reserved key word settings file"
-[ -r /etc/CPQswsp/clients ] && exec_command "cat /etc/CPQswsp/clients" "SecurePath - spmgr password information"
+  # capture /proc/scsi/lpfc
 
-## Changed 15.05.2006 (09:30) by Peter Lindblom, HP, STCC EMEA, Moved from the Proliant section.
-[ -f /var/log/sp_log ] && exec_command "cat /var/log/sp_log" "Secure path installation log"
+  if [ -d /proc/scsi/lpfc ]
+  then
+      for file in /proc/scsi/lpfc/*
+      do
+        mcat $file >>/tmp/fibrehba.txt
+      done
+  fi
 
-## Changed 15.05.2006 (09:30) by Peter Lindblom, HP, STCC EMEA, Moved from the Proliant section.
-[ -f /root/sp_install_results.log ] && exec_command "cat /root/sp_install_results.log" "Secure path installation log (backup)"
-if [ -e /proc/sound ] ; then
-  exec_command "cat /proc/sound" "Sound Devices"
-fi
-if [ -e /proc/asound ] ; then
-  [ -f /proc/asound/version ] && exec_command "cat /proc/asound/version" "Asound Version"
-  [ -f /proc/asound/modules ] && exec_command "cat /proc/asound/modules" "Sound modules"
-  [ -f /proc/asound/cards ] && exec_command "cat /proc/asound/cards" "Sound Cards"
-  [ -f /proc/asound/sndstat ] && exec_command "cat /proc/asound/sndstat" "Sound Stats"
-  [ -f /proc/asound/timers ] && exec_command "cat /proc/asound/timers" "Sound Timers"
-  [ -f /proc/asound/devices ] && exec_command "cat /proc/asound/devices" "Sound devices"
-  [ -f /proc/asound/pcm ] && exec_command "cat /proc/asound/pcm" "Sound pcm"
-fi
-exec_command "cat /proc/dma" "DMA Devices"
-if [ -f /proc/tty/driver/serial ] ; then
-   exec_command "grep -v unknown /proc/tty/driver/serial" "Serial Devices"
-fi
-# test this - please report it
-if [ -e /proc/rd ] ; then
-  exec_command "cat /proc/rd/c*/current_status" "RAID controller"
-fi
+  if [ -f /tmp/fibrehba.txt ]
+  then
+    exec_command "cat /tmp/fibrehba.txt" "Fibre Channel Host Bus Adapters"
+    rm /tmp/fibrehba.txt
+  fi
 
-# get serial information
+  #### End of Fibre HBA info.
 
-SETSERIAL=`which setserial`
-if [ -n "$SETSERIAL" ] && [ -x $SETSERIAL ]; then
-  exec_command "$SETSERIAL -a /dev/ttyS0" "Serial ttyS0"
-  exec_command "$SETSERIAL -a /dev/ttyS1" "Serial ttyS1"
-fi
 
-# get IDE Disk information
-HDPARM=`which hdparm`
-# if hdparm is installed (DEBIAN 4.0)
-# -i   display drive identification
-# -I   detailed/current information directly from drive
+  ## rar, 13.02.2004
+  [ -x /usr/sbin/spmgr ] && exec_command "/usr/sbin/spmgr display" "SecurePath - Manager"
+  [ -r /etc/CPQswsp/sppf ] && exec_command "cat /etc/CPQswsp/sppf" "SecurePath - Bindings"
+  [ -r /etc/CPQswsp/hsx.conf ] && exec_command "cat /etc/CPQswsp/hsx.conf" "SecurePath - Preferred Path Settings"
+  [ -r /etc/CPQswsp/swsp.conf ] && exec_command "cat /etc/CPQswsp/swsp.conf" "SecurePath - Path, Load Balance & Auto restore settings"
+  [ -r /etc/CPQswsp/notify.ini ] && exec_command "cat /etc/CPQswsp/notify.ini" "SecurePath - email address notification settings"
+  [ -r /etc/CPQswsp/spmgr_alias ] && exec_command "cat /etc/CPQswsp/spmgr_alias" "SecurePath - Alias Name file"
+  [ -r /etc/CPQswsp/spmgr_stop_list ] && exec_command "cat /etc/CPQswsp/spmgr_stop_list" "SecurePath - reserved key word settings file"
+  [ -r /etc/CPQswsp/clients ] && exec_command "cat /etc/CPQswsp/clients" "SecurePath - spmgr password information"
 
-#  -i   display drive identification (SUSE 10u1)
-#  -I   detailed/current information directly from drive
-#  --Istdin  reads identify data from stdin as ASCII hex
-#  --Istdout writes identify data to stdout as ASCII hex
+  ## Changed 15.05.2006 (09:30) by Peter Lindblom, HP, STCC EMEA, Moved from the Proliant section.
+  [ -f /var/log/sp_log ] && exec_command "cat /var/log/sp_log" "Secure path installation log"
 
-# Sep 23 19:12:47 hp02 root: Start of cfg2html-linux version 1.63-2009-08-27
-# Sep 23 19:13:03 hp02 kernel: hda: drive_cmd: status=0x51 { DriveReady SeekComplete Error }
-# Sep 23 19:13:03 hp02 kernel: hda: drive_cmd: error=0x04Aborted Command
-# Sep 23 19:13:18 hp02 root: End of cfg2html-linux version 1.63-2009-08-27
+  ## Changed 15.05.2006 (09:30) by Peter Lindblom, HP, STCC EMEA, Moved from the Proliant section.
+  [ -f /root/sp_install_results.log ] && exec_command "cat /root/sp_install_results.log" "Secure path installation log (backup)"
+  if [ -e /proc/sound ] ; then
+    exec_command "cat /proc/sound" "Sound Devices"
+  fi
+  if [ -e /proc/asound ] ; then
+    [ -f /proc/asound/version ] && exec_command "cat /proc/asound/version" "Asound Version"
+    [ -f /proc/asound/modules ] && exec_command "cat /proc/asound/modules" "Sound modules"
+    [ -f /proc/asound/cards ] && exec_command "cat /proc/asound/cards" "Sound Cards"
+    [ -f /proc/asound/sndstat ] && exec_command "cat /proc/asound/sndstat" "Sound Stats"
+    [ -f /proc/asound/timers ] && exec_command "cat /proc/asound/timers" "Sound Timers"
+    [ -f /proc/asound/devices ] && exec_command "cat /proc/asound/devices" "Sound devices"
+    [ -f /proc/asound/pcm ] && exec_command "cat /proc/asound/pcm" "Sound pcm"
+  fi
+  exec_command "cat /proc/dma" "DMA Devices"
+  if [ -f /proc/tty/driver/serial ] ; then
+    exec_command "grep -v unknown /proc/tty/driver/serial" "Serial Devices"
+  fi
+  # test this - please report it
+  if [ -e /proc/rd ] ; then
+    exec_command "cat /proc/rd/c*/current_status" "RAID controller"
+  fi
 
-# Anpassung auf hdparm -i wegen Fehler im Syslog (siehe oben, cfg1.63)
-# Ingo Metzler 23.09.2009
+  # get serial information
 
-if [ $HDPARM ]  && [ -x $HDPARM ]; then
-  exec_command "\
-    if [ -e /proc/ide/hda ] ; then _echo  -n \"read from drive\"; $HDPARM -i /dev/hda;fi;\
-    if [ -e /proc/ide/hdb ] ; then echo; _echo -n \"read from drive\"; $HDPARM -i /dev/hdb;fi;\
-    if [ -e /proc/ide/hdc ] ; then echo; _echo -n \"read from drive\"; $HDPARM -i /dev/hdc;fi;\
-    if [ -e /proc/ide/hdd ] ; then echo; _echo -n \"read from drive\"; $HDPARM -i /dev/hdd;fi;"\
+  SETSERIAL=`which setserial`
+  if [ -n "$SETSERIAL" ] && [ -x $SETSERIAL ]; then
+    exec_command "$SETSERIAL -a /dev/ttyS0" "Serial ttyS0"
+    exec_command "$SETSERIAL -a /dev/ttyS1" "Serial ttyS1"
+  fi
+
+  # get IDE Disk information
+  HDPARM=`which hdparm`
+  # if hdparm is installed (DEBIAN 4.0)
+  # -i   display drive identification
+  # -I   detailed/current information directly from drive
+
+  #  -i   display drive identification (SUSE 10u1)
+  #  -I   detailed/current information directly from drive
+  #  --Istdin  reads identify data from stdin as ASCII hex
+  #  --Istdout writes identify data to stdout as ASCII hex
+
+  # Sep 23 19:12:47 hp02 root: Start of cfg2html-linux version 1.63-2009-08-27
+  # Sep 23 19:13:03 hp02 kernel: hda: drive_cmd: status=0x51 { DriveReady SeekComplete Error }
+  # Sep 23 19:13:03 hp02 kernel: hda: drive_cmd: error=0x04Aborted Command
+  # Sep 23 19:13:18 hp02 root: End of cfg2html-linux version 1.63-2009-08-27
+
+  # Anpassung auf hdparm -i wegen Fehler im Syslog (siehe oben, cfg1.63)
+  # Ingo Metzler 23.09.2009
+
+  if [ $HDPARM ]  && [ -x $HDPARM ]; then
+    exec_command "\
+      if [ -e /proc/ide/hda ] ; then _echo  -n \"read from drive\"; $HDPARM -i /dev/hda;fi;\
+      if [ -e /proc/ide/hdb ] ; then echo; _echo -n \"read from drive\"; $HDPARM -i /dev/hdb;fi;\
+      if [ -e /proc/ide/hdc ] ; then echo; _echo -n \"read from drive\"; $HDPARM -i /dev/hdc;fi;\
+      if [ -e /proc/ide/hdd ] ; then echo; _echo -n \"read from drive\"; $HDPARM -i /dev/hdd;fi;"\
+    "IDE Disks"
+
+    if [ -e /proc/ide/hda ] ; then
+      if grep disk /proc/ide/hda/media > /dev/null ;then
+        exec_command "$HDPARM -t -T /dev/hda" "Transfer Speed"
+      fi
+    fi
+    if [ -e /proc/ide/hdb ] ; then
+      if grep disk /proc/ide/hdb/media > /dev/null ;then
+        exec_command "$HDPARM -t -T /dev/hdb" "Transfer Speed"
+      fi
+    fi
+    if [ -e /proc/ide/hdc ] ; then
+      if grep disk /proc/ide/hdc/media > /dev/null ;then
+        exec_command "$HDPARM -t -T /dev/hdc" "Transfer Speed"
+      fi
+    fi
+    if [ -e /proc/ide/hdd ] ; then
+      if grep disk /proc/ide/hdd/media > /dev/null ;then
+        exec_command "$HDPARM -t -T /dev/hdd" "Transfer Speed"
+      fi
+    fi
+  else
+  # if hdparm not available
+    exec_command "\
+      if [ -e /proc/ide/hda/model ] ; then _echo -n \"hda: \";cat /proc/ide/hda/model ;fi;\
+      if [ -e /proc/ide/hdb/model ] ; then _echo -n \"hdb: \";cat /proc/ide/hdb/model ;fi;\
+      if [ -e /proc/ide/hdc/model ] ; then _echo -n \"hdc: \";cat /proc/ide/hdc/model ;fi;\
+      if [ -e /proc/ide/hdd/model ] ; then _echo -n \"hdd: \";cat /proc/ide/hdd/model ;fi;"\
   "IDE Disks"
+  fi
 
-  if [ -e /proc/ide/hda ] ; then
-    if grep disk /proc/ide/hda/media > /dev/null ;then
-      exec_command "$HDPARM -t -T /dev/hda" "Transfer Speed"
+  if [ -e /proc/sys/dev/cdrom/info ] ; then
+    exec_command "cat /proc/sys/dev/cdrom/info" "CDROM Drive"
+  fi
+
+  if [ -e /proc/ide/piix ] ; then
+    exec_command "cat /proc/ide/piix" "IDE Chipset info"
+  fi
+
+  # Test HW Health
+  # MiMe
+  if [ -x /usr/bin/sensors ] ; then
+    if [ -e /proc/sys/dev/sensors/chips ] ; then
+      exec_command "/usr/bin/sensors" "Sensors"
     fi
   fi
-  if [ -e /proc/ide/hdb ] ; then
-    if grep disk /proc/ide/hdb/media > /dev/null ;then
-      exec_command "$HDPARM -t -T /dev/hdb" "Transfer Speed"
-    fi
+
+  if [ -x /usr/sbin/xpinfo ]
+  then
+    XPINFOFILE=$OUTDIR/`hostname`_xpinfo.csv
+    /usr/sbin/xpinfo -d";" | grep -v "Scanning" > $XPINFOFILE
+
+    AddText "The XP-Info configuration was additionally dumped into the file <b>$XPINFOFILE</b> for further usage"
+
+  # remarked due to enhancement request by Martin Kalmbach, 25.10.2001
+  #  exec_command "/usr/sbin/xpinfo|grep -v Scanning" "SureStore E Disk Array XP Mapping (xpinfo)"
+
+    exec_command "/usr/sbin/xpinfo -r|grep -v Scanning" "SureStore E Disk Array XP Disk Mechanisms"
+    exec_command "/usr/sbin/xpinfo -i|grep -v Scanning" "SureStore E Disk Array XP Identification Information"
+    exec_command "/usr/sbin/xpinfo -c|grep -v Scanning" "SureStore E Disk Array XP (Continuous Access and Business Copy)"
+  # else
+  # [ -x /usr/contrib/bin/inquiry256.ksh ] && exec_command "/usr/contrib/bin/inquiry256.ksh" "SureStore E Disk Array XP256 Mapping (inquiry/obsolete)"
   fi
-  if [ -e /proc/ide/hdc ] ; then
-    if grep disk /proc/ide/hdc/media > /dev/null ;then
-      exec_command "$HDPARM -t -T /dev/hdc" "Transfer Speed"
-    fi
+
+  ### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
+
+  if [ -x /usr/sbin/evainfo ]
+  then
+    AddText "Hint: evainfo displays a maximum of 1024 paths on Linux-based hosts"
+    exec_command "/usr/sbin/evainfo -a -l 2>/dev/null" "HP P6000/EVA Disk Array LUNs"
+    exec_command "/usr/sbin/evainfo -g -W 2>/dev/null" "HP P6000/EVA Disk Array Status with Generic Device Names"
   fi
-  if [ -e /proc/ide/hdd ] ; then
-    if grep disk /proc/ide/hdd/media > /dev/null ;then
-      exec_command "$HDPARM -t -T /dev/hdd" "Transfer Speed"
-    fi
+
+  if [ -x /usr/bin/HP3PARInfo ]
+  then
+    exec_command "/usr/bin/HP3PARInfo -i 2>/dev/null" "HP 3PAR Disk Array Status"
+    exec_command "/usr/bin/HP3PARInfo -f 2>/dev/null" "HP 3PAR Disk Array LUNs"
   fi
-else
-# if hdparm not available
-  exec_command "\
-    if [ -e /proc/ide/hda/model ] ; then _echo -n \"hda: \";cat /proc/ide/hda/model ;fi;\
-    if [ -e /proc/ide/hdb/model ] ; then _echo -n \"hdb: \";cat /proc/ide/hdb/model ;fi;\
-    if [ -e /proc/ide/hdc/model ] ; then _echo -n \"hdc: \";cat /proc/ide/hdc/model ;fi;\
-    if [ -e /proc/ide/hdd/model ] ; then _echo -n \"hdd: \";cat /proc/ide/hdd/model ;fi;"\
- "IDE Disks"
-fi
-
-if [ -e /proc/sys/dev/cdrom/info ] ; then
-  exec_command "cat /proc/sys/dev/cdrom/info" "CDROM Drive"
-fi
-
-if [ -e /proc/ide/piix ] ; then
-   exec_command "cat /proc/ide/piix" "IDE Chipset info"
-fi
-
-# Test HW Health
-# MiMe
-if [ -x /usr/bin/sensors ] ; then
-  if [ -e /proc/sys/dev/sensors/chips ] ; then
-    exec_command "/usr/bin/sensors" "Sensors"
-  fi
-fi
-
-if [ -x /usr/sbin/xpinfo ]
-then
-  XPINFOFILE=$OUTDIR/`hostname`_xpinfo.csv
-  /usr/sbin/xpinfo -d";" | grep -v "Scanning" > $XPINFOFILE
-
-  AddText "The XP-Info configuration was additionally dumped into the file <b>$XPINFOFILE</b> for further usage"
-
-# remarked due to enhancement request by Martin Kalmbach, 25.10.2001
-#  exec_command "/usr/sbin/xpinfo|grep -v Scanning" "SureStore E Disk Array XP Mapping (xpinfo)"
-
-  exec_command "/usr/sbin/xpinfo -r|grep -v Scanning" "SureStore E Disk Array XP Disk Mechanisms"
-  exec_command "/usr/sbin/xpinfo -i|grep -v Scanning" "SureStore E Disk Array XP Identification Information"
-  exec_command "/usr/sbin/xpinfo -c|grep -v Scanning" "SureStore E Disk Array XP (Continuous Access and Business Copy)"
-# else
-# [ -x /usr/contrib/bin/inquiry256.ksh ] && exec_command "/usr/contrib/bin/inquiry256.ksh" "SureStore E Disk Array XP256 Mapping (inquiry/obsolete)"
-fi
-
-### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
-
-if [ -x /usr/sbin/evainfo ]
-then
-  AddText "Hint: evainfo displays a maximum of 1024 paths on Linux-based hosts"
-  exec_command "/usr/sbin/evainfo -a -l 2>/dev/null" "HP P6000/EVA Disk Array LUNs"
-  exec_command "/usr/sbin/evainfo -g -W 2>/dev/null" "HP P6000/EVA Disk Array Status with Generic Device Names"
-fi
-
-if [ -x /usr/bin/HP3PARInfo ]
-then
-  exec_command "/usr/bin/HP3PARInfo -i 2>/dev/null" "HP 3PAR Disk Array Status"
-  exec_command "/usr/bin/HP3PARInfo -f 2>/dev/null" "HP 3PAR Disk Array LUNs"
-fi
 
 ### End changes by Dusan.Baljevic@ieee.org ### 13.05.2014
 
@@ -1030,10 +1026,12 @@ inc_heading_level
     then
 	 exec_command "/usr/sbin/kdumptool dump_config; echo; /usr/sbin/kdumptool find_kernel; echo; /usr/sbin/kdumptool print_target" "Kdump Status (kdumptool)" ##CHANGED##FIXED## 20150304 by Ralph Roth
     else
+    ### TODO: -x kdumpctl check ###
     	exec_command "kdumpctl status" "Kdump Status"            #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014  (not on SLES11!) // 04.03.2015 Ralph Roth
     fi # /usr/sbin/kdumptool
-    exec_command "cat /proc/diskdump" "Diskdump Status"          #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
+    [ -r /proc/diskdump ] && exec_command "cat /proc/diskdump" "Diskdump Status"          #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014, 06.04.2015 Ralph Roth
     exec_command "cat /etc/sysconfig/dump" "SUSE LKCD Config"    #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
+    ### TODO: line 107: lkcd: command not found ###
     exec_command "lkcd -q" "SUSE LKCD Status"                    #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
 
 dec_heading_level
@@ -1317,14 +1315,21 @@ then # else skip to next paragraph
   fi
   [ -r /etc/bind/named.boot ] && exec_command "grep -v '^;' /etc/named.boot"  "DNS/Named"
 
-  if [ -f /usr/sbin/postconf ]; then
-       exec_command "/usr/sbin/postconf | grep '^mail_version' | cut -d= -f2" "Postfix Version"
-  elif [ -f /usr/sbin/sendmail.sendmail ]; then
-       exec_command "echo | /usr/sbin/sendmail.sendmail -v root | grep 220" "Sendmail version"
-  elif [ -f /usr/sbin/sendmail ]; then
-       exec_command "echo | /usr/sbin/sendmail -v root | grep 220" "Sendmail version"
+  if [ -x /usr/sbin/nullmailer-send ]	## backport from cfg2html-linux 2.97 -- 04.04.2015, rr
+  then
+        :               ##  provides sendmail which NO options
   else
-       exec_command "echo SENDMAIL VERSION not found issue" "Sendmail version"
+      ##  Test of sendmail Version Generates Empty Emails #80 - 04.04.2015
+      if [ -x /usr/sbin/postconf ]; then
+	  exec_command "/usr/sbin/postconf | grep '^mail_version' | cut -d= -f2" "Postfix Version"
+      elif [ -f /usr/sbin/sendmail.sendmail ]; then
+	  exec_command "echo | /usr/sbin/sendmail.sendmail -v root | grep 220" "Sendmail version"  ## which OS does use this binary?  rr - 04.04.2015
+      elif [ -x /usr/sbin/sendmail ]; then
+	  # exec_command "echo | /usr/sbin/sendmail -v root | grep 220" "Sendmail version"
+	  exec_command "/usr/sbin/sendmail < /dev/null | grep 220" "Sendmail version"
+      else
+	  exec_command "echo SENDMAIL or POSTFIX VERSION not found issue" "Sendmail/Postfix version"
+      fi
   fi
 
   aliasespath="/etc"
@@ -1372,15 +1377,15 @@ then # else skip to next paragraph
   # ntpq live sometimes in /usr/bin or /usr/sbin
   NTPQ=`which ntpq`
   # if [ $NTPQ ] && [ -x $NTPQ ] ; then
-  if [ -n "$NTPQ" ] && [ -x "$NTPQ" ] ; then      # fixes by Ralph Roth, 180403
+  if [ -n "$NTPQ" -a -x "$NTPQ" ] ; then      # fixes by Ralph Roth, 180403
     exec_command "$NTPQ -p" "XNTP Time Protocol Daemon"
   fi
 
   # Chronyc is replacement for standard NTP, now default in RHEL/CentOS 7
   # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 13 July 2014
   #
-  CHRONYC=$(which chronyc)
-  if [ -n "$CHRONYC" ] && [ -x "$CHRONYC" ] ; then
+  CHRONYC=$(which chronyc 2>/dev/null)
+  if [ -n "$CHRONYC" -a -x "$CHRONYC" ] ; then
     exec_command "$CHRONYC -n sourcestats" "CHRONY Time Protocol Daemon sources"
     exec_command "$CHRONYC -n tracking" "CHRONY Time Protocol Daemon tracking"
   fi
