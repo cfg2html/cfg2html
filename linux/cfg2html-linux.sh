@@ -314,16 +314,19 @@ then # else skip to next paragraph
 
   [ -x /usr/bin/pidstat ] && exec_command "pidstat -lrud 2>/dev/null||pidstat -rud" "pidstat - Statistics for Linux Tasks" #  10.11.2012 modified by Ralph Roth #* rar *# fix for SLES11,SP2, 29.01.2014
 
-  exec_command "tuned-adm list" "Tuned Profiles"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org
-  exec_command "tuned-adm active" "Tuned Active Profile Status"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org
-  exec_command "numactl --hardware" "NUMA Inventory of Available Nodes on the System"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org
+  exec_command "tuned-adm list" "Tuned Profiles"     						#06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org
+  exec_command "tuned-adm active" "Tuned Active Profile Status"     				#06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org
+  exec_command "numactl --hardware" "NUMA Inventory of Available Nodes on the System"     	#06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org
 
   if [ -x /usr/bin/journalctl ]
   then
-	exec_command "/usr/bin/journalctl --list-boots --no-pager| tail -25" "Last 25 Reboots"   ## changed 20150212 by Ralph Roth
+	exec_command "/usr/bin/journalctl --list-boots --no-pager| tail -25" "Last 25 Reboots"  ## changed 20150212 by Ralph Roth
   else
-  	exec_command "last| grep boot | head -25" "Last 25 Reboots"	### RR, 2014-12-19  ##CHANGED##FIXED## 20150212 by Ralph Roth
+  	exec_command "last -F| grep reboot | head -25" "Last 25 Reboots"			### RR, 2014-12-19  ##CHANGED##FIXED## 20150212 by Ralph Roth
   fi
+  # common stuff, systemd and old style system-v rc
+  exec_command "last -xF  | grep -E 'system|runlevel'" "Last 25 runlevel changes or reboots" 	###CHANGED### 20150408 by Ralph Roth
+
   ### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
   #     stderr output from " blame":
   #     /usr/share/cfg2html/lib/html-functions.sh: line 107: blame: command not found

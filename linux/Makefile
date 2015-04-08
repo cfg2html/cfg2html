@@ -21,6 +21,7 @@ ifeq ($(OFFICIAL),)
 ifneq ($(shell which git),)
 git_date := $(shell git log -n 1 --format="%ai")
 git_ref := $(shell git symbolic-ref -q HEAD)
+## example: refs/heads/master
 git_branch = $(lastword $(subst /, ,$(git_ref)))
 endif
 else
