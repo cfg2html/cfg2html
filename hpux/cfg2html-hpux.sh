@@ -1535,6 +1535,7 @@ then # else skip to next paragraph
         if [ -d /usr/sap ] ; then
             paragraph "SAP R3"
             inc_heading_level
+            exec_command $PLUGINS/get_sap_info.sh "Generic SAP Information"
             exec_command $PLUGINS/get_sap.sh "SAP R3 Configuration"
             [ -f /etc/sapconf ] && exec_command "cat /etc/sapconf" "Local configured SAP R3 Instances"
             dec_heading_level

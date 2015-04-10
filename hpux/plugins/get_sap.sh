@@ -33,7 +33,9 @@ get_database()
       then
         echo "@@@@@@ START OF ${sid}_sapdba-check_($dbname)"
         echo ""
-        cat /$database/$sid/sapcheck/$filename | grep -v "^\*\*\*"
+        ###cat /$database/$sid/sapcheck/$filename | grep -v "^\*\*\*"
+	# too big files
+        tail -20 /$database/$sid/sapcheck/$filename | grep -v "^\*\*\*"
         echo ""
         echo "###### END OF ${sid}_sapdba-check_($dbname)"
         echo ""
@@ -69,7 +71,7 @@ get_oracle_config()
     fi
   done
 
-  for o in /oracle/$sid /oracle/$sid/81?_??
+  for o in /oracle/$sid /oracle/$sid/81?_?? /oracle/$sid/11?_?? /oracle/$sid/12?_??
   do
     if [ -d $o ]
     then
