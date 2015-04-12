@@ -1797,12 +1797,14 @@ fi # CFEngine
 ##############################################################
 
 ####BACKPORT####
-## SAP stuff # changed 20140213 by Ralph Roth
+## SAP stuff # changed 20140213 by Ralph Roth, backported from Gratien SAP-Info collector 12.04.2015,Ralph Roth
 # -----------------------------------------------------------------------------
 if [ -x /usr/sap/hostctrl/exe/saphostexec ]
 then
     exec_command "/usr/sap/hostctrl/exe/saphostexec -version" "Installed SAP Components"
-    exec_command "ps fax | grep -i ' pf=' | grep -v grep" "Active SAP Processes"
+    exec_command "/usr/sap/hostctrl/exe/saphostexec -status" "Status SAP"		### Ralph Roth, 12.04.2015
+    exec_command "/usr/sap/hostctrl/exe/lssap" "SAP - lssap"				### Ralph Roth, 12.04.2015
+    exec_command "ps fax | grep -i ' pf=/' | grep -v grep" "Active SAP Processes" 	### CHANGED ### 20150412 by Ralph Roth
 fi ## SAP
 
 ##
