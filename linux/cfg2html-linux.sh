@@ -621,10 +621,14 @@ inc_heading_level
   if [ -f /proc/scsi/scsi ] ;then
     exec_command "find /proc/scsi" "SCSI Components" #  22.11.2004, 16:08 modified by Ralph.Roth
     exec_command "cat /proc/scsi/scsi" "SCSI Devices"
-  else
-    # Debian 6.06 # 24.01.2013, doesn't have -p option yet!
-    #        -p, --protection        Output additional data integrity (protection) information.
-    [ -x /usr/bin/lsscsi ] && exec_command "/usr/bin/lsscsi -lv" "SCSI Devices"  ## Alternate Method!, Mittwoch, 16. March 2011
+  fi 
+
+  if  [ -x /usr/bin/lsscsi ] 
+  then
+  	# Debian 6.06 # 24.01.2013, doesn't have -p option yet!
+  	#        -p, --protection        Output additional data integrity (protection) information.
+	exec_command "/usr/bin/lsscsi -lv" "SCSI Devices (long, details)"  ## rr, 16. March 2011
+	exec_command "/usr/bin/lsscsi -s" "SCSI Devices (size)"  ## rr, 16. March 2011, 27 May 2015
   fi
 
   if [ -x "${FDISKCMD}" -a -x "${GREPCMD}" -a -x "${SEDCMD}" -a -x "${AWKCMD}" -a -x "${SMARTCTL}" ]
