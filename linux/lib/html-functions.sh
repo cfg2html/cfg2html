@@ -1,3 +1,9 @@
+# cfg2html - HTML function library - Linux part
+# @(#) $Id: html-functions.sh,v 6.13 2015/07/23 07:28:22 ralph Exp $
+# -------------------------------------------------------------------------
+# vim:ts=8:sw=4:sts=4 -*- coding: utf-8 -*-  Ralph Roth
+
+
 function open_html {
     UNAMEA=$(uname -a)
     cat >$HTML_OUTFILE <<-EOF
@@ -36,7 +42,7 @@ function open_html {
 	<BODY LINK="#0000ff" VLINK="#800080" BACKGROUND="cfg2html_back.jpg">
 	<H1><CENTER><FONT COLOR=blue>
 	<P><hr><B>$RECHNER - System Documentation</P></H1>
-	<hr><FONT COLOR=blue><small>Created "$DATEFULL" with " $PROGRAM $VERSION "</font></center></B><P>
+	<hr><FONT COLOR=blue><small>Created $DATEFULL by $PROGRAM $VERSION</font></center></B><P>
 	$UNAMEA
 	</small>
 
@@ -128,15 +134,7 @@ function exec_command {
     fi
     rm -f $TMP_EXEC_COMMAND_ERR
 
-    ## echo -e "\n" >> $HTML_OUTFILE_TEMP
-    ## echo -e "<A NAME=\"$2\"></A> <A HREF=\"#Inhalt-$2\"><H${HEADL}> $2 </H${HEADL}></A>\n" >>$HTML_OUTFILE_TEMP
-    ## echo -e "<PRE><B>$EXECRES</B></PRE>\n"  >>$HTML_OUTFILE_TEMP
-    ## #echo "<PRE><SMALL><B>$EXECRES</B></SMALL></PRE>\n"  >>$HTML_OUTFILE_TEMP
-    ## echo -e "<LI><A NAME=\"Inhalt-$2\"></A><A HREF=\"#$2\">$2</A>\n" >> $HTML_OUTFILE
-    ## echo -e "\n$EXECRES\n" >> $TEXT_OUTFILE_TEMP
-
     #### new ###  #  13.08.2007, 13:28 modified by Ralph Roth
-
     if [ "$CFG_STINLINE" = "no" ]
     then
         ## screen tips like cfg2html 1.20 when dragging mouse over link?
@@ -150,10 +148,9 @@ function exec_command {
         else
                 echo "<h6>$1</h6>">>$HTML_OUTFILE_TEMP
         fi
-
     fi      # screen tips inline???
 
-        ###  Put the result out in proportional font
+    ###  Put the result out in proportional font
     _echo "<PRE>$EXECRES</PRE>"  >>$HTML_OUTFILE_TEMP
 
     _echo "<LI><A NAME=\"Inhalt-$2\"></A><A HREF=\"#$2\" title=\"$1\">$2</A>" >> $HTML_OUTFILE
@@ -166,8 +163,6 @@ function exec_command {
         echo "$SECS secs: $(echo $1 | cut -c-79)\n" >> $TEXT_OUTFILE_TEMP
         echo "<h6>$SECS secs: $(echo $1 | cut -c-79)</h6>" >> $HTML_OUTFILE_TEMP
     fi
-
-
 }
 
 ################# adds a text to the output files, rar, 25.04.99 ##########
@@ -187,7 +182,7 @@ function close_html {
     cat $HTML_OUTFILE_TEMP >>$HTML_OUTFILE
     cat $TEXT_OUTFILE_TEMP >> $TEXT_OUTFILE
     rm $HTML_OUTFILE_TEMP $TEXT_OUTFILE_TEMP
-    _echo  "\n\nCreated "$DATEFULL" with " $PROGRAM $VERSION " \n" >> $TEXT_OUTFILE
+    _echo  "\n\nCreated $DATEFULL by $PROGRAM $VERSION" >> $TEXT_OUTFILE
     _echo  "(c) 1998- 2015 by ROSE SWE, Ralph Roth and others" >> $TEXT_OUTFILE
 }
 
