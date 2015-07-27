@@ -148,7 +148,7 @@ echo "Starting          "$_VERSION
 echo "Path to Cfg2Html  "$0
 echo "HTML Output File  "$HTML_OUTFILE
 echo "Text Output File  "$TEXT_OUTFILE
-echo "Partitions        "$OUTDIR/$BASEFILE.partitions.save
+#echo "Partitions        "$OUTDIR/$BASEFILE.partitions.save
 echo "Errors logged to  "$ERROR_LOG
 [[ -f $CONFIG_DIR/local.conf ]] && {
     echo "Local config      "$CONFIG_DIR/local.conf "( $(grep -v -E '(^#|^$)' $CONFIG_DIR/local.conf | wc -l) lines)"
