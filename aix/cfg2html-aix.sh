@@ -238,11 +238,11 @@ then # else skip to next paragraph
   fi
 
   if [ -x /usr/bin/pwdck ] ; then
-    exec_command "/usr/bin/pwdck -n ALL" "integrity of password files"
+    exec_command "/usr/bin/pwdck -n ALL && echo Okay" "integrity of password files"
   fi
 
   if [ -x /usr/sbin/grpck ] ; then
-    exec_command "/usr/sbin/grpck -n ALL" "integrity of group files"
+    exec_command "/usr/sbin/grpck -n ALL && echo Okay" "integrity of group files"
   fi
 
   dec_heading_level
