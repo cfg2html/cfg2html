@@ -1,3 +1,7 @@
+# @(#) $Id: html-functions.sh,v 1.1 2015/07/27 12:01:15 ralph Exp $ 
+# -------------------------------------------------------------------------
+# vim:ts=8:sw=4:sts=4 -*- coding: utf-8 -*- Ralph Roth
+
 function open_html {
     UNAMEA=$(uname -a)
     cat >$HTML_OUTFILE <<-EOF
@@ -11,7 +15,7 @@ function open_html {
 	<META NAME="DESCRIPTION" CONTENT="Config to HTML (cfg2html for Linux)">
 	<META NAME="subject" CONTENT="$VERSION on $RECHNER by $MAILTO and $MAILTORALPH">
 	<style type="text/css">
-	/* (c) 2001- 2013 by ROSE SWE, Ralph Roth - http://rose.rult.at
+	/* (c) 2001- 2015 by ROSE SWE, Ralph Roth - http://rose.rult.at
 	* CSS for cfg2html.sh, 12.04.2001, initial creation
 	*/
 
@@ -36,7 +40,7 @@ function open_html {
 	<BODY LINK="#0000ff" VLINK="#800080" BACKGROUND="cfg2html_back.jpg">
 	<H1><CENTER><FONT COLOR=blue>
 	<P><hr><B>$RECHNER - System Documentation</P></H1>
-	<hr><FONT COLOR=blue><small>Created "$DATEFULL" with " $PROGRAM $VERSION "</font></center></B><P>
+	<hr><FONT COLOR=blue><small>Created $DATEFULL with $PROGRAM $VERSION</font></center></B><P>
 	$UNAMEA
 	</small>
 
@@ -128,15 +132,6 @@ function exec_command {
     fi
     rm -f $TMP_EXEC_COMMAND_ERR
 
-    ## echo -e "\n" >> $HTML_OUTFILE_TEMP
-    ## echo -e "<A NAME=\"$2\"></A> <A HREF=\"#Inhalt-$2\"><H${HEADL}> $2 </H${HEADL}></A>\n" >>$HTML_OUTFILE_TEMP
-    ## echo -e "<PRE><B>$EXECRES</B></PRE>\n"  >>$HTML_OUTFILE_TEMP
-    ## #echo "<PRE><SMALL><B>$EXECRES</B></SMALL></PRE>\n"  >>$HTML_OUTFILE_TEMP
-    ## echo -e "<LI><A NAME=\"Inhalt-$2\"></A><A HREF=\"#$2\">$2</A>\n" >> $HTML_OUTFILE
-    ## echo -e "\n$EXECRES\n" >> $TEXT_OUTFILE_TEMP
-
-    #### new ###  #  13.08.2007, 13:28 modified by Ralph Roth
-
     if [ "$CFG_STINLINE" = "no" ]
     then
         ## screen tips like cfg2html 1.20 when dragging mouse over link?
@@ -167,7 +162,6 @@ function exec_command {
         echo "<h6>$SECS secs: $(echo $1 | cut -c-79)</h6>" >> $HTML_OUTFILE_TEMP
     fi
 
-
 }
 
 ################# adds a text to the output files, rar, 25.04.99 ##########
@@ -181,14 +175,13 @@ function AddText {
 function close_html {
 
     echo "<hr>" >> $HTML_OUTFILE
-    _echo "</P><P>\n<hr><FONT COLOR=blue>Created "$DATEFULL" with " $PROGRAM $VERSION "</font>" >> $HTML_OUTFILE_TEMP
+    _echo "</P><P>\n<hr><FONT COLOR=blue>Created $DATEFULL with $PROGRAM $VERSION</font>" >> $HTML_OUTFILE_TEMP
     _echo "</P><P>\n<FONT COLOR=blue>Copyright and maintained by <A HREF="mailto:$MAILTORALPH?subject=$VERSION_">Ralph Roth, ROSE SWE, </A></P></font>" >> $HTML_OUTFILE_TEMP
-    #echo " <FONT COLOR=blue>Maintained by <A HREF="mailto:$MAILTO?subject=$VERSION_">Jeroen Kleen, EMEA ISS CC Engineer</A></P></font>" >> $HTML_OUTFILE_TEMP
     _echo "<hr><center> <A HREF="http://www.cfg2html.com">[ Download cfg2html from external home page ]</b></A></center></P><hr></BODY></HTML>\n" >> $HTML_OUTFILE_TEMP
     cat $HTML_OUTFILE_TEMP >>$HTML_OUTFILE
     cat $TEXT_OUTFILE_TEMP >> $TEXT_OUTFILE
     rm $HTML_OUTFILE_TEMP $TEXT_OUTFILE_TEMP
     _echo  "\n\nCreated "$DATEFULL" with " $PROGRAM $VERSION " \n" >> $TEXT_OUTFILE
-    _echo  "(c) 1998- 2013 by ROSE SWE, Ralph Roth" >> $TEXT_OUTFILE
+    _echo  "(c) 1998- 2015 by ROSE SWE, Ralph Roth" >> $TEXT_OUTFILE
 }
 

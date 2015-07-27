@@ -1,6 +1,6 @@
 # @(#) $Id: cfg2html-linux.sh,v 6.24 2014/03/24 17:00:03 ralph Exp $
 # -----------------------------------------------------------------------------------------
-# (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-
+# (c) 1997-2015 by Ralph Roth  -*- http://rose.rult.at -*-
 
 #  If you change this script, please mark your changes with for example
 #  ## <username> and send your diffs from the actual version to my mail
@@ -71,11 +71,7 @@ MAILTORALPH="cfg2html&#64;&#104;&#111;&#116;&#109;&#97;&#105;&#108;&#46;&#99;&#1
 
 #####################################################################
 # @(#)Cfg2Html (c) by ROSE SWE, Dipl.-Ing. Ralph Roth, cfg2html@hotmail.com
-# HP Proliant Server Module Integrated by Jeroen.Kleen@hp.com
 #####################################################################
-
-# cfg2html-linux ported (c) by Michael Meifert, SysAdm from HP-UX version
-# using debian potato, woody
 
 # This is the "swiss army knife" for the ASE, CE, sysadmin etc. I wrote it to
 # get the needed information to plan an update, to perform basic trouble
@@ -148,7 +144,7 @@ typeset -i HEADL=0                      # Headinglevel
 #
 
 line
-echo "Starting          "$_VERSION       ## "/"$(arch) - won't work under Debian 5.0.8 ## /usr/bin/cfg2html-linux: line 597: arch: command not found
+echo "Starting          "$_VERSION
 echo "Path to Cfg2Html  "$0
 echo "HTML Output File  "$HTML_OUTFILE
 echo "Text Output File  "$TEXT_OUTFILE
@@ -217,7 +213,7 @@ then # else skip to next paragraph
   exec_command "sar -b 1 9" "Buffer Activity"
 
   exec_command "proctree -atT" "Active Process - Tree Overview" #  15.11.2004/2011, 14:09 modified by Ralph.Roth
-  exec_command "ps -e -o ruser,pid,args | awk ' (($1+1) > 1) {print $0;} '" "Processes without an named owner"  # changed 20131211 by Ralph Roth, # changed 20140129 by Ralph Roth # cmd. line:1: ^ unexpected newline or end of string
+  exec_command "ps -e -o ruser,pid,args | awk ' ((\$1+1) > 1) {print \$0;} '" "Processes without an named owner"  # changed 20131211 by Ralph Roth, # changed 20140129 by Ralph Roth # cmd. line:1: ^ unexpected newline or end of string ### TODO:  issue #86?, rr, 27.07.2015
   AddText "The output should be empty!"
 
   exec_command "ps -ef | cut -c39- | sort -nr | head -25 | awk '{ printf(\"%10s   %s\\n\", \$2, \$3); }'" "Top load processes"
@@ -229,7 +225,7 @@ then # else skip to next paragraph
   exec_command "alias"  "Alias"
   [ -r /etc/inittab ] && exec_command "grep -vE '^#|^ *$' /etc/inittab" "inittab"
   exec_command "lssrc -a" "Services - Status"
-  exec_command "who -r | awk '{print $2,$3}" "Current runlevel"
+  exec_command "who -r | awk '{print \$2,\$3}" "Current runlevel"		### TODO:  issue #86?, rr, 27.07.2015
 
   exec_command "ipcs -o" "IPC Summary"
   exec_command "ipcs -qa" "IPC Message Queue"
@@ -645,9 +641,6 @@ then # else skip to next paragraph
 
 	dec_heading_level
     fi ## HP Dataprotector   
-
-
-
 
 ## SAP stuff 
 if [ -x /usr/sap/hostctrl/exe/saphostexec ]
