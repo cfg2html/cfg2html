@@ -238,11 +238,11 @@ then # else skip to next paragraph
   fi
 
   if [ -x /usr/bin/pwdck ] ; then
-    exec_command "/usr/bin/pwdck -n ALL" "integrity of password files"
+    exec_command "/usr/bin/pwdck -n ALL && echo Okay" "integrity of password files"
   fi
 
   if [ -x /usr/sbin/grpck ] ; then
-    exec_command "/usr/sbin/grpck -n ALL" "integrity of group files"
+    exec_command "/usr/sbin/grpck -n ALL && echo Okay" "integrity of group files"
   fi
 
   dec_heading_level
@@ -310,10 +310,12 @@ then # else skip to next paragraph
 paragraph "Hardware"
 inc_heading_level
 
-RAM=`prtconf | awk -F': *' '/^Memory Size/ {print $2}'` 
+#RAM=`prtconf | awk -F': *' '/^Memory Size/ {print $2}'` 
+#this is possibly less prone to (future parsing) error
+RAM=$((`bootinfo -r`/1024))
 exec_command "echo $RAM" "Physical Memory"
 exec_command "prtconf | egrep -e 'Processor Type|Number Of Processors|Processor Clock Speed|CPU Type' 2> /dev/null" "CPU Information"
-exec_command "prtconf -L" "LPAR Information"
+exec_command "prtconf -L && lparstat -i" "LPAR Information"
 exec_command "prtconf |egrep '^\*|^\+|^\-'" "Hardware List"
 exec_command "lsdev -Ccadapter" "HW adapters list"
 exec_command "lsdev -Ccdisk" "Disk Device list"
@@ -392,7 +394,7 @@ if [ -x /usr/sbin/lspath ] ; then
 	exec_command "lspath -s enabled" "MPIO - Enabled Devices"
 	exec_command "lspath -s disabled" "MPIO - Disabled Devices"
 	exec_command "lspath -s failed" "MPIO - Failed Devices"
-	exec_command "lspath -F'name:status:connection:parent:path_status'" "MPIO - Detailed Status"
+	exec_command "lspath -F'name:status:connection:parent:path_status:path_id'" "MPIO - Detailed Status"
 fi
 
 ## PowerPath Device Configuration
@@ -487,6 +489,10 @@ then # else skip to next paragraph
 
   if [ -f /etc/bootptab ] ; then
       exec_command "grep -vE '(^#|^ *$)' /etc/bootptab" "BOOTP Daemon Configuration"
+  fi
+
+  if [ -f /etc/niminfo ]; then
+      exec_command "cat /etc/niminfo" "NIMINFO file"
   fi
 
   if [ -r /etc/inetd.conf ]; then
