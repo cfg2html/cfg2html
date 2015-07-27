@@ -216,7 +216,7 @@ then # else skip to next paragraph
   exec_command "ps -e -o ruser,pid,args | awk ' ((\$1+1) > 1) {print \$0;} '" "Processes without an named owner"  # changed 20131211 by Ralph Roth, # changed 20140129 by Ralph Roth # cmd. line:1: ^ unexpected newline or end of string ### TODO:  issue #86?, rr, 27.07.2015
   AddText "The output should be empty!"
 
-  exec_command "ps -ef | cut -c39- | sort -nr | head -25 | awk '{ printf(\"%10s   %s\\n\", \$2, \$3); }'" "Top load processes"
+  exec_command "ps -e -o time,comm | sort -nr | head -25" "Top load processes"
   exec_command "ps -e -o 'vsz pid ruser cpu time args' |sort -nr|head -25" "Top memory consuming processes"
   exec_command topFDhandles "Top file handles consuming processes" # 24.01.2013
   AddText "Hint: Number of open file handles should be less than ulimit -n ("$(ulimit -n)")"
