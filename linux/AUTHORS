@@ -1,5 +1,6 @@
-For details see cfg2html.html
-@(#)$Id: AUTHORS,v 6.12 2014/05/14 18:11:02 ralph Exp $
+For details see cfg2html.html and  git shortlog -sn
+
+@(#)$Id: AUTHORS,v 6.13 2015/08/15 10:44:47 ralph Exp $
 ---------------------------------------------------------------------------
     _         _   _
 Co / \  _   _| |_| |__   ___  _ __ ___
@@ -13,7 +14,7 @@ Ralph Roth <cfg2html@hotmail.com>
         wrote the initial HP-UX version, wrote the 1.12-x Debian Linux stream
         wrote SecurePath and ServiceGuard collectors etc.
         maintains the 1.18++, 2.xx Linux stream
-        major work on the cfg2html next generation version (cfg2html 6.xx)
+        major work on the cfg2html next generation version (cfg2html 6.xx) on github
 
 Michael Meifert <dk3hg@users.sourceforge.net>
         ported the HP-UX version to Debian Linux, maintainer of
@@ -49,3 +50,4 @@ Alexander De Bernardi (AB)
 
 Dusan Baljevic (dusan.baljevic@ieee.org)
         Added checks for Puppet, Chef, CFengine, HP3PARInfo, evainfo, and ors
+

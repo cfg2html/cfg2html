@@ -621,9 +621,9 @@ inc_heading_level
   if [ -f /proc/scsi/scsi ] ;then
     exec_command "find /proc/scsi" "SCSI Components" #  22.11.2004, 16:08 modified by Ralph.Roth
     exec_command "cat /proc/scsi/scsi" "SCSI Devices"
-  fi 
+  fi
 
-  if  [ -x /usr/bin/lsscsi ] 
+  if  [ -x /usr/bin/lsscsi ]
   then
   	# Debian 6.06 # 24.01.2013, doesn't have -p option yet!
   	#        -p, --protection        Output additional data integrity (protection) information.
@@ -1158,8 +1158,8 @@ then # else skip to next paragraph
   # nmcli not available on SLES11##FIXED## 20150304 by Ralph Roth
   if [ -x /usr/bin/nmcli ]
   then
-      # exec_command "nmcli nm status" "NetworkManager Status"     		#06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org##FIXED## 20150304 by Ralph Roth //  not availabe on openSUSE 13.2! 
-      exec_command "nmcli device status" "NetworkManager Device Status"   	#20150527 by Ralph Roth 
+      # exec_command "nmcli nm status" "NetworkManager Status"     		#06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org##FIXED## 20150304 by Ralph Roth //  not availabe on openSUSE 13.2!
+      exec_command "nmcli device status" "NetworkManager Device Status"   	#20150527 by Ralph Roth
       exec_command "nmcli connection show" "NetworkManager Connections"     	#06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org##FIXED## 20150304 by Ralph Roth
   fi ## /usr/bin/nmcli
 
@@ -1985,6 +1985,7 @@ then # else skip to next paragraph
 
     if [ -x /sbin/hplog ] ; then
             exec_command "hplog -t -f -p" "Current Thermal Sensor, Fan and Power data"
+            # RE: [cfg2html] cfg2html hangs on Oracle Linux 6.7 --> I fixed the problem. It was giving the error “FAILURE Event log buffer is too small” when running the “hplog –v” command so I just commented out this command line in the cfg2html_linux script. 07.09.2015
             exec_command "hplog -v" "Proliant Integrated Management Log"
     fi
 
