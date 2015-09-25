@@ -428,7 +428,7 @@ then # else skip to next paragraph
   fi
 
   exec_command "cat /etc/passwd" "Password File"  # Added by Dusan.Baljevic@ieee.org 6/11/2014
-  exec_command "cat /etc/shadow" "Shadow File"  # Added by Dusan.Baljevic@ieee.org 6/11/2014
+  exec_command "awk -F: 'BEGIN{OFS=FS}{if ( \$2 != \"*\" ) \$2='x'; print \$0}' /etc/shadow" "Shadow File"  # Added by Dusan.Baljevic@ieee.org 6/11/2014 (issue #83)
   exec_command "cat /etc/sudoers" "Sudo Config"  # Added by Dusan.Baljevic@ieee.org 6/11/2014
   dec_heading_level
 
