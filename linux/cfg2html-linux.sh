@@ -1152,7 +1152,9 @@ then # else skip to next paragraph
   paragraph "Network Settings"
   inc_heading_level
 
-  exec_command "/sbin/ifconfig" "LAN Interfaces Settings (ifconfig)"    #D011 -- 16. March 2011,  28. Dezember 2011, ER by Heiko Andresen // remove? deprecated! ###TODO###
+  if [[ -x /sbin/ifconfig ]]; then
+     exec_command "/sbin/ifconfig" "LAN Interfaces Settings (ifconfig)"    #D011 -- 16. March 2011,  28. Dezember 2011, ER by Heiko Andresen // to avoid erros of ifconfig not found
+  fi
   exec_command "ip addr" "LAN Interfaces Settings (ip addr)"            #D011 -- 16. March 2011,  28. Dezember 2011, ER by Heiko Andresen
   exec_command "ip -s l" "Detailed NIC Statistics"                      #07.11.2011, 21:33 modified by Ralph Roth #* rar *#
   # nmcli not available on SLES11##FIXED## 20150304 by Ralph Roth
@@ -1165,7 +1167,7 @@ then # else skip to next paragraph
 
   if [ -x /usr/sbin/ethtool ]     ###  22.11.2010, 23:44 modified by Ralph Roth
   then
-      LANS=$(ifconfig|grep ^[a-z]|grep -v ^lo|awk '{print $1;}')	# RR: ifconfig is decrecapted -> ip a? 13.11.2013 ###TODO###
+      LANS=$(netstat -i | tail -n+3 | awk '{print $1}' |grep -v ^lo)	# RR: ifconfig is decrecapted -> use netstat instead (gdha)
       for i in $LANS
       do
 	  exec_command "/usr/sbin/ethtool $i 2>/dev/null; /usr/sbin/ethtool -i $i" "Ethernet Settings for Interface "$i
