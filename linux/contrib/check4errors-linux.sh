@@ -25,6 +25,9 @@ fi
 # grep_error_patterns
 # TODO: refine patterns
 F=""multi.*path.*down" "bond.*link.*down" "lpfs.*err" "target.failure" "duplicate.VG" "duplicate.PV" "not.found" "ocfs2.*ERR" "ocfs2.*not.unmounted.cleanly" "reservation.conflict" "tainted" "ERROR""
+
+
+## we need to fix this for systemd, e.g. SLES12
 for f in $F; do
         echo -n "$f = "
         grep $f /var/log/messages | wc -l

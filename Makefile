@@ -1,4 +1,4 @@
-# @(#) $Id: Makefile,v 6.15 2014/07/25 12:40:14 ralph Exp $ 
+# @(#) $Id: Makefile,v 6.16 2015/11/02 06:43:26 ralph Exp $ 
 
 # Makefile to create HP-UX software depot or Linux .DEB and .RPM packages
 # -------------------------------------------------------------------------
