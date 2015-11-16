@@ -1746,8 +1746,8 @@ then
            exec_command "/usr/bin/puppet ca list --all" "Puppet certificates"
         fi
 
-
-	exec_command "/usr/bin/puppet resource user" "Users in Puppet Resource Abstraction Layer (RAL)"
+	# gdha - 16/Nov/2015 - added TIEMOUTCMD - issue #95
+	exec_command "$TIMEOUTCMD 60 /usr/bin/puppet resource user" "Users in Puppet Resource Abstraction Layer (RAL)"
 	exec_command "/usr/bin/puppet resource package" "Packages in Puppet Resource Abstraction Layer (RAL)"
 	# SUSE-SU-2014:0155-1 # seems to crash plain installed servers, puppet not configured ## changed 20140429 by Ralph Roth
 	# Bug References: 835122,853982 - CVE References: CVE-2013-4761 - puppet-2.6.18-0.12.1
@@ -1988,7 +1988,8 @@ then # else skip to next paragraph
     if [ -x /sbin/hplog ] ; then
             exec_command "hplog -t -f -p" "Current Thermal Sensor, Fan and Power data"
             # RE: [cfg2html] cfg2html hangs on Oracle Linux 6.7 --> I fixed the problem. It was giving the error “FAILURE Event log buffer is too small” when running the “hplog –v” command so I just commented out this command line in the cfg2html_linux script. 07.09.2015
-            exec_command "hplog -v" "Proliant Integrated Management Log"
+	    # gdha - 16/Nov/2015 - added TIMEOUTCMD (defined in default.conf) - issue #92
+            exec_command "$TIMEOUTCMD 60 hplog -v" "Proliant Integrated Management Log"
     fi
 
     if [ -r /var/log/hppldu.log ] ; then
