@@ -1933,7 +1933,7 @@ then # else skip to next paragraph
     paragraph "hp ProLiant Server Log- and configuration Files"
     inc_heading_level
 
-    temphp=/tmp/cfg2html_temp
+    temphp=$TMP_DIR/cfg2html_temp
     if [ ! -d $temphp ] ; then
          mkdir $temphp
     fi
