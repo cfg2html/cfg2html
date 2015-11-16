@@ -1732,7 +1732,7 @@ then
 	   exec_command "/usr/bin/puppet agent -V" "Puppet Client agent version"
         fi
 
-        exec_command "/usr/bin/puppet status master" "Puppet Server status"
+        exec_command "/usr/bin/puppet master status" "Puppet Server status"
 
         PUPPETCHK=$(puppet help | awk '$1 == "config" {print}')
         if [ "$PUPPETCHK" ] ; then
