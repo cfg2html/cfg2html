@@ -65,7 +65,7 @@ binary-indep: build
 		debian/cfg2html/etc/cfg2html/ \
 		debian/cfg2html/etc/cron.d/ \
 		debian/cfg2html/usr/sbin/ \
-		debian/cfg2html/usr/share/cfg2html/ \
+		debian/cfg2html/usr/share/cfg2html/etc/cfg2html \
 		debian/cfg2html/var/log/cfg2html/
 
 
