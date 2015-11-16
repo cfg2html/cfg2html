@@ -1332,7 +1332,7 @@ then # else skip to next paragraph
   else
       ##  Test of sendmail Version Generates Empty Emails #80 - 04.04.2015
       if [ -x /usr/sbin/postconf ]; then
-	  exec_command "/usr/sbin/postconf | grep '^mail_version' | cut -d= -f2" "Postfix Version"
+	  exec_command "/usr/sbin/postconf -h mail_version" "Postfix Version"
       elif [ -f /usr/sbin/sendmail.sendmail ]; then
 	  exec_command "echo | /usr/sbin/sendmail.sendmail -v root | grep 220" "Sendmail version"  ## which OS does use this binary?  rr - 04.04.2015
       elif [ -x /usr/sbin/sendmail ]; then
