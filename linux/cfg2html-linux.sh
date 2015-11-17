@@ -1825,7 +1825,9 @@ fi ## SAP
         . ${SGCONFFILE:=/etc/cmcluster.conf}   # get env. setting, rar 12.05.2005
         PATH=$PATH:$SGSBIN:$SGLBIN
         exec_command "cat ${SGCONFFILE:=/etc/cmcluster.conf}" "Cluster Config Files"
-        exec_command "what  $SGSBIN/cmcld|head; what  $SGSBIN/cmhaltpkg|head" "Real Serviceguard Version"  ##  12.05.2005, 10:07 modified by Ralph Roth
+	# gdha - 17/Nov/2015 - what does not exist on Linux
+        #exec_command "what  $SGSBIN/cmcld|head; what  $SGSBIN/cmhaltpkg|head" "Real Serviceguard Version"  ##  12.05.2005, 10:07 modified by Ralph Roth
+	exec_command "cmversion" "Serviceguard Version"  ## gdha - 17/Nov/2015
         exec_command "cmquerycl -v" "Serviceguard Configuration"
         exec_command "cmviewcl -v" "Serviceguard Nodes and Packages"
         exec_command "cmviewconf" "Serviceguard Cluster Configuration Information"
