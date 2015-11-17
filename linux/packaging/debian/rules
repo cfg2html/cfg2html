@@ -69,6 +69,7 @@ binary-indep: build
 		debian/cfg2html/var/log/cfg2html/
 
 
+	ls -l
 	if [ $$(basename $$(pwd)) = "BUILD" ]; then \
 		cd linux ; \
 		ls -l ; \
