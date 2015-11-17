@@ -1332,7 +1332,7 @@ then # else skip to next paragraph
   else
       ##  Test of sendmail Version Generates Empty Emails #80 - 04.04.2015
       if [ -x /usr/sbin/postconf ]; then
-	  exec_command "/usr/sbin/postconf | grep '^mail_version' | cut -d= -f2" "Postfix Version"
+	  exec_command "/usr/sbin/postconf -h mail_version" "Postfix Version"
       elif [ -f /usr/sbin/sendmail.sendmail ]; then
 	  exec_command "echo | /usr/sbin/sendmail.sendmail -v root | grep 220" "Sendmail version"  ## which OS does use this binary?  rr - 04.04.2015
       elif [ -x /usr/sbin/sendmail ]; then
@@ -1732,7 +1732,7 @@ then
 	   exec_command "/usr/bin/puppet agent -V" "Puppet Client agent version"
         fi
 
-        exec_command "/usr/bin/puppet status master" "Puppet Server status"
+        exec_command "/usr/bin/puppet master status" "Puppet Server status"
 
         PUPPETCHK=$(puppet help | awk '$1 == "config" {print}')
         if [ "$PUPPETCHK" ] ; then
@@ -1746,8 +1746,8 @@ then
            exec_command "/usr/bin/puppet ca list --all" "Puppet certificates"
         fi
 
-
-	exec_command "/usr/bin/puppet resource user" "Users in Puppet Resource Abstraction Layer (RAL)"
+	# gdha - 16/Nov/2015 - added TIEMOUTCMD - issue #95
+	exec_command "$TIMEOUTCMD 60 /usr/bin/puppet resource user" "Users in Puppet Resource Abstraction Layer (RAL)"
 	exec_command "/usr/bin/puppet resource package" "Packages in Puppet Resource Abstraction Layer (RAL)"
 	# SUSE-SU-2014:0155-1 # seems to crash plain installed servers, puppet not configured ## changed 20140429 by Ralph Roth
 	# Bug References: 835122,853982 - CVE References: CVE-2013-4761 - puppet-2.6.18-0.12.1
@@ -1933,7 +1933,7 @@ then # else skip to next paragraph
     paragraph "hp ProLiant Server Log- and configuration Files"
     inc_heading_level
 
-    temphp=/tmp/cfg2html_temp
+    temphp=$TMP_DIR/cfg2html_temp
     if [ ! -d $temphp ] ; then
          mkdir $temphp
     fi
@@ -1988,7 +1988,8 @@ then # else skip to next paragraph
     if [ -x /sbin/hplog ] ; then
             exec_command "hplog -t -f -p" "Current Thermal Sensor, Fan and Power data"
             # RE: [cfg2html] cfg2html hangs on Oracle Linux 6.7 --> I fixed the problem. It was giving the error “FAILURE Event log buffer is too small” when running the “hplog –v” command so I just commented out this command line in the cfg2html_linux script. 07.09.2015
-            exec_command "hplog -v" "Proliant Integrated Management Log"
+	    # gdha - 16/Nov/2015 - added TIMEOUTCMD (defined in default.conf) - issue #92
+            exec_command "$TIMEOUTCMD 60 hplog -v" "Proliant Integrated Management Log"
     fi
 
     if [ -r /var/log/hppldu.log ] ; then
