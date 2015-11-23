@@ -1545,7 +1545,7 @@ then # else skip to next paragraph
         fi
     fi # terminates CFG_SAP wrapper
 
-    dec_heading_level	## Application
+    ##gdha - decremneted too soon ## 23/Nov/2015 ##dec_heading_level	## Application
 
 fi # terminates CFG_APPLICATIONS wrapper
 
@@ -1602,7 +1602,7 @@ then
 
 fi
 
-dec_heading_level # needed?
+dec_heading_level # needed? ## gdha - 23/Nov/2015 - think this is now ok
 
 #
 # execute custom plugins   -- anaumann 2009/08/24
