@@ -989,6 +989,8 @@ then # else skip to next paragraph
     paragraph "Network Subsystems"
     inc_heading_level
 
+    [ -f /etc/hosts ] && cat_and_grep "/etc/hosts" "/etc/hosts"
+
     # Montag, 3. Mai 2010
     [ -x /usr/sbin/nettl ] && exec_command "/usr/sbin/nettl -status" "Nettl Status"
     [ -x /usr/sbin/nettlconf ] && exec_command "/usr/sbin/nettlconf -s" "Nettl Conf Settings"
