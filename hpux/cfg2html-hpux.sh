@@ -628,6 +628,8 @@ $(UNIX95= ps -ef | grep ioscan | grep -v grep)"
 	[ -f /etc/rc.config.d/autopathmapping] && exec_command "cat /etc/rc.config.d/autopathmapping" "SecurePath rc.config.d configuration"
 	[ -f /sbin/init.d/autopathinit ] && cat_and_grep "/sbin/init.d/autopathinit" "SecurePath init file"
 	[ -f /sbin/init.d/autopathmapping ] && cat_and_grep "/sbin/init.d/autopathmapping" "SecurePath mapping file"
+	exec_command "/sbin/autopath display all" "SecurePath Active Paths"
+	# put get_secure_path_info.sh in comment - gdha - 23/Nov/2015
 	exec_command "$PLUGINS/get_secure_path_info.sh" "SecurePath Active Paths"
     fi
     ######## ende  Securepath ######
