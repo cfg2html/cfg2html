@@ -1,19 +1,19 @@
-# @(#) $Id: Makefile,v 6.16 2015/11/02 06:43:26 ralph Exp $ 
+# @(#) $Id: Makefile,v 6.17 2015/11/26 21:00:44 ralph Exp $
 
-# Makefile to create HP-UX software depot or Linux .DEB and .RPM packages
+# Makefile to create HP-UX software depot or Linux .DEB and .RPM packages etc.
 # -------------------------------------------------------------------------
-# vim:ts=8:sw=4:sts=4 -*- coding: utf-8 -*- 
+# vim:ts=8:sw=4:sts=4 -*- coding: utf-8 -*-
 
 
 product = cfg2html
 
-all: 
+all:
 	i=`uname -s`; case $$i in HP-UX) make depot;; Linux) make rpm;; SunOS) echo "Run \"make sunos\"";; FreeBSD|OpenBSD|NetBSD) echo "Run \"make freebsd\"";;*) make help;; esac
 
 help:
-	@echo "+--------------------------------------------+"
-	@echo "|    cfg2html Makefile                       |"
-	@echo "|    =================                       |"
+	@echo "+------------------------------------------+"
+	@echo "|    cfg2html Makefile targets             |"
+	@echo "|    =========================             |"
 	@echo "|    HP-UX: \"make depot\"                   |"
 	@echo "|    Linux: \"make rpm\"                     |"
 	@echo "|    Linux: \"make deb\"                     |"
@@ -21,7 +21,7 @@ help:
 	@echo "|    FreeBSD|OpenBSD|NetBSD: \"make bsd\"    |"
 	@echo "|    AIX:   \"make aix-rpm\"                 |"
 	@echo "|    AIX:   \"make aix-dist\"                |"
-	@echo "+--------------------------------------------+"
+	@echo "+------------------------------------------+"
 
 depot:
 	gmake -C hpux depot

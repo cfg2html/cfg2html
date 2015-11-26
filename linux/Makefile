@@ -1,4 +1,4 @@
-# @(#) $Id: Makefile,v 6.13 2013/10/29 23:11:26 ralph Exp $
+# @(#) $Id: Makefile,v 6.17 2015/11/26 21:00:44 ralph Exp $
 # -------------------------------------------------------------------------
 # vim:ts=8:sw=4:sts=4
 
@@ -61,7 +61,7 @@ all:
 	@echo "Nothing to build. Use \`make help' for more information."
 
 help:
-	@echo -e "Config 2 HTML make targets:\n\
+	@echo -e "Config2HTML Linux make targets:\n\
 \n\
   validate        - Check source code\n\
   install         - Install cfg2html (may replace files)\n\
@@ -72,7 +72,7 @@ help:
   pacman          - Create Pacman package\n\
   obs             - Initiate OBS builds\n\
 \n\
-Config 2 HTML make variables (optional):\n\
+Config2HTML make variables (optional):\n\
 \n\
   DESTDIR=        - Location to install/uninstall\n\
   OFFICIAL=       - Build an official release\n\
@@ -192,7 +192,7 @@ install-cron: cron
 install: validate man install-config rewrite install-bin restore install-data install-var install-doc install-cron
 
 uninstall:
-	@echo -e "\033[1m== Uninstalling Config 2 HTML ==\033[0;0m"
+	@echo -e "\033[1m== Uninstalling Config2HTML ==\033[0;0m"
 	-rm -v $(DESTDIR)$(sbindir)/cfg2html
 	-rm -v $(DESTDIR)$(mandir)/man8/cfg2html.8
 	-rm -rv $(DESTDIR)$(datadir)/cfg2html/
