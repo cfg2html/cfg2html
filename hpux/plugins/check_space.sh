@@ -1,16 +1,16 @@
-# @(#) $Id: check_space.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
+# @(#) $Id: check_space.sh,v 6.16 2015/11/26 18:17:00 ralph Exp $
 # --=---------------------------------------------------------------------=---
-# (c) 1997 - 2013 by Ralph Roth  -*- http://rose.rult.at -*-
+# (c) 1997 - 2016 by Ralph Roth  -*- www.cfg2html.com -*-
 
 # Initial version provided 25-Jul-2003 by Martin Kalmbach
 # ---------------------------------------------------------------------------
 # check_space.sh - BillHassell
 # Based on:  check_space.sh,v 5.10.1.1 2011-02-15
-# Optimized using $VG and $BDFTXT to reduce repetitive LVM process calls 
+# Optimized using $VG and $BDFTXT to reduce repetitive LVM process calls
 
 
 FILTER="-v -E 'byte|^DevFS|Filesystem'"
-export LANG=C 
+export LANG=C
 PATH=/sbin:/usr/sbin:/usr/bin:$PATH
 # set -vx
 
@@ -36,7 +36,7 @@ do
     echo "Volumegroup Informations for $vg ($VGID)"
     echo "PESize=$PESIZE MaxPE=$MAXPE MaxPV=$MAXPV CurPV=$CURPV MaxDiskSize=$MAXDISKSIZE MB"
     echo "----------------------------------------------------------------"
-    
+
     echo "Total capacity in Volumegroup $vg               : $TOTALMB MB"
     echo "Allocated capacity in Volumegroup $vg           : $ALLOCMB MB"
     echo "Unallocated capac. in Volumegroup $vg           : $FREEMB MB"
@@ -44,11 +44,11 @@ do
     # possible output of bdf (mounted/unmounted || wrapped/unwrapped)
     # Filesystem          kbytes    used   avail %used Mounted on
     # /dev/vg00/lvol6     524288   21176  499256    4% /tmp
-    # /dev/vg00/lvol5     393216    8592  381624    2%  
+    # /dev/vg00/lvol5     393216    8592  381624    2%
     # /dev/vg00-old/lvol3
     #                884736  358328  522384   41% /root/old-lvol3
-    # /dev/vg00-old/lvol4                                                      
-    #               6569984 4417320 2135848   67%                       
+    # /dev/vg00-old/lvol4
+    #               6569984 4417320 2135848   67%
     # if number of fields (NF) eq 1 then get next line
     # check if XX% is last val $NF or next to last $(NF-1)
     # take appropriate values from the end
@@ -65,23 +65,23 @@ do
     printf "Filesystemcapacity in Volumegroup $vg total     : "
     echo "$BDFTXT" |
       awk ' NF == 1 || /^Filesystem/ { next }
-           $(NF-1) ~ /%$/ { sum=sum+$(NF-4) } 
-           $NF     ~ /%$/ { sum=sum+$(NF-3) } 
+           $(NF-1) ~ /%$/ { sum=sum+$(NF-4) }
+           $NF     ~ /%$/ { sum=sum+$(NF-3) }
            END {printf "%ld MB\n", sum/1024 }'
-    
+
 
     printf "Filesystemcapacity in Volumegroup $vg used      : "
     echo "$BDFTXT" |
       awk 'NF == 1 || /^Filesystem/  { next }
-           $(NF-1) ~ /%$/ { sum=sum+$(NF-3) } 
-           $NF     ~ /%$/ { sum=sum+$(NF-2) } 
+           $(NF-1) ~ /%$/ { sum=sum+$(NF-3) }
+           $NF     ~ /%$/ { sum=sum+$(NF-2) }
            END {printf "%ld MB\n", sum/1024 }'
-    
+
     printf "Filesystemcapacity in Volumegroup $vg available : "
     echo "$BDFTXT" |
       awk 'NF == 1 || /^Filesystem/  { next }
-           $(NF-1) ~ /%$/ { sum=sum+$(NF-2) } 
-           $NF     ~ /%$/ { sum=sum+$(NF-1) } 
+           $(NF-1) ~ /%$/ { sum=sum+$(NF-2) }
+           $NF     ~ /%$/ { sum=sum+$(NF-1) }
            END {printf "%ld MB\n", sum/1024 }'
     echo "================================================================"
 
