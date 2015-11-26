@@ -181,3 +181,7 @@ function DoExitTasks {
     #rm -rf $TMP_DIR
 }
 
+function findproc {
+    # Return the process ID of the running named process(es)
+    pid=$(ps -e| grep " $1$" | awk '{print $1}')
+}
