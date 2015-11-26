@@ -57,6 +57,10 @@ do
 # One bdf line rather than 3
 
     BDFTXT="$(bdf $(vgdisplay -v $vg | awk '/LV Name/ {print $3}' | sort -u) 2>/dev/null)"
+    if [[ -z "$BDFTXT" ]] ; then
+        echo "================================================================"
+        continue  # if LVOLs are not mounted
+    fi
 
     printf "Filesystemcapacity in Volumegroup $vg total     : "
     echo "$BDFTXT" |
