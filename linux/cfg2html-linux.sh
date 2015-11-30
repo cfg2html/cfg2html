@@ -981,7 +981,7 @@ paragraph "Filesystems, Dump and Swap configuration"
 inc_heading_level
 
     exec_command "grep -v '^#' /etc/fstab | column -t" "Filesystem Table"  # 281211, rr
-    exec_command "timeout 10 df -k" "Filesystems and Usage"   # gdha, 1/Dec/2014, to avoid stale NFS hangs // timeout -k 10 df -h -> timeout: invalid time interval ?df? # changed 20141209 by Ralph Roth
+    exec_command "$TIMEOUTCMD 10 df -h" "Filesystems and Usage"   # gdha, 30/Nov/2015, to avoid stale NFS hangs (modified)
 
     exec_command "my_df" "All Filesystems and Usage"
     if [ -x /sbin/dumpe2fs ]
