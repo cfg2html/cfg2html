@@ -318,11 +318,12 @@ then # else skip to next paragraph
 	    AddText "Warning: ioscan process(es) still active:
 $(UNIX95= ps -ef | grep ioscan | grep -v grep)"
         else
-            exec_command "ioscan -m hwpath" "Legacy and LUN Mapping"
-	    # 3 ER by TB, 11. März 2011
-            exec_command "ioscan -P health" "Full list of I/O health status"
-            exec_command "ioscan -P health | grep -v -e online -e N/A" "Short list of I/O health status"
-            exec_command "ioscan -s" "List the stale entries present in the system"
+            exec_command "$TIMEOUTCMD 300 /usr/sbin/ioscan -e -C disk" "Disk Signatures"
+            exec_command "$TIMEOUTCMD 300 /usr/sbin/ioscan -m hwpath" "Legacy and LUN Mapping"
+	    # 3 ER by TB, 11.03.2011
+            exec_command "$TIMEOUTCMD 300 /usr/sbin/ioscan -P health" "Full list of I/O health status"
+            exec_command "$TIMEOUTCMD 300 /usr/sbin/ioscan -P health | grep -v -e online -e N/A" "Short list of I/O health status"
+            exec_command "$TIMEOUTCMD 300 /usr/sbin/ioscan -s" "List the stale entries present in the system"
 	fi
     fi
     ### stefan introduced here a bug with formating
@@ -842,11 +843,9 @@ then # else skip to next paragraph
 
     [ -s /etc/vx/tunefstab ] && exec_command "cat /etc/vx/tunefstab" "JFS/VXFS tuneable parameters"
 
-    if [ -f /etc/exports ] ; then
-        cat_and_grep "/etc/exports" "NFS Filesystems"
-    fi
-    cat_and_grep "/etc/dfs/dfstab" "NFS sharing resources"
-    cat_and_grep "/etc/dfs/sharetab" "Local resources shared by the share command"
+    [ -f /etc/exports ] && cat_and_grep "/etc/exports" "NFS Filesystems"
+    [ -f /etc/dfs/dfstab ] && cat_and_grep "/etc/dfs/dfstab" "NFS sharing resources"
+    [ -f /etc/dfs/sharetab ] && cat_and_grep "/etc/dfs/sharetab" "Local resources shared by the share command"
 
     if [ -f /usr/sbin/swapinfo ] ; then
         exec_command "swapinfo -tam" "Swap Info"

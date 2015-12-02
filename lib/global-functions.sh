@@ -185,3 +185,29 @@ function findproc {
     # Return the process ID of the running named process(es)
     pid=$(ps -e| grep " $1$" | awk '{print $1}')
 }
+
+function TimeOut {
+    # simple timeout function - usage:
+    # TimeOut secs command arguments
+    (
+    set -m
+    sleep "$1" &
+    SPID=${!}
+    shift
+    ("${@}"; RETVAL=$?; kill ${SPID}; exit $RETVAL) &
+    CPID=${!}
+    wait %1
+    SLEEPRETVAL=$?
+    if [ $SLEEPRETVAL -eq 0 ] && kill ${CPID} >/dev/null 2>&1 ; then
+        RETVAL=124
+        # When you need to make sure it dies
+        #(sleep 1; kill -9 ${CPID} >/dev/null 2>&1)&
+        wait %2
+    else
+        wait %2
+        RETVAL=$?
+    fi
+    return $RETVAL
+    )
+}
+
