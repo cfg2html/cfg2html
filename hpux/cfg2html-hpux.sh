@@ -1358,18 +1358,24 @@ then # else skip to next paragraph
     findproc "smbd"
     if [[ ! -z "$pid" ]] ; then
         [ -x /opt/samba/bin/smbd ] && exec_command "/opt/samba/bin/smbd -V" "Samba version"
-        [ -f /sbin/init.d/samba ] && exec_command "ps -ef | grep -e swat -e smb -e nmb|grep -v grep" "Samba Daemons"
+	[ -x /opt/centrify/samba/sbin/smbd ] && exec_command "/opt/centrify/samba/sbin/smbd -V" "Centrify Samba version"
+        exec_command "ps -ef | grep samba|grep -v grep" "Samba Daemons"
         [ -x /opt/samba/bin/findsmb ] && exec_command "/opt/samba/bin/findsmb" "Samba Neighbourhood"
 	for smbcf in $(ps -ef|grep smb.conf |grep -v grep| awk '{ print $NF}' | sort -u)
 	do
             [ -x /opt/samba/bin/smbstatus ] && exec_command "/opt/samba/bin/smbstatus -s $smbcf 2>/dev/null" "Samba Status ($smbcf)"
             [ -x /opt/samba/bin/testparm ] && exec_command "/opt/samba/bin/testparm -s $smbcf 2>&1" "Samba Configuration ($smbcf)"
-            ##[ -x /opt/samba/bin.org/testparm ] && exec_command "/opt/samba/bin.org/testparm -s" "Samba Configuration (bin.org)"
 	done
 	if [[ -z "$smbcf" ]] ; then
-	    # meaning we found smbd pid running without smb.conf name mentioned (default location /etc/opt/samba/samba.conf)
-            [ -x /opt/samba/bin/smbstatus ] && exec_command "/opt/samba/bin/smbstatus -s 2>/dev/null" "Samba Status"
-	    [ -x /opt/samba/bin/testparm ] && exec_command "/opt/samba/bin/testparm -s 2>&1" "Samba Configuration"
+	    # meaning we found smbd pid running without smb.conf name mentioned (default location /etc/opt/samba/samba.conf
+	    # for HP CIFS or /etc/samba/smb.conf for Centrifydc-samba)
+	    if [ -x /opt/centrify/samba/bin/testparm ] ; then
+	       exec_command "/opt/centrify/samba/bin/smbstatus -s 2>/dev/null" "Samba Status"
+	       exec_command "/opt/centrify/samba/bin/testparm -s 2>&1" "Samba Configuration"
+            elif [ -x /opt/samba/bin/smbstatus ] ; then
+		exec_command "/opt/samba/bin/smbstatus -s 2>/dev/null" "Samba Status"
+	        exec_command "/opt/samba/bin/testparm -s 2>&1" "Samba Configuration"
+            fi
 	fi
     fi
 
