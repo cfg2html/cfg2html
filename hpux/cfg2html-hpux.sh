@@ -163,6 +163,10 @@ then # else skip to next paragraph
     paragraph "HP-UX/System"
     inc_heading_level
 
+    if [ -f $CONFIG_DIR/systeminfo ] ; then
+        exec_command "cat $CONFIG_DIR/systeminfo" "System description"
+    fi
+
     ##### A hack for 10/11 only, maybe 12? ###########  rar 16.03.99 #####
     # according to K-Mine A4500835 use better:
     if [ $osrev -gt 10 ] ;
