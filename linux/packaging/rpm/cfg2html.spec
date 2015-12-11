@@ -21,6 +21,7 @@ BuildArch:	noarch
 
 #BuildRequires:	
 Requires:	bash gawk psmisc
+Conflicts:	cfg2html-linux
 
 %description
 Swiss army knife script for the System Administrators as it was primarily written to get the necessary information to plan an update, or to perform basic trouble shooting or performance analysis.
