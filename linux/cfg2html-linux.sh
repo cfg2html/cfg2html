@@ -1703,6 +1703,27 @@ then # else skip to next paragraph
             exec_command "cat ${NetBuVersion}" "Veritas Netbackup Version"
           fi
           exec_command "cat /usr/openv/netbackup/bp.conf" "Veritas Netbackup Configuration"
+          # bring the logic of hpux test to linux as well - gdha - 16/Dec/2015
+          if [ -s /usr/openv/netbackup/exclude_list ] ; then
+              exec_command "cat /usr/openv/netbackup/exclude_list" "Symantec Netbackup exclude_list"
+          fi
+          if [ -s /usr/openv/netbackup/include_list ] ; then
+              exec_command "cat /usr/openv/netbackup/include_list" "Symantec Netbackup include_list"
+          fi
+          if [ -x /usr/openv/netbackup/bin/bpclimagelist ] ; then
+            exec_command "/usr/openv/netbackup/bin/bpclimagelist | head -12" "Overview of the last 10 backups"
+            LASTFULL=$(/usr/openv/netbackup/bin/bpclimagelist | grep Full | head -1 | cut -c1-10)
+            LASTFULLSEC=$(date +%s -d $LASTFULL)
+            NOWSEC=$(date +%s)
+
+            DIFFDAYS=$(( ($NOWSEC - $LASTFULLSEC) /86400 ))
+            if [[ $DIFFDAYS -gt 14 ]]; then
+                AddText "Warning: Last full backup is $DIFFDAYS days old"
+            else
+                AddText "Last full backup is $DIFFDAYS days old"
+            fi
+          fi
+
           exec_command "netstat -tap | egrep '(bpcd|bpjava-msvc|bpjava-susvc|vnetd|vopied)|(Active|Proto)'" "Veritas Netbackup Network Connections"
             ## Use FS="=" in case there's no whitespace in the SERVER lines.
           exec_command "for NetBuServer in $(awk 'BEGIN {FS="="} /SERVER/ {printf $NF}' /usr/openv/netbackup/bp.conf); do ping -c 3 \${NetBuServer} && echo \"\"; done" "Veritas Netbackup Servers Ping Check"
