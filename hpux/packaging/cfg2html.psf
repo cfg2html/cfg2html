@@ -108,7 +108,6 @@ product
 	file -m 755 -o root -g sys pvgfilter.sh
 	file -m 755 -o root -g sys syssmall.hppa
 	file -m 755 -o root -g sys get_active_lan_info.sh
-	file -m 755 -o root -g sys get_secure_path_info.sh
     end
     
     fileset

@@ -496,9 +496,21 @@ $(UNIX95= ps -ef | grep ioscan | grep -v grep)"
         if [ -x /opt/propplus/bin/cprop ]       #  30.06.2010, 08:51 modified by Ralph Roth
         then
             exec_command "/opt/propplus/bin/cprop -list" "HP-UX Property Page Plus (List)"
-            exec_command "/opt/propplus/bin/cprop -summary -a" "HP-UX Property Page Plus (Summary)"
+	    # -summary -a shows too much information (duplicate info; especially the software part)
+            #exec_command "/opt/propplus/bin/cprop -summary -a" "HP-UX Property Page Plus (Summary)"
+	    /opt/propplus/bin/cprop -list | grep -v -E "Unknown|No status|====|^\*|STATUS" | while read level junk component
+	    do
+		if [ "$level" != "Normal" ] ; then
+		   # if status is not Normal then show detailed information
+		   exec_command "/opt/propplus/bin/cprop -detail -c \"$component\"" "HP-UX Property Page Plus ($component)"
+		   AddText "Component $component Status is $level (please investigate!)"
+		   logger "Component $component Status is $level (please investigate!)"
+		else
+		   exec_command "/opt/propplus/bin/cprop -summary -c \"$component\"" "HP-UX Property Page Plus ($component)"
+		fi
+	    done
         fi
-        logger "$VERSION: CIM Stuff stop"
+        #logger "$VERSION: CIM Stuff stop"
     fi
 
     ##### EMS HW Monitors, 23.Feb.99
