@@ -1354,6 +1354,11 @@ then # else skip to next paragraph
     fi
     [ -n "$ns" ] && exec_command "what $ns" "Netscape"
 
+    ############ Show ipf.conf content - gdha 16-Dec-2015 #############
+    if [ -s /etc/opt/ipf/ipf.conf ] ; then
+         cat_and_grep "/etc/opt/ipf/ipf.conf" "HP-UX IPFilter configuration"
+    fi
+
     ############ Samba and Swat ########################
     SWAT=`grep swat /etc/services /etc/inetd.conf`
     [ -n "$SWAT" ] && exec_command  "echo $SWAT" "Samba: SWAT-Port"
