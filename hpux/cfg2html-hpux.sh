@@ -337,6 +337,11 @@ $(UNIX95= ps -ef | grep ioscan | grep -v grep)"
     MEM="Total Memory: "$($PLUGINS/syssmall.hppa|cut -f2 -d\;)" GB"
     exec_command "echo ${MEM};echo '';$PLUGINS/meminfo.hppa" "Physical Memory Overview"
 
+    ## add more details on memory modules - gdha - 16/Dec/2015 ##
+    if [ -x /opt/propplus/bin/cprop ] ; then
+        exec_command "/opt/propplus/bin/cprop -summary -c Memory" "Memory Slot Details"
+    fi
+
     if [ -x /usr/bin/graphinfo ] ; then
         [ -r /dev/crt ] && exec_command "/usr/bin/graphinfo" "Graphic Hardware"
     fi
