@@ -1429,13 +1429,24 @@ then # else skip to next paragraph
 
     ##------------------------------------------------------------------------------
 
-    if [ -x /usr/openv/netbackup/exclude_list ] ;
-    then
+    if [ -s /usr/openv/netbackup/exclude_list ] ; then
         exec_command "cat /usr/openv/netbackup/exclude_list" "Symantec Netbackup exclude_list"
     fi
-    if [ -x /usr/openv/netbackup/include_list ]
-    then
+    if [ -s /usr/openv/netbackup/include_list ] ; then
         exec_command "cat /usr/openv/netbackup/include_list" "Symantec Netbackup include_list"
+    fi
+    if [ -x /usr/openv/netbackup/bin/bpclimagelist ] ; then
+        exec_command "/usr/openv/netbackup/bin/bpclimagelist | head -12" "Overview of the last 10 backups"
+	LASTFULL=$(/usr/openv/netbackup/bin/bpclimagelist | grep Full | head -1 | cut -c1-10)
+	LASTFULLSEC=$(date +%s -d $LASTFULL)
+	NOWSEC=$(date +%s)
+
+	DIFFDAYS=$(( ($NOWSEC - $LASTFULLSEC) /86400 ))
+	if [[ $DIFFDAYS -gt 14 ]]; then
+            AddText "Warning: Last full backup is $DIFFDAYS days old"
+	else
+            AddText "Last full backup is $DIFFDAYS days old"
+	fi
     fi
 
     ##------------------------------------------------------------------------------
