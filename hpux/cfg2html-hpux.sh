@@ -1436,9 +1436,11 @@ then # else skip to next paragraph
         exec_command "cat /usr/openv/netbackup/include_list" "Symantec Netbackup include_list"
     fi
     if [ -x /usr/openv/netbackup/bin/bpclimagelist ] ; then
-        exec_command "/usr/openv/netbackup/bin/bpclimagelist | head -12" "Overview of the last 10 backups"
-	LASTFULL=$(/usr/openv/netbackup/bin/bpclimagelist | grep Full | head -1 | cut -c1-10)
+        exec_command "$TIMEOUTCMD 20 /usr/openv/netbackup/bin/bpclimagelist | head -12" "Overview of the last 10 backups"
+	LASTFULL=$($TIMEOUTCMD 20 /usr/openv/netbackup/bin/bpclimagelist | grep Full | head -1 | cut -c1-10)
+	[[ -z "$LASTFULL" ]] && LASTFULL=$(date +%d/%m/%Y) # if no output was retrieved we use today's date
 	LASTFULLSEC=$(date +%s -d $LASTFULL)
+	sleep 1 # to have at least 1 sec difference
 	NOWSEC=$(date +%s)
 
 	DIFFDAYS=$(( ($NOWSEC - $LASTFULLSEC) /86400 ))
