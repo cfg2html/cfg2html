@@ -475,7 +475,7 @@ $(UNIX95= ps -ef | grep ioscan | grep -v grep)"
         if [ -x /opt/sfm/bin/evweb ]
         then    # 11.23 ++!
             #logger "EVWEB Stuff starts"
-            exec_command "/opt/sfm/bin/evweb logviewer -L" 		"EVWEB Log Viewer"
+            exec_command "/opt/sfm/bin/evweb logviewer -L | head -100" 		"EVWEB Log Viewer"
             exec_command "/opt/sfm/bin/evweb eventviewer -L" 	"EVWEB Event Viewer"
             AddText "Use /opt/sfm/bin/evweb eventviewer -L -x -f to get the full/detailed event logs!"
             exec_command "/opt/sfm/bin/evweb subscribe -L -b internal; /opt/sfm/bin/evweb subscribe -L -b external" "EVWEB Subscriptions"
