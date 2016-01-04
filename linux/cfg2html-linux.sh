@@ -1736,6 +1736,17 @@ then # else skip to next paragraph
       dec_heading_level
     fi
 
+### Section about HP Data Protector info - gdha - 04/Jan/2016
+    if [ -f /etc/opt/omni/client/cell_server ] ; then
+      paragraph "HP Data Protector Configuration"
+      inc_heading_level
+      exec_command "cat /etc/opt/omni/client/cell_server" "HP Data Protector cell manager"
+      if [ -x /opt/omni/bin/omnicheck ]; then
+          exec_command "/opt/omni/bin/omnicheck -version" "HP Data Protector version"
+          exec_command "/opt/omni/bin/omnicheck -patches -host $(hostname)" "HP Data Protector patches"
+      fi
+      dec_heading_level
+    fi
 
 ### new stuff with 2.83 by Dusan // # changed 20140319 by Ralph Roth
 if [ -x /usr/bin/puppet ]
