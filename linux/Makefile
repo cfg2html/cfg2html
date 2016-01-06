@@ -104,8 +104,9 @@ doc:
 
 cron:
 	@echo -e "\033[1m== Make a cron file ==\033[0;0m"
-	echo "$$((RANDOM % 55)) $$((RANDOM % 5)) * * $$((RANDOM % 5)) root /usr/sbin/cfg2html -2\%Y\%m\%d > /dev/null 2>&1" \
-	> ../$(name).cron
+	echo "# Please uncomment (remove #) the line below to make it active" > ../$(name).cron
+	echo "#$$((RANDOM % 55)) $$((RANDOM % 5)) * * $$((RANDOM % 5)) root /usr/sbin/cfg2html -2\%Y\%m\%d > /dev/null 2>&1" \
+	>> ../$(name).cron
 
 ifneq ($(git_date),)
 rewrite:
