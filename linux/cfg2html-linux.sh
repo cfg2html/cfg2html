@@ -1688,6 +1688,7 @@ then # else skip to next paragraph
       fi
     fi
 
+
 ## we want to display Veritas Netbackup configurations
 ## 31Jan2003 it233 FRU U.Frey
 ## 3/5/08 Modified/added functionality by krtmrrsn@yahoo.com, Marc Korte.
@@ -1695,6 +1696,7 @@ then # else skip to next paragraph
 ##  Made a separate section for Veritas Netbackup
     if [ -e /usr/openv/netbackup/bp.conf ] ; then
 
+      dec_heading_level
       paragraph "Veritas Netbackup Configuration"
       inc_heading_level
 
@@ -1733,11 +1735,11 @@ then # else skip to next paragraph
           then
             exec_command "/usr/openv/netbackup/bin/bpclntcmd -pn" "Veritas Netbackup Client to Server Inquiry"
           fi
-      dec_heading_level
     fi
 
 ### Section about HP Data Protector info - gdha - 04/Jan/2016
     if [ -f /etc/opt/omni/client/cell_server ] ; then
+      dec_heading_level
       paragraph "HP Data Protector Configuration"
       inc_heading_level
       exec_command "cat /etc/opt/omni/client/cell_server" "HP Data Protector cell manager"
@@ -1745,7 +1747,6 @@ then # else skip to next paragraph
           exec_command "/opt/omni/bin/omnicheck -version" "HP Data Protector version"
           exec_command "/opt/omni/bin/omnicheck -patches -host $(hostname)" "HP Data Protector patches"
       fi
-      dec_heading_level
     fi
 
 ### new stuff with 2.83 by Dusan // # changed 20140319 by Ralph Roth
@@ -1842,6 +1843,9 @@ fi # CFEngine
 # -----------------------------------------------------------------------------
 if [ -x /usr/sap/hostctrl/exe/saphostexec ]
 then
+    dec_heading_level
+    paragraph "SAP Information"
+    inc_heading_level
     exec_command "/usr/sap/hostctrl/exe/saphostexec -version" "Installed SAP Components"
     exec_command "/usr/sap/hostctrl/exe/saphostexec -status" "Status SAP"		### Ralph Roth, 12.04.2015
     exec_command "/usr/sap/hostctrl/exe/lssap -F $TMP_DIR/dev_lssap" "SAP - lssap"	### Ralph Roth, 12.04.2015
