@@ -1,5 +1,5 @@
 #
-# @(#) $Id: cfg2html,v 6.27 2015/11/02 06:43:26 ralph Exp $
+# @(#) $Id: cfg2html,v 6.28 2016/04/06 15:11:51 ralph Exp $
 # -------------------------------------------------------------------------
 # This is the wrapper for cfg2html for LINUX and HP-UX
 # CFG2HTML - license: see GPL v3
@@ -41,7 +41,7 @@ rm -f /tmp/cfg2html.respawn # get rid of the temporary lock as soon as possible
 
 PRODUCT="Config to HTML - cfg2html"
 # this CVS id is also used by the Makefiles to get the version number!
-CVS="$Id: cfg2html,v 6.27 2015/11/02 06:43:26 ralph Exp $"
+CVS="$Id: cfg2html,v 6.28 2016/04/06 15:11:51 ralph Exp $"
 PROGRAM=$(echo $CVS|cut -f2 -d" "|cut -f1 -d,)
 #VERSION=6.20
 VERSION=$(echo $CVS|cut -f3 -d" ")
@@ -52,7 +52,7 @@ OS=$(uname)
 OS=$(echo $OS | tr 'A-Z' 'a-z' | sed -e 's/-//')
 CFG_CMDLINE=$*
 
-COPYRIGHT="Copyright (C) 1999-2015
+COPYRIGHT="Copyright (C) 1999-2016
     ROSE SWE, Dipl.-Ing. Ralph Roth"
 STARTTIME=$SECONDS
 
@@ -60,8 +60,9 @@ LANG="C"
 LANG_ALL="C"
 LC_MESSAGE="C"
 
-## maybe we should skip the root check if the commandline option -h or -? is passed?
-if [[ "$(whoami)" != "root" ]]; then
+## maybe we should skip the root check if the command line option -h or -? is passed?
+if  [ "$(whoami)" != "root" -a "$1" != "-h" ]
+then
     echo "$(whoami) - You must be root to run the script $PROGRAM"
     exit 1
 fi
