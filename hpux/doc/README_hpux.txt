@@ -286,7 +286,7 @@ Maintainer of the different versions
 HP-UX              :  Ralph Roth
                       Contributors: Thomas Brix, Martin Kalmbach
 
-Linux port         :  Michael Meifert dk3hg@users.sourceforge.net
+Linux port         :  Michael Meifert dk3hg
                       Contributors: Michael Meier,
                       Linux (debian/hppa): Ralph Roth
 

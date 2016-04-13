@@ -1,7 +1,7 @@
 Source: cfg2html
 Section: admin
 Priority: optional
-Maintainer: Ralph Roth <cfg2html@hotmail.com>; Michael Meifert <dk3hg@users.sourceforge.net>; Gratien Dhaese <gratien.dhaese@gmail.com>
+Maintainer: Ralph Roth <cfg2html@hotmail.com>; Michael Meifert <dk3hg>; Gratien Dhaese <gratien.dhaese@gmail.com>
 Vcs-Git: https://github.com/cfg2html/cfg2html
 Homepage: http://www.cfg2html.com/
 

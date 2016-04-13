@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# @(#) $Id: cfg2html-linux.sh,v 6.42 2015/04/06 08:47:28 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.47 2016/04/13 06:35:52 ralph Exp $
 # -----------------------------------------------------------------------------------------
-# (c) 1997-2015 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
+# (c) 1997-2016 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
 
 #  If you change this script, please mark your changes with for example
 #  ## <username> and send your diffs from the actual version to my mail

@@ -1,6 +1,6 @@
 For details see cfg2html.html and  git shortlog -sn
 
-@(#)$Id: AUTHORS,v 6.13 2015/08/15 10:44:47 ralph Exp $
+@(#)$Id: AUTHORS,v 6.15 2016/04/13 06:32:54 ralph Exp $
 ---------------------------------------------------------------------------
     _         _   _
 Co / \  _   _| |_| |__   ___  _ __ ___
@@ -16,9 +16,8 @@ Ralph Roth <cfg2html@hotmail.com>
         maintains the 1.18++, 2.xx Linux stream
         major work on the cfg2html next generation version (cfg2html 6.xx) on github
 
-Michael Meifert <dk3hg@users.sourceforge.net>
-        ported the HP-UX version to Debian Linux, maintainer of
-        cfg2html-linux.tar.gz, debian package, rpm package.
+Michael Meifert 
+        ported the HP-UX version to Debian Linux
 
 Harry (Amateur-Radio callsign dd2xt)
         some SUSE testing
@@ -50,4 +49,6 @@ Alexander De Bernardi (AB)
 
 Dusan Baljevic (dusan.baljevic@ieee.org)
         Added checks for Puppet, Chef, CFengine, HP3PARInfo, evainfo, and ors
+
+You?
 
