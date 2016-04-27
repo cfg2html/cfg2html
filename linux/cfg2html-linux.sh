@@ -1330,17 +1330,34 @@ then # else skip to next paragraph
   then
         :               ##  provides sendmail which NO options
   else
-      ##  Test of sendmail Version Generates Empty Emails #80 - 04.04.2015
-      if [ -x /usr/sbin/postconf ]; then
-	  exec_command "/usr/sbin/postconf -h mail_version" "Postfix Version"
-      elif [ -f /usr/sbin/sendmail.sendmail ]; then
-	  exec_command "echo | /usr/sbin/sendmail.sendmail -v root | grep 220" "Sendmail version"  ## which OS does use this binary?  rr - 04.04.2015
-      elif [ -x /usr/sbin/sendmail ]; then
-	  # exec_command "echo | /usr/sbin/sendmail -v root | grep 220" "Sendmail version"
-	  exec_command "/usr/sbin/sendmail < /dev/null | grep 220" "Sendmail version"
+      if [ -d /etc/alternatives ]; then
+          MTA=$(alternatives --list | grep mta | cut -d'        ' -f3)
       else
-	  exec_command "echo SENDMAIL or POSTFIX VERSION not found issue" "Sendmail/Postfix version"
+          MTA=''
       fi
+      if  [ -z "$MTA" ]; then
+          if [ -x /usr/sbin/postconf ]; then
+            MTA='sendmail.postfix'
+          elif [ -f /usr/sbin/sendmail.sendmail ]; then
+            MTA='/usr/sbin/sendmail/sendmail.sendmail'
+          elif [ -x /usr/sbin/sendmail ]; then
+            MTA='/usr/sbin/sendmail'
+          fi
+      fi
+      case "$MTA" in
+        *sendmail.postfix)
+          exec_command "/usr/sbin/postconf -h mail_version" "Postfix Version"
+          ;;
+        *sendmail)
+          exec_command "$MTA -d0.1 < /dev/null | grep Version ; grep ^DZ /etc/mail/sendmail.cf" "Sendmail version"
+          SMARTHOST=$(grep -e "^DS" /etc/mail/sendmail.cf | sed s/^DS//g)
+          exec_command "echo '\$Z' |/usr/sbin/sendmail -bt -d0.1; echo Smart Relay Host=$SMARTHOST" "Detailed Sendmail Configuration"   # From cfg2html-hpux
+          exec_command "cat $(grep -e '^Kmailertable' /etc/mail/sendmail.cf | cut -d ' ' -f 4 | sed s/\.db//) /dev/null | grep -vE '^#|^ *$'" "Sendmail Mailertable"     #  From cfg2html-hpux
+          ;;
+        *)
+          exec_command "echo SENDMAIL or POSTFIX VERSION not found issue" "Sendmail/Postfix version"
+          ;;
+      esac
   fi
 
   aliasespath="/etc"
