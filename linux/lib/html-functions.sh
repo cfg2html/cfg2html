@@ -17,7 +17,7 @@ function open_html {
 	<META NAME="DESCRIPTION" CONTENT="Config to HTML (cfg2html for Linux)">
 	<META NAME="subject" CONTENT="$VERSION on $RECHNER by $MAILTO and $MAILTORALPH">
 	<style type="text/css">
-	/* (c) 2001- 2015 by ROSE SWE, Ralph Roth - http://rose.rult.at
+	/* (c) 2001- 2016 by ROSE SWE, Ralph Roth - http://rose.rult.at
 	* CSS for cfg2html.sh, 12.04.2001, initial creation
 	*/
 
@@ -183,7 +183,7 @@ function close_html {
     cat $TEXT_OUTFILE_TEMP >> $TEXT_OUTFILE
     rm $HTML_OUTFILE_TEMP $TEXT_OUTFILE_TEMP
     _echo  "\n\nCreated $DATEFULL by $PROGRAM $VERSION" >> $TEXT_OUTFILE
-    _echo  "(c) 1998- 2015 by ROSE SWE, Ralph Roth and others" >> $TEXT_OUTFILE
+    _echo  "(c) 1998- 2016 by ROSE SWE, Ralph Roth and others" >> $TEXT_OUTFILE
 }
 
 ## end ##

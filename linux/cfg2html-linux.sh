@@ -303,7 +303,7 @@ then # else skip to next paragraph
   # usage: pstree [ -a ] [ -c ] [ -h | -H pid ] [ -l ] [ -n ] [ -p ] [ -u ]
   #               [ -G | -U ] [ pid | user]
   exec_command "pstree -p -a  -l -G -A" "Active Process - Tree Overview" #  15.11.2004/2011, 14:09 modified by Ralph.Roth
-  exec_command "ps -e -o ruser,pid,args | awk ' (($1+1) > 1) {print $0;} '" "Processes without an named owner"  # changed 20131211 by Ralph Roth, # changed 20140129 by Ralph Roth # cmd. line:1: ^ unexpected newline or end of string
+  exec_command "ps -e -o ruser,pid,args | awk ' ((\$1+1) > 1) {print \$0;} '" "Processes without a named owner"  # changed 20131211 by Ralph Roth, # changed 20140129 by Ralph Roth # cmd. line:1: ^ unexpected newline or end of string
   AddText "The output should be empty!"
 
   ## ps aux --sort=-%cpu,-%mem|head -25 ## 06.03.2015
