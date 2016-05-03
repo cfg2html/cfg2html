@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# @(#) $Id: cfg2html-linux.sh,v 6.47 2016/04/13 06:35:52 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.49 2016/04/27 16:02:09 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2016 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
 
@@ -158,7 +158,7 @@ identify_linux_distribution
 
 line
 echo "Starting          "$_VERSION       ## "/"$(arch) - won't work under Debian 5.0.8 ## /usr/bin/cfg2html-linux: line 597: arch: command not found
-echo "Path to Cfg2Html  "$0
+echo "Path to cfg2html  "$0
 echo "HTML Output File  "$HTML_OUTFILE
 echo "Text Output File  "$TEXT_OUTFILE
 echo "Partitions        "$OUTDIR/$BASEFILE.partitions.save

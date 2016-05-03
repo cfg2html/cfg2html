@@ -1,13 +1,14 @@
-# @(#) $Id: cfg2html-linux.sh,v 6.24 2014/03/24 17:00:03 ralph Exp $
+# @(#) $Id: cfg2html-aix.sh,v 1.4 2016/05/03 07:13:18 ralph Exp $
 # -----------------------------------------------------------------------------------------
-# (c) 1997-2015 by Ralph Roth  -*- http://rose.rult.at -*-
+# (c) 1997-2016 by Ralph Roth  -*- http://rose.rult.at -*-
+# This version replaces all lower versions e.g.the 2.82 floating around!
 
 #  If you change this script, please mark your changes with for example
 #  ## <username> and send your diffs from the actual version to my mail
 #  address: cfg2html*hotmail.com -- details see in the documentation
 
 CFGSH=$_
-# unset "-set -vx" for debugging purpose, after the exec 2> statement all debug infos will go the errorlog file (*.err)
+# unset "-set -vx" for debugging purpose, after the exec 2> statement all debug infomation will go the errorlog file (*.err)
 #set -vx
 #*vim:numbers:ruler
 # ---------------------------------------------------------------------------
@@ -24,14 +25,14 @@ CFGSH=$_
 
 PATH=$PATH:/sbin:/bin:/usr/sbin:/usr/omni/bin  ## this is a fix for wrong su root (instead for su - root)
 
-_VERSION="cfg2html-aix version $VERSION "  # this a common stream so we don?t need the "Proliant stuff"
+_VERSION="cfg2html-aix version $VERSION "
 
 #
 # getopt
 #
 #
 
-while getopts ":o:shcSTflkenaHLvhpPA:2:10" Option   ##  -T -0 -1 -2 backported from HPUX
+while getopts ":o:shcSTflkenaHLvhpPA:2:10" Option   ##  -T -0 -1 -2 back-ported from HPUX
 do
   case $Option in
     o     ) OUTDIR=$OPTARG;;
@@ -190,8 +191,8 @@ then # else skip to next paragraph
     export LC_ALL="C"
   fi
 
-  exec_command "ulimit -a" "System ulimit"                #  13.08.2007, 14:24 modified by Ralph Roth
-  exec_command "getconf -a" "System Configuration Variables"          ## at least SLES11, #  14.06.2011, 18:53 modified by Ralph Roth #* rar *#
+  exec_command "ulimit -a" "System ulimit"                      #  13.08.2007, 14:24 modified by Ralph Roth
+  exec_command "getconf -a" "System Configuration Variables"  
 
   if [ -x /usr/bin/mpstat ] ; then
     exec_command "mpstat 1 5" "MP-Statistics"
@@ -310,7 +311,7 @@ then # else skip to next paragraph
 paragraph "Hardware"
 inc_heading_level
 
-#RAM=`prtconf | awk -F': *' '/^Memory Size/ {print $2}'` 
+#RAM=`prtconf | awk -F': *' '/^Memory Size/ {print $2}'`
 #this is possibly less prone to (future parsing) error
 RAM=$((`bootinfo -r`/1024))
 exec_command "echo $RAM" "Physical Memory"
@@ -351,9 +352,9 @@ then # else skip to next paragraph
 
     exec_command "lslpp -l" "AIX Filesets installed"
     exec_command "lslpp -e" "Applied efixes"
-    exec_command "rpm -qia | grep -E '^(Name|Group)( )+:'" "RPM Packages installed" 
-    exec_command "rpm -qa | sort -d -f" "RPM Packages installed (sorted)"       
-    exec_command "rpm --querytags" "RPM Query Tags" 
+    exec_command "rpm -qia | grep -E '^(Name|Group)( )+:'" "RPM Packages installed"
+    exec_command "rpm -qa | sort -d -f" "RPM Packages installed (sorted)"
+    exec_command "rpm --querytags" "RPM Query Tags"
 
   dec_heading_level
 
@@ -368,8 +369,8 @@ inc_heading_level
 
 
 
-exec_command "cat /etc/filesystems" "Filesystem Tab"  
-exec_command "lsfs -a" "Filesystem Information"  
+exec_command "cat /etc/filesystems" "Filesystem Tab"
+exec_command "lsfs -a" "Filesystem Information"
 exec_command "df -k" "Filesystems Usage"
 
 exec_command "sysdumpdev" "System Dump Information"
@@ -412,7 +413,7 @@ then # else skip to next paragraph
     paragraph "LVM"
     inc_heading_level
 
-    [ -x /usr/sbin/lspv ] && exec_command "lspv" "Physical Volumes" 
+    [ -x /usr/sbin/lspv ] && exec_command "lspv" "Physical Volumes"
 
     exec_command "lsvg" "Defined Volume Groups"
     exec_command "lsvg -o" "Available Volume Groups"
@@ -427,7 +428,7 @@ then # else skip to next paragraph
 		exec_command "lslv -l ${LV}" "${LV} Physical Allocation (${VG})"
 	done
     done
-		
+
     dec_heading_level
 
 fi # terminates CFG_LVM wrapper
@@ -450,7 +451,7 @@ then # else skip to next paragraph
 	exec_command "ifconfig ${NIC}" "${NIC} Interface Status"
 	exec_command "lsattr -EHl ${NIC}" "${NIC} Interface Properties"
 	exec_command "entstat -d ${NIC}" "${NIC} Interface Statistics"
-  done	
+  done
 
 
   exec_command "netstat -r" "Routing Tables"
@@ -459,7 +460,7 @@ then # else skip to next paragraph
   exec_command "netstat -an" "List of all sockets"
 
   HOSTNAME=`hostname -s`
-  DOMAIN=`grep domain /etc/resolv.conf | awk '{print $2}'`	
+  DOMAIN=`grep domain /etc/resolv.conf | awk '{print $2}'`
   FQDN="$HOSTNAME.$DOMAIN"
   DIG=`which dig`
   if [ -n "$DIG" ] && [ -x $DIG ] ; then
@@ -499,7 +500,6 @@ then # else skip to next paragraph
     exec_command "grep -vE '^#|^ *$' /etc/inetd.conf" "Internet Daemon Configuration"
   fi
 
-
   #exec_command "cat /etc/services" "Internet Daemon Services"
   if [ -f /etc/resolv.conf ] ; then
      exec_command "grep -vE '^#|^ *$' /etc/resolv.conf;echo; ( [ -f /etc/netsvc.conf ] &&  grep -vE '^#|^ *$' /etc/netsvc.conf)" "DNS & Names"
@@ -528,7 +528,7 @@ then # else skip to next paragraph
 
 
   NTPQ=`which ntpq`
-  if [ -n "$NTPQ" ] && [ -x "$NTPQ" ] ; then      
+  if [ -n "$NTPQ" ] && [ -x "$NTPQ" ] ; then
     exec_command "$NTPQ -p" "XNTP Time Protocol Daemon"
   fi
 
@@ -554,7 +554,7 @@ fi # terminates CFG_NETWORK wrapper
 if [ "$CFG_KERNEL" != "no" ]
 then # else skip to next paragraph
 
-    paragraph "Kernel, Modules and Libraries" "Kernelparameters"
+    paragraph "Kernel, Modules and Libraries, Kernel parameters"
     inc_heading_level
 	exec_command "lsattr -E -l sys0" "Kernel Parameters"
 	exec_command "vmo -a" "Virtual Memory Parameters"
@@ -634,10 +634,10 @@ then # else skip to next paragraph
 
     # HP Dataprotector
     if [ -d /usr/omni/config/client ]; then
-	
+
 	paragraph "HP Data Protector Configuration"
 	inc_heading_level
-	
+
 	exec_command "/usr/omni/bin/omnicc -query|grep -v ' 0'" "Data Protector License Info."
 	exec_command "cat /usr/omni/config/client/omni_info" "Data Protector Client Information"
 	[ -f /usr/omni/.omnirc ] && exec_command "cat /usr/omni/.omnirc | grep -v ^#" "Data Protector Client Configuration"
@@ -646,9 +646,9 @@ then # else skip to next paragraph
 	exec_command "netstat -a|grep -w omni" "Data Protector Service Status"
 
 	dec_heading_level
-    fi ## HP Dataprotector   
+    fi ## HP Dataprotector
 
-## SAP stuff 
+## SAP stuff
 if [ -x /usr/sap/hostctrl/exe/saphostexec ]
 then
     paragraph "SAP Information"
@@ -661,14 +661,14 @@ then
 fi ## SAP
 
 
-######## HACMP/PowerHA stuff ########## 
+######## HACMP/PowerHA stuff ##########
     if [ -d /usr/es/sbin/cluster/utilities ] # HACMP #
     then
 	paragraph "HACMP / PowerHA Configuration"
 	inc_heading_level
 
 	HACMDPATH="/usr/es/sbin/cluster/utilities"
-        exec_command "${HACMDPATH}/cldump" "HACMP Cluster Configuration Overview"  		
+        exec_command "${HACMDPATH}/cldump" "HACMP Cluster Configuration Overview"
         exec_command "${HACMDPATH}/cllsnode" "HACMP Cluster Nodes Configuration"
         exec_command "${HACMDPATH}/cltopinfo" "HACMP Cluster Topology Configuration"
         exec_command "${HACMDPATH}/clshowres" "HACMP Cluster Resources Configuration"

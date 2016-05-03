@@ -221,12 +221,22 @@ Subject must begin with		[cfg2html]
 |_|/_/   \_\__\_\/_/  |_|  |_|_|___/\___|
 ---------------------------------------------------------------------------
 
-ulmpc014:/tmp # rpm -hiv cfg2html-linux-1.18.3-1.noarch.rpm
-error: failed dependencies:
-        rpmlib(PayloadFilesHavePrefix) <= 4.0-1 is needed by cfg2html-linux-1.18.3-1
-        rpmlib(CompressedFileNames) <= 3.0.4-1 is needed by cfg2html-linux-1.18.3-1
-ulmpc014:/tmp # uname -a
-Linux ulmpc014 2.2.14 #1 Mon Mar 13 10:51:48 GMT 2000 i686 unknown
+My Department is starting to upgrade our LPars to AIX 7.2. I was wondering if 
+there's a AIX version newer than 2.82a that supports 7.2?
+
+2016-05-02 - 15:11:59 Cfg2Html -AIX- Version 2.82a
+C2H030I Unknown AIX Level
+
+#     #
+#  #  #    ##    #####   #    #     #    #    #   ####
+#  #  #   #  #   #    #  ##   #     #    ##   #  #    #
+#  #  #  #    #  #    #  # #  #     #    # #  #  #
+#  #  #  ######  #####   #  # #     #    #  # #  #  ###
+#  #  #  #    #  #   #   #   ##     #    #   ##  #    #
+ ## ##   #    #  #    #  #    #     #    #    #   ####
+
+C2H032I Unsupported AIX Version (72) ! Please contact developer!
+C2H037E UnSupported AIX version "7.2.0.0" ("7200-00-00-0000")
 
 
 Known Problems
