@@ -1869,6 +1869,24 @@ then
     exec_command "ps fax | grep -i ' pf=/' | grep -v grep" "Active SAP Processes" 	### CHANGED ### 20150412 by Ralph Roth
 fi ## SAP
 
+# SAP HANA in-depth investigation by Gratien D'haese - 10 May 2016 - issue #109
+if [ -x /usr/sap/hostctrl/exe/lssap ]
+then
+    /usr/sap/hostctrl/exe/lssap | grep $(uname -n) | grep -q HDB
+    if [ $? -eq 0 ] ; then
+        # SAP HANA present
+        dec_heading_level
+        paragraph "SAP HANA Information"
+        inc_heading_level
+        /usr/sap/hostctrl/exe/lssap | awk -F"|" '{ if ($0 ~/\// ) print tolower($1)"adm " $2}' | while read  hdbadm sapnr
+        do
+            exec_command "su - $hdbadm -c 'HDB proc'" "SAP HANA processes"
+            exec_command "su - $hdbadm -c \"sapcontrol -nr ${sapnr} -function GetProcessList\"" "SAP HANA ProcessList"
+            exec_command "su - $hdbadm -c 'python exe/python_support/systemReplicationStatus.py'" "SAP HANA Replication"
+            exec_command "su - $hdbadm -c 'hdbnsutil -sr_state'" "SAP HANA System Replication State"
+        done
+    fi
+fi
 ##
 
 ###########################################################################
