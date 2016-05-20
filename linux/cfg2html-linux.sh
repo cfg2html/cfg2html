@@ -1330,8 +1330,8 @@ then # else skip to next paragraph
   then
         :               ##  provides sendmail which NO options
   else
-      if [ -d /etc/alternatives ]; then
-          MTA=$(alternatives --list | grep mta | cut -d'        ' -f3)
+      if [ -L /etc/alternatives/mta ]; then
+          MTA=$(readlink -e /etc/alternatives/mta)
       else
           MTA=''
       fi
