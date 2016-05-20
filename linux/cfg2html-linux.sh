@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# @(#) $Id: cfg2html-linux.sh,v 6.47 2016/04/13 06:35:52 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.49 2016/04/27 16:02:09 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2016 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
 
@@ -158,7 +158,7 @@ identify_linux_distribution
 
 line
 echo "Starting          "$_VERSION       ## "/"$(arch) - won't work under Debian 5.0.8 ## /usr/bin/cfg2html-linux: line 597: arch: command not found
-echo "Path to Cfg2Html  "$0
+echo "Path to cfg2html  "$0
 echo "HTML Output File  "$HTML_OUTFILE
 echo "Text Output File  "$TEXT_OUTFILE
 echo "Partitions        "$OUTDIR/$BASEFILE.partitions.save
@@ -1869,6 +1869,24 @@ then
     exec_command "ps fax | grep -i ' pf=/' | grep -v grep" "Active SAP Processes" 	### CHANGED ### 20150412 by Ralph Roth
 fi ## SAP
 
+# SAP HANA in-depth investigation by Gratien D'haese - 10 May 2016 - issue #109
+if [ -x /usr/sap/hostctrl/exe/lssap ]
+then
+    /usr/sap/hostctrl/exe/lssap | grep $(uname -n) | grep -q HDB
+    if [ $? -eq 0 ] ; then
+        # SAP HANA present
+        dec_heading_level
+        paragraph "SAP HANA Information"
+        inc_heading_level
+        /usr/sap/hostctrl/exe/lssap | awk -F"|" '{ if ($0 ~/\// ) print tolower($1)"adm " $2}' | while read  hdbadm sapnr
+        do
+            exec_command "su - $hdbadm -c 'HDB proc'" "SAP HANA processes"
+            exec_command "su - $hdbadm -c \"sapcontrol -nr ${sapnr} -function GetProcessList\"" "SAP HANA ProcessList"
+            exec_command "su - $hdbadm -c 'python exe/python_support/systemReplicationStatus.py'" "SAP HANA Replication"
+            exec_command "su - $hdbadm -c 'hdbnsutil -sr_state'" "SAP HANA System Replication State"
+        done
+    fi
+fi
 ##
 
 ###########################################################################
