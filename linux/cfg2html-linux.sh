@@ -589,14 +589,14 @@ inc_heading_level
 
   ### End changes by Dusan.Baljevic@ieee.org ### 13.05.2014 ### needs cleanup, e.g. 2> /dev/null - 06.04.2015, rr
 
-  LSCPU=`which lscpu`; if [ -n "$LSCPU" ] && [ -x $LSCPU ] ; then exec_command "$LSCPU" "CPU architecture"; fi # see issue #52
-  HWINFO=`which hwinfo`; if [ -n "$HWINFO" ] && [ -x $HWINFO ] ; then exec_command "$HWINFO --short 2> /dev/null" "Hardware List (hwinfo)"; fi  ## see issue #82, rr, 20150527-rr
-  LSHW=`which lshw`; if [ -n "$LSHW" ] && [ -x $LSHW ] ; then exec_command "$LSHW" "Hardware List (lshw)"; fi ##  13.12.2004, 15:53 modified by Ralph Roth
-  LSDEV=`which lsdev`; if [ -n "$LSDEV" ] && [ -x $LSDEV ] ; then exec_command "$LSDEV" "Hardware List (lsdev)"; fi
-  LSHAL=`which lshal`; if [ -n "$LSHAL" ] && [ -x $LSHAL ] ; then exec_command "$LSHAL" "List of Devices (lshal)"; fi
-  LSUSB=`which lsusb`; if [ -n "$LSUSB" ] && [ -x $LSUSB ] ; then exec_command "$LSUSB" "List of USB devices"; fi ## SUSE? #  12.11.2004, 15:04 modified by Ralph Roth
+  LSCPU=`which lscpu 2>/dev/null`; if [ -n "$LSCPU" ] && [ -x $LSCPU ] ; then exec_command "$LSCPU" "CPU architecture"; fi # see issue #52
+  HWINFO=`which hwinfo 2>/dev/null`; if [ -n "$HWINFO" ] && [ -x $HWINFO ] ; then exec_command "$HWINFO --short 2> /dev/null" "Hardware List (hwinfo)"; fi  ## see issue #82, rr, 20150527-rr
+  LSHW=`which lshw 2>/dev/null`; if [ -n "$LSHW" ] && [ -x $LSHW ] ; then exec_command "$LSHW" "Hardware List (lshw)"; fi ##  13.12.2004, 15:53 modified by Ralph Roth
+  LSDEV=`which lsdev 2>/dev/null`; if [ -n "$LSDEV" ] && [ -x $LSDEV ] ; then exec_command "$LSDEV" "Hardware List (lsdev)"; fi
+  LSHAL=`which lshal 2>/dev/null`; if [ -n "$LSHAL" ] && [ -x $LSHAL ] ; then exec_command "$LSHAL" "List of Devices (lshal)"; fi
+  LSUSB=`which lsusb 2>/dev/null`; if [ -n "$LSUSB" ] && [ -x $LSUSB ] ; then exec_command "$LSUSB" "List of USB devices"; fi ## SUSE? #  12.11.2004, 15:04 modified by Ralph Roth
 
-  LSPCI=`which lspci`
+  LSPCI=`which lspci 2>/dev/null`
   if [ -n "$LSPCI" ] && [ -x $LSPCI ] ; then
     exec_command "$LSPCI -v" "PCI devices"
   else
@@ -1291,8 +1291,8 @@ then # else skip to next paragraph
   ### End changes by Dusan.Baljevic@ieee.org ### 14.05.2014
 
   if [ -x /usr/sbin/tcpdchk ] ; then
-    exec_command "/usr/sbin/tcpdchk -v" "tcpd wrapper"
-    exec_command "/usr/sbin/tcpdchk -a" "tcpd warnings"
+    exec_command "/usr/sbin/tcpdchk -v 2>/dev/null" "tcpd wrapper"
+    exec_command "/usr/sbin/tcpdchk -a 2>/dev/null" "tcpd warnings"
   fi
 
   [ -f /etc/hosts.allow ] && exec_command "grep  -vE '^#|^ *$' /etc/hosts.allow" "hosts.allow"
