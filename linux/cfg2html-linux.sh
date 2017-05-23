@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# @(#) $Id: cfg2html-linux.sh,v 6.49 2016/04/27 16:02:09 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.53 2017/05/23 15:27:23 ralph Exp $
 # -----------------------------------------------------------------------------------------
-# (c) 1997-2016 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
+# (c) 1997-2017 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
 
 #  If you change this script, please mark your changes with for example
 #  ## <username> and send your diffs from the actual version to my mail
@@ -2381,7 +2381,7 @@ if [ -f $CONFIG_DIR/files ] ; then
   paragraph "Local files"
   inc_heading_level
   . $CONFIG_DIR/files
-  for i in $FILES
+  for i in $(cat $CONFIG_DIR/files) # suggested fix by John Emmert , 2016/04 ## $FILES
   do
     if [ -f $i ] ; then
       exec_command "grep -vE '(^#|^ *$)' $i" "File: $i"
