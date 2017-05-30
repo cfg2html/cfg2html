@@ -1,5 +1,5 @@
 #
-# @(#) $Id: cfg2html,v 6.30 2016/05/03 07:13:17 ralph Exp $
+# @(#) $Id: cfg2html,v 6.31 2017/05/30 11:44:22 ralph Exp $
 # -------------------------------------------------------------------------
 # This is the wrapper for cfg2html for LINUX and HP-UX
 # CFG2HTML - license: see GPL v3
@@ -41,18 +41,18 @@ rm -f /tmp/cfg2html.respawn # get rid of the temporary lock as soon as possible
 
 PRODUCT="Config to HTML - cfg2html"
 # this CVS id is also used by the Makefiles to get the version number!
-CVS="$Id: cfg2html,v 6.30 2016/05/03 07:13:17 ralph Exp $"
+CVS="$Id: cfg2html,v 6.31 2017/05/30 11:44:22 ralph Exp $"
 PROGRAM=$(echo $CVS|cut -f2 -d" "|cut -f1 -d,)
-#VERSION=6.20
+#VERSION=6.30
 VERSION=$(echo $CVS|cut -f3 -d" ")
-RELEASE_DATE="2016-05-03"	## YYYY-MM-DD ?!
+RELEASE_DATE="2017-05-30"	## YYYY-MM-DD ?!
 #echo $PROGRAM,$VERSION,$RELEASE_DATE
 
 OS=$(uname)
 OS=$(echo $OS | tr 'A-Z' 'a-z' | sed -e 's/-//')
 CFG_CMDLINE=$*
 
-COPYRIGHT="Copyright (C) 1999-2016
+COPYRIGHT="Copyright (C) 1999-2017
     ROSE SWE, Dipl.-Ing. Ralph Roth"
 STARTTIME=$SECONDS
 
