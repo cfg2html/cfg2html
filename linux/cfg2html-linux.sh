@@ -2378,17 +2378,17 @@ fi
 # collect local files
 #
 if [ -f $CONFIG_DIR/files ] ; then
-  paragraph "Local files"
-  inc_heading_level
-  . $CONFIG_DIR/files
-  for i in $(cat $CONFIG_DIR/files) # suggested fix by John Emmert , 2016/04 ## $FILES
-  do
-    if [ -f $i ] ; then
-      exec_command "grep -vE '(^#|^ *$)' $i" "File: $i"
-    fi
-  done
-  AddText "You can customize this entry by editing /etc/cfg2html/files"
-  dec_heading_level
+        paragraph "Local files"
+        inc_heading_level
+        ## . $CONFIG_DIR/files -- not needed anymore to be sourced with the fix below/changed format
+        for i in $(grep -v ^# $CONFIG_DIR/files) # suggested fix by John Emmert , 2016/04 ## $FILES
+        do
+                if [ -f $i ] ; then
+                        exec_command "grep -vE '(^#|^ *$)' $i" "Contents of the file: $i"
+                fi
+        done
+        AddText "You can customize this paragraph by editing the file: $CONFIG_DIR/files"
+        dec_heading_level
 fi
 
 dec_heading_level

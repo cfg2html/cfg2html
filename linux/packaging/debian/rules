@@ -2,7 +2,8 @@
 
 # @(#) $Id: rules,v 6.17 2015/04/06 08:47:28 ralph Exp $
 # -------------------------------------------------------------------------
-# vim:ts=8:sw=4:sts=4 -*- coding: utf-8 -*- http://rose.rult.at/ - Ralph Roth
+# vim:ts=8:sw=4:sts=4 
+# -*- coding: utf-8 -*- http://rose.rult.at/ - Ralph Roth
 
 # Sample debian/rules that uses debhelper.
 # GNU copyright 1997 to 1999 by Joey Hess.
