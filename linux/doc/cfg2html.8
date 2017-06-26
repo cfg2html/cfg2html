@@ -1,14 +1,14 @@
-.\" Copyright (c) 2003-2016 by MIchael MEifert, Gratien D'haese  and Ralph Roth
+.\" Copyright (c) 2003-2017 by MIchael MEifert, Gratien D'haese and Ralph Roth
 .\"$Id: cfg2html.8,v 6.13 2016/04/13 06:01:38 ralph Exp $
 
 .TH cfg2html-linux 8 "02.12.2013" "mime/rar"
 
 .SH NAME
-cfg2html-linux \- creates a nice HTML and plain ASCII documentation of your GNU/Linux system. WARNING, use this script AT YOUR OWN RISK.
+cfg2html \- creates a nice HTML and plain ASCII documentation of your GNU/Linux system. WARNING, use this script AT YOUR OWN RISK.
 
 .SH SYNOPSIS
 
-.B cfg2html-linux
+.B cfg2html
 .RB [ \-oxshcSflkenaHvh ]
 .IR option ...
 .br
@@ -16,7 +16,7 @@ cfg2html-linux \- creates a nice HTML and plain ASCII documentation of your GNU/
 .SH DESCRIPTION
 
 The
-.B cfg2html-linux
+.B cfg2html
 script is the "swiss army knife" for the consultant, support engineer, customer engineer, sysadmin etc. We wrote it to get the necessary information to plan an update,
 to perform basic trouble shooting or performance analysis. As a bonus
 .B cfg2html
@@ -119,7 +119,7 @@ Disk Partitions to restore from
 (only on systems connected to HP Disk Arrays): the output of the xpinfo command
 
 .TP
-.B /usr/share/man/man8/cfg2html-linux.8.gz
+.B /usr/share/man/man8/cfg2html.8.gz
 The man page.
 
 .TP
@@ -136,20 +136,18 @@ Revision history for
 .B README, License.txt
 and
 .B changelog
-file in the source directory.
+files in the source directory.
 
 .SH NOTES
 Only
 .B root
 can run the
-.B cfg2html-linux
-script. For security reasons it is better to store the HTML and ASCII files
-in a safe place where only root user have access or remove the
-files from your file system.
+.B cfg2html
+wrapper script. For security reasons it is better to store the HTML and ASCII files
+in a safe place where only root user have access or remove the files from your file system.
 
 .SH CONTACTING
-If you like the script, and you want to learn more about
-the  script,  or  want to see a feature added to it that
+If you like the script, and you want to learn more about the script, or want to see a feature added to it that
 isn't already here, then please subscribe to the project mailing list.
 The project web page is at
 .B http://www.cfg2html.com
@@ -160,11 +158,11 @@ and the source code is hosted on
 
 .SH WARNINGS
 use the
-.B cfg2html-linux
+.B cfg2html
 script at your own risk! See License.txt for details!
 .SH DIAGNOSTICS
 
-.B cfg2html-linux
+.B cfg2html
 writes errors to <hostname>.err
 
 .SH BUGS
