@@ -1625,7 +1625,7 @@ then
         exec_command "cmviewcl -v -f line 2>/dev/null || cmviewcl -v" "Serviceguard Nodes and Packages"     ## A.11.19?||A.11.16
         [ -x /usr/sbin/cmviewconf ] && exec_command "/usr/sbin/cmviewconf" "Serviceguard Cluster Configuration Information"  ## ! A.11.20
 	## cmquerystg, cmcheckdg, cmcheckvx, comcompare ## A.11.20 ##
-        exec_command "cmscancl -s" "Serviceguard scancl - Detailed Node Configuration"
+        exec_command "$TIMEOUTCMD 60 cmscancl -s" "Serviceguard scancl - Detailed Node Configuration"
         exec_command "ll $SGCONF" "Files in $SGCONG (Default=/etc/cmcluster)"
 
         [ -x /usr/sbin/cmmakepkg ] && exec_command "/usr/sbin/cmmakepkg -l" "Available Serviceguard Modules"

@@ -1904,7 +1904,7 @@ fi
         exec_command "cmquerycl -v" "Serviceguard Configuration"
         exec_command "cmviewcl -v" "Serviceguard Nodes and Packages"
         exec_command "cmviewconf" "Serviceguard Cluster Configuration Information"
-        exec_command "cmscancl -s" "Serviceguard Scancl Detailed Node Configuration"
+        exec_command "$TIMEOUTCMD 60 cmscancl -s" "Serviceguard Scancl Detailed Node Configuration"
         exec_command "netstat -in" "Serviceguard Network Subnets"
         exec_command "netstat -a |fgrep hacl" "Serviceguard Sockets"
         exec_command "ls -l $SGCONF" "Files in $SGCONF"
