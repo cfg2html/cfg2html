@@ -2381,6 +2381,7 @@ if [ -f $CONFIG_DIR/files ] ; then
         paragraph "Local files"
         inc_heading_level
         ## . $CONFIG_DIR/files -- not needed anymore to be sourced with the fix below/changed format
+        ## FILES=`grep -vE '(^#|^ *$)' $CONFIG_DIR/files`   ## 25.08.2017 modified by Bernhard Keppel
         for i in $(grep -v ^# $CONFIG_DIR/files) # suggested fix by John Emmert , 2016/04 ## $FILES
         do
                 if [ -f $i ] ; then

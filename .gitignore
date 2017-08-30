@@ -25,6 +25,8 @@ cfg2html*.deb
 # rest
 #
 descript.ion
+todo.*
+sshkey.sh
 *,v
 *.gz
 *.bz2
