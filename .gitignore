@@ -13,6 +13,8 @@ RCS/
 # Debian directory (make deb-pkg)
 #
 linux/debian/
+linux/build-stamp
+linux/configure-stamp
 linux/packaging/debian/cfg2html.dsc.orig
 linux/packaging/rpm/cfg2html.spec.orig
 #

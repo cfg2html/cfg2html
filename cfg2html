@@ -43,9 +43,8 @@ PRODUCT="Config to HTML - cfg2html"
 # this CVS id is also used by the Makefiles to get the version number!
 CVS="$Id: cfg2html,v 6.31 2017/05/30 11:44:22 ralph Exp $"
 PROGRAM=$(echo $CVS|cut -f2 -d" "|cut -f1 -d,)
-#VERSION=6.30
 VERSION=$(echo $CVS|cut -f3 -d" ")
-RELEASE_DATE="2017-05-30"	## YYYY-MM-DD ?!
+RELEASE_DATE="2017-09-11"	## YYYY-MM-DD ?!
 #echo $PROGRAM,$VERSION,$RELEASE_DATE
 
 OS=$(uname)
