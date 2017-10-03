@@ -74,7 +74,7 @@ binary-indep: build
 		cd linux ; \
 		ln -s ../debian . ; \
 		ls -l ; \
-		ls -lR debian/ ; \
+		ls -lR etc/ ; \
 	fi
 
 	# copy cfg2html components into directories
