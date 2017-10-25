@@ -1,4 +1,5 @@
 # replacement script for qlan.pl -v
+# @(#) $Id: get_bootdisk.sh,v 5.11 2017/03/18 14:54:26 ralph Exp $
 
 function get_qlan_details_1131 {
     /usr/sbin/nwmgr > /tmp/nwmgr_cfg2html.txt
