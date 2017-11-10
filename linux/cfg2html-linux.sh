@@ -900,6 +900,7 @@ then # else skip to next paragraph
     exec_command "rpm --querytags" "RPM Query Tags"     #*#   Alexander De Bernardi //21.04.2010/rr
     if [ -x /usr/bin/zypper ]
     then
+    #     See Issue #6 - still open
     #     #TODO:#BUG:# stderr output from "zypper ls; echo ''; zypper pt":
     #     System management is locked by the application with pid 1959 (/usr/lib/packagekitd).
     #     Close this application before trying again.
