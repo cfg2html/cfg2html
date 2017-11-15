@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# @(#) $Id: cfg2html-linux.sh,v 6.53 2017/05/23 15:27:23 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.54 2017/11/15 13:53:30 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2017 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
 
@@ -267,7 +267,7 @@ then # else skip to next paragraph
   # cat /proc/meminfo (in order to get some details of memory usage)
 
   exec_command "free -toml;echo;free -tm;echo; swapon -s" "Used Memory and Swap"  		#  04.07.2011, 16:13 modified by Ralph Roth #* rar *#
-  exec_command "cat /proc/meminfo; echo THP:; cat /sys/kernel/mm/transparent_hugepage/enabled" "Detailed Memory Usage (meminfo)"  	# changed 20131218 by Ralph Roth
+  exec_command "cat /proc/meminfo; echo THP:; cat /sys/kernel/mm/transparent_hugepage/enabled" "Detailed Memory Usage (meminfo)"  # changed 20131218 by Ralph Roth
   exec_command "cat /proc/buddyinfo" "Zoned Buddy Allocator/Memory Fragmentation and Zones" 	#  09.01.2012 Ralph Roth
   AddText "The number on the left is bigger than right (by factor 2)."
   AddText "DMA zone is the first 16 MB of memory. DMA64 zone is the first 4 GB of memory on 64-bit Linux. Normal zone is between DMA and HighMem. HighMem zone is above 4 GB of memory." # ripped from Dusan Baljevic ## changed 20131211 by Ralph Roth
@@ -906,14 +906,15 @@ then # else skip to next paragraph
     #     Close this application before trying again.
         if [ -r /etc/zypp/zypp.conf ]       ## fix for JW's SLES 10, backported to 2.91
         then
-            exec_command "zypper -n ls; echo ''; echo | zypper -n pt " "zypper: Services and Patterns"       #*#   Ralph Roth, Mittwoch, 16. March 2011
+            exec_command "zypper -n ls; echo ''; echo | zypper -n pt " "zypper: Services and Patterns"   #*#   Ralph Roth, Mittwoch, 16. March 2011
             exec_command "zypper -n ps" "zypper: Processes which need restart after update"       #*#   Alexander De Bernardi 17.02.2011
-            exec_command "zypper -n lr --details" "zypper: List repositories"                     #*#   Alexander De Bernardi 17.02.2011
-            exec_command "zypper -n lu" "zypper: List pending updates"                            #*#   Alexander De Bernardi 17.02.2011
-            exec_command "zypper -n lp" "zypper: List pending patches"                            #*#   Alexander De Bernardi 17.02.2011
-            exec_command "zypper -n pa" "zypper: List all available packages"                     #*#   Alexander De Bernardi 17.02.2011
-            exec_command "zypper -n pa --installed-only" "zypper: List installed packages"        #*#   Alexander De Bernardi 17.02.2011
+            exec_command "zypper -n lr --details" "zypper: List repositories"                     #*#
+            exec_command "zypper -n lu" "zypper: List pending updates"                            #*#
+            exec_command "zypper -n lp" "zypper: List pending patches"                            #*#
+            exec_command "zypper -n pa" "zypper: List all available packages"                     #*#
+            exec_command "zypper -n pa --installed-only" "zypper: List installed packages"        #*#
             exec_command "zypper -n pa --uninstalled-only" "zypper: List not installed packages"  #*#   Alexander De Bernardi 17.02.2011
+            exec_command "cut -d '|' -f 1-4 -s --output-delimiter ' | ' /var/log/zypp/history | grep -v ' radd '" "Software Installation History" # rr, 15.11.2017
         else
             AddText "zypper found, but it is not configured!"
         fi

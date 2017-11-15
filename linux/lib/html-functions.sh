@@ -1,7 +1,8 @@
 # cfg2html - HTML function library - Linux part
-# @(#) $Id: html-functions.sh,v 6.13 2015/07/23 07:28:22 ralph Exp $
+# @(#) $Id: html-functions.sh,v 6.16 2017/11/15 13:51:20 ralph Exp $
 # -------------------------------------------------------------------------
-# vim:ts=8:sw=4:sts=4 -*- coding: utf-8 -*-  Ralph Roth
+# vim:ts=8:sw=4:sts=4
+# coding: utf-8 -*-  Ralph Roth
 
 
 function open_html {
@@ -12,12 +13,12 @@ function open_html {
 	<HTML> <HEAD>
 	<META NAME="GENERATOR" CONTENT="Selfmade-$VERSION">
 	<META NAME="AUTHOR" CONTENT="Ralph Roth, Gratien D'haese, Michael Meifert, Jeroen Kleen">
-	<META NAME="CREATED" CONTENT="Ralph Roth, Gratien D'haese, Michael Meifert, Jeroen Kleen">
+
 	<META NAME="CHANGED" CONTENT="`id;date` ">
 	<META NAME="DESCRIPTION" CONTENT="Config to HTML (cfg2html for Linux)">
 	<META NAME="subject" CONTENT="$VERSION on $RECHNER by $MAILTO and $MAILTORALPH">
 	<style type="text/css">
-	/* (c) 2001- 2016 by ROSE SWE, Ralph Roth - http://rose.rult.at
+	/* (c) 2001- 2017 by ROSE SWE, Ralph Roth - http://rose.rult.at
 	* CSS for cfg2html.sh, 12.04.2001, initial creation
 	*/
 
@@ -183,7 +184,7 @@ function close_html {
     cat $TEXT_OUTFILE_TEMP >> $TEXT_OUTFILE
     rm $HTML_OUTFILE_TEMP $TEXT_OUTFILE_TEMP
     _echo  "\n\nCreated $DATEFULL by $PROGRAM $VERSION" >> $TEXT_OUTFILE
-    _echo  "(c) 1998- 2016 by ROSE SWE, Ralph Roth and others" >> $TEXT_OUTFILE
+    _echo  "(c) 1998- 2017 by ROSE SWE, Ralph Roth and others" >> $TEXT_OUTFILE
 }
 
 ## end ##
