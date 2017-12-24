@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# @(#) $Id: cfg2html-linux.sh,v 6.54 2017/11/15 13:53:30 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.55 2017/12/24 10:51:30 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2017 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
 
@@ -27,6 +27,7 @@ CFGSH=$_
 
 ## /usr/lib64/qt-3.3/bin:/usr/kerberos/sbin:/usr/kerberos/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin
 PATH=$PATH:/sbin:/bin:/usr/sbin:/opt/omni/bin:/opt/omni/sbin  ## this is a fix for wrong su root (instead for su - root)
+PATH=$PATH:/usr/lpp/mmfs/bin ## IBM GPFS clustering 
 
 _VERSION="cfg2html-linux version $VERSION "  # this a common stream so we don?t need the "Proliant stuff" anymore
 
@@ -373,6 +374,13 @@ then # else skip to next paragraph
   fi
   [ -r /etc/inittab ] && exec_command "awk '!/#|^ *$/ && /initdefault/' /etc/inittab" "default runlevel"
   exec_command "/sbin/runlevel" "current runlevel"
+
+  # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 24 December 2017
+  #
+  NEEDRESTART=$(which needs-restarting)
+  if [ -n "$NEEDRESTART" ] && [ -x "$NEEDRESTART" ] ; then
+      exec_command "$NEEDRESTART" "Report running processes that have been updated and need restart"
+  fi
 
   ##
   ## we want to display the Boot Messages too
@@ -1328,6 +1336,10 @@ then # else skip to next paragraph
   fi
   [ -r /etc/bind/named.boot ] && exec_command "grep -v '^;' /etc/named.boot"  "DNS/Named"
 
+  if [ -s /etc/dnsmasq.conf ] ; then
+     exec_command "cat /etc/dnsmasq.conf; systemctl status dnsmasq" "DNSMASQ" 
+  fi
+
   if [ -x /usr/sbin/nullmailer-send ]	## backport from cfg2html-linux 2.97 -- 04.04.2015, rr
   then
         :               ##  provides sendmail which NO options
@@ -1826,6 +1838,48 @@ then
 	[ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife diff" "Chef differences between local chef-repo and files on server"
 	[ -x /opt/chef-server/embedded/bin/chef-client ] && exec_command "/opt/chef-server/embedded/bin/chef-client -v" "Chef Client"
     ##############################################################################
+fi
+
+if  [ -x /usr/lpp/mmfs/bin/mmlscluster ]
+then
+    ###  IBM GPFS clusters 
+    ###  Made by Dusan.Baljevic@ieee.org ### 24.12.2017
+	dec_heading_level
+	paragraph "IBM GPFS Clustering"
+	inc_heading_level
+	[ -x /usr/lpp/mmfs/bin/mmlscluster ] && exec_command "/usr/lpp/mmfs/bin/mmlscluster" "GPFS cluster status"
+	[ -x /usr/lpp/mmfs/bin/mmlsconfig ] && exec_command "/usr/lpp/mmfs/bin/mmlsconfig" "GPFS config"
+	[ -x /usr/lpp/mmfs/bin/mmfsenv ] && exec_command "/usr/lpp/mmfs/bin/mmfsenv" "GPFS environment"
+	[ -x /usr/lpp/mmfs/bin/mmdiag ] && exec_command "/usr/lpp/mmfs/bin/mmdiag --config" "GPFS complete configuration status"
+	[ -x /usr/lpp/mmfs/bin/mmlsnode ] && exec_command "/usr/lpp/mmfs/bin/mmlsnode -a" "GPFS node status"
+	[ -x /usr/lpp/mmfs/bin/mmlsnsd ] && exec_command "/usr/lpp/mmfs/bin/mmlsnsd -a" "GPFS Network Shared Disk (NSD) status"
+	[ -x /usr/lpp/mmfs/bin/mmlsfs ] && exec_command "/usr/lpp/mmfs/bin/mmlsfs all" "GPFS file system status"
+	[ -x /usr/lpp/mmfs/bin/mmlsmount ] && exec_command "/usr/lpp/mmfs/bin/mmlsmount all -L" "GPFS mount status"
+	[ -x /usr/lpp/mmfs/bin/mmlslicense ] && exec_command "/usr/lpp/mmfs/bin/mmlslicense -L" "GPFS licenses"
+	[ -x /usr/lpp/mmfs/bin/mmhealth ] && exec_command "/usr/lpp/mmfs/bin/mmhealth node show --verbose" "GPFS node health status"
+	[ -x /usr/lpp/mmfs/bin/mmhealth ] && exec_command "/usr/lpp/mmfs/bin/mmhealth cluster show" "GPFS cluster health status"
+	[ -x /usr/lpp/mmfs/bin/mmhealth ] && exec_command "/usr/lpp/mmfs/bin/mmhealth thresholds list" "GPFS thresholds"
+	[ -x /usr/lpp/mmfs/bin/mmlsnode ] && exec_command "/usr/lpp/mmfs/bin/mmlsnode -N waiters -L" "GPFS waiters"
+	[ -x /usr/lpp/mmfs/bin/mmdiag ] && exec_command "/usr/lpp/mmfs/bin/mmdiag --network" "GPFS mmdiag network"
+	[ -x /usr/lpp/mmfs/bin/mmnetverify ] && exec_command "/usr/lpp/mmfs/bin/mmnetverify connectivity -N all -T all" "GPFS network verification"
+    ##############################################################################
+fi
+
+# Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 24 December 2017
+#
+SSDCONF="/etc/sssd/sssd.conf"
+if [ -s "$SSDCONF" ] ; then
+    dec_heading_level
+    paragraph "System Security Services Daemon (SSSD)"
+    inc_heading_level
+    exec_command "cat $SSSDCONF" "SSSD configuration"
+    exec_command "realm list" "List enrollments in realms"
+    [ -x /usr/bin/systemctl ] && exec_command "/usr/bin/systemctl status sssd" "Systemd SSSD status"
+    exec_command "getenet passwd" "List all users"
+    exec_command "getent group" "List all groups"
+    [ -x /sbin/sssctl ] && exec_command "/sbin/sssctl config-check" "SSSD configuration verification"
+    [ -x /sbin/sssctl ] && exec_command "/sbin/sssctl domain-list" "SSSD domain list"
+    [ -x /sbin/sssctl ] && exec_command "/sbin/sssctl domain-status" "SSSD domain status"
 fi
 
 # this may need reworking - works only if CFEngine agent is installed. # changed 20140319 by Ralph Roth
