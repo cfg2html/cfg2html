@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# @(#) $Id: cfg2html-linux.sh,v 6.55 2017/12/24 10:51:30 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.56 2017/12/24 18:18:21 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2017 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
 
@@ -27,7 +27,7 @@ CFGSH=$_
 
 ## /usr/lib64/qt-3.3/bin:/usr/kerberos/sbin:/usr/kerberos/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin
 PATH=$PATH:/sbin:/bin:/usr/sbin:/opt/omni/bin:/opt/omni/sbin  ## this is a fix for wrong su root (instead for su - root)
-PATH=$PATH:/usr/lpp/mmfs/bin ## IBM GPFS clustering 
+PATH=$PATH:/usr/lpp/mmfs/bin:/opt/puppetlabs/puppet/bin ## IBM GPFS clustering and open-source Puppet 5 standard install
 
 _VERSION="cfg2html-linux version $VERSION "  # this a common stream so we don?t need the "Proliant stuff" anymore
 
@@ -1781,40 +1781,43 @@ then # else skip to next paragraph
     fi
 
 ### new stuff with 2.83 by Dusan // # changed 20140319 by Ralph Roth
-if [ -x /usr/bin/puppet ]
+PUPPETEXE=$(which puppet)
+if [ -x $PUPPETEXE ]
 then
     ##############################################################################
     ###  Puppet settings
     ###  Made by Dusan.Baljevic@ieee.org ### 12.03.2014, # changed 20140425 by Ralph Roth, # changed 20140428 by Dusan, backported from 2.90, 2.91
+    ###  Updated by Dusan.Baljevic@ieee.org ### 24.12.2017 to include Puppet 5
 	dec_heading_level
 	paragraph "Puppet Configuration Management System"
 	inc_heading_level
-	exec_command "ps -ef | grep -E 'puppetmaster[d]|puppet maste[r]'" "Active Puppet Master"
-	exec_command "ps -ef | grep -E 'puppet[d]'" "Active Puppet Client"
+	exec_command "ps -ef | grep -E 'puppetmaster[d]|puppet maste[r]'" "Active Puppet Master (prior to version 5)"
+	exec_command "ps -ef | grep -E 'puppet[d]'" "Active Puppet Client (prior to version 5)"
+        exec_command "puppetca -l -a" "Puppet certificates (prior to version 5)"
 
-	if [ -x /usr/sbin/puppetd ]; then
-           exec_command "/usr/sbin/puppetd -V" "Puppet Client agent version"
-        else
-	   exec_command "/usr/bin/puppet agent -V" "Puppet Client agent version"
-        fi
+	exec_command "ps -ef | grep -E 'puppetserve[r]'" "Active Puppet Master (version 5)"
+	exec_command "ps -ef | grep -E 'puppet agen[t]'" "Active Puppet Client (version 5)"
+        exec_command "$PUPPETEXE ca list --all" "Puppet certificates (version 5)"
 
-        exec_command "/usr/bin/puppet master status" "Puppet Server status"
+        exec_command "$PUPPETEXE -V" "Puppet Client agent version"
 
-        PUPPETCHK=$(puppet help | awk '$1 == "config" {print}')
+        exec_command "$PUPPETEXE master status" "Puppet Server status"
+
+	exec_command "$PUPPETEXE module list" "Puppet modules"
+
+	exec_command "$PUPPETEXE facts" "Puppet facts"
+
+	exec_command "$PUPPETEXE describe --list" "Puppet known types"
+
+        PUPPETCHK=$($PUPPETEXE help | awk '$1 == "config" {print}')
         if [ "$PUPPETCHK" ] ; then
-	   exec_command "/usr/bin/puppet config print all" "Puppet configuration"
-	   exec_command "/usr/bin/puppet config print modulepath" "Puppet configuration module paths"
-        fi
-
-	if [ -x /usr/sbin/puppetca ]; then
-           exec_command "/usr/sbin/puppetca -l -a" "Puppet certificates"
-	else
-           exec_command "/usr/bin/puppet ca list --all" "Puppet certificates"
+	   exec_command "$PUPPETEXE config print all" "Puppet configuration"
+	   exec_command "$PUPPETEXE config print modulepath" "Puppet configuration module paths"
         fi
 
 	# gdha - 16/Nov/2015 - added TIEMOUTCMD - issue #95
-	exec_command "$TIMEOUTCMD 60 /usr/bin/puppet resource user" "Users in Puppet Resource Abstraction Layer (RAL)"
-	exec_command "/usr/bin/puppet resource package" "Packages in Puppet Resource Abstraction Layer (RAL)"
+	exec_command "$TIMEOUTCMD 60 $PUPPETEXE resource user" "Users in Puppet Resource Abstraction Layer (RAL)"
+	exec_command "$PUPPETEXE resource package" "Packages in Puppet Resource Abstraction Layer (RAL)"
 	# SUSE-SU-2014:0155-1 # seems to crash plain installed servers, puppet not configured ## changed 20140429 by Ralph Roth
 	# Bug References: 835122,853982 - CVE References: CVE-2013-4761 - puppet-2.6.18-0.12.1
 	#exec_command "/usr/bin/puppet resource service" "Services in Puppet Resource Abstraction Layer (RAL)"
