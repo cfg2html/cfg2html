@@ -726,6 +726,25 @@ inc_heading_level
     rm /tmp/fibrehba.txt
   fi
 
+  SYSTOOL=`which systool`
+  if [ -x $SYSTOOL ]; then
+     exec_command "systool -c fc_host -v" "Fibre Channel Host Bus Adapters systool status"
+  fi
+
+  SGSCAN=`which sg_scan`
+  if [ -x $SGSCAN ]; then
+     exec_command "sg_scan -i" "Fibre Channel Host Bus Adapters sg_scan SCSI inquiry"
+  fi
+
+  SGMAP=`which sg_map`
+  if [ -x $SMAP ]; then
+     exec_command "sg_map -x" "Fibre Channel Host Bus Adapters sg_map status"
+  fi
+
+  exec_command "ls -la /dev/disk/by-id" "Disk devices by-id"
+  exec_command "ls -ld /sys/block/sd*" "Block disk devices"
+  exec_command "ls -v -1c /dev/sd*[!0-9] | xargs -I {} sh -c 'echo -n "{}:" ; /lib/udev/scsi_id --whitelisted --device={}'" "Fibre Channel Host Bus Adapters scsi_id"
+
   #### End of Fibre HBA info.
 
 
