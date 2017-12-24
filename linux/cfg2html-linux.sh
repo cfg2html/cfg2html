@@ -263,6 +263,10 @@ then # else skip to next paragraph
     exec_command "iostat" "IO-Statistics"
   fi
 
+  # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 24/12/2017
+
+  exec_command "lsof -nP | grep '(deleted)'" "Files that are open but have been deleted"
+
   # In "used memory.swap" section I would add :
   # free -tl     (instead of free, because it gives some more useful infos, about HighMem and LowMem memory regions (zones))
   # cat /proc/meminfo (in order to get some details of memory usage)
@@ -380,6 +384,18 @@ then # else skip to next paragraph
   NEEDRESTART=$(which needs-restarting)
   if [ -n "$NEEDRESTART" ] && [ -x "$NEEDRESTART" ] ; then
       exec_command "$NEEDRESTART" "Report running processes that have been updated and need restart"
+  fi
+
+  # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 24 December 2017
+  #
+  if [ -x /usr/bin/wdctl ] ; then
+    exec_command "/usr/bin/wdctl" "Hardware watchdog status"
+  fi
+
+  # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 24 December 2017
+  #
+  if [ -x /usr/bin/coredumpctl ] ; then
+    exec_command "/usr/bin/coredumpctl list" "List available coredumps"
   fi
 
   ##
@@ -1045,7 +1061,8 @@ inc_heading_level
 	 exec_command "/usr/sbin/kdumptool dump_config; echo; /usr/sbin/kdumptool find_kernel; echo; /usr/sbin/kdumptool print_target" "Kdump Status (kdumptool)" ##CHANGED##FIXED## 20150304 by Ralph Roth
     else
     ### TODO: -x kdumpctl check ###
-    	exec_command "kdumpctl status" "Kdump Status"            #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014  (not on SLES11!) // 04.03.2015 Ralph Roth
+    	exec_command "kdumpctl status" "Kdump Status"              #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014  (not on SLES11!) // 04.03.2015 Ralph Roth
+    	exec_command "kdumpctl showmem" "Kdump memory allocation"  #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 24/12/2017
     fi # /usr/sbin/kdumptool
     [ -r /proc/diskdump ] && exec_command "cat /proc/diskdump" "Diskdump Status"          #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014, 06.04.2015 Ralph Roth
     exec_command "cat /etc/sysconfig/dump" "SUSE LKCD Config"    #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
@@ -1338,6 +1355,10 @@ then # else skip to next paragraph
 
   if [ -s /etc/dnsmasq.conf ] ; then
      exec_command "cat /etc/dnsmasq.conf; systemctl status dnsmasq" "DNSMASQ" 
+  fi
+
+  if [ -s /etc/nscd.conf ] ; then
+     exec_command "cat /etc/nscd.conf" "Name Service Cache Daemon (NSCD)" 
   fi
 
   if [ -x /usr/sbin/nullmailer-send ]	## backport from cfg2html-linux 2.97 -- 04.04.2015, rr
