@@ -97,7 +97,6 @@ product
 	file -m 755 -o root -g sys get_xpluns.sh
 	file -m 755 -o root -g sys get_xpsum.sh
 	file -m 755 -o root -g sys getlp.sh
-	file -m 755 -o root -g sys getpwd.hppa
 	file -m 755 -o root -g sys head01.html
 	file -m 755 -o root -g sys head02.html
 	file -m 755 -o root -g sys head03.html
@@ -109,7 +108,6 @@ product
 	file -m 755 -o root -g sys pvgfilter.sh
 	file -m 755 -o root -g sys syssmall.hppa
 	file -m 755 -o root -g sys get_active_lan_info.sh
-	file -m 755 -o root -g sys get_secure_path_info.sh
     end
     
     fileset
@@ -161,6 +159,7 @@ product
 	file -m 644 -o root -g sys history_hpux_v2.txt
 	file -m 644 -o root -g sys history_hpux_v3.txt
 	file -m 644 -o root -g sys history_hpux_v4.txt
+	file -m 644 -o root -g sys COPYING
 
 	#directory doc = /usr/share/man/man8.Z
         file -m 644 -o root -g sys cfg2html.8

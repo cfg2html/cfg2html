@@ -1,6 +1,7 @@
-# @(#) $Id: linux-functions.sh,v 6.11 2014/02/28 11:35:48 ralph Exp $
+# @(#) $Id: linux-functions.sh,v 6.14 2017/11/15 13:52:01 ralph Exp $
 # -------------------------------------------------------------------------
-# vim:ts=8:sw=4:sts=4 -*- coding: utf-8 -*- cfg2html
+# vim:ts=8:sw=4:sts=4
+# coding: utf-8 -*- cfg2html
 # Common functions for the Linux part of cfg2html
 
 
@@ -144,12 +145,16 @@ function ProgStuff {
 
 function display_ext_fs_param {
     #function used in FILESYS added 2011.09.02 by Peter Boysen
+    # fixes, changed 20140924 by Ralph Roth
     for fs in $(grep ext[2-4] /proc/mounts | awk '{print $1}' | sort -u)
     do
+        echo "Dumping: "$fs
         dumpe2fs -h $fs  2> /dev/null   ## -> dumpe2fs 1.41.3 (12-Oct-2008)
+         ##TODO## better: tune2fs -l  ??? rr, 20140929
         echo
     done
 }
+
 
 function PartitionDump {
     if [ -x /sbin/fdisk ]; then

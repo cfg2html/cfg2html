@@ -1,7 +1,7 @@
 Source: cfg2html
 Section: admin
 Priority: optional
-Maintainer: Ralph Roth <cfg2html@hotmail.com>; Michael Meifert <dk3hg@users.sourceforge.net>; Gratien Dhaese <gratien.dhaese@gmail.com>
+Maintainer: Ralph Roth <cfg2html@hotmail.com>; Gratien Dhaese <gratien.dhaese@gmail.com>
 Vcs-Git: https://github.com/cfg2html/cfg2html
 Homepage: http://www.cfg2html.com/
 
@@ -10,12 +10,12 @@ Architecture: all
 Provides: cfg2html
 Build-Depends: debhelper (>> 5.0.0)
 Depends: bash (>=2.0), debianutils(>=1.16), coreutils, psmisc
-Description: Collects Linux system configuration into a HTML and text file.
+Description: Collects a Linux system configuration into a HTML and a text file.
  cfg2html=Config to HTML is the "Swiss army knife" for the ASE, CE, sysadmin
- etc. I wrote it to get the necessary information to plan an update,
+ etc. We wrote it to get the necessary information to plan an update,
  to perform basic trouble shooting or performance analysis.
- As a bonus cfg2html creates a nice HTML and plain ASCII documentation from
- Linux systems, cron and at, installed hardware, installed software,
+ As a bonus cfg2html creates a nice HTML and a plain ASCII documentation from
+ your Linux systems, collecting cron and at, installed hardware, installed software,
  file systems, dump- and swap configuration, LVM, network settings,
  kernel, system enhancements and applications subsystems.
  The newest versions are downloadable at:      http://rose.rult.at/

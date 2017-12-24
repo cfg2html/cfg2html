@@ -1,8 +1,8 @@
 For details see cfg2html.html
-@(#) $Header: /home/cvs/cfg2html/cfg2html/linux/README,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $
+@(#) $Header: /home/cvs/cfg2html/cfg2html_git/linux/README,v 6.13 2016/04/13 06:35:52 ralph Exp $
 
 
-This is the READ ME for cfg2html-linux version 2.xx (c) by ROSE SWE, Dipl.-Ing. Ralph Roth
+This is the READ ME for (the old) cfg2html-linux version 2.xx (c) by ROSE SWE, Dipl.-Ing. Ralph Roth
 
 !! WARNING, USE the cfg2html-linux script AT YOUR OWN RISK !!
 -------------------------------------------------------------
@@ -186,7 +186,7 @@ Maintainer of the different versions
 HP-UX              :  Ralph Roth
                       Contributors: Thomas Brix, Martin Kalmbach
 
-Linux port         :  Michael Meifert dk3hg@users.sourceforge.net
+Linux port         :  Michael Meifert 
                       Contributors: Michael Meier,
                       Linux (debian/hppa): Ralph Roth
 
@@ -221,8 +221,6 @@ You can contact me (Ralph Roth) the following ways
 1.) I have the following accounts:
 
 ICQ:    	22 11 20 58   (rose_swe)
-AIM:    	rose69swe (69 is the year of my birth :)
-MSN:    	cfg2html//rose_swe
 Yahoo:  	rose_swe
 IRC:    	rose_swe, r0se_swe on #virus
 Jabber/Org:	cfg2html@jabber.org
@@ -320,3 +318,4 @@ Linux ob5700ctx 2.6.16-1-486 #2 Fri May 5 04:53:12 UTC 2006 i586 GNU/Linux
 ---------------------------------------------------------------------------
 Proliant (not Ubuntu)
 sysinfo -a
+

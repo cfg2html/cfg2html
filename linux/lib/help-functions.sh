@@ -1,8 +1,11 @@
+
+## $Id: help-functions.sh,v 6.12 2017/11/15 13:48:23 ralph Exp $
+
 function usage {
   echo "WARNING, use this script AT YOUR OWN RISK"
   echo
   echo "    Usage: `basename $0` [OPTIONS]"
-  echo "    creates a HTML and plain ASCII host documentation"
+  echo "    creates a HTML and a plain ASCII host documentation"
   echo "    Output modifier:"
   echo "    -o      set directory to write or use the environment"
   echo "            variable OUTDIR=\"/path/to/dir\" (directory must exist)"

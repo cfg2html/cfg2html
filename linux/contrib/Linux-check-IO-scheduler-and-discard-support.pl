@@ -1,4 +1,8 @@
 #!/usr/bin/env perl
+# Source: http://www.circlingcycle.com.au/Unix-sources/Linux-check-IO-scheduler-and-discard-support.pl.txt
+#
+# @(#) $Id: Linux-check-IO-scheduler-and-discard-support.pl,v 6.2 2016/05/31 08:18:29 ralph Exp $ 
+# -------------------------------------------------------------------------
 #
 # Description: Basic check if I/O scheduler and discard option on Linux servers
 #              Results are displayed on stdout or redirected to a file

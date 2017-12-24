@@ -1,6 +1,6 @@
 # @(#) $Id: Makefile,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $
 # -----------------------------------------------------------------------------------------
-# (c) 1997-2013 by Ralph Roth  -*- http://rose.rult.at -*-
+# (c) 1997-2017 by Ralph Roth  -*- http://rose.rult.at -*-
 
 # $Header: /home/cvs/cfg2html/cfg2html/linux/packaging/Makefile,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $
 # A simple Debian makefile for cfg2html-linux

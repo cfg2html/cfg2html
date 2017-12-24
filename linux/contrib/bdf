@@ -1,8 +1,11 @@
 #!/bin/sh
 
-# @(#) $Id: bdf,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $
+# @(#) $Id: bdf,v 6.13 2017/08/30 11:18:00 ralph Exp $
 # --=-----------------------------------------------------------------------=---
-# (c) 1997 - 2013 by Ralph Roth  -*- http://rose.rult.at -*-
+# (c) 1997 - 2017 by Ralph Roth  -*- http://rose.rult.at -*-
+
+
+## not sure if this ever worked on Linux? 24.05.2017 by Ralph 
 
 my_bdf() {
     # bdf summary for HPUX, Ralph Roth, 5-feb-2001

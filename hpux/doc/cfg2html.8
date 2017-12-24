@@ -1,8 +1,8 @@
-.\" Copyright (c) 2003-2013 by and Ralph Roth (rar) and Gratien D'haese (gd)
+.\" Copyright (c) 2003-2016 by and Ralph Roth and Gratien D'haese (gd)
 .\"$Id: cfg2html.8,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $
 .TA c
 .TH cfg2html 8
-.ds )H GNU GPL v3
+.ds )H License GNU GPL v3
 .ds ]W HP-UX Release 11i v1,2,3
 .SH NAME
 cfg2html \- creates a nice HTML and plain ASCII documentation of your GNU/Linux and *NIX systems. WARNING, use this script AT YOUR OWN RISK.
@@ -16,22 +16,23 @@ cfg2html \- creates a nice HTML and plain ASCII documentation of your GNU/Linux 
 .SH DESCRIPTION
 The
 .B cfg2html
-script is the "Swiss army knife" for the consultant, support engineer, customer engineer, sysadmin etc. We wrote it to get the necessary information 
+script is the "Swiss army knife" for the consultant, support engineer, customer engineer, sysadmin etc. We wrote it to get the necessary information
 to plan an update, to perform basic trouble shooting or performance analysis. As a bonus
 .B cfg2html
 creates a nice HTML and plain ASCII documentation. If you like, write your description of the system into
-.B /etc/cfg2html/systeminfo
+.B /opt/cfg2html/etc/systeminfo
 
 example:
 .TP
   Main database server using special software.
   Contact: Micky Mouse <admin@foo.bar>
   Location: Mars Moon
+  Any other CMDB related information
 .TP
 and so on.
 
 .TP
-.B /etc/cfg2html/local.conf
+.B /opt/cfg2html/etc/local.conf
 if this file exists, you can add your own OUTPUT_URL location, e.g.
 .TP
   OUTPUT_URL=nfs://your-nfs-server/cfg2html-data/
@@ -137,16 +138,16 @@ calls
 .B /usr/sbin/cfg2html
 The wrapper script (same for HP-UX and Linux).
 .TP
-.B /usr/share/cfg2html/cfg2html-hpux.sh
+.B /opt/cfg2html/bin/cfg2html-hpux.sh
 The main script.
 .TP
-.B /usr/share/cfg2html/lib/*
+.B /opt/cfg2html/lib/*
 The library functions for cfg2html.
 .TP
-.B /usr/share/cfg2html/plugins/*
+.B /opt/cfg2html/plugins/*
 The plugin directory containing individual collector scripts.
 .TP
-.B /etc/cfg2html/local.conf
+.B /opt/cfg2html/etc/local.conf
 your output
 .B OUTPUT_URL
 description
@@ -206,10 +207,8 @@ writes errors to <hostname>.err
 There are probably a lot of bugs.  We are currently using this script
 successfully for our own systems, but there are lot of features included
 that we don't have any way to test right now. If you find a bug or have a
-comment or suggestion about the script, please email them at the address
-in the
-.I AUTHORS
-section. We love to hear from you. :-)
+comment or suggestion about the script, please submit an issue at
+.I https://github.com/cfg2html/cfg2html/issues
 
 .SH AUTHORS
 Original cfg2html HP-UX version written by Ralph Roth <rose_swe@hotmail.com>

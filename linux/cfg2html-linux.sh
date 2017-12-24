@@ -1,14 +1,15 @@
+#!/bin/bash
 #
-# @(#) $Id: cfg2html-linux.sh,v 6.34 2014/09/27 08:12:08 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.54 2017/11/15 13:53:30 ralph Exp $
 # -----------------------------------------------------------------------------------------
-# (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-
+# (c) 1997-2017 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
 
 #  If you change this script, please mark your changes with for example
 #  ## <username> and send your diffs from the actual version to my mail
 #  address: cfg2html*hotmail.com -- details see in the documentation
 
 CFGSH=$_
-# unset "-set -vx" for debugging purpose, after the exec 2> statement all debug infos will go the errorlog file (*.err)
+# unset "-set -vx" for debugging purpose, after the exec 2> statement all debug info will go the errorlog file (*.err)
 #set -vx
 #*vim:numbers:ruler
 
@@ -27,7 +28,7 @@ CFGSH=$_
 ## /usr/lib64/qt-3.3/bin:/usr/kerberos/sbin:/usr/kerberos/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin
 PATH=$PATH:/sbin:/bin:/usr/sbin:/opt/omni/bin:/opt/omni/sbin  ## this is a fix for wrong su root (instead for su - root)
 
-_VERSION="cfg2html-linux version $VERSION "  # this a common stream so we don?t need the "Proliant stuff"
+_VERSION="cfg2html-linux version $VERSION "  # this a common stream so we don?t need the "Proliant stuff" anymore
 
 #
 # getopt
@@ -78,9 +79,9 @@ MAILTORALPH="cfg2html&#64;&#104;&#111;&#116;&#109;&#97;&#105;&#108;&#46;&#99;&#1
 #####################################################################
 
 # cfg2html-linux ported (c) by Michael Meifert, SysAdm from HP-UX version
-# using debian potato, woody
+# using Debian potato, woody
 
-# This is the "swiss army knife" for the ASE, CE, sysadmin etc. I wrote it to
+# This is the "Swiss army knife" for the ASE, CE, sysadmin etc. I wrote it to
 # get the needed information to plan an update, to perform basic trouble
 # shooting or performance analysis. As a bonus cfg2html creates a nice HTML and
 # plain ASCII documentation. If you are missing something, let me know it!
@@ -91,8 +92,8 @@ MAILTORALPH="cfg2html&#64;&#104;&#111;&#116;&#109;&#97;&#105;&#108;&#46;&#99;&#1
 #              nickel, snapshoot, vim and a idea from a similar
 #              script i have seen on-site.
 #####################################################################
-# 11-Mar-2001  initial creation for debian GNU Linux i386
-#              based on Cfg2Html Version 1.15.06/HP-UX by
+# 11-Mar-2001  initial creation for Debian GNU Linux i386
+#              based on cfg2html Version 1.15.06/HP-UX by
 #              by ROSE SWE, Dipl.-Ing. Ralph Roth
 #              ported to Linux  by Michael Meifert
 #####################################################################
@@ -157,7 +158,7 @@ identify_linux_distribution
 
 line
 echo "Starting          "$_VERSION       ## "/"$(arch) - won't work under Debian 5.0.8 ## /usr/bin/cfg2html-linux: line 597: arch: command not found
-echo "Path to Cfg2Html  "$0
+echo "Path to cfg2html  "$0
 echo "HTML Output File  "$HTML_OUTFILE
 echo "Text Output File  "$TEXT_OUTFILE
 echo "Partitions        "$OUTDIR/$BASEFILE.partitions.save
@@ -205,7 +206,7 @@ then # else skip to next paragraph
 
   # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 15 July 2013
   #
-  HOSTNAMECTL=$(which hostnamectl)
+  HOSTNAMECTL=$(which hostnamectl 2>/dev/null)
   if [ -n "$HOSTNAMECTL" ] && [ -x "$HOSTNAMECTL" ] ; then
       exec_command "$HOSTNAMECTL" "Hostname settings"
   fi
@@ -266,7 +267,7 @@ then # else skip to next paragraph
   # cat /proc/meminfo (in order to get some details of memory usage)
 
   exec_command "free -toml;echo;free -tm;echo; swapon -s" "Used Memory and Swap"  		#  04.07.2011, 16:13 modified by Ralph Roth #* rar *#
-  exec_command "cat /proc/meminfo; echo THP:; cat /sys/kernel/mm/transparent_hugepage/enabled" "Detailed Memory Usage (meminfo)"  	# changed 20131218 by Ralph Roth
+  exec_command "cat /proc/meminfo; echo THP:; cat /sys/kernel/mm/transparent_hugepage/enabled" "Detailed Memory Usage (meminfo)"  # changed 20131218 by Ralph Roth
   exec_command "cat /proc/buddyinfo" "Zoned Buddy Allocator/Memory Fragmentation and Zones" 	#  09.01.2012 Ralph Roth
   AddText "The number on the left is bigger than right (by factor 2)."
   AddText "DMA zone is the first 16 MB of memory. DMA64 zone is the first 4 GB of memory on 64-bit Linux. Normal zone is between DMA and HighMem. HighMem zone is above 4 GB of memory." # ripped from Dusan Baljevic ## changed 20131211 by Ralph Roth
@@ -302,9 +303,10 @@ then # else skip to next paragraph
   # usage: pstree [ -a ] [ -c ] [ -h | -H pid ] [ -l ] [ -n ] [ -p ] [ -u ]
   #               [ -G | -U ] [ pid | user]
   exec_command "pstree -p -a  -l -G -A" "Active Process - Tree Overview" #  15.11.2004/2011, 14:09 modified by Ralph.Roth
-  exec_command "ps -e -o ruser,pid,args | awk ' (($1+1) > 1) {print $0;} '" "Processes without an named owner"  # changed 20131211 by Ralph Roth, # changed 20140129 by Ralph Roth # cmd. line:1: ^ unexpected newline or end of string
+  exec_command "ps -e -o ruser,pid,args | awk ' ((\$1+1) > 1) {print \$0;} '" "Processes without a named owner"  # changed 20131211 by Ralph Roth, # changed 20140129 by Ralph Roth # cmd. line:1: ^ unexpected newline or end of string
   AddText "The output should be empty!"
 
+  ## ps aux --sort=-%cpu,-%mem|head -25 ## 06.03.2015
   exec_command "ps -ef | cut -c39- | sort -nr | head -25 | awk '{ printf(\"%10s   %s\\n\", \$1, \$2); }'" "Top load processes"
   exec_command "ps -e -o 'vsz pid ruser cpu time args' |sort -nr|head -25" "Top memory consuming processes"
   exec_command topFDhandles "Top file handles consuming processes" # 24.01.2013
@@ -312,11 +314,18 @@ then # else skip to next paragraph
 
   [ -x /usr/bin/pidstat ] && exec_command "pidstat -lrud 2>/dev/null||pidstat -rud" "pidstat - Statistics for Linux Tasks" #  10.11.2012 modified by Ralph Roth #* rar *# fix for SLES11,SP2, 29.01.2014
 
-  exec_command "tuned-adm list" "Tuned Profiles"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org 
-  exec_command "tuned-adm active" "Tuned Active Profile Status"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org 
-  exec_command "numactl --hardware" "NUMA Inventory of Available Nodes on the System"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org 
+  exec_command "tuned-adm list" "Tuned Profiles"     						#06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org
+  exec_command "tuned-adm active" "Tuned Active Profile Status"     				#06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org
+  exec_command "numactl --hardware" "NUMA Inventory of Available Nodes on the System"     	#06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org
 
-  exec_command "last| grep boot" "reboots"
+  if [ -x /usr/bin/journalctl ]
+  then
+	exec_command "/usr/bin/journalctl --list-boots --no-pager| tail -25" "Last 25 Reboots"  ## changed 20150212 by Ralph Roth
+  else
+  	exec_command "last -F| grep reboot | head -25" "Last 25 Reboots"			### RR, 2014-12-19  ##CHANGED##FIXED## 20150212 by Ralph Roth
+  fi
+  # common stuff, systemd and old style system-v rc
+  exec_command "last -xF  | grep -E 'system|runlevel'" "Last 25 runlevel changes or reboots" 	###CHANGED### 20150408 by Ralph Roth
 
   ### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
   #     stderr output from " blame":
@@ -374,21 +383,21 @@ then # else skip to next paragraph
   fi
 
   # MiMe: SUSE && UNITEDLINUX
-  # MiMe: until SuSE 7.3: params in /etc/rc.config and below /etc/rc.config.d/
-  # MiMe; since SuSE 8.0 including UL: params below /etc/sysconfig
+  # MiMe: until SUSE 7.3: params in /etc/rc.config and below /etc/rc.config.d/
+  # MiMe; since SUSE 8.0 including UL: params below /etc/sysconfig
   if [ "$SUSE" = "yes" ] || [ "$UNITEDLINUX" = "yes" ] ; then
     if [ -d /etc/sysconfig ] ; then
       # MiMe:
       exec_command "find /etc/sysconfig -type f -not -path '*/scripts/*' -exec grep -vE '^#|^ *$' {} /dev/null \; | sort" "Parameter /etc/sysconfig"
     fi
     if [ -e /etc/rc.config ] ; then
-      # PJC: added filters for SuSE rc_ variables
-      # PJC: which were in rc.config in SuSE 6
+      # PJC: added filters for SUSE rc_ variables
+      # PJC: which were in rc.config in SUSE 6
       # PJC: and moved to /etc/rc.status in 7+
       exec_command "grep -vE -e '(^#|^ *$)' -e '^ *rc_' -e 'rc.status' /etc/rc.config | sort" "Parameter /etc/rc.config"
     fi
     if [ -d /etc/rc.config.d ] ; then
-      # PJC: added filters for SuSEFirewall and indented comments
+      # PJC: added filters for SUSEFirewall and indented comments
       exec_command "find /etc/rc.config.d -name '*.config' -exec grep -vE -e '(^#|^ *$)' -e '^ *true$' -e '^[[:space:]]*#' -e '[{]|[}]' {} \; | sort" "Parameter /etc/rc.config.d"
     fi
   fi
@@ -419,7 +428,7 @@ then # else skip to next paragraph
   fi
 
   exec_command "cat /etc/passwd" "Password File"  # Added by Dusan.Baljevic@ieee.org 6/11/2014
-  exec_command "cat /etc/shadow" "Shadow File"  # Added by Dusan.Baljevic@ieee.org 6/11/2014
+  exec_command "awk -F: 'BEGIN{OFS=FS}{if ( \$2 != \"*\" ) \$2='x'; print \$0}' /etc/shadow" "Shadow File"  # Added by Dusan.Baljevic@ieee.org 6/11/2014 (issue #83)
   exec_command "cat /etc/sudoers" "Sudo Config"  # Added by Dusan.Baljevic@ieee.org 6/11/2014
   dec_heading_level
 
@@ -459,9 +468,9 @@ inc_heading_level
 	  fi
       done
 
-  ## Linux SuSE user /var/spool/cron/tabs and NOT crontabs
+  ## Linux SUSE user /var/spool/cron/tabs and NOT crontabs
   ## 30jan2003 it233 FRU
-  ##  SuSE has the user crontabs under /var/spool/cron/tabs
+  ##  SUSE has the user crontabs under /var/spool/cron/tabs
   ##  RedHat has the user crontabs under /var/spool/cron
   ##  UnitedLinux uses /var/spool/cron/tabs (MiMe)
   ##  Arch Linux has the user crontabs under /var/spool/cron  ## M.Weiller, LUG-Ottobrunn.de, 2013-02-04
@@ -564,287 +573,286 @@ then # else skip to next paragraph
 paragraph "Hardware"
 inc_heading_level
 
-RAM=`awk -F': *' '/MemTotal/ {print $2}' /proc/meminfo`
-# RAM=`cat /proc/meminfo | grep MemTotal | awk -F\: '{print $2}' | awk -F\  '{print $1 " " $2}'`
-exec_command "echo $RAM" "Physical Memory"
+  RAM=`awk -F': *' '/MemTotal/ {print $2}' /proc/meminfo`
+  # RAM=`cat /proc/meminfo | grep MemTotal | awk -F\: '{print $2}' | awk -F\  '{print $1 " " $2}'`
+  exec_command "echo $RAM" "Physical Memory"
 
-## Murray Barton, 14/4/2010
-DMIDECODE=`which dmidecode`; if [ -n "$DMIDECODE" ] && [ -x $DMIDECODE ] ; then exec_command "$DMIDECODE 2> /dev/null" "DMI Table Decoder"; fi
+  ## Murray Barton, 14/4/2010
+  DMIDECODE=`which dmidecode`; if [ -n "$DMIDECODE" ] && [ -x $DMIDECODE ] ; then exec_command "$DMIDECODE 2> /dev/null" "DMI Table Decoder"; fi
 
-# if [ -e /usr/sbin/dmidecode ]           ## this could be moved out to common stuff (e.g. useful to get serial number, # 26.03.2010 Ralph Roth)
-# then
-#   exec_command "dmidecode" "/usr/sbin/dmidecode output"
-# fi
+  ### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
 
-### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
-
-BIOSDECODE=$(which biosdecode)
-if [ -n "$BIOSDECODE" ] && [ -x $BIOSDECODE ] ; then
-  exec_command "$BIOSDECODE" "biosdecode"
-fi
-
-### End changes by Dusan.Baljevic@ieee.org ### 13.05.2014
-
-LSCPU=`which lscpu`; if [ -n "$LSCPU" ] && [ -x $LSCPU ] ; then exec_command "$LSCPU" "CPU architecture"; fi # see #52
-HWINFO=`which hwinfo`; if [ -n "$HWINFO" ] && [ -x $HWINFO ] ; then exec_command "$HWINFO 2> /dev/null" "Hardware List (hwinfo)"; fi
-LSHW=`which lshw`; if [ -n "$LSHW" ] && [ -x $LSHW ] ; then exec_command "$LSHW" "Hardware List (lshw)"; fi ##  13.12.2004, 15:53 modified by Ralph Roth
-LSDEV=`which lsdev`; if [ -n "$LSDEV" ] && [ -x $LSDEV ] ; then exec_command "$LSDEV" "Hardware List (lsdev)"; fi
-LSHAL=`which lshal`; if [ -n "$LSHAL" ] && [ -x $LSHAL ] ; then exec_command "$LSHAL" "List of Devices (lshal)"; fi
-LSUSB=`which lsusb`; if [ -n "$LSUSB" ] && [ -x $LSUSB ] ; then exec_command "$LSUSB" "USB devices"; fi ## SuSE? #  12.11.2004, 15:04 modified by Ralph Roth
-
-LSPCI=`which lspci`
-if [ -n "$LSPCI" ] && [ -x $LSPCI ] ; then
-  exec_command "$LSPCI -v" "PCI devices"
-else
-  if [ -f /proc/pci ] ; then
-    exec_command "cat /proc/pci" "PCI devices"
+  BIOSDECODE=$(which biosdecode)
+  if [ -n "$BIOSDECODE" ] && [ -x $BIOSDECODE ] ; then
+    exec_command "$BIOSDECODE" "biosdecode"
   fi
-fi
 
-PCMCIA=`grep pcmcia /proc/devices | cut -d" " -f2`
-if [ "$PCMCIA" = "pcmcia"  ] ; then
-  if [ -x /sbin/cardctl ] ; then
-    exec_command "/sbin/cardctl status;/sbin/cardctl config;/sbin/cardctl ident" "PCMCIA"
+  ### End changes by Dusan.Baljevic@ieee.org ### 13.05.2014 ### needs cleanup, e.g. 2> /dev/null - 06.04.2015, rr
+
+  LSCPU=`which lscpu 2>/dev/null`; if [ -n "$LSCPU" ] && [ -x $LSCPU ] ; then exec_command "$LSCPU" "CPU architecture"; fi # see issue #52
+  HWINFO=`which hwinfo 2>/dev/null`; if [ -n "$HWINFO" ] && [ -x $HWINFO ] ; then exec_command "$HWINFO --short 2> /dev/null" "Hardware List (hwinfo)"; fi  ## see issue #82, rr, 20150527-rr
+  LSHW=`which lshw 2>/dev/null`; if [ -n "$LSHW" ] && [ -x $LSHW ] ; then exec_command "$LSHW" "Hardware List (lshw)"; fi ##  13.12.2004, 15:53 modified by Ralph Roth
+  LSDEV=`which lsdev 2>/dev/null`; if [ -n "$LSDEV" ] && [ -x $LSDEV ] ; then exec_command "$LSDEV" "Hardware List (lsdev)"; fi
+  LSHAL=`which lshal 2>/dev/null`; if [ -n "$LSHAL" ] && [ -x $LSHAL ] ; then exec_command "$LSHAL" "List of Devices (lshal)"; fi
+  LSUSB=`which lsusb 2>/dev/null`; if [ -n "$LSUSB" ] && [ -x $LSUSB ] ; then exec_command "$LSUSB" "List of USB devices"; fi ## SUSE? #  12.11.2004, 15:04 modified by Ralph Roth
+
+  LSPCI=`which lspci 2>/dev/null`
+  if [ -n "$LSPCI" ] && [ -x $LSPCI ] ; then
+    exec_command "$LSPCI -v" "PCI devices"
+  else
+    if [ -f /proc/pci ] ; then
+      exec_command "cat /proc/pci" "PCI devices"
+    fi
   fi
-fi
-[ -r /proc/acpi/info ] && exec_command "cat /proc/acpi/info" "ACPI" #  06.04.2006, 17:44 modified by Ralph Roth
 
-if [ -f /etc/kbd/default.kmap.gz ] ; then
-  exec_command "zcat /etc/kbd/default.kmap.gz | head -1 | sed s/#//" "Keymap"
-fi
-exec_command "cat /proc/ioports" "IoPorts"
-exec_command "cat /proc/interrupts" "Interrupts"
-if [ -f /proc/scsi/scsi ] ;then
-  exec_command "find /proc/scsi" "SCSI Components" #  22.11.2004, 16:08 modified by Ralph.Roth
-  exec_command "cat /proc/scsi/scsi" "SCSI Devices"
-else
-  # Debian 6.06 # 24.01.2013, doesn't have -p option yet!
-  #        -p, --protection        Output additional data integrity (protection) information.
-  [ -x /usr/bin/lsscsi ] && exec_command "/usr/bin/lsscsi -lv" "SCSI Devices"  ## Alternate Method!, Mittwoch, 16. March 2011
-fi
+  PCMCIA=`grep pcmcia /proc/devices | cut -d" " -f2`
+  if [ "$PCMCIA" = "pcmcia"  ] ; then
+    if [ -x /sbin/cardctl ] ; then
+      exec_command "/sbin/cardctl status;/sbin/cardctl config;/sbin/cardctl ident" "PCMCIA"
+    fi
+  fi
+  [ -r /proc/acpi/info ] && exec_command "cat /proc/acpi/info" "ACPI" #  06.04.2006, 17:44 modified by Ralph Roth
 
-if [ -x "${FDISKCMD}" -a -x "${GREPCMD}" -a -x "${SEDCMD}" -a -x "${AWKCMD}" -a -x "${SMARTCTL}" ]
-then
-    exec_command DoSmartInfo "SMART disk drive features and information"
-fi
+  if [ -f /etc/kbd/default.kmap.gz ] ; then
+    exec_command "zcat /etc/kbd/default.kmap.gz | head -1 | sed s/#//" "Keymap"
+  fi
+  exec_command "cat /proc/ioports" "IoPorts"
+  exec_command "cat /proc/interrupts" "Interrupts"
+  if [ -f /proc/scsi/scsi ] ;then
+    exec_command "find /proc/scsi" "SCSI Components" #  22.11.2004, 16:08 modified by Ralph.Roth
+    exec_command "cat /proc/scsi/scsi" "SCSI Devices"
+  fi
 
-## rar, 13.02.2004
-## Changed 15.05.2006 (09:30) by Peter Lindblom, HP, STCC EMEA, changed title from SCSI Devices SCSI Disk Devices
-[ -x /usr/sbin/lssd ] && exec_command "/usr/sbin/lssd" "SCSI Disk Devices"
+  if  [ -x /usr/bin/lsscsi ]
+  then
+  	# Debian 6.06 # 24.01.2013, doesn't have -p option yet!
+  	#        -p, --protection        Output additional data integrity (protection) information.
+	exec_command "/usr/bin/lsscsi -lv" "SCSI Devices (long, details)"  ## rr, 16. March 2011
+	exec_command "/usr/bin/lsscsi -s" "SCSI Devices (size)"  ## rr, 16. March 2011, 27 May 2015
+  fi
 
-## Added 15.05.2006 (09:30) by Peter Lindblom, HP, STCC EMEA
-[ -x /usr/sbin/lssg ] && exec_command "/usr/sbin/lssg" "Generic SCSI Devices"
+  if [ -x "${FDISKCMD}" -a -x "${GREPCMD}" -a -x "${SEDCMD}" -a -x "${AWKCMD}" -a -x "${SMARTCTL}" ]
+  then
+      exec_command DoSmartInfo "SMART disk drive features and information"
+  fi
 
-## rar, 13.02.2004
-## Added 15.05.2006 (09:30) by Peter Lindblom, HP, STCC EMEA, Added the echo between the command to get a new line and move it down below lssg and lssd.
-[ -x /usr/sbin/adapter_info ] && exec_command "/usr/sbin/adapter_info;echo;/usr/sbin/adapter_info -v" "Adapterinfo/WWN"
-### ------------------------------------------------------------------------------
+  ## rar, 13.02.2004
+  ## Changed 15.05.2006 (09:30) by Peter Lindblom, HP, STCC EMEA, changed title from SCSI Devices SCSI Disk Devices
+  [ -x /usr/sbin/lssd ] && exec_command "/usr/sbin/lssd" "SCSI Disk Devices"
 
-#### Start of Fibre HBA info. added 12.05.2006 (15:13) by Peter Lindblom, HP, STCC EMEA
+  ## Added 15.05.2006 (09:30) by Peter Lindblom, HP, STCC EMEA
+  [ -x /usr/sbin/lssg ] && exec_command "/usr/sbin/lssg" "Generic SCSI Devices"
 
- if [ -f /tmp/fibrehba.txt ]
- then
-   rm /tmp/fibrehba.txt
- fi
+  ## rar, 13.02.2004
+  ## Added 15.05.2006 (09:30) by Peter Lindblom, HP, STCC EMEA, Added the echo between the command to get a new line and move it down below lssg and lssd.
+  [ -x /usr/sbin/adapter_info ] && exec_command "/usr/sbin/adapter_info;echo;/usr/sbin/adapter_info -v" "Adapterinfo/WWN"
+  ### ------------------------------------------------------------------------------
 
- # capture /proc/scsi/qla2200
+  #### Start of Fibre HBA info. added 12.05.2006 (15:13) by Peter Lindblom, HP, STCC EMEA
 
- if [ -d /proc/scsi/qla2200 ]
- then
-   for file in /proc/scsi/qla2200/*
-    do
-      mcat $file >>/tmp/fibrehba.txt
-    done
- fi
+  if [ -f /tmp/fibrehba.txt ]
+  then
+    rm /tmp/fibrehba.txt
+  fi
 
- # capture /proc/scsi/qla2300
+  # capture /proc/scsi/qla2200
 
- if [ -d /proc/scsi/qla2300 ]
- then
-    for file in /proc/scsi/qla300/*
-    do
-      mcat $file >>/tmp/fibrehba.txt
-     done
- fi
+  if [ -d /proc/scsi/qla2200 ]
+  then
+    for file in /proc/scsi/qla2200/*
+      do
+        mcat $file >>/tmp/fibrehba.txt
+      done
+  fi
 
- # capture /proc/scsi/qla2xxx
+  # capture /proc/scsi/qla2300
 
- if [ -d /proc/scsi/qla2xxx ]
- then
-    for file in /proc/scsi/qla2xxx/*
-     do
-      mcat $file >>/tmp/fibrehba.txt
-     done
- fi
+  if [ -d /proc/scsi/qla2300 ]
+  then
+      for file in /proc/scsi/qla300/*
+      do
+        mcat $file >>/tmp/fibrehba.txt
+      done
+  fi
 
+  # capture /proc/scsi/qla2xxx
 
- # capture /proc/scsi/lpfc
-
- if [ -d /proc/scsi/lpfc ]
- then
-    for file in /proc/scsi/lpfc/*
-     do
-      mcat $file >>/tmp/fibrehba.txt
-     done
- fi
-
- if [ -f /tmp/fibrehba.txt ]
- then
-   exec_command "cat /tmp/fibrehba.txt" "Fibre Channel Host Bus Adapters"
-   rm /tmp/fibrehba.txt
- fi
-
-#### End of Fibre HBA info.
+  if [ -d /proc/scsi/qla2xxx ]
+  then
+      for file in /proc/scsi/qla2xxx/*
+      do
+        mcat $file >>/tmp/fibrehba.txt
+      done
+  fi
 
 
-## rar, 13.02.2004
-[ -x /usr/sbin/spmgr ] && exec_command "/usr/sbin/spmgr display" "SecurePath - Manager"
-[ -r /etc/CPQswsp/sppf ] && exec_command "cat /etc/CPQswsp/sppf" "SecurePath - Bindings"
-[ -r /etc/CPQswsp/hsx.conf ] && exec_command "cat /etc/CPQswsp/hsx.conf" "SecurePath - Preferred Path Settings"
-[ -r /etc/CPQswsp/swsp.conf ] && exec_command "cat /etc/CPQswsp/swsp.conf" "SecurePath - Path, Load Balance & Auto restore settings"
-[ -r /etc/CPQswsp/notify.ini ] && exec_command "cat /etc/CPQswsp/notify.ini" "SecurePath - email address notification settings"
-[ -r /etc/CPQswsp/spmgr_alias ] && exec_command "cat /etc/CPQswsp/spmgr_alias" "SecurePath - Alias Name file"
-[ -r /etc/CPQswsp/spmgr_stop_list ] && exec_command "cat /etc/CPQswsp/spmgr_stop_list" "SecurePath - reserved key word settings file"
-[ -r /etc/CPQswsp/clients ] && exec_command "cat /etc/CPQswsp/clients" "SecurePath - spmgr password information"
+  # capture /proc/scsi/lpfc
 
-## Changed 15.05.2006 (09:30) by Peter Lindblom, HP, STCC EMEA, Moved from the Proliant section.
-[ -f /var/log/sp_log ] && exec_command "cat /var/log/sp_log" "Secure path installation log"
+  if [ -d /proc/scsi/lpfc ]
+  then
+      for file in /proc/scsi/lpfc/*
+      do
+        mcat $file >>/tmp/fibrehba.txt
+      done
+  fi
 
-## Changed 15.05.2006 (09:30) by Peter Lindblom, HP, STCC EMEA, Moved from the Proliant section.
-[ -f /root/sp_install_results.log ] && exec_command "cat /root/sp_install_results.log" "Secure path installation log (backup)"
-if [ -e /proc/sound ] ; then
-  exec_command "cat /proc/sound" "Sound Devices"
-fi
-if [ -e /proc/asound ] ; then
-  [ -f /proc/asound/version ] && exec_command "cat /proc/asound/version" "Asound Version"
-  [ -f /proc/asound/modules ] && exec_command "cat /proc/asound/modules" "Sound modules"
-  [ -f /proc/asound/cards ] && exec_command "cat /proc/asound/cards" "Sound Cards"
-  [ -f /proc/asound/sndstat ] && exec_command "cat /proc/asound/sndstat" "Sound Stats"
-  [ -f /proc/asound/timers ] && exec_command "cat /proc/asound/timers" "Sound Timers"
-  [ -f /proc/asound/devices ] && exec_command "cat /proc/asound/devices" "Sound devices"
-  [ -f /proc/asound/pcm ] && exec_command "cat /proc/asound/pcm" "Sound pcm"
-fi
-exec_command "cat /proc/dma" "DMA Devices"
-if [ -f /proc/tty/driver/serial ] ; then
-   exec_command "grep -v unknown /proc/tty/driver/serial" "Serial Devices"
-fi
-# test this - please report it
-if [ -e /proc/rd ] ; then
-  exec_command "cat /proc/rd/c*/current_status" "RAID controller"
-fi
+  if [ -f /tmp/fibrehba.txt ]
+  then
+    exec_command "cat /tmp/fibrehba.txt" "Fibre Channel Host Bus Adapters"
+    rm /tmp/fibrehba.txt
+  fi
 
-# get serial information
+  #### End of Fibre HBA info.
 
-SETSERIAL=`which setserial`
-if [ -n "$SETSERIAL" ] && [ -x $SETSERIAL ]; then
-  exec_command "$SETSERIAL -a /dev/ttyS0" "Serial ttyS0"
-  exec_command "$SETSERIAL -a /dev/ttyS1" "Serial ttyS1"
-fi
 
-# get IDE Disk information
-HDPARM=`which hdparm`
-# if hdparm is installed (DEBIAN 4.0)
-# -i   display drive identification
-# -I   detailed/current information directly from drive
+  ## rar, 13.02.2004
+  [ -x /usr/sbin/spmgr ] && exec_command "/usr/sbin/spmgr display" "SecurePath - Manager"
+  [ -r /etc/CPQswsp/sppf ] && exec_command "cat /etc/CPQswsp/sppf" "SecurePath - Bindings"
+  [ -r /etc/CPQswsp/hsx.conf ] && exec_command "cat /etc/CPQswsp/hsx.conf" "SecurePath - Preferred Path Settings"
+  [ -r /etc/CPQswsp/swsp.conf ] && exec_command "cat /etc/CPQswsp/swsp.conf" "SecurePath - Path, Load Balance & Auto restore settings"
+  [ -r /etc/CPQswsp/notify.ini ] && exec_command "cat /etc/CPQswsp/notify.ini" "SecurePath - email address notification settings"
+  [ -r /etc/CPQswsp/spmgr_alias ] && exec_command "cat /etc/CPQswsp/spmgr_alias" "SecurePath - Alias Name file"
+  [ -r /etc/CPQswsp/spmgr_stop_list ] && exec_command "cat /etc/CPQswsp/spmgr_stop_list" "SecurePath - reserved key word settings file"
+  [ -r /etc/CPQswsp/clients ] && exec_command "cat /etc/CPQswsp/clients" "SecurePath - spmgr password information"
 
-#  -i   display drive identification (SuSE 10u1)
-#  -I   detailed/current information directly from drive
-#  --Istdin  reads identify data from stdin as ASCII hex
-#  --Istdout writes identify data to stdout as ASCII hex
+  ## Changed 15.05.2006 (09:30) by Peter Lindblom, HP, STCC EMEA, Moved from the Proliant section.
+  [ -f /var/log/sp_log ] && exec_command "cat /var/log/sp_log" "Secure path installation log"
 
-# Sep 23 19:12:47 hp02 root: Start of cfg2html-linux version 1.63-2009-08-27
-# Sep 23 19:13:03 hp02 kernel: hda: drive_cmd: status=0x51 { DriveReady SeekComplete Error }
-# Sep 23 19:13:03 hp02 kernel: hda: drive_cmd: error=0x04Aborted Command
-# Sep 23 19:13:18 hp02 root: End of cfg2html-linux version 1.63-2009-08-27
+  ## Changed 15.05.2006 (09:30) by Peter Lindblom, HP, STCC EMEA, Moved from the Proliant section.
+  [ -f /root/sp_install_results.log ] && exec_command "cat /root/sp_install_results.log" "Secure path installation log (backup)"
+  if [ -e /proc/sound ] ; then
+    exec_command "cat /proc/sound" "Sound Devices"
+  fi
+  if [ -e /proc/asound ] ; then
+    [ -f /proc/asound/version ] && exec_command "cat /proc/asound/version" "Asound Version"
+    [ -f /proc/asound/modules ] && exec_command "cat /proc/asound/modules" "Sound modules"
+    [ -f /proc/asound/cards ] && exec_command "cat /proc/asound/cards" "Sound Cards"
+    [ -f /proc/asound/sndstat ] && exec_command "cat /proc/asound/sndstat" "Sound Stats"
+    [ -f /proc/asound/timers ] && exec_command "cat /proc/asound/timers" "Sound Timers"
+    [ -f /proc/asound/devices ] && exec_command "cat /proc/asound/devices" "Sound devices"
+    [ -f /proc/asound/pcm ] && exec_command "cat /proc/asound/pcm" "Sound pcm"
+  fi
+  exec_command "cat /proc/dma" "DMA Devices"
+  if [ -f /proc/tty/driver/serial ] ; then
+    exec_command "grep -v unknown /proc/tty/driver/serial" "Serial Devices"
+  fi
+  # test this - please report it
+  if [ -e /proc/rd ] ; then
+    exec_command "cat /proc/rd/c*/current_status" "RAID controller"
+  fi
 
-# Anpassung auf hdparm -i wegen Fehler im Syslog (siehe oben, cfg1.63)
-# Ingo Metzler 23.09.2009
+  # get serial information
 
-if [ $HDPARM ]  && [ -x $HDPARM ]; then
-  exec_command "\
-    if [ -e /proc/ide/hda ] ; then _echo  -n \"read from drive\"; $HDPARM -i /dev/hda;fi;\
-    if [ -e /proc/ide/hdb ] ; then echo; _echo -n \"read from drive\"; $HDPARM -i /dev/hdb;fi;\
-    if [ -e /proc/ide/hdc ] ; then echo; _echo -n \"read from drive\"; $HDPARM -i /dev/hdc;fi;\
-    if [ -e /proc/ide/hdd ] ; then echo; _echo -n \"read from drive\"; $HDPARM -i /dev/hdd;fi;"\
+  SETSERIAL=`which setserial`
+  if [ -n "$SETSERIAL" ] && [ -x $SETSERIAL ]; then
+    exec_command "$SETSERIAL -a /dev/ttyS0" "Serial ttyS0"
+    exec_command "$SETSERIAL -a /dev/ttyS1" "Serial ttyS1"
+  fi
+
+  # get IDE Disk information
+  HDPARM=`which hdparm`
+  # if hdparm is installed (DEBIAN 4.0)
+  # -i   display drive identification
+  # -I   detailed/current information directly from drive
+
+  #  -i   display drive identification (SUSE 10u1)
+  #  -I   detailed/current information directly from drive
+  #  --Istdin  reads identify data from stdin as ASCII hex
+  #  --Istdout writes identify data to stdout as ASCII hex
+
+  # Sep 23 19:12:47 hp02 root: Start of cfg2html-linux version 1.63-2009-08-27
+  # Sep 23 19:13:03 hp02 kernel: hda: drive_cmd: status=0x51 { DriveReady SeekComplete Error }
+  # Sep 23 19:13:03 hp02 kernel: hda: drive_cmd: error=0x04Aborted Command
+  # Sep 23 19:13:18 hp02 root: End of cfg2html-linux version 1.63-2009-08-27
+
+  # Anpassung auf hdparm -i wegen Fehler im Syslog (siehe oben, cfg1.63)
+  # Ingo Metzler 23.09.2009
+
+  if [ $HDPARM ]  && [ -x $HDPARM ]; then
+    exec_command "\
+      if [ -e /proc/ide/hda ] ; then _echo  -n \"read from drive\"; $HDPARM -i /dev/hda;fi;\
+      if [ -e /proc/ide/hdb ] ; then echo; _echo -n \"read from drive\"; $HDPARM -i /dev/hdb;fi;\
+      if [ -e /proc/ide/hdc ] ; then echo; _echo -n \"read from drive\"; $HDPARM -i /dev/hdc;fi;\
+      if [ -e /proc/ide/hdd ] ; then echo; _echo -n \"read from drive\"; $HDPARM -i /dev/hdd;fi;"\
+    "IDE Disks"
+
+    if [ -e /proc/ide/hda ] ; then
+      if grep disk /proc/ide/hda/media > /dev/null ;then
+        exec_command "$HDPARM -t -T /dev/hda" "Transfer Speed"
+      fi
+    fi
+    if [ -e /proc/ide/hdb ] ; then
+      if grep disk /proc/ide/hdb/media > /dev/null ;then
+        exec_command "$HDPARM -t -T /dev/hdb" "Transfer Speed"
+      fi
+    fi
+    if [ -e /proc/ide/hdc ] ; then
+      if grep disk /proc/ide/hdc/media > /dev/null ;then
+        exec_command "$HDPARM -t -T /dev/hdc" "Transfer Speed"
+      fi
+    fi
+    if [ -e /proc/ide/hdd ] ; then
+      if grep disk /proc/ide/hdd/media > /dev/null ;then
+        exec_command "$HDPARM -t -T /dev/hdd" "Transfer Speed"
+      fi
+    fi
+  else
+  # if hdparm not available
+    exec_command "\
+      if [ -e /proc/ide/hda/model ] ; then _echo -n \"hda: \";cat /proc/ide/hda/model ;fi;\
+      if [ -e /proc/ide/hdb/model ] ; then _echo -n \"hdb: \";cat /proc/ide/hdb/model ;fi;\
+      if [ -e /proc/ide/hdc/model ] ; then _echo -n \"hdc: \";cat /proc/ide/hdc/model ;fi;\
+      if [ -e /proc/ide/hdd/model ] ; then _echo -n \"hdd: \";cat /proc/ide/hdd/model ;fi;"\
   "IDE Disks"
+  fi
 
-  if [ -e /proc/ide/hda ] ; then
-    if grep disk /proc/ide/hda/media > /dev/null ;then
-      exec_command "$HDPARM -t -T /dev/hda" "Transfer Speed"
+  if [ -e /proc/sys/dev/cdrom/info ] ; then
+    exec_command "cat /proc/sys/dev/cdrom/info" "CDROM Drive"
+  fi
+
+  if [ -e /proc/ide/piix ] ; then
+    exec_command "cat /proc/ide/piix" "IDE Chipset info"
+  fi
+
+  # Test HW Health
+  # MiMe
+  if [ -x /usr/bin/sensors ] ; then
+    if [ -e /proc/sys/dev/sensors/chips ] ; then
+      exec_command "/usr/bin/sensors" "Sensors"
     fi
   fi
-  if [ -e /proc/ide/hdb ] ; then
-    if grep disk /proc/ide/hdb/media > /dev/null ;then
-      exec_command "$HDPARM -t -T /dev/hdb" "Transfer Speed"
-    fi
+
+  if [ -x /usr/sbin/xpinfo ]
+  then
+    XPINFOFILE=$OUTDIR/`hostname`_xpinfo.csv
+    /usr/sbin/xpinfo -d";" | grep -v "Scanning" > $XPINFOFILE
+
+    AddText "The XP-Info configuration was additionally dumped into the file <b>$XPINFOFILE</b> for further usage"
+
+  # remarked due to enhancement request by Martin Kalmbach, 25.10.2001
+  #  exec_command "/usr/sbin/xpinfo|grep -v Scanning" "SureStore E Disk Array XP Mapping (xpinfo)"
+
+    exec_command "/usr/sbin/xpinfo -r|grep -v Scanning" "SureStore E Disk Array XP Disk Mechanisms"
+    exec_command "/usr/sbin/xpinfo -i|grep -v Scanning" "SureStore E Disk Array XP Identification Information"
+    exec_command "/usr/sbin/xpinfo -c|grep -v Scanning" "SureStore E Disk Array XP (Continuous Access and Business Copy)"
+  # else
+  # [ -x /usr/contrib/bin/inquiry256.ksh ] && exec_command "/usr/contrib/bin/inquiry256.ksh" "SureStore E Disk Array XP256 Mapping (inquiry/obsolete)"
   fi
-  if [ -e /proc/ide/hdc ] ; then
-    if grep disk /proc/ide/hdc/media > /dev/null ;then
-      exec_command "$HDPARM -t -T /dev/hdc" "Transfer Speed"
-    fi
+
+  ### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
+
+  if [ -x /usr/sbin/evainfo ]
+  then
+    AddText "Hint: evainfo displays a maximum of 1024 paths on Linux-based hosts"
+    exec_command "/usr/sbin/evainfo -a -l 2>/dev/null" "HP P6000/EVA Disk Array LUNs"
+    exec_command "/usr/sbin/evainfo -g -W 2>/dev/null" "HP P6000/EVA Disk Array Status with Generic Device Names"
   fi
-  if [ -e /proc/ide/hdd ] ; then
-    if grep disk /proc/ide/hdd/media > /dev/null ;then
-      exec_command "$HDPARM -t -T /dev/hdd" "Transfer Speed"
-    fi
+
+  if [ -x /usr/bin/HP3PARInfo ]
+  then
+    exec_command "/usr/bin/HP3PARInfo -i 2>/dev/null" "HP 3PAR Disk Array Status"
+    exec_command "/usr/bin/HP3PARInfo -f 2>/dev/null" "HP 3PAR Disk Array LUNs"
   fi
-else
-# if hdparm not available
-  exec_command "\
-    if [ -e /proc/ide/hda/model ] ; then _echo -n \"hda: \";cat /proc/ide/hda/model ;fi;\
-    if [ -e /proc/ide/hdb/model ] ; then _echo -n \"hdb: \";cat /proc/ide/hdb/model ;fi;\
-    if [ -e /proc/ide/hdc/model ] ; then _echo -n \"hdc: \";cat /proc/ide/hdc/model ;fi;\
-    if [ -e /proc/ide/hdd/model ] ; then _echo -n \"hdd: \";cat /proc/ide/hdd/model ;fi;"\
- "IDE Disks"
-fi
-
-if [ -e /proc/sys/dev/cdrom/info ] ; then
-  exec_command "cat /proc/sys/dev/cdrom/info" "CDROM Drive"
-fi
-
-if [ -e /proc/ide/piix ] ; then
-   exec_command "cat /proc/ide/piix" "IDE Chipset info"
-fi
-
-# Test HW Health
-# MiMe
-if [ -x /usr/bin/sensors ] ; then
-  if [ -e /proc/sys/dev/sensors/chips ] ; then
-    exec_command "/usr/bin/sensors" "Sensors"
-  fi
-fi
-
-if [ -x /usr/sbin/xpinfo ]
-then
-  XPINFOFILE=$OUTDIR/`hostname`_xpinfo.csv
-  /usr/sbin/xpinfo -d";" | grep -v "Scanning" > $XPINFOFILE
-
-  AddText "The XP-Info configuration was additionally dumped into the file <b>$XPINFOFILE</b> for further usage"
-
-# remarked due to enhancement request by Martin Kalmbach, 25.10.2001
-#  exec_command "/usr/sbin/xpinfo|grep -v Scanning" "SureStore E Disk Array XP Mapping (xpinfo)"
-
-  exec_command "/usr/sbin/xpinfo -r|grep -v Scanning" "SureStore E Disk Array XP Disk Mechanisms"
-  exec_command "/usr/sbin/xpinfo -i|grep -v Scanning" "SureStore E Disk Array XP Identification Information"
-  exec_command "/usr/sbin/xpinfo -c|grep -v Scanning" "SureStore E Disk Array XP (Continuous Access and Business Copy)"
-# else
-# [ -x /usr/contrib/bin/inquiry256.ksh ] && exec_command "/usr/contrib/bin/inquiry256.ksh" "SureStore E Disk Array XP256 Mapping (inquiry/obsolete)"
-fi
-
-### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
-
-if [ -x /usr/sbin/evainfo ]
-then
-  AddText "Hint: evainfo displays a maximum of 1024 paths on Linux-based hosts"
-  exec_command "/usr/sbin/evainfo -a -l 2>/dev/null" "HP P6000/EVA Disk Array LUNs"
-  exec_command "/usr/sbin/evainfo -g -W 2>/dev/null" "HP P6000/EVA Disk Array Status with Generic Device Names"
-fi
-
-if [ -x /usr/bin/HP3PARInfo ]
-then
-  exec_command "/usr/bin/HP3PARInfo -i 2>/dev/null" "HP 3PAR Disk Array Status"
-  exec_command "/usr/bin/HP3PARInfo -f 2>/dev/null" "HP 3PAR Disk Array LUNs"
-fi
 
 ### End changes by Dusan.Baljevic@ieee.org ### 13.05.2014
 
@@ -892,19 +900,21 @@ then # else skip to next paragraph
     exec_command "rpm --querytags" "RPM Query Tags"     #*#   Alexander De Bernardi //21.04.2010/rr
     if [ -x /usr/bin/zypper ]
     then
+    #     See Issue #6 - still open
     #     #TODO:#BUG:# stderr output from "zypper ls; echo ''; zypper pt":
     #     System management is locked by the application with pid 1959 (/usr/lib/packagekitd).
     #     Close this application before trying again.
         if [ -r /etc/zypp/zypp.conf ]       ## fix for JW's SLES 10, backported to 2.91
         then
-            exec_command "zypper -n ls; echo ''; echo | zypper -n pt " "zypper: Services and Patterns"       #*#   Ralph Roth, Mittwoch, 16. March 2011
+            exec_command "zypper -n ls; echo ''; echo | zypper -n pt " "zypper: Services and Patterns"   #*#   Ralph Roth, Mittwoch, 16. March 2011
             exec_command "zypper -n ps" "zypper: Processes which need restart after update"       #*#   Alexander De Bernardi 17.02.2011
-            exec_command "zypper -n lr --details" "zypper: List repositories"                     #*#   Alexander De Bernardi 17.02.2011
-            exec_command "zypper -n lu" "zypper: List pending updates"                            #*#   Alexander De Bernardi 17.02.2011
-            exec_command "zypper -n lp" "zypper: List pending patches"                            #*#   Alexander De Bernardi 17.02.2011
-            exec_command "zypper -n pa" "zypper: List all available packages"                     #*#   Alexander De Bernardi 17.02.2011
-            exec_command "zypper -n pa --installed-only" "zypper: List installed packages"        #*#   Alexander De Bernardi 17.02.2011
+            exec_command "zypper -n lr --details" "zypper: List repositories"                     #*#
+            exec_command "zypper -n lu" "zypper: List pending updates"                            #*#
+            exec_command "zypper -n lp" "zypper: List pending patches"                            #*#
+            exec_command "zypper -n pa" "zypper: List all available packages"                     #*#
+            exec_command "zypper -n pa --installed-only" "zypper: List installed packages"        #*#
             exec_command "zypper -n pa --uninstalled-only" "zypper: List not installed packages"  #*#   Alexander De Bernardi 17.02.2011
+            exec_command "cut -d '|' -f 1-4 -s --output-delimiter ' | ' /var/log/zypp/history | grep -v ' radd '" "Software Installation History" # rr, 15.11.2017
         else
             AddText "zypper found, but it is not configured!"
         fi
@@ -973,14 +983,17 @@ paragraph "Filesystems, Dump and Swap configuration"
 inc_heading_level
 
     exec_command "grep -v '^#' /etc/fstab | column -t" "Filesystem Table"  # 281211, rr
-    exec_command "df -k" "Filesystems and Usage"
+    exec_command "$TIMEOUTCMD 10 df -h" "Filesystems and Usage"   # gdha, 30/Nov/2015, to avoid stale NFS hangs (modified)
+
     exec_command "my_df" "All Filesystems and Usage"
     if [ -x /sbin/dumpe2fs ]
     then
-      exec_command "display_ext_fs_param" "Filesystems parameters"	# needs fixing, 20140929 by Ralph Roth
+      exec_command "display_ext_fs_param" "Filesystems Parameters"	# needs fixing, 20140929 by Ralph Roth
     fi
     exec_command "mount" "Local Mountpoints"
     exec_command PartitionDump "Disk Partition Layout"        #  30.03.2011, 20:00 modified by Ralph Roth #** rar **#
+    #
+    # maybe some parted -l stuff here?  # changed 20141209 by Ralph Roth
     #
     if [ -x /sbin/sfdisk ]
     then
@@ -1019,11 +1032,18 @@ inc_heading_level
 	exec_command "grep -vE '^#|^ *$' /etc/exports" "NFS Filesystems"
     fi
 
-    exec_command "kdumpctl status" "Kdump Status"                #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
-    exec_command "cat /proc/diskdump" "Diskdump Status"          #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
-    exec_command "cat /etc/sysconfig/dump" "SuSE LKCD Config"    #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
-    exec_command "lkcd -q" "SuSE LKCD Status"                    #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
- 
+    if [ -x /usr/sbin/kdumptool ]
+    then
+	 exec_command "/usr/sbin/kdumptool dump_config; echo; /usr/sbin/kdumptool find_kernel; echo; /usr/sbin/kdumptool print_target" "Kdump Status (kdumptool)" ##CHANGED##FIXED## 20150304 by Ralph Roth
+    else
+    ### TODO: -x kdumpctl check ###
+    	exec_command "kdumpctl status" "Kdump Status"            #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014  (not on SLES11!) // 04.03.2015 Ralph Roth
+    fi # /usr/sbin/kdumptool
+    [ -r /proc/diskdump ] && exec_command "cat /proc/diskdump" "Diskdump Status"          #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014, 06.04.2015 Ralph Roth
+    exec_command "cat /etc/sysconfig/dump" "SUSE LKCD Config"    #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
+    ### TODO: line 107: lkcd: command not found ###
+    exec_command "lkcd -q" "SUSE LKCD Status"                    #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
+
 dec_heading_level
 
 fi # terminates CFG_FILESYS wrapper
@@ -1134,15 +1154,22 @@ then # else skip to next paragraph
   paragraph "Network Settings"
   inc_heading_level
 
-  exec_command "/sbin/ifconfig" "LAN Interfaces Settings (ifconfig)"    #D011 -- 16. March 2011,  28. Dezember 2011, ER by Heiko Andresen
+  if [[ -x /sbin/ifconfig ]]; then
+     exec_command "/sbin/ifconfig" "LAN Interfaces Settings (ifconfig)"    #D011 -- 16. March 2011,  28. Dezember 2011, ER by Heiko Andresen // to avoid erros of ifconfig not found
+  fi
   exec_command "ip addr" "LAN Interfaces Settings (ip addr)"            #D011 -- 16. March 2011,  28. Dezember 2011, ER by Heiko Andresen
   exec_command "ip -s l" "Detailed NIC Statistics"                      #07.11.2011, 21:33 modified by Ralph Roth #* rar *#
-  exec_command "nmcli nm status" "NetworkManager Status"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org 
-  exec_command "nmcli connection show" "NetworkManager Connections"     #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org 
+  # nmcli not available on SLES11##FIXED## 20150304 by Ralph Roth
+  if [ -x /usr/bin/nmcli ]
+  then
+      # exec_command "nmcli nm status" "NetworkManager Status"     		#06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org##FIXED## 20150304 by Ralph Roth //  not availabe on openSUSE 13.2!
+      exec_command "nmcli device status" "NetworkManager Device Status"   	#20150527 by Ralph Roth
+      exec_command "nmcli connection show" "NetworkManager Connections"     	#06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org##FIXED## 20150304 by Ralph Roth
+  fi ## /usr/bin/nmcli
 
   if [ -x /usr/sbin/ethtool ]     ###  22.11.2010, 23:44 modified by Ralph Roth
   then
-      LANS=$(ifconfig|grep ^[a-z]|grep -v ^lo|awk '{print $1;}')	# RR: ifconfig is decrecapted -> ip a? 13.11.2013
+      LANS=$(netstat -i | tail -n+3 | awk '{print $1}' |grep -v ^lo)	# RR: ifconfig is decrecapted -> use netstat instead (gdha)
       for i in $LANS
       do
 	  exec_command "/usr/sbin/ethtool $i 2>/dev/null; /usr/sbin/ethtool -i $i" "Ethernet Settings for Interface "$i
@@ -1266,8 +1293,8 @@ then # else skip to next paragraph
   ### End changes by Dusan.Baljevic@ieee.org ### 14.05.2014
 
   if [ -x /usr/sbin/tcpdchk ] ; then
-    exec_command "/usr/sbin/tcpdchk -v" "tcpd wrapper"
-    exec_command "/usr/sbin/tcpdchk -a" "tcpd warnings"
+    exec_command "/usr/sbin/tcpdchk -v 2>/dev/null" "tcpd wrapper"
+    exec_command "/usr/sbin/tcpdchk -a 2>/dev/null" "tcpd warnings"
   fi
 
   [ -f /etc/hosts.allow ] && exec_command "grep  -vE '^#|^ *$' /etc/hosts.allow" "hosts.allow"
@@ -1301,14 +1328,38 @@ then # else skip to next paragraph
   fi
   [ -r /etc/bind/named.boot ] && exec_command "grep -v '^;' /etc/named.boot"  "DNS/Named"
 
-  if [ -f /usr/sbin/postconf ]; then
-       exec_command "/usr/sbin/postconf | grep '^mail_version' | cut -d= -f2" "Postfix Version"
-  elif [ -f /usr/sbin/sendmail.sendmail ]; then
-       exec_command "echo | /usr/sbin/sendmail.sendmail -v root | grep 220" "Sendmail version"
-  elif [ -f /usr/sbin/sendmail ]; then
-       exec_command "echo | /usr/sbin/sendmail -v root | grep 220" "Sendmail version"
+  if [ -x /usr/sbin/nullmailer-send ]	## backport from cfg2html-linux 2.97 -- 04.04.2015, rr
+  then
+        :               ##  provides sendmail which NO options
   else
-       exec_command "echo SENDMAIL VERSION not found issue" "Sendmail version"
+      if [ -L /etc/alternatives/mta ]; then
+          MTA=$(readlink -e /etc/alternatives/mta)
+      else
+          MTA=''
+      fi
+      if  [ -z "$MTA" ]; then
+          if [ -x /usr/sbin/postconf ]; then
+            MTA='sendmail.postfix'
+          elif [ -f /usr/sbin/sendmail.sendmail ]; then
+            MTA='/usr/sbin/sendmail/sendmail.sendmail'
+          elif [ -x /usr/sbin/sendmail ]; then
+            MTA='/usr/sbin/sendmail'
+          fi
+      fi
+      case "$MTA" in
+        *sendmail.postfix)
+          exec_command "/usr/sbin/postconf -h mail_version" "Postfix Version"
+          ;;
+        *sendmail)
+          exec_command "$MTA -d0.1 < /dev/null | grep Version ; grep ^DZ /etc/mail/sendmail.cf" "Sendmail version"
+          SMARTHOST=$(grep -e "^DS" /etc/mail/sendmail.cf | sed s/^DS//g)
+          exec_command "echo '\$Z' |/usr/sbin/sendmail -bt -d0.1; echo Smart Relay Host=$SMARTHOST" "Detailed Sendmail Configuration"   # From cfg2html-hpux
+          exec_command "cat $(grep -e '^Kmailertable' /etc/mail/sendmail.cf | cut -d ' ' -f 4 | sed s/\.db//) /dev/null | grep -vE '^#|^ *$'" "Sendmail Mailertable"     #  From cfg2html-hpux
+          ;;
+        *)
+          exec_command "echo SENDMAIL or POSTFIX VERSION not found issue" "Sendmail/Postfix version"
+          ;;
+      esac
   fi
 
   aliasespath="/etc"
@@ -1356,15 +1407,15 @@ then # else skip to next paragraph
   # ntpq live sometimes in /usr/bin or /usr/sbin
   NTPQ=`which ntpq`
   # if [ $NTPQ ] && [ -x $NTPQ ] ; then
-  if [ -n "$NTPQ" ] && [ -x "$NTPQ" ] ; then      # fixes by Ralph Roth, 180403
+  if [ -n "$NTPQ" -a -x "$NTPQ" ] ; then      # fixes by Ralph Roth, 180403
     exec_command "$NTPQ -p" "XNTP Time Protocol Daemon"
   fi
 
   # Chronyc is replacement for standard NTP, now default in RHEL/CentOS 7
   # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 13 July 2014
   #
-  CHRONYC=$(which chronyc)
-  if [ -n "$CHRONYC" ] && [ -x "$CHRONYC" ] ; then
+  CHRONYC=$(which chronyc 2>/dev/null)
+  if [ -n "$CHRONYC" -a -x "$CHRONYC" ] ; then
     exec_command "$CHRONYC -n sourcestats" "CHRONY Time Protocol Daemon sources"
     exec_command "$CHRONYC -n tracking" "CHRONY Time Protocol Daemon tracking"
   fi
@@ -1404,7 +1455,7 @@ then # else skip to next paragraph
 # and read requests in particular, was a primary focus of the new (four) I/O
 # schedulers. The default I/O Elevator in the v2.6 Linux kernel is the
 # anticipatory scheduler. RedHat RHEL4/5.6 and Novell/SUSE SLES 9-11
-# installations overwrite this with the �CFQ scheduler�.
+# installations overwrite this with the CFQ scheduler.
 # see also
 #     # blockdev -v --getra /dev/sda
 #     get readahead: 1024
@@ -1439,19 +1490,19 @@ then # else skip to next paragraph
     fi
 
     if [ -f /etc/sysconfig/kernel ] ; then
-      exec_command "grep -vE '^#|^ *$' /etc/sysconfig/kernel" "Modules for the ramdisk" # rar, SuSE only
+      exec_command "grep -vE '^#|^ *$' /etc/sysconfig/kernel" "Modules for the ramdisk" # rar, SUSE only
       exec_command "sed -e '/^#/d;/^$/d;/^[[:space:]]*$/d' /etc/sysconfig/kernel" "Missing Kernel Modules" # changed 20130205 by Ralph Roth
       AddText "See: Modules failing to load at boot time - TID 7005784"
     fi
 
     if [ "$DEBIAN" = "no" ] && [ "SLACKWARE" = "no" ] ; then
-            which rpm > /dev/null  && exec_command "rpm -qa | grep -e ^k_def -e ^kernel -e k_itanium -e k_smp -e ^linux" "Kernel RPMs" # rar, SuSE+RH+Itanium2
+            which rpm > /dev/null  && exec_command "rpm -qa | grep -e ^k_def -e ^kernel -e k_itanium -e k_smp -e ^linux" "Kernel RPMs" # rar, SUSE+RH+Itanium2
     fi
 
     if [ "$DEBIAN" = "yes" ] ; then
         exec_command "dpkg -l | grep -i -e Kernel-image -e Linux-image" "Kernel related DEBs"
     fi
-    [ -x /usr/sbin/get_sebool ] && exec_command "/usr/sbin/get_sebool -a" "SELinux Settings"
+    [ -x /usr/sbin/getsebool ] && exec_command "/usr/sbin/getsebool -a" "SELinux Settings"
 
     who -b 2>/dev/null > /dev/null && exec_command "who -b" "System boot" #  23.03.2006, 13:18 modified by Ralph Roth
     exec_command "cat /proc/cmdline" "Kernel command line"
@@ -1483,12 +1534,12 @@ then # else skip to next paragraph
     fi
 
     if [ "$DEBIAN" = "no" ] && [ "$SLACKWARE" = "no" ] && [ "$GENTOO" = "no" ] ; then  ## fixed 2007-02-27 Oliver Schwabedissen
-            which rpm > /dev/null  && exec_command "rpm -qi glibc" "libc6 Version (RPM)" # rar, SuSE+RH
+            which rpm > /dev/null  && exec_command "rpm -qi glibc" "libc6 Version (RPM)" # rar, SUSE+RH
     fi
 
     exec_command "/sbin/ldconfig -vN  2>/dev/null" "Run-time link bindings"		### changed 20130730 by Ralph Roth
 
-    # MiMe: SuSE patched kernel params into /proc
+    # MiMe: SUSE patched kernel params into /proc
     if [ -e /proc/config.gz ] ; then
       exec_command "zcat /proc/config.gz | grep -vE '^#|^ *$'" "Kernelparameter /proc/config.gz"
     else
@@ -1614,7 +1665,7 @@ then # else skip to next paragraph
     [ -n "$SWAT" ] && exec_command  "echo $SWAT" "Samba: SWAT-Port"
 
     [ -x /usr/sbin/smbstatus ] && exec_command "/usr/sbin/smbstatus 2>/dev/null" "Samba (smbstatus)"
-    ### Debian...., maybe a smbstatus -V/samba -V is usefull
+    ### Debian...., maybe a smbstatus -V/samba -V is useful
     [ -x /usr/bin/smbstatus ] && exec_command "/usr/bin/smbstatus 2>/dev/null" "Samba (smbstatus)"  ## fixed 2007-02-27 Oliver Schwabedissen
     [ -x /usr/bin/testparm ] && exec_command "/usr/bin/testparm -s 2> /dev/null" "Samba Configuration (testparm)" #  09.01.2008, 14:53 modified by Ralph Roth
     [ -f /etc/samba/smb.conf ] && exec_command "cat /etc/samba/smb.conf" "Samba Configuration (smb.conf)" #*#  Alexander De Bernardi, 20100421 testparm does not show complete config
@@ -1656,6 +1707,7 @@ then # else skip to next paragraph
       fi
     fi
 
+
 ## we want to display Veritas Netbackup configurations
 ## 31Jan2003 it233 FRU U.Frey
 ## 3/5/08 Modified/added functionality by krtmrrsn@yahoo.com, Marc Korte.
@@ -1663,6 +1715,7 @@ then # else skip to next paragraph
 ##  Made a separate section for Veritas Netbackup
     if [ -e /usr/openv/netbackup/bp.conf ] ; then
 
+      dec_heading_level
       paragraph "Veritas Netbackup Configuration"
       inc_heading_level
 
@@ -1671,6 +1724,29 @@ then # else skip to next paragraph
             exec_command "cat ${NetBuVersion}" "Veritas Netbackup Version"
           fi
           exec_command "cat /usr/openv/netbackup/bp.conf" "Veritas Netbackup Configuration"
+          # bring the logic of hpux test to linux as well - gdha - 16/Dec/2015
+          if [ -s /usr/openv/netbackup/exclude_list ] ; then
+              exec_command "cat /usr/openv/netbackup/exclude_list" "Symantec Netbackup exclude_list"
+          fi
+          if [ -s /usr/openv/netbackup/include_list ] ; then
+              exec_command "cat /usr/openv/netbackup/include_list" "Symantec Netbackup include_list"
+          fi
+          if [ -x /usr/openv/netbackup/bin/bpclimagelist ] ; then
+            exec_command "$TIMEOUTCMD 20 /usr/openv/netbackup/bin/bpclimagelist | head -12" "Overview of the last 10 backups"
+            LASTFULL=$($TIMEOUTCMD 20 /usr/openv/netbackup/bin/bpclimagelist | grep Full | head -1 | cut -c1-10)
+            [[ -z "$LASTFULL" ]] && LASTFULL=$(date +%d/%m/%Y) # if no output was retrieved we use today's date
+            LASTFULLSEC=$(date +%s -d $LASTFULL)
+            sleep 1 # to have at least 1 sec difference
+            NOWSEC=$(date +%s)
+
+            DIFFDAYS=$(( ($NOWSEC - $LASTFULLSEC) /86400 ))
+            if [[ $DIFFDAYS -gt 14 ]]; then
+                AddText "Warning: Last full backup is $DIFFDAYS days old"
+            else
+                AddText "Last full backup is $DIFFDAYS days old"
+            fi
+          fi
+
           exec_command "netstat -tap | egrep '(bpcd|bpjava-msvc|bpjava-susvc|vnetd|vopied)|(Active|Proto)'" "Veritas Netbackup Network Connections"
             ## Use FS="=" in case there's no whitespace in the SERVER lines.
           exec_command "for NetBuServer in $(awk 'BEGIN {FS="="} /SERVER/ {printf $NF}' /usr/openv/netbackup/bp.conf); do ping -c 3 \${NetBuServer} && echo \"\"; done" "Veritas Netbackup Servers Ping Check"
@@ -1678,9 +1754,19 @@ then # else skip to next paragraph
           then
             exec_command "/usr/openv/netbackup/bin/bpclntcmd -pn" "Veritas Netbackup Client to Server Inquiry"
           fi
-      dec_heading_level
     fi
 
+### Section about HP Data Protector info - gdha - 04/Jan/2016
+    if [ -f /etc/opt/omni/client/cell_server ] ; then
+      dec_heading_level
+      paragraph "HP Data Protector Configuration"
+      inc_heading_level
+      exec_command "cat /etc/opt/omni/client/cell_server" "HP Data Protector cell manager"
+      if [ -x /opt/omni/bin/omnicheck ]; then
+          exec_command "/opt/omni/bin/omnicheck -version" "HP Data Protector version"
+          exec_command "/opt/omni/bin/omnicheck -patches -host $(hostname)" "HP Data Protector patches"
+      fi
+    fi
 
 ### new stuff with 2.83 by Dusan // # changed 20140319 by Ralph Roth
 if [ -x /usr/bin/puppet ]
@@ -1700,7 +1786,7 @@ then
 	   exec_command "/usr/bin/puppet agent -V" "Puppet Client agent version"
         fi
 
-        exec_command "/usr/bin/puppet status master" "Puppet Server status"
+        exec_command "/usr/bin/puppet master status" "Puppet Server status"
 
         PUPPETCHK=$(puppet help | awk '$1 == "config" {print}')
         if [ "$PUPPETCHK" ] ; then
@@ -1714,8 +1800,8 @@ then
            exec_command "/usr/bin/puppet ca list --all" "Puppet certificates"
         fi
 
-
-	exec_command "/usr/bin/puppet resource user" "Users in Puppet Resource Abstraction Layer (RAL)"
+	# gdha - 16/Nov/2015 - added TIEMOUTCMD - issue #95
+	exec_command "$TIMEOUTCMD 60 /usr/bin/puppet resource user" "Users in Puppet Resource Abstraction Layer (RAL)"
 	exec_command "/usr/bin/puppet resource package" "Packages in Puppet Resource Abstraction Layer (RAL)"
 	# SUSE-SU-2014:0155-1 # seems to crash plain installed servers, puppet not configured ## changed 20140429 by Ralph Roth
 	# Bug References: 835122,853982 - CVE References: CVE-2013-4761 - puppet-2.6.18-0.12.1
@@ -1772,14 +1858,37 @@ fi # CFEngine
 ##############################################################
 
 ####BACKPORT####
-## SAP stuff # changed 20140213 by Ralph Roth
+## SAP stuff # changed 20140213 by Ralph Roth, backported from Gratien SAP-Info collector 12.04.2015,Ralph Roth
 # -----------------------------------------------------------------------------
 if [ -x /usr/sap/hostctrl/exe/saphostexec ]
 then
+    dec_heading_level
+    paragraph "SAP Information"
+    inc_heading_level
     exec_command "/usr/sap/hostctrl/exe/saphostexec -version" "Installed SAP Components"
-    exec_command "ps fax | grep -i ' pf=' | grep -v grep" "Active SAP Processes"
+    exec_command "/usr/sap/hostctrl/exe/saphostexec -status" "Status SAP"		### Ralph Roth, 12.04.2015
+    exec_command "/usr/sap/hostctrl/exe/lssap -F $TMP_DIR/dev_lssap" "SAP - lssap"	### Ralph Roth, 12.04.2015
+    exec_command "ps fax | grep -i ' pf=/' | grep -v grep" "Active SAP Processes" 	### CHANGED ### 20150412 by Ralph Roth
 fi ## SAP
 
+# SAP HANA in-depth investigation by Gratien D'haese - 10 May 2016 - issue #109
+if [ -x /usr/sap/hostctrl/exe/lssap ]
+then
+    /usr/sap/hostctrl/exe/lssap | grep $(uname -n) | grep -q HDB
+    if [ $? -eq 0 ] ; then
+        # SAP HANA present
+        dec_heading_level
+        paragraph "SAP HANA Information"
+        inc_heading_level
+        /usr/sap/hostctrl/exe/lssap | awk -F"|" '{ if ($0 ~/\// ) print tolower($1)"adm " $2}' | while read  hdbadm sapnr
+        do
+            exec_command "su - $hdbadm -c 'HDB proc'" "SAP HANA processes"
+            exec_command "su - $hdbadm -c \"sapcontrol -nr ${sapnr} -function GetProcessList\"" "SAP HANA ProcessList"
+            exec_command "su - $hdbadm -c 'python exe/python_support/systemReplicationStatus.py'" "SAP HANA Replication"
+            exec_command "su - $hdbadm -c 'hdbnsutil -sr_state'" "SAP HANA System Replication State"
+        done
+    fi
+fi
 ##
 
 ###########################################################################
@@ -1791,11 +1900,13 @@ fi ## SAP
         . ${SGCONFFILE:=/etc/cmcluster.conf}   # get env. setting, rar 12.05.2005
         PATH=$PATH:$SGSBIN:$SGLBIN
         exec_command "cat ${SGCONFFILE:=/etc/cmcluster.conf}" "Cluster Config Files"
-        exec_command "what  $SGSBIN/cmcld|head; what  $SGSBIN/cmhaltpkg|head" "Real Serviceguard Version"  ##  12.05.2005, 10:07 modified by Ralph Roth
+	# gdha - 17/Nov/2015 - what does not exist on Linux
+        #exec_command "what  $SGSBIN/cmcld|head; what  $SGSBIN/cmhaltpkg|head" "Real Serviceguard Version"  ##  12.05.2005, 10:07 modified by Ralph Roth
+	exec_command "cmversion" "Serviceguard Version"  ## gdha - 17/Nov/2015
         exec_command "cmquerycl -v" "Serviceguard Configuration"
         exec_command "cmviewcl -v" "Serviceguard Nodes and Packages"
         exec_command "cmviewconf" "Serviceguard Cluster Configuration Information"
-        exec_command "cmscancl -s" "Serviceguard Scancl Detailed Node Configuration"
+        exec_command "$TIMEOUTCMD 60 cmscancl -s" "Serviceguard Scancl Detailed Node Configuration"
         exec_command "netstat -in" "Serviceguard Network Subnets"
         exec_command "netstat -a |fgrep hacl" "Serviceguard Sockets"
         exec_command "ls -l $SGCONF" "Files in $SGCONF"
@@ -1899,7 +2010,7 @@ then # else skip to next paragraph
     paragraph "hp ProLiant Server Log- and configuration Files"
     inc_heading_level
 
-    temphp=/tmp/cfg2html_temp
+    temphp=$TMP_DIR/cfg2html_temp
     if [ ! -d $temphp ] ; then
          mkdir $temphp
     fi
@@ -1953,7 +2064,9 @@ then # else skip to next paragraph
 
     if [ -x /sbin/hplog ] ; then
             exec_command "hplog -t -f -p" "Current Thermal Sensor, Fan and Power data"
-            exec_command "hplog -v" "Proliant Integrated Management Log"
+            # RE: [cfg2html] cfg2html hangs on Oracle Linux 6.7 --> I fixed the problem. It was giving the error “FAILURE Event log buffer is too small” when running the “hplog –v” command so I just commented out this command line in the cfg2html_linux script. 07.09.2015
+	    # gdha - 16/Nov/2015 - added TIMEOUTCMD (defined in default.conf) - issue #92
+            exec_command "$TIMEOUTCMD 60 hplog -v" "Proliant Integrated Management Log"
     fi
 
     if [ -r /var/log/hppldu.log ] ; then
@@ -2267,17 +2380,18 @@ fi
 # collect local files
 #
 if [ -f $CONFIG_DIR/files ] ; then
-  paragraph "Local files"
-  inc_heading_level
-  . $CONFIG_DIR/files
-  for i in $FILES
-  do
-    if [ -f $i ] ; then
-      exec_command "grep -vE '(^#|^ *$)' $i" "File: $i"
-    fi
-  done
-  AddText "You can customize this entry by editing /etc/cfg2html/files"
-  dec_heading_level
+        paragraph "Local files"
+        inc_heading_level
+        ## . $CONFIG_DIR/files -- not needed anymore to be sourced with the fix below/changed format
+        ## FILES=`grep -vE '(^#|^ *$)' $CONFIG_DIR/files`   ## 25.08.2017 modified by Bernhard Keppel
+        for i in $(grep -v ^# $CONFIG_DIR/files) # suggested fix by John Emmert , 2016/04 ## $FILES
+        do
+                if [ -f $i ] ; then
+                        exec_command "grep -vE '(^#|^ *$)' $i" "Contents of the file: $i"
+                fi
+        done
+        AddText "You can customize this paragraph by editing the file: $CONFIG_DIR/files"
+        dec_heading_level
 fi
 
 dec_heading_level

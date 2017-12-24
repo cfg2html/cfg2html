@@ -1,4 +1,4 @@
-# @(#) $Id: Makefile,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
+# @(#) $Id: Makefile,v 6.14 2014/10/08 10:41:05 ralph Exp $
 # -------------------------------------------------------------------------
 
 product = cfg2html
@@ -51,3 +51,8 @@ depot: clean lib-tmp man rewrite
 	mv -f ../cfg2html.save ../cfg2html ; \
 	echo "Done."
 
+upload: 
+	depot_file=`ls -lrt "/tmp/$(product)_"*".depot" | tail -1 | awk '{print $$9}'` ; \
+	echo "File depot $$depot_file will be uploaded" ; \
+	curl --netrc --upload-file $$depot_file --url ftp://apache07.hostbasket.com/wwwroot/projects/cfg2html/hpux/ ; \
+	echo "Upload Done."

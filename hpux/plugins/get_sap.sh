@@ -1,5 +1,5 @@
 #!/usr/bin/ksh
-# @(#) $Id: get_sap.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
+# @(#) $Id: get_sap.sh,v 6.15 2015/04/12 18:00:10 ralph Exp $
 # ---------------------------------------------------------------------------
 #  First Version:    Roland Schoettler, HP Ratingen
 #  Update: 23/08/99: Klaus Doemer, HP Ratingen
@@ -8,6 +8,7 @@
 #                                 / HP Somersault
 #          06/02/02: Klaus Doemer / Oracle 8.1.X/9.x
 #          19/03/02: Klaus Doemer / SAP Logfilesize Change
+#          11/04/15: GdH / Enhancements
 # ---------------------------------------------------------------------------
 
 get_database()
@@ -33,7 +34,9 @@ get_database()
       then
         echo "@@@@@@ START OF ${sid}_sapdba-check_($dbname)"
         echo ""
-        cat /$database/$sid/sapcheck/$filename | grep -v "^\*\*\*"
+        ###cat /$database/$sid/sapcheck/$filename | grep -v "^\*\*\*"
+	# too big files
+        tail -20 /$database/$sid/sapcheck/$filename | grep -v "^\*\*\*"
         echo ""
         echo "###### END OF ${sid}_sapdba-check_($dbname)"
         echo ""
@@ -69,7 +72,7 @@ get_oracle_config()
     fi
   done
 
-  for o in /oracle/$sid /oracle/$sid/81?_??
+  for o in /oracle/$sid /oracle/$sid/81?_?? /oracle/$sid/11?_?? /oracle/$sid/12?_??
   do
     if [ -d $o ]
     then

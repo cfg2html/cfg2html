@@ -32,13 +32,13 @@ cfg2html creates a nice HTML and plain ASCII documentation. If you are missing
 something, let us know it!
 
 The newest versions are downloadable at:
-  - http://come.to/cfg2html (all stuff)
-  - www.cfg2html.com (only new betas)
+  - https://groups.yahoo.com/neo/groups/cfg2html/info  (all stuff)
+  - www.cfg2html.com  (only new betas)
 
-To get a new version visit:         http://come.to/cfg2html
+To get a new version visit: https://groups.yahoo.com/neo/groups/cfg2html/info
 And subscribe to the cfg2html mailing list
 
-Original HPUX Version:  Ralph Roth, ROSE SWE, http://come.to/rose_swe
+Original HPUX Version:  Ralph Roth, ROSE SWE, http://rose.rult.at/
 
 INSTALLING
 
@@ -219,7 +219,7 @@ Maintainer of the different versions
 HP-UX              :  Ralph Roth
                       Contributors: Thomas Brix, Martin Kalmbach
 
-Linux port         :  Michael Meifert dk3hg@users.sourceforge.net
+Linux port         :  Michael Meifert
                       Contributors: Michael Meier,
                       Linux (debian/hppa): Ralph Roth
 
