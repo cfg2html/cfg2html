@@ -12,9 +12,11 @@ The first versions of cfg2html were written for HP-UX. Meanwhile the cfg2html HP
 See our GitHub Source development tree https://github.com/cfg2html/cfg2html and clone it to your system via:
 
     git clone git@github.com:cfg2html/cfg2html.git
+    make help
 
+If you do not want to build cfg2html by your own, we have pre-build installations you can download from http://www.cfg2htl.com
 
 If you find a problem, a bug or have some bright new ideas please create a new issue https://github.com/cfg2html/cfg2html/issues at our GitHub project pages.
 
 ---
-$Id: README.md,v 6.4 2018/01/02 16:39:41 ralph Exp $
+$Id: README.md,v 6.5 2018/01/02 16:44:56 ralph Exp $
