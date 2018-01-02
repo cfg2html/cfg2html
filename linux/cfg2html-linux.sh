@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# @(#) $Id: cfg2html-linux.sh,v 6.56 2017/12/24 18:18:21 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.56 2018/01/02 16:24:05 ralph Exp $
 # -----------------------------------------------------------------------------------------
-# (c) 1997-2017 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
+# (c) 1997-2018 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
 
 #  If you change this script, please mark your changes with for example
 #  ## <username> and send your diffs from the actual version to my mail
@@ -33,7 +33,6 @@ _VERSION="cfg2html-linux version $VERSION "  # this a common stream so we don?t 
 
 #
 # getopt
-#
 #
 
 while getopts ":o:shcSTflkenaHLvhpPA:2:10" Option   ##  -T -0 -1 -2 backported from HPUX
@@ -153,8 +152,9 @@ identify_linux_distribution
 
 #
 ######################################################################
-# Hauptprogramm mit Aufruf der obigen Funktionen und deren Parametern
 #############################  M A I N  ##############################
+######################################################################
+
 #
 
 line
@@ -193,8 +193,6 @@ then # else skip to next paragraph
   exec_command "cat /proc/cpuinfo; echo; /usr/bin/lscpu;" "CPU and Model info" #  20.08.2012, 15:59 modified by Ralph Roth #* rar *#
   [ -x /usr/bin/cpufreq-info ] && exec_command cpufreq-info "CPU Freq Kernel Information"
 
-  # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 15 July 2013
-  #
   CPUPOWER=$(which cpupower)
   if [ -n "$CPUPOWER" ] && [ -x "$CPUPOWER" ] ; then
       exec_command "$CPUPOWER info" "Processor power related kernel or hardware configuration"
@@ -255,15 +253,13 @@ then # else skip to next paragraph
 
   exec_command "ulimit -a" "System ulimit"                #  13.08.2007, 14:24 modified by Ralph Roth
   exec_command "getconf -a" "System Configuration Variables"          ## at least SLES11, #  14.06.2011, 18:53 modified by Ralph Roth #* rar *#
-  ##### 19-Sept-2006, Ralph #####
+
   if [ -x /usr/bin/mpstat ] ; then
     exec_command "mpstat 1 5" "MP-Statistics"
   fi
   if [ -x /usr/bin/iostat ] ; then
     exec_command "iostat" "IO-Statistics"
   fi
-
-  # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 24/12/2017
 
   exec_command "lsof -nP | grep '(deleted)'" "Files that are open but have been deleted"
 
@@ -380,27 +376,22 @@ then # else skip to next paragraph
   exec_command "/sbin/runlevel" "current runlevel"
 
   # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 24 December 2017
-  #
-  NEEDRESTART=$(which needs-restarting)
+  NEEDRESTART=$(which needs-restarting 2>/dev/null)
   if [ -n "$NEEDRESTART" ] && [ -x "$NEEDRESTART" ] ; then
       exec_command "$NEEDRESTART" "Report running processes that have been updated and need restart"
   fi
 
   # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 24 December 2017
-  #
   if [ -x /usr/bin/wdctl ] ; then
     exec_command "/usr/bin/wdctl" "Hardware watchdog status"
   fi
 
   # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 24 December 2017
-  #
   if [ -x /usr/bin/coredumpctl ] ; then
     exec_command "/usr/bin/coredumpctl list" "List available coredumps"
   fi
 
-  ##
-  ## we want to display the Boot Messages too
-  ## 30Jan2003 it233 FRU
+  ## we want to display the Boot Messages too ## 30Jan2003 it233 FRU
   if [ -e /var/log/boot.msg ] ; then
     exec_command "grep 'Boot logging' /var/log/boot.msg" "Last Boot Date"
     exec_command "grep -v '|====' /var/log/boot.msg " "Boot Messages, last Boot"
@@ -726,17 +717,17 @@ inc_heading_level
     rm /tmp/fibrehba.txt
   fi
 
-  SYSTOOL=`which systool`
+  SYSTOOL=`which systool  2>/dev/null`
   if [ -x $SYSTOOL ]; then
      exec_command "systool -c fc_host -v" "Fibre Channel Host Bus Adapters systool status"
   fi
 
-  SGSCAN=`which sg_scan`
+  SGSCAN=`which sg_scan` 2>/dev/null
   if [ -x $SGSCAN ]; then
      exec_command "sg_scan -i" "Fibre Channel Host Bus Adapters sg_scan SCSI inquiry"
   fi
 
-  SGMAP=`which sg_map`
+  SGMAP=`which sg_map 2>/dev/null`
   if [ -x $SMAP ]; then
      exec_command "sg_map -x" "Fibre Channel Host Bus Adapters sg_map status"
   fi
@@ -785,7 +776,6 @@ inc_heading_level
   fi
 
   # get serial information
-
   SETSERIAL=`which setserial`
   if [ -n "$SETSERIAL" ] && [ -x $SETSERIAL ]; then
     exec_command "$SETSERIAL -a /dev/ttyS0" "Serial ttyS0"
@@ -1373,11 +1363,11 @@ then # else skip to next paragraph
   [ -r /etc/bind/named.boot ] && exec_command "grep -v '^;' /etc/named.boot"  "DNS/Named"
 
   if [ -s /etc/dnsmasq.conf ] ; then
-     exec_command "cat /etc/dnsmasq.conf; systemctl status dnsmasq" "DNSMASQ" 
+     exec_command "cat /etc/dnsmasq.conf; systemctl status dnsmasq" "DNSMASQ"
   fi
 
   if [ -s /etc/nscd.conf ] ; then
-     exec_command "cat /etc/nscd.conf" "Name Service Cache Daemon (NSCD)" 
+     exec_command "cat /etc/nscd.conf" "Name Service Cache Daemon (NSCD)"
   fi
 
   if [ -x /usr/sbin/nullmailer-send ]	## backport from cfg2html-linux 2.97 -- 04.04.2015, rr
@@ -1821,91 +1811,81 @@ then # else skip to next paragraph
     fi
 
 ### new stuff with 2.83 by Dusan // # changed 20140319 by Ralph Roth
-PUPPETEXE=$(which puppet)
+PUPPETEXE=$(which puppet  2>/dev/null)
 if [ -x $PUPPETEXE ]
 then
-    ##############################################################################
-    ###  Puppet settings
-    ###  Made by Dusan.Baljevic@ieee.org ### 12.03.2014, # changed 20140425 by Ralph Roth, # changed 20140428 by Dusan, backported from 2.90, 2.91
-    ###  Updated by Dusan.Baljevic@ieee.org ### 24.12.2017 to include Puppet 5
-	dec_heading_level
-	paragraph "Puppet Configuration Management System"
-	inc_heading_level
-	exec_command "ps -ef | grep -E 'puppetmaster[d]|puppet maste[r]'" "Active Puppet Master (prior to version 5)"
-	exec_command "ps -ef | grep -E 'puppet[d]'" "Active Puppet Client (prior to version 5)"
-        exec_command "puppetca -l -a" "Puppet certificates (prior to version 5)"
+  ##############################################################################
+  ###  Puppet settings
+  ###  Made by Dusan.Baljevic@ieee.org ### 12.03.2014, # changed 20140425 by Ralph Roth, # changed 20140428 by Dusan, backported from 2.90, 2.91
+  ###  Updated by Dusan.Baljevic@ieee.org ### 24.12.2017 to include Puppet 5
+  dec_heading_level
+  paragraph "Puppet Configuration Management System"
+  inc_heading_level
+  exec_command "ps -ef | grep -E 'puppetmaster[d]|puppet maste[r]'" "Active Puppet Master (prior to version 5)"
+  exec_command "ps -ef | grep -E 'puppet[d]'" "Active Puppet Client (prior to version 5)"
+  exec_command "puppetca -l -a" "Puppet certificates (prior to version 5)"
+  exec_command "ps -ef | grep -E 'puppetserve[r]'" "Active Puppet Master (version 5)"
+  exec_command "ps -ef | grep -E 'puppet agen[t]'" "Active Puppet Client (version 5)"
+  exec_command "$PUPPETEXE ca list --all" "Puppet certificates (version 5)"
+  exec_command "$PUPPETEXE -V" "Puppet Client agent version"
+  exec_command "$PUPPETEXE master status" "Puppet Server status"
+  exec_command "$PUPPETEXE module list" "Puppet modules"
+  exec_command "$PUPPETEXE facts" "Puppet facts"
+  exec_command "$PUPPETEXE describe --list" "Puppet known types"
 
-	exec_command "ps -ef | grep -E 'puppetserve[r]'" "Active Puppet Master (version 5)"
-	exec_command "ps -ef | grep -E 'puppet agen[t]'" "Active Puppet Client (version 5)"
-        exec_command "$PUPPETEXE ca list --all" "Puppet certificates (version 5)"
+  PUPPETCHK=$($PUPPETEXE help | awk '$1 == "config" {print}')
+  if [ "$PUPPETCHK" ] ; then
+    exec_command "$PUPPETEXE config print all" "Puppet configuration"
+    exec_command "$PUPPETEXE config print modulepath" "Puppet configuration module paths"
+  fi
 
-        exec_command "$PUPPETEXE -V" "Puppet Client agent version"
-
-        exec_command "$PUPPETEXE master status" "Puppet Server status"
-
-	exec_command "$PUPPETEXE module list" "Puppet modules"
-
-	exec_command "$PUPPETEXE facts" "Puppet facts"
-
-	exec_command "$PUPPETEXE describe --list" "Puppet known types"
-
-        PUPPETCHK=$($PUPPETEXE help | awk '$1 == "config" {print}')
-        if [ "$PUPPETCHK" ] ; then
-	   exec_command "$PUPPETEXE config print all" "Puppet configuration"
-	   exec_command "$PUPPETEXE config print modulepath" "Puppet configuration module paths"
-        fi
-
-	# gdha - 16/Nov/2015 - added TIEMOUTCMD - issue #95
-	exec_command "$TIMEOUTCMD 60 $PUPPETEXE resource user" "Users in Puppet Resource Abstraction Layer (RAL)"
-	exec_command "$PUPPETEXE resource package" "Packages in Puppet Resource Abstraction Layer (RAL)"
-	# SUSE-SU-2014:0155-1 # seems to crash plain installed servers, puppet not configured ## changed 20140429 by Ralph Roth
-	# Bug References: 835122,853982 - CVE References: CVE-2013-4761 - puppet-2.6.18-0.12.1
-	#exec_command "/usr/bin/puppet resource service" "Services in Puppet Resource Abstraction Layer (RAL)"
-
-    ##############################################################################
+  # gdha - 16/Nov/2015 - added TIEMOUTCMD - issue #95
+  exec_command "$TIMEOUTCMD 60 $PUPPETEXE resource user" "Users in Puppet Resource Abstraction Layer (RAL)"
+  exec_command "$PUPPETEXE resource package" "Packages in Puppet Resource Abstraction Layer (RAL)"
+  # SUSE-SU-2014:0155-1 # seems to crash plain installed servers, puppet not configured ## changed 20140429 by Ralph Roth
+  # Bug References: 835122,853982 - CVE References: CVE-2013-4761 - puppet-2.6.18-0.12.1
+  #exec_command "/usr/bin/puppet resource service" "Services in Puppet Resource Abstraction Layer (RAL)"
 fi # puppet
 
 if  [ -x /opt/chef-server/embedded/bin/knife ]
 then
-    ###  Chef settings
-    ###  Made by Dusan.Baljevic@ieee.org ### 16.03.2014
-	dec_heading_level
-	paragraph "Chef Configuration Management System"
-	inc_heading_level
-	[ -x /opt/chef-server/bin/chef-server-ctl ] && exec_command "/opt/chef-server/bin/chef-server-ctl test" "Chef Server"
-	[ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife list -R /" "Chef full status"
-	[ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife environment list -w" "Chef list of environments"
-	[ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife client list" "Chef list of registered API clients"
-	[ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife cookbook list" "Chef list of registered cookbooks"
-	[ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife data bag list" "Chef list of data bags"
-	[ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife diff" "Chef differences between local chef-repo and files on server"
-	[ -x /opt/chef-server/embedded/bin/chef-client ] && exec_command "/opt/chef-server/embedded/bin/chef-client -v" "Chef Client"
-    ##############################################################################
+  ###  Chef settings
+  ###  Made by Dusan.Baljevic@ieee.org ### 16.03.2014
+  dec_heading_level
+  paragraph "Chef Configuration Management System"
+  inc_heading_level
+  [ -x /opt/chef-server/bin/chef-server-ctl ] && exec_command "/opt/chef-server/bin/chef-server-ctl test" "Chef Server"
+  [ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife list -R /" "Chef full status"
+  [ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife environment list -w" "Chef list of environments"
+  [ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife client list" "Chef list of registered API clients"
+  [ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife cookbook list" "Chef list of registered cookbooks"
+  [ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife data bag list" "Chef list of data bags"
+  [ -x /opt/chef-server/embedded/bin/knife ] && exec_command "/opt/chef-server/embedded/bin/knife diff" "Chef differences between local chef-repo and files on server"
+  [ -x /opt/chef-server/embedded/bin/chef-client ] && exec_command "/opt/chef-server/embedded/bin/chef-client -v" "Chef Client"
 fi
 
 if  [ -x /usr/lpp/mmfs/bin/mmlscluster ]
 then
-    ###  IBM GPFS clusters 
-    ###  Made by Dusan.Baljevic@ieee.org ### 24.12.2017
-	dec_heading_level
-	paragraph "IBM GPFS Clustering"
-	inc_heading_level
-	[ -x /usr/lpp/mmfs/bin/mmlscluster ] && exec_command "/usr/lpp/mmfs/bin/mmlscluster" "GPFS cluster status"
-	[ -x /usr/lpp/mmfs/bin/mmlsconfig ] && exec_command "/usr/lpp/mmfs/bin/mmlsconfig" "GPFS config"
-	[ -x /usr/lpp/mmfs/bin/mmfsenv ] && exec_command "/usr/lpp/mmfs/bin/mmfsenv" "GPFS environment"
-	[ -x /usr/lpp/mmfs/bin/mmdiag ] && exec_command "/usr/lpp/mmfs/bin/mmdiag --config" "GPFS complete configuration status"
-	[ -x /usr/lpp/mmfs/bin/mmlsnode ] && exec_command "/usr/lpp/mmfs/bin/mmlsnode -a" "GPFS node status"
-	[ -x /usr/lpp/mmfs/bin/mmlsnsd ] && exec_command "/usr/lpp/mmfs/bin/mmlsnsd -a" "GPFS Network Shared Disk (NSD) status"
-	[ -x /usr/lpp/mmfs/bin/mmlsfs ] && exec_command "/usr/lpp/mmfs/bin/mmlsfs all" "GPFS file system status"
-	[ -x /usr/lpp/mmfs/bin/mmlsmount ] && exec_command "/usr/lpp/mmfs/bin/mmlsmount all -L" "GPFS mount status"
-	[ -x /usr/lpp/mmfs/bin/mmlslicense ] && exec_command "/usr/lpp/mmfs/bin/mmlslicense -L" "GPFS licenses"
-	[ -x /usr/lpp/mmfs/bin/mmhealth ] && exec_command "/usr/lpp/mmfs/bin/mmhealth node show --verbose" "GPFS node health status"
-	[ -x /usr/lpp/mmfs/bin/mmhealth ] && exec_command "/usr/lpp/mmfs/bin/mmhealth cluster show" "GPFS cluster health status"
-	[ -x /usr/lpp/mmfs/bin/mmhealth ] && exec_command "/usr/lpp/mmfs/bin/mmhealth thresholds list" "GPFS thresholds"
-	[ -x /usr/lpp/mmfs/bin/mmlsnode ] && exec_command "/usr/lpp/mmfs/bin/mmlsnode -N waiters -L" "GPFS waiters"
-	[ -x /usr/lpp/mmfs/bin/mmdiag ] && exec_command "/usr/lpp/mmfs/bin/mmdiag --network" "GPFS mmdiag network"
-	[ -x /usr/lpp/mmfs/bin/mmnetverify ] && exec_command "/usr/lpp/mmfs/bin/mmnetverify connectivity -N all -T all" "GPFS network verification"
-    ##############################################################################
+  ###  IBM GPFS clusters
+  ###  Made by Dusan.Baljevic@ieee.org ### 24.12.2017
+  dec_heading_level
+  paragraph "IBM GPFS Clustering"
+  inc_heading_level
+  [ -x /usr/lpp/mmfs/bin/mmlscluster ] && exec_command "/usr/lpp/mmfs/bin/mmlscluster" "GPFS cluster status"
+  [ -x /usr/lpp/mmfs/bin/mmlsconfig ] && exec_command "/usr/lpp/mmfs/bin/mmlsconfig" "GPFS config"
+  [ -x /usr/lpp/mmfs/bin/mmfsenv ] && exec_command "/usr/lpp/mmfs/bin/mmfsenv" "GPFS environment"
+  [ -x /usr/lpp/mmfs/bin/mmdiag ] && exec_command "/usr/lpp/mmfs/bin/mmdiag --config" "GPFS complete configuration status"
+  [ -x /usr/lpp/mmfs/bin/mmlsnode ] && exec_command "/usr/lpp/mmfs/bin/mmlsnode -a" "GPFS node status"
+  [ -x /usr/lpp/mmfs/bin/mmlsnsd ] && exec_command "/usr/lpp/mmfs/bin/mmlsnsd -a" "GPFS Network Shared Disk (NSD) status"
+  [ -x /usr/lpp/mmfs/bin/mmlsfs ] && exec_command "/usr/lpp/mmfs/bin/mmlsfs all" "GPFS file system status"
+  [ -x /usr/lpp/mmfs/bin/mmlsmount ] && exec_command "/usr/lpp/mmfs/bin/mmlsmount all -L" "GPFS mount status"
+  [ -x /usr/lpp/mmfs/bin/mmlslicense ] && exec_command "/usr/lpp/mmfs/bin/mmlslicense -L" "GPFS licenses"
+  [ -x /usr/lpp/mmfs/bin/mmhealth ] && exec_command "/usr/lpp/mmfs/bin/mmhealth node show --verbose" "GPFS node health status"
+  [ -x /usr/lpp/mmfs/bin/mmhealth ] && exec_command "/usr/lpp/mmfs/bin/mmhealth cluster show" "GPFS cluster health status"
+  [ -x /usr/lpp/mmfs/bin/mmhealth ] && exec_command "/usr/lpp/mmfs/bin/mmhealth thresholds list" "GPFS thresholds"
+  [ -x /usr/lpp/mmfs/bin/mmlsnode ] && exec_command "/usr/lpp/mmfs/bin/mmlsnode -N waiters -L" "GPFS waiters"
+  [ -x /usr/lpp/mmfs/bin/mmdiag ] && exec_command "/usr/lpp/mmfs/bin/mmdiag --network" "GPFS mmdiag network"
+  [ -x /usr/lpp/mmfs/bin/mmnetverify ] && exec_command "/usr/lpp/mmfs/bin/mmnetverify connectivity -N all -T all" "GPFS network verification"
 fi
 
 # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 24 December 2017
@@ -1928,28 +1908,27 @@ fi
 # this may need reworking - works only if CFEngine agent is installed. # changed 20140319 by Ralph Roth
 if [ -x /var/cfengine/bin/cfagent ]
 then
-    ### new stuff with 2.85 by Dusan
-    ##############################################################################
-    ###  CFEngine settings
-    ###  Made by Dusan.Baljevic@ieee.org ### 19.03.2014
-	dec_heading_level
-	paragraph "CFEngine Configuration Management System"
-	inc_heading_level
-	exec_command "ps -ef | grep -E 'cfserv[d]|cf-server[d]'" "Active CFEngine Server"
-	exec_command "ps -ef | grep -E 'cfagen[t]|cf-agen[t]'" "Active CFEngine Agent"
-	[ -x /var/cfengine/bin/cfagent ] && exec_command "/var/cfengine/bin/cfagent -V" "CFEngine v2 Agent version"
-	[ -x /var/cfengine/bin/cfagent ] && exec_command "/var/cfengine/bin/cfagent -p -v" "CFEngine v2 classes"
-	[ -x /var/cfengine/bin/cfagent ] && exec_command "/var/cfengine/bin/cfagent --no-lock --verbose --no-splay" "CFEngine v2 managed client status"
-	[ -x /var/cfengine/bin/cfagent ] && exec_command "/var/cfengine/bin/cfagent -n" "CFEngine v2 pending actions for managed client (dry-run)"
-	[ -x /var/cfengine/bin/cfshow ] && exec_command "/var/cfengine/bin/cfshow --active" "CFEngine v2 dump of active database"
-	[ -x /var/cfengine/bin/cfshow ] && exec_command "/var/cfengine/bin/cfshow --classes" "CFEngine v2 dump of classes database"
+  ### new stuff with 2.85 by Dusan
+  ##############################################################################
+  ###  CFEngine settings
+  ###  Made by Dusan.Baljevic@ieee.org ### 19.03.2014
+  dec_heading_level
+  paragraph "CFEngine Configuration Management System"
+  inc_heading_level
+  exec_command "ps -ef | grep -E 'cfserv[d]|cf-server[d]'" "Active CFEngine Server"
+  exec_command "ps -ef | grep -E 'cfagen[t]|cf-agen[t]'" "Active CFEngine Agent"
+  [ -x /var/cfengine/bin/cfagent ] && exec_command "/var/cfengine/bin/cfagent -V" "CFEngine v2 Agent version"
+  [ -x /var/cfengine/bin/cfagent ] && exec_command "/var/cfengine/bin/cfagent -p -v" "CFEngine v2 classes"
+  [ -x /var/cfengine/bin/cfagent ] && exec_command "/var/cfengine/bin/cfagent --no-lock --verbose --no-splay" "CFEngine v2 managed client status"
+  [ -x /var/cfengine/bin/cfagent ] && exec_command "/var/cfengine/bin/cfagent -n" "CFEngine v2 pending actions for managed client (dry-run)"
+  [ -x /var/cfengine/bin/cfshow ] && exec_command "/var/cfengine/bin/cfshow --active" "CFEngine v2 dump of active database"
+  [ -x /var/cfengine/bin/cfshow ] && exec_command "/var/cfengine/bin/cfshow --classes" "CFEngine v2 dump of classes database"
+  [ -x /var/cfengine/bin/cf-serverd ] && exec_command "/var/cfengine/bin/cf-serverd --version" "CFEngine v3 Server version"
+  [ -x /var/cfengine/bin/cf-agent ] && exec_command "/var/cfengine/bin/cf-agent --version" "CFEngine v3 Agent version"
+  [ -x /var/cfengine/bin/cf-report ] && exec_command "/var/cfengine/bin/cf-report -q --show promises" "CFEngine v3 promises"
+  [ -x /var/cfengine/bin/cf-promises ] && exec_command "/var/cfengine/bin/cf-promises -v" "CFEngine v3 validation of policy code"
+  [ -x /var/cfengine/bin/cf-agent ] && exec_command "/var/cfengine/bin/cf-agent -n" "CFEngine v3 pending actions for managed client (dry-run)"
 
-	[ -x /var/cfengine/bin/cf-serverd ] && exec_command "/var/cfengine/bin/cf-serverd --version" "CFEngine v3 Server version"
-	[ -x /var/cfengine/bin/cf-agent ] && exec_command "/var/cfengine/bin/cf-agent --version" "CFEngine v3 Agent version"
-	[ -x /var/cfengine/bin/cf-report ] && exec_command "/var/cfengine/bin/cf-report -q --show promises" "CFEngine v3 promises"
-	[ -x /var/cfengine/bin/cf-promises ] && exec_command "/var/cfengine/bin/cf-promises -v" "CFEngine v3 validation of policy code"
-	[ -x /var/cfengine/bin/cf-agent ] && exec_command "/var/cfengine/bin/cf-agent -n" "CFEngine v3 pending actions for managed client (dry-run)"
-    ##############################################################################
 fi # CFEngine
 
 ##############################################################

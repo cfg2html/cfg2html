@@ -1,8 +1,8 @@
-# @(#) $Id: Makefile,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $
+# @(#) $Id: Makefile,v 6.13 2018/01/02 16:27:18 ralph Exp $
 # -----------------------------------------------------------------------------------------
-# (c) 1997-2017 by Ralph Roth  -*- http://rose.rult.at -*-
+# (c) 1997-2018 by Ralph Roth  -*- http://rose.rult.at -*-
 
-# $Header: /home/cvs/cfg2html/cfg2html/linux/packaging/Makefile,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $
+# $Header: /home/cvs/cfg2html/cfg2html_git/linux/packaging/Makefile,v 6.13 2018/01/02 16:27:18 ralph Exp $
 # A simple Debian makefile for cfg2html-linux
 
 # DESTDIR modified by Jacques MENGUY, have to check it first :)
