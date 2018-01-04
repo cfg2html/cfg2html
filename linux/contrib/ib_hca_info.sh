@@ -2,7 +2,7 @@
 
 # @(#) $Id: ib_hca_info.sh,v 2.3 2013-02-09 10:24:37 ralph Exp $
 # --=-----------------------------------------------------------------------=---
-# (c) 1997 - 2013 by Ralph Roth  -*- http://rose.rult.at -*-
+# (c) 1997 - 2018 by Ralph Roth  -*- http://rose.rult.at -*-
 
 # Source = wget ftp://ftp.qlogic.com/support/Hidden/scripts/ib/ib_hca_info.sh
 # http://kb.qlogic.com/KanisaPlatform/Publishing/392/1559_f.SAL_Public.html
