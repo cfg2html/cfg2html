@@ -45,3 +45,6 @@ now you must enter the password for user the last time :-)
 user at the central-host:
 cat identity.pub >> .ssh/authorized_keys
 now the user "root" from a client machine can login without password.
+
+Source: Unknown!
+$Id: README,v 6.12 2018/01/04 22:24:45 ralph Exp $

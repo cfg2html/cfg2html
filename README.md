@@ -22,7 +22,7 @@ If you do not want to build cfg2html by your own, we have pre-build installation
 If you find a problem, a bug or have some bright new ideas please create a new issue https://github.com/cfg2html/cfg2html/issues at our GitHub project pages.
 
 ----
-$Id: README.md,v 6.5 2018/01/02 16:44:56 ralph Exp $
+$Id: README.md,v 6.6 2018/01/04 22:22:37 ralph Exp $
 
 
 <!-- Atom:set encoding=utf8 lineEnding=unix grammar=md tabLength=2 useSoftTabs: -->
