@@ -2,6 +2,10 @@ cfg2html (6.31-1) UNRELEASED; urgency=low
 
   [ Ralph Roth ]
   * 6.13 upstream
+  * debian/compat
+    This file should contain the number 9. This is a magic number. Do not put any other number in there.
+    9
+    debian/compat specifies the "compatibility level" for the debhelper tool. We don't need to go into what that means, right now.
 
   [ ralph ]
   * This is 6.26 upstream
