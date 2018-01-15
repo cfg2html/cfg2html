@@ -1,11 +1,14 @@
+TODO: Is this document still needed and update to date? (Ralph, 15.01.2018)
+
+
                     Collect cfg2html data files
                     ---------------------------
 
 To collect the systeminfo data files from several nodes using rsh is very
-__unsecure__, because root is starting cfg2html. For more  information use
-google and search for: rsh unsecure
+__insecure__, because root is starting cfg2html. For more information use google
+and search for: rsh insecure
 
-I try another way.
+I (who?) tried another way.
 
 Machine to collect the data:
 
@@ -23,7 +26,7 @@ Central machine:
 2. Now you can copy from every remote host the collected data to the user's
    home directory or any other directory the user has permission to write.
    See below to setup ssh.
-3. I have the cfg2html scripts for all machines for example linux, hpux, sun ..
+3. I have the cfg2html scripts for all machines for example Linux, HP-UX, sun ..
    located in a central directory, for example ../home/user/cfg2html/bin
    Don't forget the security!
 
