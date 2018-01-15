@@ -43,7 +43,7 @@ PRODUCT="Config to HTML - cfg2html"
 CVS="$Id: cfg2html,v 6.33 2018/01/04 22:22:37 ralph Exp $"
 PROGRAM=$(echo $CVS|cut -f2 -d" "|cut -f1 -d,)
 VERSION=$(echo $CVS|cut -f3 -d" ")
-RELEASE_DATE="2017-11-15"	## YYYY-MM-DD ?!
+RELEASE_DATE="2018-01-05"	## YYYY-MM-DD ?!
 #echo $PROGRAM,$VERSION,$RELEASE_DATE
 
 OS=$(uname)
