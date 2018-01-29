@@ -1,8 +1,8 @@
 # @(#) $Id: Makefile,v 6.17 2015/11/26 21:00:44 ralph Exp $
 
-# Makefile to create HP-UX software depot or Linux .DEB and .RPM packages etc.
-# -------------------------------------------------------------------------
-# vim:ts=8:sw=4:sts=4 -*- coding: utf-8 -*-
+# Makefile to create HP-UX software depot, AIX, FreeBSD, SunOS or Linux .DEB and .RPM packages etc.
+# -------------------------------------------------------------------------------------------------
+# -*- coding: utf-8, LF/Unix -*-
 
 
 product = cfg2html
