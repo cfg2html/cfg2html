@@ -75,10 +75,14 @@ binary-indep: build
 		ln -s ../debian . ; \
 		ls -l ; \
 		ls -lR etc/ ; \
+                cd ..       ## maybe a bug for issue #35 ?
 	fi
 
 	# copy cfg2html components into directories
 	pwd
+       # This triggers issue #35 on the SUSE OBS environment ....
+       # [   77s] cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/cfg2html/
+       # [   77s] cp: cannot stat `etc/default.conf': No such file or directory
 	cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/cfg2html/
 	cp -av etc/local.conf debian/cfg2html/etc/cfg2html/
 	cp -av ../cfg2html debian/cfg2html/usr/sbin/
