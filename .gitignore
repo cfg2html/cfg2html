@@ -26,6 +26,7 @@ cfg2html*.deb
 #
 # rest
 #
+cfg2html.cron
 descript.ion
 todo.*
 sshkey.sh

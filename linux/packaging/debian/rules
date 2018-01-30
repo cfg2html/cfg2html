@@ -12,7 +12,8 @@
 export DH_VERBOSE=1
 
 # This is the debhelper compatibility version to use.
-export DH_COMPAT=5
+# five or nine????
+export DH_COMPAT=9
 # dh_installdeb: Compatibility levels before 4 are deprecated.
 
 ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
@@ -74,9 +75,9 @@ binary-indep: build
 		cd linux ; \
 		ln -s ../debian . ; \
 		ls -l ; \
-		ls -lR etc/ ; \
-                cd ..       ## maybe a bug for issue #35 ?
+		ls -lR etc/ ; cd .. ; \
 	fi
+                # cd ..       ## maybe a bug for issue #35? break the build, rr, 30.01.2018
 
 	# copy cfg2html components into directories
 	pwd
