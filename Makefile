@@ -4,6 +4,7 @@
 # -*- coding: utf-8, LF/Unix -*-
 
 product = cfg2html
+#TODO:# release = shell (git describe --long) ??  ## 6.33-6-g48d4c01
 
 all:
 	i=`uname -s`; case $$i in HP-UX) make depot;; Linux) make rpm;; SunOS) echo "Run \"make sunos\"";; FreeBSD|OpenBSD|NetBSD) echo "Run \"make freebsd\"";;*) make help;; esac
