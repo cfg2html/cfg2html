@@ -1,6 +1,7 @@
-# @(#) $Id: get_superdome2info.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
+# @(#) $Id: get_superdome2info.sh,v 6.15 2018/02/16 15:27:06 ralph Exp $
 # --=-----------------------------------------------------------------------=---
-# (c) 1997 - 2013 by Ralph Roth  -*- http://rose.rult.at -*-
+# (c) 1997 - 2018 by Ralph Roth
+# http://www.cfg2html.com and http:/rose.rult.at/
 # Initial creation Oct. 2011 by Kathy Leslie
 
 ######################################################################
@@ -43,7 +44,7 @@ Superdome2Info( )
     done
     echo ; echo ; echo
 
-    echo "detailed i/o bay data"
+    echo "detailed I/O bay data"
     echo "---------------------"
     for i in `parstatus -M -I | awk -F':' '{print $2}'`
     do

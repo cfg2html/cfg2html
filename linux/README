@@ -8,8 +8,8 @@ This is the READ ME for (the old) cfg2html-linux version 2.xx (c) by ROSE SWE, D
 -------------------------------------------------------------
 
 
-This text should be formatted in DOS/Windows CR/LF format that it can be mailed
-(and read) with Windows mail programs!
+This text should be formatted in DOS/Windows CR/LF format that it can be
+mailed (and read) with Windows mail programs!
 
 This is the "Swiss army knife" for the Account Support Engineer, Customer
 Engineer, Sysadmin etc. I wrote it to get the necessary information to plan an
@@ -104,7 +104,7 @@ It has the disadvantage that "Makefile" and so on are put into the diff,
 too. So for patches where you don't add new files, you can omit the "-N".
 
 The "-r" means recursive. For cfg2html-linux this is only important if you
-change stuff in subdirectories. But it is good habit to use it.
+change stuff in sub directories. But it is good habit to use it.
 
 ------------------------------------------------------------------------------
 
