@@ -15,7 +15,7 @@ OFFICIAL =
 cfg2htmlbin = ../cfg2html
 name = cfg2html
 version := $(shell awk '/^CVS=/ { print $$3}' $(cfg2htmlbin))
-version := $(shell git describe --long|tr "-" "_")
+version := $(shell git describe --long|tr "-" ".")
 
 ### Get the branch information from git
 ifeq ($(OFFICIAL),)
