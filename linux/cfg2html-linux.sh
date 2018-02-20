@@ -344,29 +344,33 @@ then # else skip to next paragraph
   ### End changes by Dusan.Baljevic@ieee.org ### 13.05.2014
 
   exec_command "alias"  "Alias"
-  [ -r /etc/inittab ] && exec_command "grep -vE '^#|^ *$' /etc/inittab" "inittab"
-  ## This may report NOTHING on RHEL 3+4 ##
-  [ -x /sbin/chkconfig ] && exec_command "/sbin/chkconfig" "Services Startup"  ## chkconfig -A // SLES // xinetd missing
-  [ -x /sbin/chkconfig ] && exec_command "/sbin/chkconfig --list" "Services Runlevel" # rar, fixed 2805-2005 for FC4
-  [ -x /sbin/chkconfig ] && exec_command "/sbin/chkconfig -l --deps" "Services Runlevel and Dependencies" #*# Alexander De Bernardi 25.02.2011
-  [ -x /usr/sbin/service ] && exec_command "/usr/sbin/service --status-all 2> /dev/null" "Services - Status"   #  09.11.2011/12022013 by Ralph Roth #* rar *#
-  [ -x  /usr/sbin/sysv-rc-conf ] && exec_command " /usr/sbin/sysv-rc-conf --list" "Services Runlevel" # rr, 1002-2008
 
-  if [ "$GENTOO" = "yes" ] ; then   ## 2007-02-27 Oliver Schwabedissen
-    [ -x /bin/rc-status ]  && exec_command "/bin/rc-status --list" "Defined runlevels"
-    [ -x /sbin/rc-update ] && exec_command "/sbin/rc-update show --verbose" "Init scripts and their runlevels"
-  fi
+  if [ -x /usr/bin/systemctl ]   ## 20.02.2018, rr, should fix the first part of issue #124
+  then  ## new systemd stuff
+    ## OpenSUSE 12.x # changed 20140213 by Ralph Roth ##BACKPORT##
+    exec_command "/usr/bin/systemctl" "Systemd: System and Service Manager"
+    exec_command "/usr/bin/systemctl list-units --type service" "Systemd: All Services"
+    exec_command "/usr/bin/systemctl list-unit-files" " Systemd: All Unit Files"
 
-  ## OpenSUSE 12.x # changed 20140213 by Ralph Roth ##BACKPORT##
-  [ -x /usr/bin/systemctl ] && exec_command "/usr/bin/systemctl" "Systemd: System and Service Manager"
-  [ -x /usr/bin/systemctl ] && exec_command "/usr/bin/systemctl list-units --type service" "Systemd: All Services"
-  [ -x /usr/bin/systemctl ] && exec_command "systemctl list-unit-files" " Systemd: All Unit Files"
+    ## new 20140613 by Ralph Roth
+    [ -x /usr/bin/journalctl ] && exec_command "/usr/bin/journalctl -b -p 3 --no-pager" "Systemd Journal with Errors and Warnings"
 
-  ## new 20140613 by Ralph Roth
-  [ -x /usr/bin/journalctl ] && exec_command "/usr/bin/journalctl -b -p 3 --no-pager" "Systemd Journal with Errors and Warnings"
+    if [ "$ARCH" = "yes" ] ; then   ## M.Weiller, LUG-Ottobrunn.de, 2013-02-04 ## OpenSUSE also and SLES12?
+      exec_command "/usr/bin/systemctl --failed" "Systemd: Failed Units"
+    fi
+  else ## old SYS5 RC stuff!
+    [ -r /etc/inittab ] && exec_command "grep -vE '^#|^ *$' /etc/inittab" "inittab"
+    ## This may report NOTHING on RHEL 3+4 ##
+    [ -x /sbin/chkconfig ] && exec_command "/sbin/chkconfig" "Services Startup"  ## chkconfig -A // SLES // xinetd missing
+    [ -x /sbin/chkconfig ] && exec_command "/sbin/chkconfig --list" "Services Runlevel" # rar, fixed 2805-2005 for FC4
+    [ -x /sbin/chkconfig ] && exec_command "/sbin/chkconfig -l --deps" "Services Runlevel and Dependencies" #*# Alexander De Bernardi 25.02.2011
+    [ -x /usr/sbin/service ] && exec_command "/usr/sbin/service --status-all 2> /dev/null" "Services - Status"   #  09.11.2011/12022013 by Ralph Roth #* rar *#
+    [ -x  /usr/sbin/sysv-rc-conf ] && exec_command " /usr/sbin/sysv-rc-conf --list" "Services Runlevel" # rr, 1002-2008
 
-  if [ "$ARCH" = "yes" ] ; then   ## M.Weiller, LUG-Ottobrunn.de, 2013-02-04 ## OpenSUSE also and SLES12?
-    [ -x /usr/bin/systemctl ] && exec_command "/usr/bin/systemctl --failed" "Systemd: Failed Units"
+    if [ "$GENTOO" = "yes" ] ; then   ## 2007-02-27 Oliver Schwabedissen
+      [ -x /bin/rc-status ]  && exec_command "/bin/rc-status --list" "Defined runlevels"
+      [ -x /sbin/rc-update ] && exec_command "/sbin/rc-update show --verbose" "Init scripts and their runlevels"
+    fi
   fi
 
   if [ -d /etc/rc.config.d ] ; then
@@ -400,7 +404,8 @@ then # else skip to next paragraph
   # MiMe: SUSE && UNITEDLINUX
   # MiMe: until SUSE 7.3: params in /etc/rc.config and below /etc/rc.config.d/
   # MiMe; since SUSE 8.0 including UL: params below /etc/sysconfig
-  if [ "$SUSE" = "yes" ] || [ "$UNITEDLINUX" = "yes" ] ; then
+  if [ "$SUSE" = "yes" ] || [ "$UNITEDLINUX" = "yes" ]
+  then
     if [ -d /etc/sysconfig ] ; then
       # MiMe:
       exec_command "find /etc/sysconfig -type f -not -path '*/scripts/*' -exec grep -vE '^#|^ *$' {} /dev/null \; | sort" "Parameter /etc/sysconfig"
@@ -453,7 +458,7 @@ fi # terminates CFG_SYSTEM wrapper
 # Begin: "Arch Linux spezial section"
 ## M.Weiller, LUG-Ottobrunn.de, 2013-02-04
 if [ "$ARCH" == "yes" ] ; then
-  paragraph "Arch Linux spezial"
+  paragraph "Arch Linux specific"
   inc_heading_level
 
   exec_command "grep -vE '^#|^ *$' /etc/pacman.conf" "Pacman config"

@@ -12,7 +12,7 @@ RCS/
 #
 # Debian directory (make deb-pkg)
 #
-linux/debian/
+#linux/debian/   ## not needed anymore, see issue #128
 linux/build-stamp
 linux/configure-stamp
 linux/packaging/debian/cfg2html.dsc.orig
