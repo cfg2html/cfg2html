@@ -1,0 +1,10 @@
+{
+  "name": "cfg2html",
+  "version": "0.1.0",
+  "author": "Ralph Roth",
+  "summary": "SAP BP",
+  "license": "GPLv3",
+  "source": "https://github.com/cfg2html/cfg2html",
+  "project_page": "https://github.com/cfg2html/cfg2html",
+  "issues_url": "https://github.com/cfg2html/cfg2html/issues"
+}
