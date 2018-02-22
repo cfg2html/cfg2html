@@ -1,3 +1,7 @@
+# Version 6.34.2
+ -  Releasor: 6.34.1-1-g227e333:, 20180222 - roseswe
+ -  Cleanup of CHANGELOG.md - roseswe
+
 # Version 6.34.1
 
 - first working version with releasor
