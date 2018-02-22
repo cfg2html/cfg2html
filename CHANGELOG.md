@@ -1,3 +1,6 @@
+# Version 2.0.0
+ -  Added CHANGELOG.md and metadata.json - roseswe
+
 # Version 6.33.0
 Bumped version number
 

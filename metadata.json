@@ -1,8 +1,8 @@
 {
   "name": "cfg2html",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": "Ralph Roth",
-  "summary": "SAP BP",
+  "summary": "cfg2html (Config to HTML)",
   "license": "GPLv3",
   "source": "https://github.com/cfg2html/cfg2html",
   "project_page": "https://github.com/cfg2html/cfg2html",
