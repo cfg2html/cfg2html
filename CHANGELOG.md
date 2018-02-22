@@ -1,3 +1,6 @@
+# Version 1.0.0
+Bumped version number
+
 # Version 0.1.0
  -  Tweak/beautified the VCS collector for issue #111 - roseswe
  -  should fix one part of issue #124 - roseswe
