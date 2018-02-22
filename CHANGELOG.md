@@ -1,11 +1,9 @@
 # Version 6.34.1
 
-# Version 2.0.0
- -  Added CHANGELOG.md and metadata.json - roseswe
+- first working version with releasor
 
 # Version 6.33.0
 Bumped version number
-
 
  -  Tweak/beautified the VCS collector for issue #111 - roseswe
  -  should fix one part of issue #124 - roseswe
