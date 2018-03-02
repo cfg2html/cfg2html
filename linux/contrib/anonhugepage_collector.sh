@@ -1,11 +1,16 @@
-# @(#) $Id: anonhugepage_collector.sh,v 1.1 2013/12/23 12:42:09 ralph Exp $
+# @(#) $Id: anonhugepage_collector.sh,v 6.2 2018/03/02 06:17:45 ralph Exp $
 # -------------------------------------------------------------------------
-# vim:ts=8:sw=4:sts=4 -*- coding: utf-8 -*- http://rose.rult.at/ - Ralph Roth
+# vim:ts=8:sw=4:sts=4
+# atom:set fileencoding=utf8 fileformat=unix filetype=shell tabstop=2 expandtab:
+# -*- coding: utf-8 -*- http://rose.rult.at/ - Ralph Roth
 
 # Collector that shows all processes that had allocated anon huge pages
 
 echo "THP/Huge Pages Overview (/proc/meminfo)"
 grep Huge /proc/meminfo
+echo ""
+echo "THP/Huge Pages Overview - Status"
+cat /sys/kernel/mm/transparent_hugepage/enabled
 
 echo ""
 echo "Processes that uses anon huge pages:"
