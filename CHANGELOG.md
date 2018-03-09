@@ -41,12 +41,13 @@ Bumped version number
     Source beautified
     Changed CVS header & Year
     Signed-off-by: Ralph Roth <rroth>
- -  	modified:   linux/cfg2html-linux.sh - Ralph Roth
- -  	modified:   linux/cfg2html-linux.sh - Ralph Roth
- -  	modified:   cfg2html-linux.sh - Ralph Roth
- -  	modified:   linux/cfg2html-linux.sh - Ralph Roth
+ -  modified:   linux/cfg2html-linux.sh - Ralph Roth
+ -  modified:   linux/cfg2html-linux.sh - Ralph Roth
+ -  modified:   cfg2html-linux.sh - Ralph Roth
+ -  modified:   linux/cfg2html-linux.sh - Ralph Roth
  -  added zypper patch log
     fixes for vim
     merged into CVS stream
  -  Reference to Issue #6 added - Ralph Roth
 
+No CHANGELOG available for release 6.32 and lower. See history*.text
