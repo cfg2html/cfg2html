@@ -22,5 +22,3 @@ cfg2html (6.11) unstable; urgency=low
   * test release
 
  -- Gratien Dhaese <gratien.dhaese@gmail.com>  Wed, 09 Oct 2013 16:35:30 +0100
-  
-  * Initial version
