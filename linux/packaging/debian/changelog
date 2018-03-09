@@ -1,4 +1,4 @@
-cfg2html (6.33-3) UNRELEASED; urgency=low
+cfg2html (6.34.2) UNRELEASED; urgency=low
 
   [ Ralph Roth ]
   * 6.13 upstream
@@ -12,7 +12,10 @@ cfg2html (6.33-3) UNRELEASED; urgency=low
   * Bumped to 6.31/6.33
   * tagged as 6.33 release. Changed DH_COMPAT from 5 to 9
 
- -- ralph <ralph@roth8>  Tue, 30 Jan 2018 06:51:48 +0100
+  [ ralph ]
+  * Bumped version number of the Debian ChangeLog using dch (Debian8) to 6.34.2. Build on upstream version: 6.34.2-2-g85ba063@(master)
+
+ -- ralph <ralph@roth8>  Fri, 09 Mar 2018 08:11:59 +0100
 
 cfg2html (6.11) unstable; urgency=low
 
