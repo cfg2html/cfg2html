@@ -1,11 +1,13 @@
 .\" Copyright (c) 2003-2018 by MIchael MEifert, Gratien D'haese and Ralph Roth
 .\"$Id: cfg2html.8,v 6.15 2018/01/04 22:26:55 ralph Exp $
 
-.TH cfg2html-linux 8 "02.01.2018" "mime/rar"
+.TH cfg2html-linux 8 "13.03.2018" "gdh/mime/rar"
+
+cfg2html is a little utility to collect the necessary system configuration files and system set-up to an ASCII file and HTML file. Simple to use and very helpful in disaster recovery situations.
 
 .SH NAME
 cfg2html \- creates a nice HTML and plain ASCII documentation of your GNU/Linux
-system. WARNING, use this script AT YOUR OWN RISK.
+systems. WARNING, use this script AT YOUR OWN RISK.
 
 .SH SYNOPSIS
 
@@ -18,9 +20,11 @@ system. WARNING, use this script AT YOUR OWN RISK.
 
 The
 .B cfg2html
-script is the "Swiss army knife" for the consultant, support engineer, customer
-engineer, sysadmin etc. We wrote it to get the necessary information to plan an
-update, to perform basic trouble shooting or performance analysis. As a bonus
+collects the system configuration into a HTML and a text file. cfg2html is the “Swiss army knife” for the sysadmins. It was written to get the necessary information to plan an update, to perform basic trouble shooting or performance analysis.
+
+This include the collection of Cron and At, installed Hardware, installed Software, Filesystems, Dump- and Swap-configuration, LVM, Network Settings, Kernel, System enhancements and Applications, Subsystems.
+
+As a bonus
 .B cfg2html
 creates a nice HTML and plain ASCII documentation. If you like, write your
 description of the system into
@@ -162,7 +166,7 @@ and the source code is hosted on
 .SH WARNINGS
 use the
 .B cfg2html
-script at your own risk! See License.txt for details!
+script at your own risk! See the file License.txt for details!
 .SH DIAGNOSTICS
 
 .B cfg2html
@@ -172,8 +176,9 @@ writes errors to <hostname>.err
 There are probably a lot of bugs.  We are currently using this script
 successfully for our own systems, but there are lot of features included
 that we don't have any way to test right now. If you find a bug or have a
-comment or suggestion about the script, please email them at the address
-in the
+comment or suggestion about the script, please submit an issue at
+.I https://github.com/cfg2html/cfg2html/issues
+also you can email bugs and issue to the authors. You can find the address in the
 .I AUTHORS
 section. We love to hear from you. :-)
 

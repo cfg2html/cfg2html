@@ -1,11 +1,14 @@
-.\" Copyright (c) 2003-2016 by and Ralph Roth and Gratien D'haese (gd)
+.\" Copyright (c) 2003-2018 by and Ralph Roth and Gratien D'haese (gd)
 .\"$Id: cfg2html.8,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $
 .TA c
 .TH cfg2html 8
 .ds )H License GNU GPL v3
 .ds ]W HP-UX Release 11i v1,2,3
+
+cfg2html is a little utility to collect the necessary system configuration files and system set-up to an ASCII file and HTML file. Simple to use and very helpful in disaster recovery situations.
+
 .SH NAME
-cfg2html \- creates a nice HTML and plain ASCII documentation of your GNU/Linux and *NIX systems. WARNING, use this script AT YOUR OWN RISK.
+cfg2html \- creates a nice HTML and plain ASCII documentation of your HP-UX, GNU/Linux and *NIX systems. WARNING, use this script AT YOUR OWN RISK.
 .SH SYNOPSIS
 
 .B cfg2html
@@ -14,12 +17,17 @@ cfg2html \- creates a nice HTML and plain ASCII documentation of your GNU/Linux 
 .br
 
 .SH DESCRIPTION
+
 The
 .B cfg2html
-script is the "Swiss army knife" for the consultant, support engineer, customer engineer, sysadmin etc. We wrote it to get the necessary information
-to plan an update, to perform basic trouble shooting or performance analysis. As a bonus
+collects the system configuration into a HTML and a text file. cfg2html is the “Swiss army knife” for the sysadmins. It was written to get the necessary information to plan an update, to perform basic trouble shooting or performance analysis.
+
+This include the collection of Cron and At, installed Hardware, installed Software, Filesystems, Dump- and Swap-configuration, LVM, Network Settings, Kernel, System enhancements and Applications, Subsystems.
+
+As a bonus
 .B cfg2html
-creates a nice HTML and plain ASCII documentation. If you like, write your description of the system into
+creates a nice HTML and plain ASCII documentation. If you like, write your
+description of the system into
 .B /opt/cfg2html/etc/systeminfo
 
 example:
@@ -36,7 +44,7 @@ and so on.
 if this file exists, you can add your own OUTPUT_URL location, e.g.
 .TP
   OUTPUT_URL=nfs://your-nfs-server/cfg2html-data/
-Beneath the path of the cfg2html-data directory subdirectories will be created per hostname.
+Beneath the path of the cfg2html-data directory sub directories will be created per hostname.
 
 .SS Switches
 The following switches are available from the command line:
@@ -85,7 +93,7 @@ disable: Screen tips inline
 disable: Software
 .TP
 .B \-M
-disable: Serviceguard and Quorum Server collector
+disable: ServiceGuard/UX and Quorum Server collector
 .TP
 .B \-U
 disable: User accounts/security sensitive data collection
@@ -188,11 +196,14 @@ in a safe place where only the root user have access or remove the
 files from your file system.
 
 .SH CONTACTING
-If you like the script, and you want to learn more about the  script, or want to see a feature added to it that
-isn't already here, then please subscribe to the project mailing list.  The project web page is at
+If you like the script, and you want to learn more about the script, or want
+to see a feature added to it that isn't already here, then please subscribe to
+the project mailing list.  The project web page is at
 .B http://www.cfg2html.com
 and
 .B http://groups.yahoo.com/cfg2html
+and the source code is hosted on
+.B https://github.com/cfg2html/cfg2html
 
 .SH WARNINGS
 use the
@@ -209,8 +220,11 @@ successfully for our own systems, but there are lot of features included
 that we don't have any way to test right now. If you find a bug or have a
 comment or suggestion about the script, please submit an issue at
 .I https://github.com/cfg2html/cfg2html/issues
+also you can email bugs and issue to the authors. You can find the address in the
+.I AUTHORS
+section. We love to hear from you. :-)
 
 .SH AUTHORS
-Original cfg2html HP-UX version written by Ralph Roth <rose_swe@hotmail.com>
+Original cfg2html HP-UX version was written by Ralph Roth <cfg2html@hotmail.com>
 
 See the source code and changelog for complete history and credits.
