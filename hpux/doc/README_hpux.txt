@@ -12,7 +12,7 @@ mailed (and read) with Windows mail programs!
 
 READ ME for Cfg2Html (c) by ROSE SWE, Dipl.-Ing. Ralph Roth
 -------------------------------------------------------------------------
-Last updated: @(#) $Id: README_hpux.txt,v 6.10.1.1 2013-09-12 16:13:19 ralph Exp $
+Last updated: @(#) $Id: README_hpux.txt,v 1.5 2018/03/16 16:04:22 ralph Exp $
 
 cfg2html is the short for "Config to HTML".
 
