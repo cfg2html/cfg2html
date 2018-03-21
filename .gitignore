@@ -9,6 +9,7 @@
 #
 CVS/
 RCS/
+.gitchangelog.rc
 #
 # Debian directory (make deb-pkg)
 #

@@ -26,7 +26,21 @@ If you do not want to build cfg2html by your own, we have pre-build installation
 
 If you find a problem, a bug, want to discuss feature requests or have some bright new ideas please create a new issue  at our GitHub project pages <https://github.com/cfg2html/cfg2html/issues.> When using it, please ensure that any criticism you provide is constructive. Please do not use the issue tracker for general help and support on how to use cfg2html.
 
+## ChangeLog and Tags
+
+NOTE: This is only a suggestion!
+
+- Semantic Versioning <http://semver.org/> e.g. 1.0.19
+- For ChangeLog use ruby.gem.releasor or something like <https://keepachangelog.com> or <https://pypi.python.org/pypi/gitchangelog>
+- Use Annotated tags (-a)!
+- Don't use hash signs (#) in the git commit message, they might get headlines with MarkDown in the ChangeLog.md
+- See also <https://keepachangelog.com/en/1.0.0/>
+- If possible use this git commit format:
+    {new|chg|fix}: [{dev|pkg}:] COMMIT_MESSAGE [!{minor|refactor} ... ]
+    To see a full documentation of such commit message convention, please look up the reference file gitchangelog.rc.reference, see <https://github.com/vaab/gitchangelog/blob/master/src/gitchangelog/gitchangelog.rc.reference>
+
 ----
 $Id: README.md,v 6.7 2018/02/08 21:48:33 ralph Exp $
 
-<!-- Atom:set encoding=utf8 lineEnding=unix grammar=md tabLength=2 useSoftTabs: -->
+<!-- Atom:set encoding=utf8 lineEnding=unix grammar=md tabLength=4 useSoftTabs: -->
+<!-- vim:set fileencoding=utf8 fileformat=unix filetype=md tabstop=4 expandtab: -->
