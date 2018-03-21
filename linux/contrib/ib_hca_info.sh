@@ -11,21 +11,21 @@ hcas=`/sbin/lspci | grep -i InfiniBand | grep -vi bridge | grep -vi QLogic | cut
 
 if [ -z "$hcas" ]
 then
-        echo "No Mellanox HCAs found."
+  echo "No Mellanox HCAs found."
 else
-        for hca in $hcas
-        do
-                echo "#####################"
-                if [ -e /sbin/mstvpd ]
-                then
-                        /sbin/mstvpd $hca
-                else
-                        /usr/bin/mstvpd $hca
-                fi
-#                /usr/bin/mstflint -d $hca dc | grep ib_support
-				/usr/bin/mstflint -d $hca dc
-                /usr/bin/mstflint -d $hca q
-                /usr/bin/mstflint -d $hca v
-                echo "#####################"
-        done
+  for hca in $hcas
+  do
+    echo "#####################"
+    if [ -e /sbin/mstvpd ]
+    then
+      /sbin/mstvpd $hca
+    else
+      /usr/bin/mstvpd $hca
+    fi
+    #                /usr/bin/mstflint -d $hca dc | grep ib_support
+    /usr/bin/mstflint -d $hca dc
+    /usr/bin/mstflint -d $hca q
+    /usr/bin/mstflint -d $hca v
+    echo "#####################"
+  done
 fi

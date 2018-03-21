@@ -11,17 +11,17 @@ LANG=C
 
 if [ -f /etc/sysconfig/kernel ] ; then
 
-      echo "# Missing Kernel Modules"
-      sed -e '/^#/d;/^$/d;/^[[:space:]]*$/d' /etc/sysconfig/kernel
-      . /etc/sysconfig/kernel
+  echo "# Missing Kernel Modules"
+  sed -e '/^#/d;/^$/d;/^[[:space:]]*$/d' /etc/sysconfig/kernel
+  . /etc/sysconfig/kernel
 
-      echo "# Kernel Modules not loaded"
-      for i in $INITRD_MODULES $DOMU_INITRD_MODULES $MODULES_LOADED_ON_BOOT
-      do
-	if ! lsmod | grep"^$i[[:space:]]"&>/dev/null; then
-	  echo $i
-	fi
-      done; echo
+  echo "# Kernel Modules not loaded"
+  for i in $INITRD_MODULES $DOMU_INITRD_MODULES $MODULES_LOADED_ON_BOOT
+  do
+    if ! lsmod | grep"^$i[[:space:]]"&>/dev/null; then
+      echo $i
+    fi
+  done; echo
 
 fi
 
@@ -31,11 +31,11 @@ F=""multi.*path.*down" "bond.*link.*down" "lpfs.*err" "target.failure" "duplicat
 
 if [ -r /var/log/messages ]
 then
-	## we need to fix this for systemd, e.g. SLES12
-	for f in $F; do
-		echo -n "$f = "
-		grep $f /var/log/messages | wc -l
-	done
+  ## we need to fix this for systemd, e.g. SLES12
+  for f in $F; do
+    echo -n "$f = "
+    grep $f /var/log/messages | wc -l
+  done
 fi
 
 ## process without an named owner?

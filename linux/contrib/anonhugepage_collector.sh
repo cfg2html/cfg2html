@@ -18,18 +18,18 @@ echo "kb  (PID)  program + command line"
 
 for FILE in /proc/*/smaps
 do
- if [ -r $FILE ]
- then
-        # we must sum them up, for each memory region
-	KBAM=$(grep AnonHugePages $FILE| awk '{ sum += $2; } END { if (sum > 0) {printf ("%d", sum+0);} }' );
-	PID=$(echo $FILE|cut -f3 -d/)
+  if [ -r $FILE ]
+  then
+    # we must sum them up, for each memory region
+    KBAM=$(grep AnonHugePages $FILE| awk '{ sum += $2; } END { if (sum > 0) {printf ("%d", sum+0);} }' );
+    PID=$(echo $FILE|cut -f3 -d/)
 
-	# maybe /proc/$PID/numa_maps is useful for further details??
-	if [ "$KBAM" != "" ]
-	then
-		echo $KBAM"  ("$PID") " $(cat /proc/$PID/cmdline)
-	fi
- fi # vanished meanwhile?
+    # maybe /proc/$PID/numa_maps is useful for further details??
+    if [ "$KBAM" != "" ]
+    then
+      echo $KBAM"  ("$PID") " $(cat /proc/$PID/cmdline)
+    fi
+  fi # vanished meanwhile?
 done | sort -nr | awk ' { sum += $1; print $0; } END { printf "\n%d kb total anon huge pages\n", sum } '
 # the sum calculated with awk and the one from meminfo should be EQUAL!
 

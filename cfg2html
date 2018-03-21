@@ -51,7 +51,7 @@ OS=$(echo $OS | tr 'A-Z' 'a-z' | sed -e 's/-//')
 CFG_CMDLINE=$*
 
 COPYRIGHT="Copyright (C) 1999-2018
-    ROSE SWE, Dipl.-Ing. Ralph Roth"
+ROSE SWE, Dipl.-Ing. Ralph Roth"
 STARTTIME=$SECONDS
 
 LANG="C"
@@ -145,9 +145,9 @@ CopyFilesAccordingOutputUrl
 
 if [ $RETCODE -eq 0 ]
 then
-	echo "No errors reported."
+    echo "No errors reported."
 else
-	echo "Returncode=$RETCODE (see file $ERROR_LOG)"
+    echo "Returncode=$RETCODE (see file $ERROR_LOG)"
 fi
 
 # cleanup

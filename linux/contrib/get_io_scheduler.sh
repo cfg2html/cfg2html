@@ -2,7 +2,7 @@
 
 for i in $(find /sys/devices/ | grep /queue/scheduler)
 do
-    echo $i": "$(cat $i)|grep noop
+  echo $i": "$(cat $i)|grep noop
 done
 
 # -----------------------------------------------------------------------------
