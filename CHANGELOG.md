@@ -1,3 +1,19 @@
+# Version 6.34.3
+ -  chg: ReadMe (about commit messages) - roseswe
+ -  chg: Fixed shell script indent/beautified them - roseswe
+ -  Fix all MD issues that VScode flagged - roseswe
+ -  Bumped the CVS version number - roseswe
+ -  reformatted, cleanup, tabs -> spaces - roseswe
+ -  Cleanup  
+    UTF8+UNIX LF  
+    Won't fix comments  
+            roseswe
+ -  Man page updates. Can we close issue #16? - roseswe
+ -  remove bad trailing line in changelog of debian packagaing - Gratien D'haese
+ -  Changed Debian Changelog using dch, builds to cfg2html_6.34.2_all.deb under Debian9 - Ralph Roth
+ -  Playing around with the ChangeLogs to fix the OBS build failure - roseswe
+ -  added cat /sys/kernel/mm/transparent_hugepage/enabled - roseswe
+
 # Version 6.34.2
  -  Releasor: 6.34.1-1-g227e333:, 20180222 - roseswe
  -  Cleanup of CHANGELOG.md - roseswe
