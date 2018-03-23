@@ -36,11 +36,11 @@ NOTE: This is only a suggestion!
 - Don't use hash signs (#) in the git commit message, they might get headlines with MarkDown in the ChangeLog.md
 - See also <https://keepachangelog.com/en/1.0.0/>
 - If possible use this git commit format:
-    {new|chg|fix}: [{dev|pkg}:] COMMIT_MESSAGE [!{minor|refactor} ... ]
+    {new|chg|fix}: [{dev|use?r|pkg|test|doc}:] COMMIT_MESSAGE [!{minor|refactor} ... ]
     To see a full documentation of such commit message convention, please look up the reference file gitchangelog.rc.reference, see <https://github.com/vaab/gitchangelog/blob/master/src/gitchangelog/gitchangelog.rc.reference>
 
 ----
-$Id: README.md,v 6.7 2018/02/08 21:48:33 ralph Exp $
+$Id: README.md,v 6.8 2018/03/23 11:09:37 ralph Exp $
 
 <!-- Atom:set encoding=utf8 lineEnding=unix grammar=md tabLength=4 useSoftTabs: -->
 <!-- vim:set fileencoding=utf8 fileformat=unix filetype=md tabstop=4 expandtab: -->

@@ -1,5 +1,5 @@
 # FibreChannel Collector, Initial creation June 2013
-# @(#) $Id: fc_collector.sh,v 1.1 2013/11/29 20:03:30 ralph Exp $
+# @(#) $Id: fc_collector.sh,v 6.2 2018/03/23 11:07:07 ralph Exp $
 # -------------------------------------------------------------------------
 # vim:ts=8:sw=4:sts=4 -*- coding: utf-8 -*- http://rose.rult.at/ - Ralph Roth
 

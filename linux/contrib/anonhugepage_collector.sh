@@ -1,4 +1,4 @@
-# @(#) $Id: anonhugepage_collector.sh,v 6.2 2018/03/02 06:17:45 ralph Exp $
+# @(#) $Id: anonhugepage_collector.sh,v 6.3 2018/03/23 11:07:07 ralph Exp $
 # -------------------------------------------------------------------------
 # vim:ts=8:sw=4:sts=4
 # atom:set fileencoding=utf8 fileformat=unix filetype=shell tabstop=2 expandtab:

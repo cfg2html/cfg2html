@@ -1,6 +1,6 @@
-# @(#) $Id: check4errors-linux.sh,v 6.16 2017/08/30 11:31:08 ralph Exp $
+# @(#) $Id: check4errors-linux.sh,v 6.17 2018/03/23 11:07:07 ralph Exp $
 # --=---------------------------------------------------------------------=---
-# Written and (c) 1997 - 2017 by Ralph Roth  -*- http://rose.rult.at -*-
+# Written and (c) 1997 - 2018 by Ralph Roth  -*- http://rose.rult.at -*-
 
 # Like the check for error script for HP-UX, this script tries to detect some
 # errors or system misconfiguration.
@@ -9,7 +9,8 @@ LANG=C
 
 /usr/bin/last -xF | egrep "reboot|shutdown|runlevel|system"|tail
 
-if [ -f /etc/sysconfig/kernel ] ; then
+if [ -f /etc/sysconfig/kernel ] 
+then
 
   echo "# Missing Kernel Modules"
   sed -e '/^#/d;/^$/d;/^[[:space:]]*$/d' /etc/sysconfig/kernel

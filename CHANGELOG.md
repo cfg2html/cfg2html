@@ -4,10 +4,9 @@
  -  Fix all MD issues that VScode flagged - roseswe
  -  Bumped the CVS version number - roseswe
  -  reformatted, cleanup, tabs -> spaces - roseswe
- -  Cleanup  
-    UTF8+UNIX LF  
-    Won't fix comments  
-            roseswe
+ -  Cleanup
+    UTF8+UNIX LF
+    Won't fix comments - roseswe
  -  Man page updates. Can we close issue #16? - roseswe
  -  remove bad trailing line in changelog of debian packagaing - Gratien D'haese
  -  Changed Debian Changelog using dch, builds to cfg2html_6.34.2_all.deb under Debian9 - Ralph Roth
