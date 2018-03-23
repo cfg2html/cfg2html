@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# @(#) $Id: cfg2html-linux.sh,v 6.56 2018/01/02 16:24:05 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.58 2018/03/23 13:09:48 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2018 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
 
@@ -610,7 +610,7 @@ inc_heading_level
   ### End changes by Dusan.Baljevic@ieee.org ### 13.05.2014 ### needs cleanup, e.g. 2> /dev/null - 06.04.2015, rr
 
   LSCPU=`which lscpu 2>/dev/null`; if [ -n "$LSCPU" ] && [ -x $LSCPU ] ; then exec_command "$LSCPU" "CPU architecture"; fi # see issue #52
-  HWINFO=`which hwinfo 2>/dev/null`; if [ -n "$HWINFO" ] && [ -x $HWINFO ] ; then exec_command "$HWINFO --short 2> /dev/null" "Hardware List (hwinfo)"; fi  ## see issue #82, rr, 20150527-rr
+  HWINFO=`which hwinfo 2>/dev/null`; if [ -n "$HWINFO" ] && [ -x $HWINFO ] ; then exec_command "timeout 3m $HWINFO --short 2> /dev/null" "Hardware List (hwinfo)"; fi  ## see issue #82, rr, 20150527-rr, see also issue #129, this a workaround! 23.03.2018-rr
   LSHW=`which lshw 2>/dev/null`; if [ -n "$LSHW" ] && [ -x $LSHW ] ; then exec_command "$LSHW" "Hardware List (lshw)"; fi ##  13.12.2004, 15:53 modified by Ralph Roth
   LSDEV=`which lsdev 2>/dev/null`; if [ -n "$LSDEV" ] && [ -x $LSDEV ] ; then exec_command "$LSDEV" "Hardware List (lsdev)"; fi
   LSHAL=`which lshal 2>/dev/null`; if [ -n "$LSHAL" ] && [ -x $LSHAL ] ; then exec_command "$LSHAL" "List of Devices (lshal)"; fi
