@@ -1,3 +1,8 @@
+# Version 6.34.4
+ -  This is an workaround for issue #129 - roseswe
+ -  Chg: Mainly bumped the versions number etc. But I need to commit the code for building! - roseswe
+ -  Releasor: Changed the CHANGELOG file from Windows to Linux formatting - roseswe
+
 # Version 6.34.3
  -  chg: ReadMe (about commit messages) - roseswe
  -  chg: Fixed shell script indent/beautified them - roseswe
