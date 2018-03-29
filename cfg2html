@@ -1,5 +1,5 @@
 #
-# @(#) $Id: cfg2html,v 6.34 2018/03/23 11:09:37 ralph Exp $
+# @(#) $Id: cfg2html,v 6.35 2018/03/29 07:49:01 ralph Exp $
 # -------------------------------------------------------------------------
 # This is the wrapper for cfg2html for LINUX and HP-UX
 # CFG2HTML - license: see GPL v3
@@ -40,7 +40,7 @@ rm -f /tmp/cfg2html.respawn # get rid of the temporary lock as soon as possible
 
 PRODUCT="Config to HTML - cfg2html"
 # this CVS id is also used by the Makefiles to get the version number!
-CVS="$Id: cfg2html,v 6.34 2018/03/23 11:09:37 ralph Exp $"
+CVS="$Id: cfg2html,v 6.35 2018/03/29 07:49:01 ralph Exp $"
 PROGRAM=$(echo $CVS|cut -f2 -d" "|cut -f1 -d,)
 VERSION=$(echo $CVS|cut -f3 -d" ")
 RELEASE_DATE="2018-01-05"	## YYYY-MM-DD ?!
@@ -50,8 +50,7 @@ OS=$(uname)
 OS=$(echo $OS | tr 'A-Z' 'a-z' | sed -e 's/-//')
 CFG_CMDLINE=$*
 
-COPYRIGHT="Copyright (C) 1999-2018
-ROSE SWE, Dipl.-Ing. Ralph Roth"
+COPYRIGHT="Copyright (C) 1999-2018 ROSE SWE, Dipl.-Ing. Ralph Roth"
 STARTTIME=$SECONDS
 
 LANG="C"
@@ -72,7 +71,7 @@ trap "DoExitTasks" 0 1 2 3 6 11 15
 case $MY_OS in
     HP-UX) TMP_DIR="$(mktemp -d /tmp -p cfg2html_)" ;;
     Linux|SunOS) TMP_DIR="$(mktemp -d /tmp/cfg2html.XXXXXXXXXXXXXXX)" ;;
-    *) TMP_DIR="/tmp/${PROGRAM}_${RANDOM}" ;;				## hopefully AIX and SUN have $RANDOM too - why not using mktemp too, its safer! RR
+    *) TMP_DIR="/tmp/${PROGRAM}_${RANDOM}" ;;	## hopefully AIX and SUN have $RANDOM too - why not using mktemp too, its safer! RR
 esac
 
 # SHARE_DIR will be redefined (to /opt/$PROGRAM) by 'make depot' not by 'make rpm/deb'
@@ -116,7 +115,7 @@ do
     [ $YEAR -gt $i ] && OLD=$OLD" very"
     # echo $i - $OLD
     ((i=(i-1)))
-    [ "${OLD}" != "" ] && echo "WARNING! This version of cfg2html is$OLD old! Update asap!"
+    [ "${OLD}" != "" ] && echo "WARNING! This version of cfg2html is$OLD old! Update ASAP!"
 done
 
 
