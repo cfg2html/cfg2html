@@ -1895,8 +1895,8 @@ fi
 
 # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 24 December 2017
 #
-SSDCONF="/etc/sssd/sssd.conf"
-if [ -s "$SSDCONF" ] ; then
+SSSDCONF="/etc/sssd/sssd.conf"
+if [ -s "$SSSDCONF" ] ; then
     dec_heading_level
     paragraph "System Security Services Daemon (SSSD)"
     inc_heading_level
