@@ -337,6 +337,7 @@ then # else skip to next paragraph
      exec_command "$SYSTEMD" "systemd-analyze Boot Performance Profiler"
      exec_command "$SYSTEMD blame" "systemd-analyze Boot Sequence and Performance Profiler"
   fi
+  [ -x /usr/bin/systemd-cgls ] && exec_command "/usr/bin/systemd-cgls" "Systemd: Recursively show control group contents" ## SAP HANA 
 
   [ -r /etc/init/bootchart.conf ] && exec_command "grep -vE '^#' /etc/init/bootchart.conf" "bootchart Boot Sequence and Performance Profiler"
   [ -r /etc/systemd/bootchart.conf ] && exec_command "grep -vE '^#' /etc/systemd/bootchart.conf" "bootchart Boot Sequence and Performance Profiler"

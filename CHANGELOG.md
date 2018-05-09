@@ -24,11 +24,10 @@
 
 # Version 6.34.1
 
-- first working version with releasor
+ - first working version with releasor
 
 # Version 6.33.0
-Bumped version number
-
+ - Bumped version number
  -  Tweak/beautified the VCS collector for issue #111 - roseswe
  -  should fix one part of issue #124 - roseswe
  -  Add comments about issue #38 - roseswe
@@ -70,4 +69,4 @@ Bumped version number
     merged into CVS stream
  -  Reference to Issue #6 added - Ralph Roth
 
-No CHANGELOG available for release 6.32 and lower. See history*.text
+No CHANGELOG available for release 6.32 and lower. See history*.txt files!
