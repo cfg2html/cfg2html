@@ -71,7 +71,6 @@
     Changed CVS header & Year
     Signed-off-by: Ralph Roth <rroth>
  -  modified:   linux/cfg2html-linux.sh - Ralph Roth
- -  modified:   linux/cfg2html-linux.sh - Ralph Roth
  -  modified:   cfg2html-linux.sh - Ralph Roth
  -  modified:   linux/cfg2html-linux.sh - Ralph Roth
  -  added zypper patch log
