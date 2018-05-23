@@ -1949,7 +1949,7 @@ then
     inc_heading_level
     exec_command "/usr/sap/hostctrl/exe/saphostexec -version" "Installed SAP Components"
     exec_command "/usr/sap/hostctrl/exe/saphostexec -status" "Status SAP"		### Ralph Roth, 12.04.2015
-    exec_command "/usr/sap/hostctrl/exe/lssap -F $TMP_DIR/dev_lssap" "SAP - lssap"	### Ralph Roth, 12.04.2015
+    exec_command "/usr/sap/hostctrl/exe/lssap -F $TMP_DIR/dev_lssap" "SAP - lssap"	### Ralph Roth, 12.04.2015 ## FIXME: issue #131
     exec_command "ps fax | grep -i ' pf=/' | grep -v grep" "Active SAP Processes" 	### CHANGED ### 20150412 by Ralph Roth
     if [ -x /usr/sbin/saptune ]  ## only SLES12SP2+, Ralph Roth, 23.05.2018
     then  
