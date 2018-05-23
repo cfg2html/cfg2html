@@ -1,3 +1,13 @@
+# Version 6.34.5
+ -  Mentioned issue #131 - roseswe
+ -  Added saptune - roseswe
+ -  Added systemd-cgls, updated ChangeLog - roseswe
+ -  Update cfg2html-linux.sh  
+    The SSSD logic hangs when the SSSDCONF (3 S's) variable is referenced, because SSDCONF (2 S's) was defined  
+            Ralph Roth
+ -  Small fixes after beautifing the code (wrong indentation etc.) - roseswe
+ -  chg: Releasor: Changed the CHANGELOG file from Windows to Linux formatting !minor - roseswe
+
 # Version 6.34.4
  -  This is an workaround for issue #129 - roseswe
  -  Chg: Mainly bumped the versions number etc. But I need to commit the code for building! - roseswe
