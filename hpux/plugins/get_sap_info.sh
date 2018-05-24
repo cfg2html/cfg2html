@@ -14,7 +14,7 @@ fi
 
 if [[ -x /usr/sap/hostctrl/exe/lssap ]]; then
     echo "*** /usr/sap/hostctrl/exe/lssap ***"
-    /usr/sap/hostctrl/exe/lssap
+    /usr/sap/hostctrl/exe/lssap -F stdout               ## issue #131 ??
 fi
 
 # Also we can add new stuff like

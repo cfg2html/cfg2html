@@ -40,10 +40,11 @@ rm -f /tmp/cfg2html.respawn # get rid of the temporary lock as soon as possible
 
 PRODUCT="Config to HTML - cfg2html"
 # this CVS id is also used by the Makefiles to get the version number!
+# may be obsoleted by git tag --describe handling?
 CVS="$Id: cfg2html,v 6.35 2018/03/29 07:49:01 ralph Exp $"
 PROGRAM=$(echo $CVS|cut -f2 -d" "|cut -f1 -d,)
 VERSION=$(echo $CVS|cut -f3 -d" ")
-RELEASE_DATE="2018-01-05"	## YYYY-MM-DD ?!
+RELEASE_DATE="2018-01-24"	## YYYY-MM-DD ?!
 #echo $PROGRAM,$VERSION,$RELEASE_DATE
 
 OS=$(uname)
@@ -73,6 +74,8 @@ case $MY_OS in
     Linux|SunOS) TMP_DIR="$(mktemp -d /tmp/cfg2html.XXXXXXXXXXXXXXX)" ;;
     *) TMP_DIR="/tmp/${PROGRAM}_${RANDOM}" ;;	## hopefully AIX and SUN have $RANDOM too - why not using mktemp too, its safer! RR
 esac
+
+export TMP_DIR # be on the safe side?
 
 # SHARE_DIR will be redefined (to /opt/$PROGRAM) by 'make depot' not by 'make rpm/deb'
 SHARE_DIR=/usr/share/$PROGRAM

@@ -1949,7 +1949,7 @@ then
     inc_heading_level
     exec_command "/usr/sap/hostctrl/exe/saphostexec -version" "Installed SAP Components"
     exec_command "/usr/sap/hostctrl/exe/saphostexec -status" "Status SAP"		### Ralph Roth, 12.04.2015
-    exec_command "/usr/sap/hostctrl/exe/lssap -F $TMP_DIR/dev_lssap" "SAP - lssap"	### Ralph Roth, 12.04.2015 ## FIXME: issue #131
+    exec_command "/usr/sap/hostctrl/exe/lssap -F stdout" "SAP - lssap"	                ### FIX?: issue #131
     exec_command "ps fax | grep -i ' pf=/' | grep -v grep" "Active SAP Processes" 	### CHANGED ### 20150412 by Ralph Roth
     if [ -x /usr/sbin/saptune ]  ## only SLES12SP2+, Ralph Roth, 23.05.2018
     then  
@@ -1960,13 +1960,13 @@ fi ## SAP
 # SAP HANA in-depth investigation by Gratien D'haese - 10 May 2016 - issue #109
 if [ -x /usr/sap/hostctrl/exe/lssap ]
 then
-    /usr/sap/hostctrl/exe/lssap | grep $(uname -n) | grep -q HDB
+    /usr/sap/hostctrl/exe/lssap -F stdout | grep $(uname -n) | grep -q HDB              ### FIX?: issue #131
     if [ $? -eq 0 ] ; then
         # SAP HANA present
         dec_heading_level
         paragraph "SAP HANA Information"
         inc_heading_level
-        /usr/sap/hostctrl/exe/lssap | awk -F"|" '{ if ($0 ~/\// ) print tolower($1)"adm " $2}' | while read  hdbadm sapnr
+        /usr/sap/hostctrl/exe/lssap -F stdout| awk -F"|" '{ if ($0 ~/\// ) print tolower($1)"adm " $2}' | while read  hdbadm sapnr
         do
             exec_command "su - $hdbadm -c 'HDB proc'" "SAP HANA processes"
             exec_command "su - $hdbadm -c \"sapcontrol -nr ${sapnr} -function GetProcessList\"" "SAP HANA ProcessList"
