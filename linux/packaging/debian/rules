@@ -13,7 +13,8 @@ export DH_VERBOSE=1
 
 # This is the debhelper compatibility version to use.
 # five or nine????
-export DH_COMPAT=9
+# export DH_COMPAT=9
+
 # dh_installdeb: Compatibility levels before 4 are deprecated.
 
 ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
