@@ -337,7 +337,7 @@ then # else skip to next paragraph
      exec_command "$SYSTEMD" "systemd-analyze Boot Performance Profiler"
      exec_command "$SYSTEMD blame" "systemd-analyze Boot Sequence and Performance Profiler"
   fi
-  [ -x /usr/bin/systemd-cgls ] && exec_command "/usr/bin/systemd-cgls" "Systemd: Recursively show control group contents" ## SAP HANA 
+  [ -x /usr/bin/systemd-cgls ] && exec_command "/usr/bin/systemd-cgls" "Systemd: Recursively show control group contents" ## SAP HANA
 
   [ -r /etc/init/bootchart.conf ] && exec_command "grep -vE '^#' /etc/init/bootchart.conf" "bootchart Boot Sequence and Performance Profiler"
   [ -r /etc/systemd/bootchart.conf ] && exec_command "grep -vE '^#' /etc/systemd/bootchart.conf" "bootchart Boot Sequence and Performance Profiler"
@@ -1525,6 +1525,8 @@ then # else skip to next paragraph
       exec_command "grep -vE '^#|^ *$' /etc/palo.conf" "Palo Boot Manager"
     fi
 
+    [ -x /usr/bin/lsinitrd ] && exec_command "/usr/bin/lsinitrd" "Contents of the InitRD RAM File System" ## Closes issue #26, RR, 18.06.2018
+
     exec_command "ls -l /boot" "Files in /boot" # 2404-2006, ralph
     exec_command "lsmod" "Loaded Kernel Modules" # Fix/ER by VG - on RHEL 5.3, it is : /sbin/lsmod / on Ubuntu 10.04 it is /bin/lsmod,
     exec_command "ls -l /lib/modules" "Available Modules Trees"  # rar
@@ -1596,7 +1598,6 @@ then # else skip to next paragraph
       fi
     fi
 
-    ##
     ## we want to display special kernel configuration as well
     ## done in /etc/init.d/boot.local
     ## 31Jan2003 it233 U.Frey FRU
@@ -1952,7 +1953,7 @@ then
     exec_command "/usr/sap/hostctrl/exe/lssap -F stdout" "SAP - lssap"	                ### FIX?: issue #131
     exec_command "ps fax | grep -i ' pf=/' | grep -v grep" "Active SAP Processes" 	### CHANGED ### 20150412 by Ralph Roth
     if [ -x /usr/sbin/saptune ]  ## only SLES12SP2+, Ralph Roth, 23.05.2018
-    then  
+    then
         exec_command "/usr/sbin/saptune note list; /usr/sbin/saptune solution list" "SAPTune: Applied Solutions and Notes"
     fi
 fi ## SAP
