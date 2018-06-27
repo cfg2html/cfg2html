@@ -939,20 +939,20 @@ then # else skip to next paragraph
     exec_command "rpm --querytags" "RPM Query Tags"     #*#   Alexander De Bernardi //21.04.2010/rr
     if [ -x /usr/bin/zypper ]
     then
-    #     See Issue #6 - still open
+    #     See Issue #6 - still open - timeout 60 will hopefully fix/workaround this issue 
     #     #TODO:#BUG:# stderr output from "zypper ls; echo ''; zypper pt":
     #     System management is locked by the application with pid 1959 (/usr/lib/packagekitd).
     #     Close this application before trying again.
         if [ -r /etc/zypp/zypp.conf ]       ## fix for JW's SLES 10, backported to 2.91
         then
-            exec_command "zypper -n ls; echo ''; echo | zypper -n pt " "zypper: Services and Patterns"   #*#   Ralph Roth, Mittwoch, 16. March 2011
-            exec_command "zypper -n ps" "zypper: Processes which need restart after update"       #*#   Alexander De Bernardi 17.02.2011
-            exec_command "zypper -n lr --details" "zypper: List repositories"                     #*#
-            exec_command "zypper -n lu" "zypper: List pending updates"                            #*#
-            exec_command "zypper -n lp" "zypper: List pending patches"                            #*#
-            exec_command "zypper -n pa" "zypper: List all available packages"                     #*#
-            exec_command "zypper -n pa --installed-only" "zypper: List installed packages"        #*#
-            exec_command "zypper -n pa --uninstalled-only" "zypper: List not installed packages"  #*#   Alexander De Bernardi 17.02.2011
+            exec_command "timeout 60 zypper -n ls; echo ''; echo | timeout 60 zypper -n pt " "zypper: Services and Patterns"   #*#   Ralph Roth, Mittwoch, 16. March 2011
+            exec_command "timeout 60 zypper -n ps" "zypper: Processes which need restart after update"       #*#   Alexander De Bernardi 17.02.2011
+            exec_command "timeout 60 zypper -n lr --details" "zypper: List repositories"                     #*#
+            exec_command "timeout 60 zypper -n lu" "zypper: List pending updates"                            #*#
+            exec_command "timeout 60 zypper -n lp" "zypper: List pending patches"                            #*#
+            exec_command "timeout 60 zypper -n pa" "zypper: List all available packages"                     #*#
+            exec_command "timeout 60 zypper -n pa --installed-only" "zypper: List installed packages"        #*#
+            exec_command "timeout 60 zypper -n pa --uninstalled-only" "zypper: List not installed packages"  #*#   Alexander De Bernardi 17.02.2011
             exec_command "cut -d '|' -f 1-4 -s --output-delimiter ' | ' /var/log/zypp/history | grep -v ' radd '" "Software Installation History" # rr, 15.11.2017
         else
             AddText "zypper found, but it is not configured!"
