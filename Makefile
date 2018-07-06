@@ -2,6 +2,8 @@
 # Makefile to create HP-UX software depot, AIX, FreeBSD, SunOS or Linux .DEB and .RPM packages etc.
 # -------------------------------------------------------------------------------------------------
 # -*- coding: utf-8, LF/Unix -*-
+# IMPORTANT: You need an annotated git tag on your local build system. Else the rpm build will fail
+#            (at least using openSUSE).
 
 product = cfg2html
 #TODO:# release = shell (git describe --long) ??  ## 6.33-6-g48d4c01

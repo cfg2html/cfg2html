@@ -267,7 +267,7 @@ then # else skip to next paragraph
   # free -tl     (instead of free, because it gives some more useful infos, about HighMem and LowMem memory regions (zones))
   # cat /proc/meminfo (in order to get some details of memory usage)
 
-  exec_command "free -toml;echo;free -tm;echo; swapon -s" "Used Memory and Swap"  		#  04.07.2011, 16:13 modified by Ralph Roth #* rar *#
+  exec_command "free -tml;echo;free -tm;echo; swapon -s" "Used Memory and Swap" #  04.07.2011+05.07.2018 modified by Ralph Roth #* rar *#
   exec_command "cat /proc/meminfo; echo THP:; cat /sys/kernel/mm/transparent_hugepage/enabled" "Detailed Memory Usage (meminfo)"  # changed 20131218 by Ralph Roth
   exec_command "cat /proc/buddyinfo" "Zoned Buddy Allocator/Memory Fragmentation and Zones" 	#  09.01.2012 Ralph Roth
   AddText "The number on the left is bigger than right (by factor 2)."
@@ -939,7 +939,7 @@ then # else skip to next paragraph
     exec_command "rpm --querytags" "RPM Query Tags"     #*#   Alexander De Bernardi //21.04.2010/rr
     if [ -x /usr/bin/zypper ]
     then
-    #     See Issue #6 - still open - timeout 60 will hopefully fix/workaround this issue 
+    #     See Issue #6 - still open - timeout 60 will hopefully fix/workaround this issue
     #     #TODO:#BUG:# stderr output from "zypper ls; echo ''; zypper pt":
     #     System management is locked by the application with pid 1959 (/usr/lib/packagekitd).
     #     Close this application before trying again.
