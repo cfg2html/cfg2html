@@ -1907,7 +1907,7 @@ if [ -s "$SSDCONF" ] ; then
     exec_command "getent group" "List all groups"
     [ -x /sbin/sssctl ] && exec_command "/sbin/sssctl config-check" "SSSD configuration verification"
     [ -x /sbin/sssctl ] && exec_command "/sbin/sssctl domain-list" "SSSD domain list"
-    [ -x /sbin/sssctl ] && exec_command "/sbin/sssctl domain-status" "SSSD domain status"
+    [ -x /sbin/sssctl ] && exec_command "/sbin/sssctl domain-list | xargs -n1 /sbin/sssctl domain-status" "SSSD domain status"
 fi
 
 # this may need reworking - works only if CFEngine agent is installed. # changed 20140319 by Ralph Roth
