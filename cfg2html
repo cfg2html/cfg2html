@@ -62,7 +62,7 @@ LC_MESSAGE="C"
 if  [ "$(whoami)" != "root" -a "$1" != "-h" ]
 then
     echo "$(whoami) - You must be root to run the script $PROGRAM"
-    exit 1
+    exit 42 ## 1 -> 42 for better returncode handling
 fi
 
 # introduce trap to make sure the temporary directories get cleaned up
@@ -137,7 +137,7 @@ else
         . $BASE_DIR/bin/${PROGRAM}-${OS}.sh
     else
         echo "ERROR: Could not find $BASE_DIR/[bin/]${PROGRAM}-${OS}.sh"
-        exit 1
+        exit 43 # 1 -> 43
     fi
 fi
 RETCODE=$?
