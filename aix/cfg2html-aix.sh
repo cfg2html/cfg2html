@@ -1,6 +1,6 @@
 # @(#) $Id: cfg2html-aix.sh,v 1.4 2016/05/03 07:13:18 ralph Exp $
 # -----------------------------------------------------------------------------------------
-# (c) 1997-2016 by Ralph Roth  -*- http://rose.rult.at -*-
+# (c) 1997-2019 by Ralph Roth  -*- http://rose.rult.at -*-
 # This version replaces all lower versions e.g.the 2.82 floating around!
 
 #  If you change this script, please mark your changes with for example
@@ -8,7 +8,7 @@
 #  address: cfg2html*hotmail.com -- details see in the documentation
 
 CFGSH=$_
-# unset "-set -vx" for debugging purpose, after the exec 2> statement all debug infomation will go the errorlog file (*.err)
+# unset "-set -vx" for debugging purpose, after the exec 2> statement all debug information will go the errorlog file (*.err)
 #set -vx
 #*vim:numbers:ruler
 # ---------------------------------------------------------------------------
@@ -71,7 +71,7 @@ MAILTORALPH="cfg2html&#64;&#104;&#111;&#116;&#109;&#97;&#105;&#108;&#46;&#99;&#1
 
 
 #####################################################################
-# @(#)Cfg2Html (c) by ROSE SWE, Dipl.-Ing. Ralph Roth, cfg2html@hotmail.com
+# @(#)Cfg2Html (c) by ROSE SWE, Dipl -Ing. Ralph Roth, cfg2html@hotmail.com
 #####################################################################
 
 # This is the "swiss army knife" for the ASE, CE, sysadmin etc. I wrote it to
@@ -82,13 +82,12 @@ MAILTORALPH="cfg2html&#64;&#104;&#111;&#116;&#109;&#97;&#105;&#108;&#46;&#99;&#1
 # History
 #####################################################################
 # 28-jan-1999  initial creation, based on get_config, check_config
-#              nickel, snapshoot, vim and a idea from a similar
+#              nickel, snapshot, vim and a idea from a similar
 #              script i have seen on-site.
 #####################################################################
 # 11-Mar-2001  initial creation for debian GNU Linux i386
 #              based on Cfg2Html Version 1.15.06/HP-UX by
-#              by ROSE SWE, Dipl.-Ing. Ralph Roth
-#              ported to Linux  by Michael Meifert
+#              by ROSE SWE, Dipl-Ing. Ralph Roth
 #####################################################################
 # 15-May-2006  Common stream for cfg2html-linux and the Proliant version
 
@@ -135,7 +134,6 @@ typeset -i HEADL=0                      # Headinglevel
 ####################################################################
 # needs improvement!
 # trap "echo Signal: Aborting!; rm $HTML_OUTFILE_TEMP"  2 13 15
-
 ####################################################################
 
 #
@@ -222,7 +220,8 @@ then # else skip to next paragraph
   exec_command topFDhandles "Top file handles consuming processes" # 24.01.2013
   AddText "Hint: Number of open file handles should be less than ulimit -n ("$(ulimit -n)")"
 
-  exec_command "last| grep boot" "reboots"
+  exec_command "last| grep boot; who -b" "Reboots/System Reboot"
+
   exec_command "alias"  "Alias"
   [ -r /etc/inittab ] && exec_command "grep -vE '^#|^ *$' /etc/inittab" "inittab"
   exec_command "lssrc -a" "Services - Status"
@@ -367,8 +366,6 @@ then # else skip to next paragraph
 paragraph "Filesystems, Dump and Swap configuration"
 inc_heading_level
 
-
-
 exec_command "cat /etc/filesystems" "Filesystem Tab"
 exec_command "lsfs -a" "Filesystem Information"
 exec_command "df -k" "Filesystems Usage"
@@ -452,7 +449,6 @@ then # else skip to next paragraph
 	exec_command "lsattr -EHl ${NIC}" "${NIC} Interface Properties"
 	exec_command "entstat -d ${NIC}" "${NIC} Interface Statistics"
   done
-
 
   exec_command "netstat -r" "Routing Tables"
   exec_command "netstat -i" "Kernel Interface table"
