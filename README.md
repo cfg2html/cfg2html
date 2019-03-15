@@ -26,6 +26,21 @@ If you do not want to build cfg2html by your own, we have pre-build installation
 
 If you find a problem, a bug, want to discuss feature requests or have some bright new ideas please create a new issue  at our GitHub project pages <https://github.com/cfg2html/cfg2html/issues.> When using it, please ensure that any criticism you provide is constructive. Please do not use the issue tracker for general help and support on how to use cfg2html.
 
+## Contributing on GitHub
+
+To contribute to a project that is hosted on GitHub you can fork the project on github.com, then clone your fork locally, make a change, push back to GitHub and then send us a pull request, which will email the maintainer. 
+
+Fork project on github:
+
+    $ git clone https://github.com/my-user/project
+    $ cd project
+    $ repeat (edit files),(testing) until OK
+    $ git add (modified files)
+    $ git commit -m 'Explain what I changed'
+    $ git push origin master
+
+Then go to github and click the ‘pull request’ button!
+
 ## ChangeLog and Tags
 
 NOTE: This is only a suggestion!
@@ -40,7 +55,7 @@ NOTE: This is only a suggestion!
     To see a full documentation of such commit message convention, please look up the reference file gitchangelog.rc.reference, see <https://github.com/vaab/gitchangelog/blob/master/src/gitchangelog/gitchangelog.rc.reference>
 
 ----
-$Id: README.md,v 6.8 2018/03/23 11:09:37 ralph Exp $
+$Id: README.md,v 6.9 2019/03/15 16:53:21 ralph Exp $
 
 <!-- Atom:set encoding=utf8 lineEnding=unix grammar=md tabLength=4 useSoftTabs: -->
 <!-- vim:set fileencoding=utf8 fileformat=unix filetype=md tabstop=4 expandtab: -->

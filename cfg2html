@@ -1,5 +1,5 @@
 #
-# @(#) $Id: cfg2html,v 6.35 2018/03/29 07:49:01 ralph Exp $
+# @(#) $Id: cfg2html,v 6.37 2019/03/15 16:53:21 ralph Exp $
 # -------------------------------------------------------------------------
 # This is the wrapper for cfg2html for LINUX and HP-UX
 # CFG2HTML - license: see GPL v3
@@ -41,7 +41,7 @@ rm -f /tmp/cfg2html.respawn # get rid of the temporary lock as soon as possible
 PRODUCT="Config to HTML - cfg2html"
 # this CVS id is also used by the Makefiles to get the version number!
 # may be obsoleted by git tag --describe handling?
-CVS="$Id: cfg2html,v 6.35 2018/03/29 07:49:01 ralph Exp $"
+CVS="$Id: cfg2html,v 6.37 2019/03/15 16:53:21 ralph Exp $"
 PROGRAM=$(echo $CVS|cut -f2 -d" "|cut -f1 -d,)
 VERSION=$(echo $CVS|cut -f3 -d" ")
 RELEASE_DATE="2018-01-24"	## YYYY-MM-DD ?!
@@ -51,7 +51,7 @@ OS=$(uname)
 OS=$(echo $OS | tr 'A-Z' 'a-z' | sed -e 's/-//')
 CFG_CMDLINE=$*
 
-COPYRIGHT="Copyright (C) 1999-2018 ROSE SWE, Dipl.-Ing. Ralph Roth"
+COPYRIGHT="Copyright (C) 1999-2019 ROSE SWE, Dipl.-Ing. Ralph Roth"
 STARTTIME=$SECONDS
 
 LANG="C"
@@ -113,7 +113,7 @@ i=2030
 # date sanity check. complains if cfg2html is too old, must be adjusted every year to fit
 #
 
-while [ $i -gt 2018 ]   ## where we want to stop, complains if older than two years
+while [ $i -gt 2019 ]   ## where we want to stop, complains if older than two years
 do
     [ $YEAR -gt $i ] && OLD=$OLD" very"
     # echo $i - $OLD

@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html-aix.sh,v 1.4 2016/05/03 07:13:18 ralph Exp $
+# @(#) $Id: cfg2html-aix.sh,v 1.5 2019/03/15 16:45:36 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2019 by Ralph Roth  -*- http://rose.rult.at -*-
 # This version replaces all lower versions e.g.the 2.82 floating around!
