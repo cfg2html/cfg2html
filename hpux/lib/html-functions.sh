@@ -109,11 +109,11 @@ function exec_command {
 function close_html {
     #  end of the html document
     echo "\n<hr>\n" >> $HTML_OUTFILE
-    echo "</P><P>\n<hr><FONT COLOR=blue><small>Created $DATEFULL with  $PROGRAM $VERSION (c) 1998-2013 by "  >> $HTML_OUTFILE_TEMP
+    echo "</P><P>\n<hr><FONT COLOR=blue><small>Created $DATEFULL with  $PROGRAM $VERSION (c) 1998-2019 by "  >> $HTML_OUTFILE_TEMP
     echo "<A HREF=\"mailto:cfg2html&#64;&#104;&#111;&#116;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109?subject=$VERSION_\">ROSE SWE</A></small></P></font>" >> $HTML_OUTFILE_TEMP
     echo "<center><A HREF=\"http://www.cfg2html.com\"><b>[ Download cfg2html collectors from the cfg2html home page ] </b></A></center></P><hr></BODY></HTML>\n" >> $HTML_OUTFILE_TEMP
     cat $HTML_OUTFILE_TEMP >>$HTML_OUTFILE
     cat $TEXT_OUTFILE_TEMP >> $TEXT_OUTFILE
     rm $HTML_OUTFILE_TEMP $TEXT_OUTFILE_TEMP
-    echo "\n\nCreated $DATEFULL with $PROGRAM $VERSION (c) 1998-2013 by ROSE SWE\n" >> $TEXT_OUTFILE
+    echo "\n\nCreated $DATEFULL with $PROGRAM $VERSION (c) 1998-2019 by ROSE SWE\n" >> $TEXT_OUTFILE
 }

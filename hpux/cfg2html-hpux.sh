@@ -242,16 +242,15 @@ then # else skip to next paragraph
     exec_command "ulimit -aH" "Hard User limits"	#  12.07.2007, 11:34 modified by Ralph Roth
     AddText "Hint: See http://www.faqs.org/faqs/hp/hpux-faq/section-144.html for details about ulimit"
     exec_command "uptime;sar 1 9" "Uptime, Load and SAR"
-## UNIX95 affects a number of processes. It is best to set the variable only for
-##    the desired command.
-##  export UNIX95=yes                                       # hint by Gert Leerdam
+    ## UNIX95 affects a number of processes. It is best to set the variable only for
+    ##    the desired command.
+    ##  export UNIX95=yes                                       # hint by Gert Leerdam
 
     # Dieses Script prueft, ob in der Prozesstabelle noch Platz besteht, um neue
     # Prozesse zu starten. Heiko Koebert, Hewlett-Packard GmbH, Supportzentrum
     # Ratingen - Unix Competency Center
     # Heavy modified by Ralph Roth, 28-Jan-2002
     # Definition der Variablen V mit dem aktuellen Wert von proc-sz (z.B. 89/532)
-    #
     sarV=`sar -v 1 1|tail -1|awk '{print $4}'`
     #
     # Definition der Variablen v in % (aktueller Wert / Maximal Wert * 100)
@@ -310,7 +309,6 @@ then # else skip to next paragraph
         exec_command "ioscan -fk" "Hardware with H/W-Path"
         exec_command "ioscan -fnk" "Hardware including device files"
         exec_command "ioscan -Fk" "Hardware in parseable format"
-
     fi
 
     ## 11.31 only stuff ## LVM ##
