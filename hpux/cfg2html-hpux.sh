@@ -1151,13 +1151,14 @@ then # else skip to next paragraph
 
         ([ -c /dev/fcms* ] || [ -c /dev/td* ]) && exec_command $PLUGINS/get_fcold.sh "Fibre Channel Card Statistics (old Adapter)"
 
-        if [ `ls /dev/td* /dev/fcd*  /dev/fcms* 2>/dev/null | wc -l` != 0 ]
+        if [ `ls /dev/td* /dev/fcd* /dev/fclp* /dev/fcms* 2>/dev/null | wc -l` != 0 ]
         then
             exec_command $PLUGINS/get_fc.sh "Fibrechannel Interface Information" # changed/added 25.07.2003 (11:17) by Ralph Roth, HP, ASO SW
         fi
         exec_command "what /opt/fcms/bin/fcmsutil" "FCMS Util Revision"
         [ -x /opt/fcms/bin/tdlist ] && exec_command "/opt/fcms/bin/tdlist" "Detailed TD List"	#  12.07.2007, 13:43 modified by Ralph Roth
         [ -x /opt/fcms/bin/fcdlist ] && exec_command "/opt/fcms/bin/fcdlist" "Detailed FCD List"	#  24.06.2010, 10:09 added by Reinhard Lubos
+	[ -x /opt/fcms/bin/fclplist ] && exec_command "/opt/fcms/bin/fclplist" "Detailed FCLP List"      #  30.03.2019, 9:38 added by Jason Gersekowski
         dec_heading_level
     fi
 
