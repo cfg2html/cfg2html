@@ -2,7 +2,7 @@
 # @(#) $Id: get_fc.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 ##############################################################################
 #
-# one more suggestion ;-). HPVM 4.3 and vPar 6.1 have new feature – NPIV.
+# one more suggestion ;-). HPVM 4.3 and vPar 6.1 have new feature â€“ NPIV.
 # Virtual HBAs are not handled by fcmsutil command but gvsmgr which looks like
 # this:
 #
@@ -33,7 +33,7 @@ else
   exit
 fi
 
-for FCDEV in $(ls /dev/td* /dev/fcms* /dev/fcd* /dev/fcoc* 2>/dev/null)
+for FCDEV in $(ls /dev/td* /dev/fcms* /dev/fcd* /dev/fclp* /dev/fcoc* 2>/dev/null)
 do                      # not found
  if [ -r $FCDEV ] && [ $(fcmsutil $FCDEV 2>/dev/null |grep -i topo | wc -l) != 0 ]
  then
@@ -63,7 +63,7 @@ done
 echo "# FC Cards: "$count"\n"
 
 ##### add here new stuff, e.g. vpd
-for FCDEV in $(ls /dev/td*  /dev/fcd* /dev/fcoc*  2>/dev/null)
+for FCDEV in $(ls /dev/td*  /dev/fcd* /dev/fclp* /dev/fcoc*  2>/dev/null)
 do
    if [ -r $FCDEV ]
    then
