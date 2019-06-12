@@ -1,7 +1,7 @@
 #!/usr/bin/ksh
 #
 # cfg2html for HP-UX 11.31
-# @(#) $Id: cfg2html-hpux.sh,v 6.24 2018/01/29 08:22:29 ralph Exp $
+# @(#) $Id: cfg2html-hpux.sh,v 6.25 2019/03/30 15:21:18 ralph Exp $
 # -------------------------------------------------------------------------
 # vim:ts=8:sw=4:sts=4
 

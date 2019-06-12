@@ -1,8 +1,8 @@
 # get_sap_info.sh
-# @(#) $Id: get_sap_info.sh,v 1.4 2018/02/16 15:27:06 ralph Exp $
+# @(#) $Id: get_sap_info.sh,v 1.5 2018/05/25 19:19:21 ralph Exp $
 # -----------------------------------------------------------------------------
 
-# See also isse #38, can be consolidated with get_sap.sh
+# See also issue #38, can be consolidated with get_sap.sh
 # Script written by Gratien D'haese
 
 if [[ -x /usr/sap/hostctrl/exe/saphostexec ]]; then

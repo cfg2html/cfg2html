@@ -1,5 +1,5 @@
 ##############################################################################
-# @(#) $Id: get_fc.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
+# @(#) $Id: get_fc.sh,v 6.15 2019/03/30 15:21:18 ralph Exp $
 ##############################################################################
 #
 # one more suggestion ;-). HPVM 4.3 and vPar 6.1 have new feature – NPIV.
@@ -82,6 +82,9 @@ printf "\n"	#  05.04.2005, 16:27 modified by Ralph.Roth
  
 ############################################################################
 # $Log: get_fc.sh,v $
+# Revision 6.15  2019/03/30 15:21:18  ralph
+# chg: Suggestion add support for fclp devices on HP-UX #135, by JediNite
+#
 # Revision 6.10.1.1  2013-09-12 16:13:15  ralph
 # Initial 6.10.1 import from GIT Hub, 12.09.2013
 #
