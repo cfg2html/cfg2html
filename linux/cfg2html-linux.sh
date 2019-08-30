@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# @(#) $Id: cfg2html-linux.sh,v 6.58 2018/03/23 13:09:48 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.60 2019/08/30 05:41:02 ralph Exp $
 # -----------------------------------------------------------------------------------------
-# (c) 1997-2018 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
+# (c) 1997-2019 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
 
 #  If you change this script, please mark your changes with for example
 #  ## <username> and send your diffs from the actual version to my mail
@@ -203,7 +203,7 @@ then # else skip to next paragraph
   exec_command "uname -n" "Host alias"
   exec_command "uname -sr" "OS, Kernel version"
 
-  # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 15 July 2013
+  # Added by Dusan Baljevic on 15 July 2013
   #
   HOSTNAMECTL=$(which hostnamectl 2>/dev/null)
   if [ -n "$HOSTNAMECTL" ] && [ -x "$HOSTNAMECTL" ] ; then
@@ -267,7 +267,8 @@ then # else skip to next paragraph
   # free -tl     (instead of free, because it gives some more useful infos, about HighMem and LowMem memory regions (zones))
   # cat /proc/meminfo (in order to get some details of memory usage)
 
-  exec_command "free -tml;echo;free -tm;echo; swapon -s" "Used Memory and Swap" #  04.07.2011+05.07.2018 modified by Ralph Roth #* rar *#
+  # 20190828, rr - swapon -s is deprecated, better use --show
+  exec_command "free -tml;echo;free -tm;echo; swapon --show|| swapon -s" "Used Memory and Swap Summary" #  04.07.2011+05.07.2018 modified by Ralph Roth #* rar *#
   exec_command "cat /proc/meminfo; echo THP:; cat /sys/kernel/mm/transparent_hugepage/enabled" "Detailed Memory Usage (meminfo)"  # changed 20131218 by Ralph Roth
   exec_command "cat /proc/buddyinfo" "Zoned Buddy Allocator/Memory Fragmentation and Zones" 	#  09.01.2012 Ralph Roth
   AddText "The number on the left is bigger than right (by factor 2)."
@@ -315,9 +316,9 @@ then # else skip to next paragraph
 
   [ -x /usr/bin/pidstat ] && exec_command "pidstat -lrud 2>/dev/null||pidstat -rud" "pidstat - Statistics for Linux Tasks" #  10.11.2012 modified by Ralph Roth #* rar *# fix for SLES11,SP2, 29.01.2014
 
-  exec_command "tuned-adm list" "Tuned Profiles"     						#06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org
-  exec_command "tuned-adm active" "Tuned Active Profile Status"     				#06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org
-  exec_command "numactl --hardware" "NUMA Inventory of Available Nodes on the System"     	#06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org
+  exec_command "tuned-adm list" "Tuned Profiles"     	              #06.11.2014, 20:34 added by Dusan Baljevic 
+  exec_command "tuned-adm active" "Tuned Active Profile Status"     #06.11.2014, Dusan Baljevic -- see also saptune()
+  exec_command "numactl --hardware" "NUMA Inventory of Available Nodes on the System"     #06.11.2014, added by Dusan Baljevic
 
   if [ -x /usr/bin/journalctl ]
   then
@@ -380,18 +381,18 @@ then # else skip to next paragraph
   [ -r /etc/inittab ] && exec_command "awk '!/#|^ *$/ && /initdefault/' /etc/inittab" "default runlevel"
   exec_command "/sbin/runlevel" "current runlevel"
 
-  # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 24 December 2017
+  # Added by Dusan Baljevic on 24 December 2017
   NEEDRESTART=$(which needs-restarting 2>/dev/null)
   if [ -n "$NEEDRESTART" ] && [ -x "$NEEDRESTART" ] ; then
       exec_command "$NEEDRESTART" "Report running processes that have been updated and need restart"
   fi
 
-  # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 24 December 2017
+  # Added by Dusan Baljevic on 24 December 2017
   if [ -x /usr/bin/wdctl ] ; then
     exec_command "/usr/bin/wdctl" "Hardware watchdog status"
   fi
 
-  # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 24 December 2017
+  # Added by Dusan Baljevic on 24 December 2017
   if [ -x /usr/bin/coredumpctl ] ; then
     exec_command "/usr/bin/coredumpctl list" "List available coredumps"
   fi
@@ -1076,13 +1077,13 @@ inc_heading_level
 	 exec_command "/usr/sbin/kdumptool dump_config; echo; /usr/sbin/kdumptool find_kernel; echo; /usr/sbin/kdumptool print_target" "Kdump Status (kdumptool)" ##CHANGED##FIXED## 20150304 by Ralph Roth
     else
     ### TODO: -x kdumpctl check ###
-    	exec_command "kdumpctl status" "Kdump Status"              #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014  (not on SLES11!) // 04.03.2015 Ralph Roth
-    	exec_command "kdumpctl showmem" "Kdump memory allocation"  #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 24/12/2017
+    	exec_command "kdumpctl status" "Kdump Status"              #  Added by Dusan Baljevic 6/11/2014  (not on SLES11!) // 04.03.2015 Ralph Roth
+    	exec_command "kdumpctl showmem" "Kdump memory allocation"  #  Added by Dusan Baljevic 24/12/2017
     fi # /usr/sbin/kdumptool
-    [ -r /proc/diskdump ] && exec_command "cat /proc/diskdump" "Diskdump Status"          #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014, 06.04.2015 Ralph Roth
-    exec_command "cat /etc/sysconfig/dump" "SUSE LKCD Config"    #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
+    [ -r /proc/diskdump ] && exec_command "cat /proc/diskdump" "Diskdump Status"          #  Added by Dusan Baljevic 6/11/2014, 06.04.2015 Ralph Roth
+    exec_command "cat /etc/sysconfig/dump" "SUSE LKCD Config"    #  Added by Dusan Baljevic 6/11/2014
     ### TODO: line 107: lkcd: command not found ###
-    exec_command "lkcd -q" "SUSE LKCD Status"                    #  Added by Dusan Baljevic (dusan.baljevic@ieee.org) 6/11/2014
+    exec_command "lkcd -q" "SUSE LKCD Status"                    #  Added by Dusan Baljevic 6/11/2014
 
 dec_heading_level
 
@@ -1460,7 +1461,7 @@ then # else skip to next paragraph
   fi
 
   # Chronyc is replacement for standard NTP, now default in RHEL/CentOS 7
-  # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 13 July 2014
+  # Added by Dusan Baljevic on 13 July 2014
   #
   CHRONYC=$(which chronyc 2>/dev/null)
   if [ -n "$CHRONYC" -a -x "$CHRONYC" ] ; then
@@ -1468,7 +1469,7 @@ then # else skip to next paragraph
     exec_command "$CHRONYC -n tracking" "CHRONY Time Protocol Daemon tracking"
   fi
 
-  exec_command "timedatectl status" "System Time and Date Status"  # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 6 November 2014
+  exec_command "timedatectl status" "System Time and Date Status"  # Added by Dusan Baljevic on 6 November 2014
 
   exec_command "hwclock -r" "Time: HWClock" # rr, 20121201
   [ -f /etc/ntp.conf ] && exec_command "grep  -vE '^#|^ *$' /etc/ntp.conf" "ntp.conf"
@@ -1610,7 +1611,7 @@ then # else skip to next paragraph
       exec_command "cat /etc/sysctl.conf | sort -u |grep -v -e ^# -e ^$" "configured kernel variables in /etc/sysctl.conf"
     fi
 
-    # Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 15 July 2013
+    # Added by Dusan Baljevic on 15 July 2013
     #
     BOOTCTL=$(which bootctl)
     if [ -n "$BOOTCTL" ] && [ -x "$BOOTCTL" ] ; then
@@ -1895,7 +1896,7 @@ then
   [ -x /usr/lpp/mmfs/bin/mmnetverify ] && exec_command "/usr/lpp/mmfs/bin/mmnetverify connectivity -N all -T all" "GPFS network verification"
 fi
 
-# Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 24 December 2017
+# Added by Dusan Baljevic on 24 December 2017
 #
 SSSDCONF="/etc/sssd/sssd.conf"
 if [ -s "$SSSDCONF" ] ; then
@@ -1935,7 +1936,6 @@ then
   [ -x /var/cfengine/bin/cf-report ] && exec_command "/var/cfengine/bin/cf-report -q --show promises" "CFEngine v3 promises"
   [ -x /var/cfengine/bin/cf-promises ] && exec_command "/var/cfengine/bin/cf-promises -v" "CFEngine v3 validation of policy code"
   [ -x /var/cfengine/bin/cf-agent ] && exec_command "/var/cfengine/bin/cf-agent -n" "CFEngine v3 pending actions for managed client (dry-run)"
-
 fi # CFEngine
 
 ##############################################################
@@ -1952,11 +1952,13 @@ then
     exec_command "/usr/sap/hostctrl/exe/saphostexec -status" "Status SAP"		### Ralph Roth, 12.04.2015
     exec_command "/usr/sap/hostctrl/exe/lssap -F stdout" "SAP - lssap"	                ### FIX?: issue #131
     exec_command "ps fax | grep -i ' pf=/' | grep -v grep" "Active SAP Processes" 	### CHANGED ### 20150412 by Ralph Roth
-    if [ -x /usr/sbin/saptune ]  ## only SLES12SP2+, Ralph Roth, 23.05.2018
-    then
-        exec_command "/usr/sbin/saptune note list; /usr/sbin/saptune solution list" "SAPTune: Applied Solutions and Notes"
-    fi
 fi ## SAP
+## independent of installed SAP stuff
+if [ -x /usr/sbin/saptune ]  ## only SLES12SP2+, Ralph Roth, 23.05.2018
+then
+    exec_command "/usr/sbin/saptune note list; /usr/sbin/saptune solution list" "saptune: Applied Solutions and Notes"
+    exec_command "/usr/sbin/saptune solution verify" "saptune: Verification Against Recommended Settings"
+fi
 
 # SAP HANA in-depth investigation by Gratien D'haese - 10 May 2016 - issue #109
 if [ -x /usr/sap/hostctrl/exe/lssap ]
@@ -1979,71 +1981,71 @@ fi
 ##
 
 ###########################################################################
-# { changed/added 28.01.2004 by Ralph Roth }
-    if [ -r /etc/cmcluster.conf ] ; then
-        dec_heading_level
-        paragraph "Serviceguard/SGLX"
-        inc_heading_level
-        . ${SGCONFFILE:=/etc/cmcluster.conf}   # get env. setting, rar 12.05.2005
-        PATH=$PATH:$SGSBIN:$SGLBIN
-        exec_command "cat ${SGCONFFILE:=/etc/cmcluster.conf}" "Cluster Config Files"
-	# gdha - 17/Nov/2015 - what does not exist on Linux
-        #exec_command "what  $SGSBIN/cmcld|head; what  $SGSBIN/cmhaltpkg|head" "Real Serviceguard Version"  ##  12.05.2005, 10:07 modified by Ralph Roth
-	exec_command "cmversion" "Serviceguard Version"  ## gdha - 17/Nov/2015
-        exec_command "cmquerycl -v" "Serviceguard Configuration"
-        exec_command "cmviewcl -v" "Serviceguard Nodes and Packages"
-        exec_command "cmviewconf" "Serviceguard Cluster Configuration Information"
-        exec_command "$TIMEOUTCMD 60 cmscancl -s" "Serviceguard Scancl Detailed Node Configuration"
-        exec_command "netstat -in" "Serviceguard Network Subnets"
-        exec_command "netstat -a |fgrep hacl" "Serviceguard Sockets"
-        exec_command "ls -l $SGCONF" "Files in $SGCONF"
-    fi
+# { MC/Serviceguard || changed/added 28.01.2004 by Ralph Roth }
+  if [ -r /etc/cmcluster.conf ] ; then
+      dec_heading_level
+      paragraph "Serviceguard/SGLX"
+      inc_heading_level
+      . ${SGCONFFILE:=/etc/cmcluster.conf}   # get env. setting, rar 12.05.2005
+      PATH=$PATH:$SGSBIN:$SGLBIN
+      exec_command "cat ${SGCONFFILE:=/etc/cmcluster.conf}" "Cluster Config Files"
+      # gdha - 17/Nov/2015 - what does not exist on Linux
+      #exec_command "what  $SGSBIN/cmcld|head; what  $SGSBIN/cmhaltpkg|head" "Real Serviceguard Version"  ##  12.05.2005, 10:07 modified by Ralph Roth
+      exec_command "cmversion" "Serviceguard Version"  ## gdha - 17/Nov/2015
+      exec_command "cmquerycl -v" "Serviceguard Configuration"
+      exec_command "cmviewcl -v" "Serviceguard Nodes and Packages"
+      exec_command "cmviewconf" "Serviceguard Cluster Configuration Information"
+      exec_command "$TIMEOUTCMD 60 cmscancl -s" "Serviceguard Scancl Detailed Node Configuration"
+      exec_command "netstat -in" "Serviceguard Network Subnets"
+      exec_command "netstat -a |fgrep hacl" "Serviceguard Sockets"
+      exec_command "ls -l $SGCONF" "Files in $SGCONF"
+  fi
 
-    dec_heading_level
-    paragraph "Cluster Services"
-    inc_heading_level
+  dec_heading_level
+  paragraph "Cluster Services"
+inc_heading_level
 
 ######## SLES 11 SP1 Pacemaker stuff ########## Mittwoch, 16. March 2011 ##### Ralph Roth ####
-    [ -x /usr/sbin/corosync-cfgtool ] && exec_command "/usr/sbin/corosync-cfgtool -s;corosync -v" "Corosync TOTEM Status/Active Rings"
-    # see also:  corosync-objctl runtime.totem.pg.mrp.srp.members
-    [ -x /usr/sbin/corosync-objctl ] && exec_command "/usr/sbin/corosync-objctl" "Corosync Object Database" # changed 20140507 by Ralph Roth
+  [ -x /usr/sbin/corosync-cfgtool ] && exec_command "/usr/sbin/corosync-cfgtool -s;corosync -v" "Corosync TOTEM Status/Active Rings"
+  # see also:  corosync-objctl runtime.totem.pg.mrp.srp.members
+  [ -x /usr/sbin/corosync-objctl ] && exec_command "/usr/sbin/corosync-objctl" "Corosync Object Database" # changed 20140507 by Ralph Roth
 
-    if [ -x /usr/sbin/crm ] # pacemaker #
-    then
-        exec_command "/usr/sbin/crm_mon -rnA1" "Cluster Configuration"  		## 281113, rr
-        exec_command "/usr/sbin/crm -D plain configure show" "Cluster Configuration"
-        exec_command "/usr/sbin/crm -D plain status" "Cluster Status"
-    fi
+  if [ -x /usr/sbin/crm ] # pacemaker #
+  then
+      exec_command "/usr/sbin/crm_mon -rnA1" "Cluster Configuration"  		## 281113, rr
+      exec_command "/usr/sbin/crm -D plain configure show" "Cluster Configuration"
+      exec_command "/usr/sbin/crm -D plain status" "Cluster Status"
+  fi
 
-    [ -x /usr/sbin/clusterstate ] && exec_command "/usr/sbin/clusterstate --all" "Status of pacemaker HA cluster" ##  04.04.2012, 14:27 modified by Ralph Roth #* rar *#
-    [ -x /usr/sbin/crm_simulate ] && exec_command "/usr/sbin/crm_simulate -LsU" "Current Cluster status, scores and utilization" ## changed 20140507 by Ralph Roth
+  [ -x /usr/sbin/clusterstate ] && exec_command "/usr/sbin/clusterstate --all" "Status of pacemaker HA cluster" ##  04.04.2012, 14:27 modified by Ralph Roth #* rar *#
+  [ -x /usr/sbin/crm_simulate ] && exec_command "/usr/sbin/crm_simulate -LsU" "Current Cluster status, scores and utilization" ## changed 20140507 by Ralph Roth
 
-    # only if ClusterTools2/SLES11 HAE are installed #  04.04.2012, modified by Ralph Roth #* rar *#
-    [ -x /usr/sbin/grep_cluster_patterns ] && exec_command "/usr/sbin/grep_cluster_patterns --show"  "Output of grep_cluster_patterns"
-    for i in  grep_error_patterns  grep_cluster_transition cs_show_scores cs_list_failcounts
-    do
-        [ -x /usr/sbin/$i ] && exec_command "$i" "ClusterTool2: Output of $i"
-    done
+  # only if ClusterTools2/SLES11 HAE are installed #  04.04.2012, modified by Ralph Roth #* rar *#
+  [ -x /usr/sbin/grep_cluster_patterns ] && exec_command "/usr/sbin/grep_cluster_patterns --show"  "Output of grep_cluster_patterns"
+  for i in  grep_error_patterns  grep_cluster_transition cs_show_scores cs_list_failcounts
+  do
+      [ -x /usr/sbin/$i ] && exec_command "$i" "ClusterTool2: Output of $i"
+  done
 
 ######## RHEL 5.x CRM stuff ######## 18. March 2011 #### Ralph Roth ####
-    if [ -x /usr/sbin/cman_tool ]
-    then
-        exec_command "/usr/sbin/cman_tool status"   "Cluster Resource Manager Status"
-        exec_command "/usr/sbin/cman_tool nodes"    "Cluster Resource Manager Nodes"
-        exec_command "/usr/sbin/cman_tool services" "Cluster Resource Manager Services"
-    fi
+  if [ -x /usr/sbin/cman_tool ]
+  then
+      exec_command "/usr/sbin/cman_tool status"   "Cluster Resource Manager Status"
+      exec_command "/usr/sbin/cman_tool nodes"    "Cluster Resource Manager Nodes"
+      exec_command "/usr/sbin/cman_tool services" "Cluster Resource Manager Services"
+  fi
 
 ####### Red Hat Cluster Suite configuration  #  04.07.2011, modified by Ralph Roth #* rar *#
-    if [ -r /etc/cluster/cluster.conf ]
-    then
-        exec_command "/usr/sbin/clustat" "Cluster Status"   ## ER by David Williams
-        if [[ $(grep -c xml /etc/cluster/cluster.conf) -gt 0 ]];
-        then  ## small example can be found at http://pastebin.com/Yi5humeL
-            exec_command "cat /etc/cluster/cluster.conf|sed 's{<{\&lt{g'|sed 's{>{\&gt{g'" "Cluster Configuration (XML)"
-        else
-            exec_command "cat /etc/cluster/cluster.conf" "Cluster Configuration"
-        fi
-    fi
+  if [ -r /etc/cluster/cluster.conf ]
+  then
+      exec_command "/usr/sbin/clustat" "Cluster Status"   ## ER by David Williams
+      if [[ $(grep -c xml /etc/cluster/cluster.conf) -gt 0 ]];
+      then  ## small example can be found at http://pastebin.com/Yi5humeL
+          exec_command "cat /etc/cluster/cluster.conf|sed 's{<{\&lt{g'|sed 's{>{\&gt{g'" "Cluster Configuration (XML)"
+      else
+          exec_command "cat /etc/cluster/cluster.conf" "Cluster Configuration"
+      fi
+  fi
 dec_heading_level
 
 fi  #"$CFG_APPLICATIONS"# <m>  23.04.2008 -  Ralph Roth

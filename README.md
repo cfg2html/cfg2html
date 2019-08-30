@@ -2,7 +2,7 @@
 
 ## Overview
 
-**cfg2html** is a little utility to collect the necessary system configuration files and system set-up to an ASCII file and HTML file. Simple to use and very helpful in disaster recovery situations.
+**cfg2html** is a little utility to collect the necessary system configuration files and system set-up to an ASCII file and HTML file. Simple to use and very helpful in disaster recovery situations. cfg2html is written entirely in the native language for system administration: as bash scripts. Experienced users and system admins can adapt or extend the cfg2html scripts to make it work for their particular cases.
 
 ## Purpose
 
@@ -28,16 +28,16 @@ If you find a problem, a bug, want to discuss feature requests or have some brig
 
 ## Contributing on GitHub
 
-To contribute to a project that is hosted on GitHub you can fork the project on github.com, then clone your fork locally, make a change, push back to GitHub and then send us a pull request, which will email the maintainer. 
+To contribute to a project that is hosted on GitHub you can fork the project on github.com, then clone your fork locally, make a change, push back to GitHub and then send us a pull request, which will email the maintainer.
 
 Fork project on github:
 
-    $ git clone https://github.com/my-user/project
-    $ cd project
-    $ repeat (edit files),(testing) until OK
-    $ git add (modified files)
-    $ git commit -m 'Explain what I changed'
-    $ git push origin master
+    git clone https://github.com/my-user/project
+    cd project
+    repeat (edit files),(testing) until OK
+    git add (modified files)
+    git commit -m 'Explain what I changed'
+    git push origin master
 
 Then go to github and click the ‘pull request’ button!
 
@@ -55,7 +55,7 @@ NOTE: This is only a suggestion!
     To see a full documentation of such commit message convention, please look up the reference file gitchangelog.rc.reference, see <https://github.com/vaab/gitchangelog/blob/master/src/gitchangelog/gitchangelog.rc.reference>
 
 ----
-$Id: README.md,v 6.9 2019/03/15 16:53:21 ralph Exp $
+> $Id: README.md,v 6.10 2019/08/30 05:39:09 ralph Exp $
 
 <!-- Atom:set encoding=utf8 lineEnding=unix grammar=md tabLength=4 useSoftTabs: -->
 <!-- vim:set fileencoding=utf8 fileformat=unix filetype=md tabstop=4 expandtab: -->
