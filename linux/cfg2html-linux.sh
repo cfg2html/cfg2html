@@ -191,7 +191,7 @@ then # else skip to next paragraph
   fi
 
   exec_command "cat /proc/cpuinfo; echo; /usr/bin/lscpu;" "CPU and Model info" #  20.08.2012, 15:59 modified by Ralph Roth #* rar *#
-  [ -x /usr/bin/cpufreq-info ] && exec_command cpufreq-info "CPU Freq Kernel Information"
+  [ -x /usr/bin/cpufreq-info ] && exec_command cpufreq-info "CPU Frequenc Information"
 
   CPUPOWER=$(which cpupower)
   if [ -n "$CPUPOWER" ] && [ -x "$CPUPOWER" ] ; then
@@ -1526,7 +1526,7 @@ then # else skip to next paragraph
       exec_command "grep -vE '^#|^ *$' /etc/palo.conf" "Palo Boot Manager"
     fi
 
-    [ -x /usr/bin/lsinitrd ] && exec_command "/usr/bin/lsinitrd" "Contents of the InitRD RAM File System" ## Closes issue #26, RR, 18.06.2018
+    [ -x /usr/bin/lsinitrd ] && exec_command "/usr/bin/lsinitrd" "Contents of the InitRD RAM File System" ## Closes issue #26, RR, 18.06.2018, new with dracut distros
 
     exec_command "ls -l /boot" "Files in /boot" # 2404-2006, ralph
     exec_command "lsmod" "Loaded Kernel Modules" # Fix/ER by VG - on RHEL 5.3, it is : /sbin/lsmod / on Ubuntu 10.04 it is /bin/lsmod,
