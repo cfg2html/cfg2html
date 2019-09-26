@@ -28,6 +28,8 @@ then
 
 fi
 
+echo "## Grep Patterns"
+
 ## ----------------------------------------------------------------------------- ##
 # grep_error_patterns
 # TODO: refine patterns
@@ -40,10 +42,11 @@ then
   ## we need to fix this for systemd, e.g. SLES12
   for f in ${F}; do
     echo -n "${f} = "
-    grep -i ${f} /var/log/messages | wc -l
+    grep -hi ${f} /var/log/messages /var/log/warn | sort -u | wc -l
   done | grep -v " = 0$"
 fi
 
+echo "## Misc./Other Stuff"
 ## ----------------------------------------------------------------------------- ##
 ## process without an named owner?
 ps -e -o ruser,pid,args | awk ' ($1+1) > 1 {print $0;} '		# changed 20131211 by Ralph Roth
@@ -58,6 +61,7 @@ ps -e -o ruser,pid,args | awk ' ($1+1) > 1 {print $0;} '		# changed 20131211 by 
 # 30.08.2017 - https://www.suse.com/de-de/support/kb/doc/?id=7014344
 /sbin/lspci -nn | grep -qE '8086:(340[36].*rev 13|3405.*rev (12|13|22))' && echo "TID 7014344: Interrupt remapping is broken"
 
+echo "## User, Groups"
 ## ----------------------------------------------------------------------------- ##
 ## Read-Only group and user checks
 pwck -r
