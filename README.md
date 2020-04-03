@@ -6,7 +6,7 @@
 
 ## Purpose
 
-cfg2html collects the system configuration into a HTML and a text file. cfg2html is the “Swiss army knife” for the sysadmins. It was written to get the necessary information to plan an update, to perform basic trouble shooting or performance analysis. As a bonus cfg2html creates a nice HTML and plain ASCII documentation from your System.
+cfg2html collects the system configuration into an HTML and a text file. cfg2html is the "Swiss Army knife" for the sysadmins. It was written to get all the information needed to plan an update, do basic troubleshooting or performance analysis. As a bonus, cfg2html creates a nice HTML and simple plain ASCII documentation of your system.
 
 This include the collection of Cron and At, installed Hardware, installed Software, Filesystems, Dump- and Swap-configuration, LVM, Network Settings, Kernel, System enhancements and Applications, Subsystems.
 
@@ -24,7 +24,8 @@ If you do not want to build cfg2html by your own, we have pre-build installation
 
 ## Issue Tracker
 
-If you find a problem, a bug, want to discuss feature requests or have some bright new ideas please create a new issue  at our GitHub project pages <https://github.com/cfg2html/cfg2html/issues.> When using it, please ensure that any criticism you provide is constructive. Please do not use the issue tracker for general help and support on how to use cfg2html.
+If you find a problem or bug, want to discuss feature requests, or have some bright new ideas, please create a new issue on our GitHub project page <https://github.com/cfg2html/cfg2html/issues.>
+When using it, please ensure that any criticism you provide is constructive. Please do not use the issue tracker for general help and assistance with using cfg2html.
 
 ## Contributing on GitHub
 

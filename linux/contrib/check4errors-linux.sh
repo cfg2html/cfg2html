@@ -1,6 +1,6 @@
 # @(#) $Id: check4errors-linux.sh,v 6.17 2018/03/23 11:07:07 ralph Exp $
 # --=---------------------------------------------------------------------=---
-# Written and (c) 1997 - 2019 by Ralph Roth  -*- http://rose.rult.at -*-
+# Written and (c) 1997 - 2020 by Ralph Roth  -*- http://rose.rult.at -*-
 
 # Like the "check for error" script for HP-UX, this script tries to detect some
 # errors or system misconfiguration.
@@ -14,17 +14,17 @@ LANG=C
 if [ -f /etc/sysconfig/kernel ]
 then
 
-  echo "# Missing Kernel Modules"
-  sed -e '/^#/d;/^$/d;/^[[:space:]]*$/d' /etc/sysconfig/kernel
-  . /etc/sysconfig/kernel
+    echo "# Missing Kernel Modules"
+    sed -e '/^#/d;/^$/d;/^[[:space:]]*$/d' /etc/sysconfig/kernel
+    . /etc/sysconfig/kernel
 
-  echo "# Kernel Modules not loaded"
-  for i in $INITRD_MODULES $DOMU_INITRD_MODULES $MODULES_LOADED_ON_BOOT
-  do
-    if ! lsmod | grep"^$i[[:space:]]"&>/dev/null; then
-      echo $i
-    fi
-  done; echo
+    echo "# Kernel Modules not loaded"
+    for i in $INITRD_MODULES $DOMU_INITRD_MODULES $MODULES_LOADED_ON_BOOT
+    do
+        if ! lsmod | grep"^$i[[:space:]]"&>/dev/null; then
+            echo $i
+        fi
+    done; echo
 
 fi
 
@@ -34,8 +34,8 @@ echo "## Grep Patterns"
 # grep_error_patterns
 # TODO: refine patterns
 F=""multi.*path.*down" "bond.*link.*down" "lpfs.*err" "target.failure" "duplicate.VG" "duplicate.PV" \
- "kernel:" "traps:" "not.found" "ocfs2.*ERR" "ocfs2.*not.unmounted.cleanly" "reservation.conflict" \
- "segfault.at" "deprecated" "not.supported" "systemd.dumpcore" "unavailable" "tainted" "ERROR""
+    "kernel:" "traps:" "not.found" "ocfs2.*ERR" "ocfs2.*not.unmounted.cleanly" "reservation.conflict" \
+    "segfault.at" "deprecated" "not.supported" "systemd.dumpcore" "unavailable" "tainted" "ERROR""
 
 if [ -r /var/log/messages ]
 then
@@ -61,6 +61,11 @@ ps -e -o ruser,pid,args | awk ' ($1+1) > 1 {print $0;} '		# changed 20131211 by 
 # 30.08.2017 - https://www.suse.com/de-de/support/kb/doc/?id=7014344
 /sbin/lspci -nn | grep -qE '8086:(340[36].*rev 13|3405.*rev (12|13|22))' && echo "TID 7014344: Interrupt remapping is broken"
 
+### Debian System and Aptitude installed?
+if [ -x /usr/bin/aptitude ]
+then
+    /usr/bin/aptitude search '~i(!~ODebian)'
+fi
 echo "## User, Groups"
 ## ----------------------------------------------------------------------------- ##
 ## Read-Only group and user checks
