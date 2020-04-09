@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# @(#) $Id: cfg2html-linux.sh,v 6.61 2020/04/09 06:34:01 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.62 2020/04/09 07:03:01 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2020 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
 
@@ -671,14 +671,12 @@ inc_heading_level
   ### ------------------------------------------------------------------------------
 
   #### Start of Fibre HBA info. added 12.05.2006 (15:13) by Peter Lindblom, HP, STCC EMEA
-
   if [ -f /tmp/fibrehba.txt ]
   then
     rm /tmp/fibrehba.txt
   fi
 
   # capture /proc/scsi/qla2200
-
   if [ -d /proc/scsi/qla2200 ]
   then
     for file in /proc/scsi/qla2200/*
@@ -688,7 +686,6 @@ inc_heading_level
   fi
 
   # capture /proc/scsi/qla2300
-
   if [ -d /proc/scsi/qla2300 ]
   then
       for file in /proc/scsi/qla300/*
@@ -698,7 +695,6 @@ inc_heading_level
   fi
 
   # capture /proc/scsi/qla2xxx
-
   if [ -d /proc/scsi/qla2xxx ]
   then
       for file in /proc/scsi/qla2xxx/*
@@ -707,9 +703,7 @@ inc_heading_level
       done
   fi
 
-
   # capture /proc/scsi/lpfc
-
   if [ -d /proc/scsi/lpfc ]
   then
       for file in /proc/scsi/lpfc/*
@@ -1370,11 +1364,11 @@ then # else skip to next paragraph
   [ -r /etc/bind/named.boot ] && exec_command "grep -v '^;' /etc/named.boot"  "DNS/Named"
 
   if [ -s /etc/dnsmasq.conf ] ; then
-     exec_command "cat /etc/dnsmasq.conf; systemctl status dnsmasq" "DNSMASQ" 
+     exec_command "cat /etc/dnsmasq.conf; systemctl status dnsmasq" "DNSMASQ"
   fi
 
   if [ -s /etc/nscd.conf ] ; then
-     exec_command "cat /etc/nscd.conf" "Name Service Caching Daemon (NSCD)" 
+     exec_command "cat /etc/nscd.conf" "Name Service Caching Daemon (NSCD)"
   fi
 
   if [ -x /usr/sbin/nullmailer-send ]	## backport from cfg2html-linux 2.97 -- 04.04.2015, rr
@@ -1915,7 +1909,7 @@ fi
 
 if  [ -x /usr/lpp/mmfs/bin/mmlscluster ]
 then
-    ###  IBM GPFS clusters 
+    ###  IBM GPFS clusters
     ###  Made by Dusan.Baljevic@ieee.org ### 24.12.2017
 	dec_heading_level
 	paragraph "IBM GPFS Clustering"
