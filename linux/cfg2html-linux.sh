@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# @(#) $Id: cfg2html-linux.sh,v 6.60 2019/08/30 05:41:02 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.61 2020/04/09 06:34:01 ralph Exp $
 # -----------------------------------------------------------------------------------------
-# (c) 1997-2019 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
+# (c) 1997-2020 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
 
 #  If you change this script, please mark your changes with for example
 #  ## <username> and send your diffs from the actual version to my mail
@@ -316,7 +316,7 @@ then # else skip to next paragraph
 
   [ -x /usr/bin/pidstat ] && exec_command "pidstat -lrud 2>/dev/null||pidstat -rud" "pidstat - Statistics for Linux Tasks" #  10.11.2012 modified by Ralph Roth #* rar *# fix for SLES11,SP2, 29.01.2014
 
-  exec_command "tuned-adm list" "Tuned Profiles"     	              #06.11.2014, 20:34 added by Dusan Baljevic 
+  exec_command "tuned-adm list" "Tuned Profiles"     	              #06.11.2014, 20:34 added by Dusan Baljevic
   exec_command "tuned-adm active" "Tuned Active Profile Status"     #06.11.2014, Dusan Baljevic -- see also saptune()
   exec_command "numactl --hardware" "NUMA Inventory of Available Nodes on the System"     #06.11.2014, added by Dusan Baljevic
 
