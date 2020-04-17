@@ -1,4 +1,4 @@
-cfg2html (6.34.2) UNRELEASED; urgency=low
+cfg2html (6.34.8) UNRELEASED; urgency=low
 
   [ Ralph Roth ]
   * 6.13 upstream
@@ -14,8 +14,9 @@ cfg2html (6.34.2) UNRELEASED; urgency=low
 
   [ ralph ]
   * Bumped version number of the Debian ChangeLog using dch (Debian8) to 6.34.2. Build on upstream version: 6.34.2-2-g85ba063@(master)
+  * Applied upstream changes. Upstream is at 6.34.8
 
- -- ralph <ralph@roth8>  Fri, 09 Mar 2018 08:11:59 +0100
+ -- ralph <ralph@roth8>  Fri, 17 Apr 2020 16:49:11 +0200
 
 cfg2html (6.11) unstable; urgency=low
 
