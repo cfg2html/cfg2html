@@ -56,7 +56,7 @@ NOTE: This is only a suggestion!
     To see a full documentation of such commit message convention, please look up the reference file gitchangelog.rc.reference, see <https://github.com/vaab/gitchangelog/blob/master/src/gitchangelog/gitchangelog.rc.reference>
 
 ----
-> $Id: README.md,v 6.10 2019/08/30 05:39:09 ralph Exp $
+> $Id: README.md,v 6.11 2020/04/28 14:37:07 ralph Exp $
 
 <!-- Atom:set encoding=utf8 lineEnding=unix grammar=md tabLength=4 useSoftTabs: -->
 <!-- vim:set fileencoding=utf8 fileformat=unix filetype=md tabstop=4 expandtab: -->
