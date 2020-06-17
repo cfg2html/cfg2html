@@ -1,7 +1,7 @@
 # @(#) $Id: shell-functions.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
+#     Further modified by Joe Wulf:  20200321@1658.
 # -------------------------------------------------------------------------
 # common shell functions for all versions
-
 
 function line {
     echo "--=[ http://www.cfg2html.com ]=---------------------------------------------"
@@ -10,8 +10,8 @@ function line {
 function _banner {
     typeset txt="$*"
     BANNER_EXE=$(which banner 2>/dev/null)
-    [[ -z "$BANNER_EXE" ]] && BANNER_EXE=echo
-    $BANNER_EXE "$txt"
+    [[ -z "${BANNER_EXE}" ]] && BANNER_EXE=echo
+    ${BANNER_EXE} "$txt"
 }
 
 function check_root {
@@ -25,26 +25,26 @@ function check_root {
 
 # only valid for the HP-UX version!
 function check_plugins_dir {
-    if [ ! -x $PLUGINS/get_ministat.sh ]; then
+    if [ ! -x ${PLUGINS}/get_ministat.sh ]; then
         line
         _banner "Error"
         echo "Installation Error, the plug-in directory is missing or execution bit is not set"
         echo "You MUST install cfg2html via swinstall or tar xvf"
-        echo "Plugin-Dir = $PLUGINS"
+        echo "Plugin-Dir = ${PLUGINS}"
         exit 5
     fi
 }
 
 function create_dirs {
-    [[ ! -d $OUTDIR ]] && mkdir -p -m 755 $OUTDIR
-    [[ ! -d $VAR_DIR ]] && mkdir -p -m 755 $VAR_DIR
-    [[ ! -d $TMP_DIR ]] && mkdir -p -m 755 $TMP_DIR
+    [[ ! -d ${OUTDIR} ]] && mkdir -p -m 755 ${OUTDIR}
+    [[ ! -d ${VAR_DIR} ]] && mkdir -p -m 755 ${VAR_DIR}
+    [[ ! -d ${TMP_DIR} ]] && mkdir -p -m 755 ${TMP_DIR}
 }
 
 function check_lock {
-    if [ -f $LOCK ]; then
-        echo "Found $LOCK file - we could be locked..."
-        OTHERPID=$(<$LOCK)
+    if [ -f ${LOCK} ]; then
+        echo "Found ${LOCK} file - we could be locked..."
+        OTHERPID=$(<${LOCK})
         if kill -s 0 ${OTHERPID} 2>/dev/null ; then
             echo "locked on ${OTHERPID}"
             echo "stop processing"
@@ -53,10 +53,10 @@ function check_lock {
             echo "lock is stale - will continue"
         fi
     fi
-    if echo $$ > $LOCK ; then
-        echo "lock succeeded: $$ - $LOCK"
+    if echo $$ > ${LOCK} ; then
+        echo "lock succeeded: $$ - ${LOCK}"
     else
-        echo "lock failed: $LOCK with rc=$?"
+        echo "lock failed: ${LOCK} with rc=$?"
         echo "stop processing"
         exit 14
     fi
@@ -76,11 +76,11 @@ function KillOnHang {
     #  Argument 1: regular expression to search process list for
     #  Argument 2: number of minutes to wait for process to complete
     TMP_KILL_OUTPUT=/tmp/kill_hang.tmp.$$
-    at now + $2 minutes 1>$TMP_KILL_OUTPUT 2>&1 <<-EOF
+    at now + $2 minutes 1>${TMP_KILL_OUTPUT} 2>&1 <<-EOF
 	ps -ef | grep root | grep -v grep | egrep $1 | awk '{print \$2}' | sort -n -r | xargs kill
 	EOF
-    AT_JOB_NR=`egrep '^job' $TMP_KILL_OUTPUT | awk '{print \$2}'`
-    rm -f $TMP_KILL_OUTPUT
+    AT_JOB_NR=`egrep '^job' ${TMP_KILL_OUTPUT} | awk '{print \$2}'`
+    rm -f ${TMP_KILL_OUTPUT}
 }
 
 # currently not used
@@ -94,8 +94,10 @@ function CancelKillOnHang {
 function LANG_C {
     LANG="C"
     LANG_ALL="C"
+    # [20200310] {jcw} added LC_COLLATE.
+    LC_COLLATE="POSIX"
     LC_MESSAGE="C"
-    export LANG LANG_ALL LC_MESSAGE
+    export LANG LANG_ALL LC_COLLATE LC_MESSAGE
 }
 
 # needs maybe a workaround for strange "echo -e" output on f.e. Ubuntu 12.04
