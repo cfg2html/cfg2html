@@ -2,7 +2,7 @@
 
 ## Overview
 
-**cfg2html** is a little utility to collect the necessary system configuration files and system set-up to an ASCII file and HTML file. Simple to use and very helpful in disaster recovery situations. cfg2html is written entirely in the native language for system administration: as bash scripts. Experienced users and system admins can adapt or extend the cfg2html scripts to make it work for their particular cases.
+**cfg2html** is a little utility to collect the necessary system configuration files and system set-up to an ASCII file and HTML file. Simple to use and very helpful in disaster recovery situations. cfg2html is written entirely in the native language for system administration: as shell scripts. Experienced users and system admins can adapt or extend the cfg2html scripts to make it work for their particular cases either by using the plugin framework or by modifying the source code.
 
 ## Purpose
 
@@ -20,7 +20,7 @@ See our GitHub Source development tree <https://github.com/cfg2html/cfg2html> an
     cd cfg2html
     make help
 
-If you do not want to build cfg2html by your own, we have pre-build installations you can download from <http://www.cfg2html.com>
+If you do not want to build cfg2html by your own, we have pre-build installations that you can download from <http://www.cfg2html.com>
 
 ## Issue Tracker
 
@@ -29,7 +29,7 @@ When using it, please ensure that any criticism you provide is constructive. Ple
 
 ## Contributing on GitHub
 
-To contribute to a project that is hosted on GitHub you can fork the project on github.com, then clone your fork locally, make a change, push back to GitHub and then send us a pull request, which will email the maintainer.
+To contribute to a project that is hosted on GitHub, you can fork the project on github.com, then clone your fork locally, make a change, push back to GitHub and then send us a merge request, which will email the maintainer.
 
 Fork project on github:
 
