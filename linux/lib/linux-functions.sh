@@ -1,16 +1,34 @@
-# @(#) $Id: linux-functions.sh,v 6.14 2017/11/15 13:52:01 ralph Exp $
+# @(#) $Id: linux-functions.sh,v 6.15 2020/06/17 21:24:05 ralph Exp $
+#     Further modified by Joe Wulf:  20200402@1737.
 # -------------------------------------------------------------------------
 # vim:ts=8:sw=4:sts=4
 # coding: utf-8 -*- cfg2html
 # Common functions for the Linux part of cfg2html
+# [20200310] {jcw} Closed up blank lines.
 
 
 function HostNames {
-    uname -a
-    echo  "DNS Domainname  = "`dnsdomainname `
-    echo  "NIS Domainname  = "`domainname 2>/dev/null `
-    echo  "Hostname (short)= "`hostname`
-    echo  "Hostname (FQDN) = "`hostname -f`
+    # uname -a                # [20200327] {jcw} Subordinated this and added the following if-check.
+
+    if [ "$(which dnsdomainname 2>/dev/null)" ]; then
+         if [ "$(dnsdomainname)" ]; then
+              echo "DNS Domainname  =  $(dnsdomainname 2>&1)" 
+         else
+              echo 'DNS Domainname  =  <no result returned/null>'
+         fi
+         echo "DNS Domainname Version  =  $(dnsdomainname -v 2>&1)"
+    else
+         echo 'DNS Domainname  ==  <RPM/binary not installed>'
+    fi; echo
+
+    echo  "DNS Domainname     = "`dnsdomainname `
+    echo  "NIS Domainname     = "`domainname -y 2>/dev/null `
+    echo  "Hostname (short)   = "`hostname -s`
+    echo  "Hostname (FQDN)    = "`hostname -f`
+    echo  "Hostname (aliases) = "`hostname -a`
+    echo  "Hostname (domain)  = "`hostname -d`
+    echo  "Hostname (IPaddr)  = "`hostname -i`
+    echo  "Hostname (all IPs) = "`hostname -I`
 }
 
 function posixversion {
@@ -18,11 +36,14 @@ function posixversion {
     #echo "POSIX Version:  \c"; getconf POSIX_VERSION
     #echo "POSIX Version:  \c"; getconf POSIX2_VERSION
     #echo "X/OPEN Version: \c"; getconf XOPEN_VERSION
-    echo "LANG setting:   "$LANG
+    echo "LANG setting:   "${LANG}
     [ -r /etc/sysconfig/i18n ] && cat /etc/sysconfig/i18n
 }
 
 function identify_linux_distribution {
+
+## RR: Maybe easier approach: lsb_release -a
+
     # check Linux distribution
     if [ -f /etc/gentoo-release ] ; then
         distrib="$(head -1 /etc/gentoo-release)"
@@ -53,6 +74,7 @@ function identify_linux_distribution {
         DEBIAN="no"
     fi
 
+## This is obsolete/deprecated!
     if [ -f /etc/SuSE-release ] ; then
         distrib="$(head -1 /etc/SuSE-release)"
         SUSE="yes"
@@ -96,9 +118,13 @@ function identify_linux_distribution {
         echo "$distrib" | grep -q -i "Amazon" && AWS="yes" || AWS="no"
     fi
 
+    if [ -f /etc/os-release ] ; then  ## rr, 20200617
+        distrib="$(grep PRETTY_NAME= /etc/os-release | awk -F"=" '{ print $2; }' | tr -d "\"")"
+        grep -q SUSE /etc/os-release && SUSE=yes
+    fi
+
     ### TODO: ####
     # AWS backport from cfg2html 2.81 #
-
 }
 
 function topFDhandles {
@@ -155,7 +181,6 @@ function display_ext_fs_param {
     done
 }
 
-
 function PartitionDump {
     if [ -x /sbin/fdisk ]; then
         if [ -x /sbin/parted ]; then
@@ -172,7 +197,6 @@ function PartitionDump {
         fi
     fi
 }
-
 
 function extract_xpinfo_i {
    # arg1: xpinfo CSV file, arg2: output should look like 'xpinfo -i'
@@ -231,7 +255,6 @@ function extract_xpinfo_c {
    do
       echo $LINE | awk -F";" '{printf "%-25s %-10s %-6s %-7s %-5s %-5s %s\n", $1, $10, $11, $12, $13, $14, $15}' >>  $outf
    done
-
 }
 
 function extract_xpinfo_r {
@@ -263,9 +286,10 @@ function my_df {
 function PVDisplay {
     #function used in LVM-section
     # for disk in $(strings /etc/lvmtab.d/* |grep -e hd -e sc) ;
-    for disk in $(vgdisplay -v 2> /dev/null | awk -F\ + '/PV Name/ {print $4}');    # fix by Alvaro Jimenez Cabrera, Mittwoch, 5. November 2008
+    for disk in $(vgdisplay -v 2> /dev/null | awk -F\ + '/PV Name/ {print $4}' | sort);    # fix by Alvaro Jimenez Cabrera, Mittwoch, 5. November 2008
     do
-        pvdisplay -v $disk
+        # [20200321] {jcw} Added redirection of stderr.
+        pvdisplay -v $disk 2>&1
     done
 }
 

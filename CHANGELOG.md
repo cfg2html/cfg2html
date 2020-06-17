@@ -2,6 +2,29 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+Changes
+~~~~~~~
+- Two way merged (JW, RR) [roseswe]
+- Enhanced Libraries from JW. [roseswe]
+- Enhanced Libraries from JW. [roseswe]
+- Merged and adapted  JW version. [roseswe]
+- Small changes to ReadMe file. [roseswe]
+
+Fix
+~~~
+- Small bug fixes. [roseswe]
+- SUSE dection, beautifying. [roseswe]
+
+Other
+~~~~~
+- Changes in the version number. [roseswe]
+- Bumped version number for Debian. [Ralph Roth]
+- ChangeLog for release 6.35.1. [roseswe]
+
+
 6.35.1 (2020-05-27)
 -------------------
 

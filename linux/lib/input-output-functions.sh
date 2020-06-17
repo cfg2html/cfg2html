@@ -1,4 +1,5 @@
 # @(#) $Id: input-output-functions.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
+#     Further modified by Joe Wulf:  20200323@1655.
 # -------------------------------------------------------------------------
 # input-output-functions.sh
 #
@@ -6,7 +7,7 @@
 # keep PID of main process
 MASTER_PID=$$
 # USR1 is used to abort on errors, not using Print to always print to the original STDOUT, even if quiet
-trap "echo 'FATAL: Aborting due to an error, check $ERROR_LOG for details' ; kill $MASTER_PID" USR1
+trap "echo 'FATAL: Aborting due to an error, check ${ERROR_LOG} for details' ; kill ${MASTER_PID}" USR1
 
 LF="
 "
@@ -14,7 +15,7 @@ LF="
 # Check if any of the binaries/aliases exist
 function has_binary {
 	for bin in $@; do
-		if type $bin 2>/dev/null; then
+		if type ${bin} 2>/dev/null; then
 			return 0
 		fi
 	done
@@ -31,7 +32,7 @@ function Error {
 	fi
 	VERBOSE=1
 	LogPrint "ERROR: $*"
-	kill -USR1 $MASTER_PID # make sure that Error exits the master process, even if called from child processes
+	kill -USR1 ${MASTER_PID} # make sure that Error exits the master process, even if called from child processes
 }
 
 function StopIfError {
@@ -52,7 +53,7 @@ function BugError {
 	Error "BUG BUG BUG! " "$@" "
 === Issue report ===
 Please report this unexpected issue at: https://github.com/cfg2html/cfg2html/issues
-Also include the relevant bits from $ERROR_LOG
+Also include the relevant bits from ${ERROR_LOG}
 ===================="
 }
 
@@ -88,7 +89,7 @@ function Log {
 		echo "$(Stamp)$*"
 	else
 		echo "$(Stamp)$(cat)"
-	fi >> $ERROR_LOG
+	fi >> ${ERROR_LOG}
 }
 
 # log if there is an error

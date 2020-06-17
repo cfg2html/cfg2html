@@ -33,8 +33,8 @@ To contribute to a project that is hosted on GitHub, you can fork the project on
 
 Fork project on github:
 
-    git clone https://github.com/my-user/project
-    cd project
+    git clone https://github.com/my-user/cfg2html
+    cd cfg2html
     repeat (edit files),(testing) until OK
     git add (modified files)
     git commit -m 'Explain what I changed'
@@ -56,7 +56,7 @@ NOTE: This is only a suggestion!
     To see a full documentation of such commit message convention, please look up the reference file gitchangelog.rc.reference, see <https://github.com/vaab/gitchangelog/blob/master/src/gitchangelog/gitchangelog.rc.reference>
 
 ----
-> $Id: README.md,v 6.11 2020/04/28 14:37:07 ralph Exp $
+> $Id: README.md,v 6.12 2020/06/17 19:56:41 ralph Exp $
 
 <!-- Atom:set encoding=utf8 lineEnding=unix grammar=md tabLength=4 useSoftTabs: -->
 <!-- vim:set fileencoding=utf8 fileformat=unix filetype=md tabstop=4 expandtab: -->

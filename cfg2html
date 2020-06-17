@@ -1,5 +1,6 @@
 #
-# @(#) $Id: cfg2html,v 6.35 2020/05/28 14:37:07 ralph Exp $
+# @(#) $Id: cfg2html,v 6.41 2020/06/17 21:24:05 ralph Exp $
+#     Further modified by Joe Wulf:  20200323@0929.
 # -------------------------------------------------------------------------
 # This is the wrapper for cfg2html for LINUX and HP-UX
 # CFG2HTML - license: see GPL v3
@@ -9,59 +10,59 @@
 # SUSE open build service (OBS): https://build.opensuse.org/package/show/home:gdha/cfg2html
 
 PRGNAME=$0
-MY_OS=$(uname -s)
+MY_OS="$(uname -s)"
 args=$@
 
-### this is not optimal and should be simplified. case ...
-if [ "$MY_OS" = "Linux" -a ! -f /tmp/cfg2html.respawn ]; then
-    touch /tmp/cfg2html.respawn
-    exec /bin/bash -O extglob $PRGNAME $args
+# [20200323] {jcw} Remove these comments when RR approves the case-statement replacement.
+
+if [ -f /tmp/cfg2html.respawn ]; then
+    touch /tmp/cfg2html.respawn; sync
+    case ${MY_OS} in
+                              "AIX" ) exec /usr/bin/ksh ${PRGNAME} ${args}         2>&1 ;;
+     " $(echo ${MY_OS} | grep BSD)" ) exec /usr/local/bin/bash ${PRGNAME} ${args}  2>&1 ;;
+                            "HP-UX" ) exec /usr/bin/ksh ${PRGNAME} ${args}         2>&1 ;;
+                            "Linux" ) exec /bin/bash -O extglob ${PRGNAME} ${args} 2>&1 ;;
+                            "SunOS" ) exec /usr/bin/ksh ${PRGNAME} ${args}         2>&1 ;;
+                                 *  ) echo >/dev/null                      # Default fall-through (should it be anything else?).
+                                        ;;
+    esac
+else
+      # What should be the standard response when the file does exist?
+      # RR: To be honest, I didn't understand meanwhile why we have it :-(
+      echo >/dev/null
 fi
-if [ "$MY_OS" = "HP-UX" -a ! -f /tmp/cfg2html.respawn ]; then
-    touch /tmp/cfg2html.respawn
-    exec /usr/bin/ksh $PRGNAME $args
-fi
-if [ "$MY_OS" = "SunOS" -a ! -f /tmp/cfg2html.respawn ]; then
-    touch /tmp/cfg2html.respawn
-    exec /usr/bin/ksh $PRGNAME $args
-fi
-if [ "`echo $MY_OS | grep BSD`" -a ! -f /tmp/cfg2html.respawn ]; then
-    touch /tmp/cfg2html.respawn
-    exec /usr/local/bin/bash $PRGNAME $args
-fi
-if [ "$MY_OS" = "AIX" -a ! -f /tmp/cfg2html.respawn ]; then
-    touch /tmp/cfg2html.respawn
-    exec /usr/bin/ksh $PRGNAME $args
-fi
+
+# [20200321] {jcw} Obviously the 'exec' continues through to here.
+STARTTIME="${SECONDS}"
 
 rm -f /tmp/cfg2html.respawn # get rid of the temporary lock as soon as possible
 
 ####
-
 PRODUCT="Config to HTML - cfg2html"
 # this CVS id is also used by the Makefiles to get the version number!
 # may be obsoleted by git tag --describe handling?
-CVS="$Id: cfg2html,v 6.35 2020/05/28 14:37:07 ralph Exp $"
-PROGRAM=$(echo $CVS|cut -f2 -d" "|cut -f1 -d,)
-VERSION=$(echo $CVS|cut -f3 -d" ")
-RELEASE_DATE="2020-05-28"	## YYYY-MM-DD ?!
-#echo $PROGRAM,$VERSION,$RELEASE_DATE
+CVS="$Id: cfg2html,v 6.41 2020/06/17 21:24:05 ralph Exp $"
+PROGRAM=$(echo ${CVS}|cut -f2 -d" "|cut -f1 -d,)
+VERSION=$(echo ${CVS}|cut -f3 -d" ")
+RELEASE_DATE="2020-06-17"	## YYYY-MM-DD ?!
+#echo ${PROGRAM},$VERSION,$RELEASE_DATE
 
-OS=$(uname)
-OS=$(echo $OS | tr 'A-Z' 'a-z' | sed -e 's/-//')
+OS="$(uname)"
+OS="$(echo ${OS} | tr 'A-Z' 'a-z' | sed -e 's/-//')"
 CFG_CMDLINE=$*
 
 COPYRIGHT="Copyright (C) 1999-2020 ROSE SWE, Dipl.-Ing. Ralph Roth"
-STARTTIME=$SECONDS
 
 LANG="C"
 LANG_ALL="C"
+# [20200310] {jcw} added LC_COLLATE.
+LC_COLLATE="POSIX"
 LC_MESSAGE="C"
 
 ## maybe we should skip the root check if the command line option -h or -? is passed?
 if  [ "$(whoami)" != "root" -a "$1" != "-h" ]
 then
-    echo "$(whoami) - You must be root to run the script $PROGRAM"
+    echo "$(whoami) - You must be root to run the script ${PROGRAM}"
     exit 42 ## 1 -> 42 for better returncode handling
 fi
 
@@ -69,7 +70,8 @@ fi
 trap "DoExitTasks" 0 1 2 3 6 11 15
 
 # initialize defaults
-case $MY_OS in
+# [20200310] {jcw} Should manage the TMP_DIR assignment, based on the configuration file, and or cmd-line option.
+case ${MY_OS} in
     HP-UX) TMP_DIR="$(mktemp -d /tmp -p cfg2html_)" ;;
     Linux|SunOS) TMP_DIR="$(mktemp -d /tmp/cfg2html.XXXXXXXXXXXXXXX)" ;;
     *) TMP_DIR="/tmp/${PROGRAM}_${RANDOM}" ;;	## hopefully AIX and SUN have $RANDOM too - why not using mktemp too, its safer! RR
@@ -77,12 +79,12 @@ esac
 
 export TMP_DIR # be on the safe side?
 
-# SHARE_DIR will be redefined (to /opt/$PROGRAM) by 'make depot' not by 'make rpm/deb'
-SHARE_DIR=/usr/share/$PROGRAM
-# /etc/$PROGRAM may contain local.conf (hpux), default.conf always under SHARE_DIR/etc/
-CONFIG_DIR="/etc/$PROGRAM"
+# SHARE_DIR will be redefined (to /opt/${PROGRAM}) by 'make depot' not by 'make rpm/deb'
+SHARE_DIR="/usr/share/${PROGRAM}"
+# /etc/${PROGRAM} may contain local.conf (hpux), default.conf always under SHARE_DIR/etc/
+CONFIG_DIR="/etc/${PROGRAM}"
 # VAR_DIR can be overruled in default.conf or local.conf file (or by -o option)
-VAR_DIR="/var/log/$PROGRAM"
+VAR_DIR="/var/log/${PROGRAM}"
 
 VERBOSE=
 DEBUG=
@@ -91,18 +93,18 @@ DEBUG=
 MYPATH=$(dirname $(type $0 | awk '{print $NF}')) # see issue #18
 
 # define our BASE_DIR according the location of our SHARE_DIR
-[[ -d $SHARE_DIR ]] && BASE_DIR="$SHARE_DIR" || BASE_DIR="${MYPATH}/$OS"
+[[ -d ${SHARE_DIR} ]] && BASE_DIR="${SHARE_DIR}" || BASE_DIR="${MYPATH}/${OS}"
 
 # check the CONFIG_DIR and redefine when running from current dir (conf dir renamed to etc)
-[[ ! -d $CONFIG_DIR ]] && CONFIG_DIR="$BASE_DIR/etc"
+[[ ! -d ${CONFIG_DIR} ]] && CONFIG_DIR="${BASE_DIR}/etc"
 
 # source of configuration file(s) - important: treat these as scripts
-[[ -f $BASE_DIR/etc/default.conf ]] && . $BASE_DIR/etc/default.conf
+[[ -f ${BASE_DIR}/etc/default.conf ]] && . ${BASE_DIR}/etc/default.conf
 # source your own configuration file which overrides settings in the default.conf
 # in the local.conf you could define OUTPUT_URL settings
-[[ -f $BASE_DIR/etc/local.conf ]] && . $BASE_DIR/etc/local.conf
+[[ -f ${BASE_DIR}/etc/local.conf ]] && . ${BASE_DIR}/etc/local.conf
 # your personal config file if present will be read as last one (overrule previous settings!)
-[[ -f $CONFIG_DIR/local.conf ]] && . $CONFIG_DIR/local.conf
+[[ -f ${CONFIG_DIR}/local.conf ]] && . ${CONFIG_DIR}/local.conf
 
 ### new date check ###
 
@@ -113,30 +115,30 @@ i=2030
 # date sanity check. complains if cfg2html is too old, must be adjusted every year to fit
 #
 
-while [ $i -gt 2021 ]   ## where we want to stop, complains if older than two years
+while [ ${i} -gt 2021 ]   ## where we want to stop, complains if older than two years
 do
-    [ $YEAR -gt $i ] && OLD=$OLD" very"
-    # echo "i=$i,  old=$OLD"
+    [ ${YEAR} -gt ${i} ] && OLD=${OLD}" very"
+    # echo ${i} - ${OLD}
     ((i=(i-1)))
-    [ "${OLD}" != "" ] && echo "WARNING! This version of cfg2html is$OLD old! Update ASAP!"
+    [ "${OLD}" != "" ] && echo "WARNING! This version of cfg2html is ${OLD} old!  Update ASAP!"
 done
 
 
 # source the include functions
-for script in $BASE_DIR/lib/*.sh ; do
-    [[ -f $script ]] && . $script
+for script in ${BASE_DIR}/lib/*.sh ; do
+    [[ -f ${script} ]] && . ${script}
 done
 
 # source the main program, e.g. cfg2html-hpux.sh
-if [ "`echo $MY_OS | grep BSD`" ]; then
-    . $BASE_DIR/${PROGRAM}-bsd.sh
+if [ "`echo ${MY_OS} | grep BSD`" ]; then
+    . ${BASE_DIR}/${PROGRAM}-bsd.sh
 else
-    if [[ -f $BASE_DIR/${PROGRAM}-${OS}.sh ]]; then
-        . $BASE_DIR/${PROGRAM}-${OS}.sh
-    elif [[ -f $BASE_DIR/bin/${PROGRAM}-${OS}.sh ]]; then
-        . $BASE_DIR/bin/${PROGRAM}-${OS}.sh
+    if [[ -f ${BASE_DIR}/${PROGRAM}-${OS}.sh ]]; then
+        . ${BASE_DIR}/${PROGRAM}-${OS}.sh
+    elif [[ -f ${BASE_DIR}/bin/${PROGRAM}-${OS}.sh ]]; then
+        . ${BASE_DIR}/bin/${PROGRAM}-${OS}.sh
     else
-        echo "ERROR: Could not find $BASE_DIR/[bin/]${PROGRAM}-${OS}.sh"
+        echo "ERROR: Could not find ${BASE_DIR}/[bin/]${PROGRAM}-${OS}.sh"
         exit 43 # 1 -> 43
     fi
 fi
@@ -145,15 +147,17 @@ RETCODE=$?
 # define OUTPUT_URL in your local.conf file
 CopyFilesAccordingOutputUrl
 
-if [ $RETCODE -eq 0 ]
+if [ ${RETCODE} -eq 0 ]
 then
     echo "No errors reported."
 else
-    echo "Returncode=$RETCODE (see file $ERROR_LOG)"
+    echo "Returncode=${RETCODE} (see file $ERROR_LOG)"
 fi
 
 # cleanup
 rm -f /tmp/cfg2html.respawn $LOCK
-rm -rf $TMP_DIR
+rm -rf ${TMP_DIR}
+rm -rf /tmp//tmp/cfg2html.??????????????  # [20200312] {jcw} Pattern of seemingly hangers-on directories after a run.
 
-exit $RETCODE
+sync;sync;sync
+exit ${RETCODE}
