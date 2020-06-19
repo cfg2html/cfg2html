@@ -2,6 +2,7 @@ Changelog
 =========
 
 
+
 6.41.0 (2020-06-17)
 -------------------
 
@@ -9,6 +10,24 @@ Changes
 ~~~~~~~
 - Merged all enhancements by JW. [roseswe]
 - Small changes to ReadMe file. [roseswe]
+
+=======
+(unreleased)
+------------
+
+Changes
+~~~~~~~
+- Two way merged (JW, RR) [roseswe]
+- Enhanced Libraries from JW. [roseswe]
+- Enhanced Libraries from JW. [roseswe]
+- Merged and adapted  JW version. [roseswe]
+- Small changes to ReadMe file. [roseswe]
+
+Fix
+~~~
+- Small bug fixes. [roseswe]
+- SUSE dection, beautifying. [roseswe]
+
 
 Other
 ~~~~~
