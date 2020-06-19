@@ -2,6 +2,26 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+Changes
+~~~~~~~
+- Merged all enhancements by JW. [roseswe]
+- To build with the correct anotated tag. [Ralph Roth]
+
+Other
+~~~~~
+- Merge branch 'master' into master. [Ralph Roth]
+
+
+6.41.1 (2020-06-17)
+-------------------
+
+Changes
+~~~~~~~
+- Bumped to version 6.41.1 (annotated tag) [roseswe]
+
 
 6.41.0 (2020-06-17)
 -------------------
@@ -10,24 +30,6 @@ Changes
 ~~~~~~~
 - Merged all enhancements by JW. [roseswe]
 - Small changes to ReadMe file. [roseswe]
-
-=======
-(unreleased)
-------------
-
-Changes
-~~~~~~~
-- Two way merged (JW, RR) [roseswe]
-- Enhanced Libraries from JW. [roseswe]
-- Enhanced Libraries from JW. [roseswe]
-- Merged and adapted  JW version. [roseswe]
-- Small changes to ReadMe file. [roseswe]
-
-Fix
-~~~
-- Small bug fixes. [roseswe]
-- SUSE dection, beautifying. [roseswe]
-
 
 Other
 ~~~~~
