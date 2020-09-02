@@ -2734,20 +2734,20 @@ then # else skip to next paragraph
     . ${CONFIG_DIR}/plugins
 
 
-    if [ -n "${CFG2HTML_PLUGIN_DIR}" -a -n "${CFG2HTML_PLUGIN}S" ]; then
+    if [ -n "${CFG2HTML_PLUGIN_DIR}" -a -n "${CFG2HTML_PLUGINS}" ]; then
             # only run plugins when we know where to find them and at least one of them is enabled
 
         inc_heading_level
 
-        if [ "${CFG2HTML_PLUGIN}S" == "all" ]; then
+        if [ "${CFG2HTML_PLUGINS}" == "all" ]; then
         # include all plugins
         CFG2HTML_PLUGINS="$(ls -1 ${CFG2HTML_PLUGIN_DIR})"
         fi
 
-        for CFG2HTML_PLUGIN in ${CFG2HTML_PLUGIN}S; do
+        for CFG2HTML_PLUGIN in ${CFG2HTML_PLUGINS}; do
         if [ -f "${CFG2HTML_PLUGIN_DIR}/${CFG2HTML_PLUGIN}" ]; then
             . ${CFG2HTML_PLUGIN_DIR}/${CFG2HTML_PLUGIN}
-            exec_command cfg2html_plugin "${CFG2HTML_PLUGIN}TITLE"
+            exec_command cfg2html_plugin "${CFG2HTML_PLUGINTITLE}"
         else
             AddText "Configured plugin ${CFG2HTML_PLUGIN} not found in ${CFG2HTML_PLUGIN_DIR}"
         fi
