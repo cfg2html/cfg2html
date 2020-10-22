@@ -16,12 +16,18 @@ function HostNames {
          else
               echo 'DNS Domainname  =  <no result returned/null>'
          fi
-         echo "DNS Domainname Version  =  $(dnsdomainname -v 2>&1)"
+	 # -v option on dnsdomainname not available everywhere, -V sometimes used # modified on 20201021 by edrulrd
+         dnsdomainname -v 1> /dev/null 2>&1 # don't write out anything, only get return code
+         if [ $? -eq 0 ]
+           then 
+             echo "DNS Domainname version  = $(dnsdomainname -v 2>&1)"
+           else
+             echo "DNS Domainname Version  = $(dnsdomainname -V 2>&1)"
+         fi
     else
          echo 'DNS Domainname  ==  <RPM/binary not installed>'
     fi; echo
 
-    echo  "DNS Domainname     = "`dnsdomainname `
     echo  "NIS Domainname     = "`domainname -y 2>/dev/null `
     echo  "Hostname (short)   = "`hostname -s`
     echo  "Hostname (FQDN)    = "`hostname -f`
