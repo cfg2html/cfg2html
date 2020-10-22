@@ -254,7 +254,10 @@ inc_heading_level
   #
   #                   One good reference for this is: http://www.dmo.ca/blog/detecting-virtualization-on-linux
   #
-  # DMESG='/bin/dmesg'; DMIDECODE='/usr/sbin/dmidecode'; LSCPI='/sbin/lspci'
+
+  DMESG=$(which dmesg 2>/dev/null)         # Added 20201004 by edrulrd
+  DMIDECODE=$(which dmidecode 2>/dev/null) # Added 20201004 by edrulrd
+  LSCPI=$(which lspci 2>/dev/null)         # Added 20201004 by edrulrd
   
   # It is better to check on a host for the existance of /usr/sbin/esxupdate. Existance of that binary, and its response, will truly indicate an ESX host.
   PhysHost='TRUE'               # General term. Default, and its state is kept beyond this section. Assumed TRUE at the beginning.  TRUE indicates NO   form of Virt Guest.
@@ -294,10 +297,10 @@ inc_heading_level
       fi
   
       # These are only indented this way so as to visually distinguish them; there is no desire/need to if-then-else them!
-      if [ "$(${DMESG} | grep -i  {VIRTs})" ]; then
-           # Using the 'drnesg' command is useful for some number of days after the system was last booted;
+      if [ -n "${DMESG}" -a "$(${DMESG} | grep -i ${VIRTs})" ]; then # typo fixed on 20201004 by edrulrd
+           # Using the 'dmesg' command is useful for some number of days after the system was last booted; # typo fixed on 20201004 by edrulrd
            # beyond that, the /var/log/dmesg file is a good alternate datapoint.
-           if [ ! "$(${DMESG} } grep 'Booting paravirtualized kernel on bare hardware')" ]; then
+           if [ ! "$(${DMESG} | grep 'Booting paravirtualized kernel on bare hardware')" ]; then # typo fixed on 20201004 by edrulrd
                 # This exception catches the one case of installing RHEL/CentOS on a real physical machine.  This IS properly/necessarily nested!
                 VIRTterm='TRUE'
                 VIRTdc='TRUE'
@@ -312,14 +315,14 @@ inc_heading_level
            fi
       fi
   
-      if [ "${DMIDECODE}" != 'false' ] && [ "$(${DMIDECODE} | grep -i ${VIRTs})" ]; then
+      if [ -n "${DMIDECODE}" ] && [ "$(${DMIDECODE} | grep -i ${VIRTs})" != "" ]; then # modified on 20201004 by edrulrd
            # Value is established up above.
            VIRTterm='TRUE'
            VIRTdd='TRUE'
       fi
   
-      if [ "${LSPCI}" != 'false' ] && [ "$(${LSPCI} -v | grep -i ${VIRTs})" ]; then
-           # Value is established up above; '-v' to lcpi command provides verbosity.
+      if [ -n "${LSPCI}" ] && [ "$(${LSPCI} -v | grep -i ${VIRTs})" != "" ]; then # modified on 20201004 by edrulrd
+           # Value is established up above; '-v' to lscpi command provides verbosity. # typo fixed on 20201004 by edrulrd
            VIRTterm='TRUE'
            VIRTls='TRUE'
       fi
@@ -330,7 +333,7 @@ inc_heading_level
                 # Is one way to determine it.
                 ESXhost='TRUE'
            else
-                if [ "$(${DMESG} | grep -i vmxnet)" ] || [ "${DMIDECODE}" != 'false' -a "$(${DMIDECODE} | grep -i vmxnet)" ]; then
+                if [ -n "${DMESG}" -a "$(${DMESG} | grep -i vmxnet)" != "" ] || [ -n "${DMIDECODE}" -a "$(${DMIDECODE} | grep -i vmxnet)" != "" ]; then # modified on 20201004 by edrulrd
                      VIRTterm='TRUE'
                 fi
                 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Have to add options to check sytemctl, too.
@@ -473,7 +476,7 @@ inc_heading_level
 
   if [ -x /usr/bin/locale ] ; then
     exec_command posixversion "POSIX Standards/Settings"
-    exec_command "Locale" "locale specific information"
+    exec_command locale "locale specific information" # modified on 20201005 by edrulrd
 
     # [20200407] {jcw} Commented this out, in favor of standardized function "LANG_C" in shell-functions.sh.
     # export LANG="C"
@@ -555,7 +558,7 @@ inc_heading_level
   AddText "The output should be empty!"
 
   ## ps aux --sort=-%cpu,-%mem|head -25 ## 06.03.2015
-  exec_command "ps -ef | cut -c39- | sort -nr | head -25 | awk '{ printf(\"%10s   %s\\n\", \$1, \$2); }'" "Top load processes"
+  exec_command "ps -e -o 'time,cmd' | sort -r | head -25 | awk '{ printf(\"%10s   %s\\n\", \$1, \$2); }'" "Top load processes" # modified on 20201009 by edrulrd
   exec_command "ps -e -o 'vsz pid ruser cpu time args' |sort -nr|head -25" "Top memory consuming processes"
   exec_command topFDhandles "Top file handles consuming processes" # 24.01.2013
   AddText "Hint: Number of open file handles should be less than ulimit -n ("$(ulimit -n)")"
@@ -563,9 +566,14 @@ inc_heading_level
                                           #  10.11.2012 modified by Ralph Roth #* rar *# fix for SLES11,SP2, 29.01.2014
   [ -x /usr/bin/pidstat ] && exec_command "pidstat -lrud 2>/dev/null||pidstat -rud" "pidstat - Statistics for Linux Tasks"
 
-  exec_command "tuned-adm list" "Tuned Profiles"     	              #06.11.2014, 20:34 added by Dusan Baljevic 
-  exec_command "tuned-adm active" "Tuned Active Profile Status"       #06.11.2014, Dusan Baljevic -- see also saptune()
-  exec_command "numactl --hardware" "NUMA Inventory of Available Nodes on the System"     #06.11.2014, added by Dusan Baljevic
+  if [ -x "$(which tuned-adm)" ] ; then #  avoid errors if not available # modified on 20201009 by edrulrd
+    exec_command "tuned-adm list" "Tuned Profiles"     	              #06.11.2014, 20:34 added by Dusan Baljevic 
+    exec_command "tuned-adm active" "Tuned Active Profile Status"       #06.11.2014, Dusan Baljevic -- see also saptune()
+  fi
+  NUMACTL="$(which numactl 2>/dev/null)"                               # modified on 20201004 added by edrulrd
+  if [ -n "${NUMACTL}" -a -x "${NUMACTL}" ] ; then
+    exec_command "$(${NUMACTL} --hardware)" "NUMA Inventory of Available Nodes on the System"     #06.11.2014, added by Dusan Baljevic
+  fi
 
   if [ -x /usr/bin/journalctl ]
   then
@@ -574,7 +582,7 @@ inc_heading_level
   	exec_command "last -F| grep reboot | head -25" "Last 25 Reboots"			### RR, 2014-12-19  ##CHANGED##FIXED## 20150212 by Ralph Roth
   fi
   # common stuff, systemd and old style system-v rc
-  exec_command "last -xF  | grep -E 'system|runlevel'" "Last 25 runlevel changes or reboots" 	###CHANGED### 20150408 by Ralph Roth
+  exec_command "last -xF  | grep -E 'system|runlevel' | head -25" "Last 25 runlevel changes or reboots" 	###CHANGED### 20150408 by Ralph Roth # modified on 20201009 by edrulrd
 
   ### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
   #     stderr output from " blame":
@@ -971,17 +979,17 @@ inc_heading_level
   fi
 
   SYSTOOL=`which systool  2>/dev/null`
-  if [ -x ${SYSTOOL} ]; then
+  if [ -x "${SYSTOOL}" ]; then # modified on 20201004 by edrulrd 
      exec_command "systool -c fc_host -v" "Fibre Channel Host Bus Adapters systool status"
   fi
 
   SGSCAN=`which sg_scan` 2>/dev/null
-  if [ -x ${SGSCAN} ]; then
+  if [ -x "${SGSCAN}" ]; then # modified on 20201009 by edrulrd
      exec_command "sg_scan -i" "Fibre Channel Host Bus Adapters sg_scan SCSI inquiry"
   fi
 
   SGMAP=`which sg_map 2>/dev/null`
-  if [ -x ${SMAP} ]; then
+  if [ -x "${SMAP}" ]; then # modified on 20201009 by edrulrd
      exec_command "sg_map -x" "Fibre Channel Host Bus Adapters sg_map status"
   fi
 
@@ -1036,7 +1044,7 @@ inc_heading_level
   fi
 
   # get IDE Disk information
-  HDPARM=`which hdparm`
+  HDPARM=$(which hdparm 2>/dev/null) # modified in case hdparm not installed, on 20201004 by edrulrd 
   # if hdparm is installed (DEBIAN 4.0)
   # -i   display drive identification
   # -I   detailed/current information directly from drive
@@ -1277,14 +1285,44 @@ inc_heading_level
     exec_command "mount" "Local Mountpoints"
     exec_command PartitionDump "Disk Partition Layout"        #  30.03.2011, 20:00 modified by Ralph Roth #** rar **#
     #
-    # maybe some parted -l stuff here?  # changed 20141209 by Ralph Roth
-    #
-    if [ -x /sbin/sfdisk ]
-    then
-	sfdisk -d > ${OUTDIR}/${BASEFILE}.partitions.save
-	exec_command "cat ${OUTDIR}/${BASEFILE}.partitions.save" "Disk Partitions to restore from"
-	AddText "To restore your partitions use the saved file: ${BASEFILE}.partitions.save, read the man page for sfdisk for usage. (Hint: sfdisk --force /dev/device < file.save)"
+    # 20201008 following code added by edrulrd
+    # We want to save the partition tables for each of the disks so we can restore them if they get corrupted.
+    # With the greatly increased sizes of disks nowadays, on systems with older versions of sfdisk, the data is not saved properly.
+    # So, where we can, we'll save the partition tables with sfdisk, and where we can't we'll use sgdisk
+    do_sgdisk=no
+    do_sfdisk=no
+    if [ -x "$(which sfdisk)" ] ; then
+      vl="$(sfdisk -v | awk '{print $NF}'|sed 's/\./ /g')" # get version and level of sfdisk command
+      v="$(echo ${vl} | awk '{print $1}')" # get version
+      l="$(echo ${vl} | awk '{print $2}')" # level
+      if [ ${v} -ge 3 ] || [ ${v} -eq 2 -a ${l} -ge 26 ] ; then
+        do_sfdisk=yes # we can use sfdisk if the version is 2.26 or higher
+      else
+        do_sgdisk=yes # otherwise, we can use sgdisk if it's available
+      fi
+    else
+      do_sgdisk=yes  # do sgdisk if sfdisk is not available but sgdisk is
     fi
+
+    if [ -x "$(which lsblk)" ] ; then
+      for HardDisk in $(lsblk -p | grep "^/" | grep disk | awk '{print $1}') # get the harddrives only eg. /dev/sda, not lv's etc.
+      do
+        if [ -x "$(which sgdisk)" -a "${do_sgdisk}" = "yes" ] ; then
+          sgdisk --backup="${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk})" ${HardDisk}
+          exec_command "ls -l ${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk})" "Disk Partitions to restore from"
+          AddText "WARNING: use at your own risk!  To restore your partitions use the saved file: ${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk}). Read the man page for sgdisk for usage. (Hint: sgdisk --load-backup=${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk}) ${HardDisk}"
+        else
+          if [ "${do_sfdisk}" = "yes" ] ; then
+            sfdisk -d ${HardDisk} > ${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk})
+            exec_command "cat ${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk})" "Disk Partitions to restore from"
+            AddText "WARNING: use at your own risk!  To restore your partitions use the saved file: ${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk}). Read the man page for sfdisk for usage. (Hint: sfdisk --force /dev/device < file.save)"
+          else
+             AddText "Warning: sfdisk version is too old and sgdisk is not available"
+          fi
+        fi
+      done
+    fi # end of code added by edrulrd
+
     #*#
     #*# Alexander De Bernard 20100310
     #*#
@@ -1321,14 +1359,18 @@ inc_heading_level
          ##CHANGED##FIXED## 20150304 by Ralph Roth
 	 exec_command "/usr/sbin/kdumptool dump_config; echo; /usr/sbin/kdumptool find_kernel; echo; /usr/sbin/kdumptool print_target" "Kdump Status (kdumptool)"
     else
-    ### TODO: -x kdumpctl check ###
+      if [ -x "$(which kdumpctl)" ] ; then # modified on 20201009 by edrulrd
     	exec_command "kdumpctl status" "Kdump Status"              #  Added by Dusan Baljevic 6/11/2014  (not on SLES11!) // 04.03.2015 Ralph Roth
     	exec_command "kdumpctl showmem" "Kdump memory allocation"  #  Added by Dusan Baljevic 24/12/2017
+      fi
     fi # /usr/sbin/kdumptool
     [ -r /proc/diskdump ] && exec_command "cat /proc/diskdump" "Diskdump Status"          #  Added by Dusan Baljevic 6/11/2014, 06.04.2015 Ralph Roth
-    exec_command "cat /etc/sysconfig/dump" "SUSE LKCD Config"    #  Added by Dusan Baljevic 6/11/2014
-    ### TODO: line 107: lkcd: command not found ###
-    exec_command "lkcd -q" "SUSE LKCD Status"                    #  Added by Dusan Baljevic 6/11/2014
+    [ -r /etc/sysconfig/dump ] && exec_command "cat /etc/sysconfig/dump" "Diskdump config file"    #  Added by Dusan Baljevic 6/11/2014 # Modified on 20201004 by edrulrd
+                                                       
+    LKCD=$(which lkcd 2>/dev/null)
+    if [ -x "${LKCD}" ] ; then                               #  Modified on 20201004 by edrulrd
+      exec_command "$(${LKCD} -q)" "SUSE LKCD Status"                    #  Added by Dusan Baljevic 6/11/2014
+    fi
 
 dec_heading_level
 
@@ -1337,8 +1379,8 @@ fi # terminates CFG_FILESYS wrapper
 ###########################################################################
 ## 3/6/08 New: RedHat multipath config  by krtmrrsn@yahoo.com, Marc Korte.
 ## also available at SLES 11 #  07.04.2012, 19:56 modified by Ralph Roth #* rar *#
-if [ ${REDHAT} = "yes" ] && [ -n $(ps -ef | awk '/\/sbin\/multipathd/ {print $NF}') ] ; then
-#FIXME#if [ ${REDHAT} = "yes" ] && [ $(pgrep multipathd) ] ; then
+if [ ${REDHAT} = "yes" ] && [ -n "$(ps -ef | awk '/\/sbin\/multipathd/ {print $NF}')" ] ; then # modified on 20201005 by edrulrd
+                                                                   
     if [ -x /sbin/multipath ]   #  10.11.2011, 22:50 modified by Ralph Roth #* rar *#
     then
       paragraph "Multipath Configuration"
@@ -1474,14 +1516,15 @@ then # else skip to next paragraph
   if [ ${REDHAT} = "yes" ] ; then
     ## There will always be at least ifcfg-lo.
     exec_command "for CfgFile in /etc/sysconfig/network-scripts/ifcfg-*; do printf \"\n\n\$(basename \${CfgFile}):\n\n\"; cat \${CfgFile}; done" "LAN Configuration Files"
-    ## Check first that any route-* files exist ("grep  -q ''" exit status). Seems buggy!
+    ## Check first that any route-* files exist # modified on 20201005 by edrulrd
 ### # [20200319] {jcw} See if I can put this as a multi-line command.
-    exec_command "if grep -q '' /etc/sysconfig/network-scripts/route-*; then for RouteCfgFile in /etc/sysconfig/network-scripts/route-*; do printf \"\n\n\$(basename \${RouteCfgFile}):\n\n\"; cat \${RouteCfgFile}; done; fi" "Route Configuration Files"
+    exec_command "if [ $(find /etc/sysconfig/network-scripts/ -name route-* -print |wc -l) -gt 0 ]; then for RouteCfgFile in /etc/sysconfig/network-scripts/route-*; do printf \"\n\n\$(basename \${RouteCfgFile}):\n\n\"; cat \${RouteCfgFile}; done; fi" "Route Configuration Files" # modified on 20201005 by edrulrd
   fi
   ## End Marc Korte display ethernet LAN config files.
 
-  [ -x /sbin/mii-tool ] && exec_command "/sbin/mii-tool -v" "MII Status"
-  [ -x /sbin/mii-diag ] && exec_command "/sbin/mii-diag -a" "MII Diagnostics"
+  # Need to add the interface to the mii-tool and mii-diag commands # added on 20201005 by edrulrd
+  [ -x /sbin/mii-tool ] && exec_command "for Interface in $(netstat -ni | tail -n +3 |awk '{print $1}'); do /sbin/mii-tool -v \${Interface}; done" "MII Status"
+  [ -x /sbin/mii-diag ] && exec_command "for Interface in $(netstat -ni | tail -n +3 |awk '{print $1}'); do /sbin/mii-diag -a \${Interface}; done" "MII Diagnostics"
 
     exec_command "ip route" "Network Routing"           #  07.11.2011, 21:37 modified by Ralph Roth #* rar *#
     exec_command "netstat -r" "Routing Tables"
@@ -1605,7 +1648,8 @@ then # else skip to next paragraph
 
   # RedHat default
   ## exec_command "grep -vE '^#|^ *$' /etc/inetd.conf" "Internet Daemon Configuration"
-  if [ -d /etc/xinetd.d ]; then
+  # Confirm there is at least one file # added on 20201005 by edrulrd
+  if [ -d /etc/xinetd.d ] && [ $(find /etc/xinetd.d -type f -print | wc -l) -gt 0 ]; then # modified on 20201005 by edrulrd
     # mdk/rh has a /etc/xinetd.d directory with a file per service
     exec_command "cat /etc/xinetd.d/*|grep -vE '^#|^ *$'" "/etc/xinetd.d/ section"
   fi
@@ -1702,7 +1746,7 @@ then # else skip to next paragraph
   #    (exec_command "what /usr/lib/netsvc/yp/yp*; ypwhich" "NIS/Yellow Pages")
 
   # ntpq live sometimes in /usr/bin or /usr/sbin
-  NTPQ=`which ntpq`
+  NTPQ=`which ntpq 2>/dev/null` # modified in case ntpq not installed, on 20201004 by edrulrd 
   # if [ ${NTPQ} ] && [ -x ${NTPQ} ] ; then
   if [ -n "${NTPQ}" -a -x "${NTPQ}" ] ; then      # fixes by Ralph Roth, 180403
     exec_command "${NTPQ} -p" "XNTP Time Protocol Daemon"
@@ -2069,7 +2113,7 @@ then # else skip to next paragraph
 
 ### new stuff with 2.83 by Dusan // # changed 20140319 by Ralph Roth
 PUPPETEXE=$(which puppet  2>/dev/null)
-if [ -x ${PUPPETEXE} ]
+if [ -x "${PUPPETEXE}" ] # modified on 20201006 by edrulrd
 then
   ##############################################################################
   ###  Puppet settings
