@@ -27,9 +27,13 @@ If you do not want to build cfg2html by your own, we have pre-build installation
 If you find a problem or bug, want to discuss feature requests, or have some bright new ideas, please create a new issue on our GitHub project page <https://github.com/cfg2html/cfg2html/issues.>
 When using it, please ensure that any criticism you provide is constructive. Please do not use the issue tracker for general help and assistance with using cfg2html.
 
+Feel free to open a pull request to fix a problem yourself or to contribute a new feature. 
+
 ## Contributing on GitHub
 
-To contribute to a project that is hosted on GitHub, you can fork the project on github.com, then clone your fork locally, make a change, push back to GitHub and then send us a merge request, which will email the maintainer.
+To contribute to a project that is hosted on GitHub, you can fork the project on github.com, then clone your fork locally, make a change, push back to GitHub and then send us a merge request for your pull, which will email the maintainer.
+
+Please try to keep pull requests as small as possible - one new feature or fix set per pull request is preferred. This makes it easier to review and discuss your contribution.
 
 Fork project on github:
 

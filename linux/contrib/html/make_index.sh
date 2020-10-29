@@ -1,36 +1,28 @@
 #  !/usr/bin/ksh
 #######################################################################
-# @(#) $Id: make_index.sh,v 6.12 2018/01/04 22:26:07 ralph Exp $
+# @(#) $Id: make_index.sh,v 6.14 2020/10/29 13:19:54 ralph Exp $
 # $Log: make_index.sh,v $
-# Revision 6.12  2018/01/04 22:26:07  ralph
-# all_hosts
+# Revision 6.14  2020/10/29 13:19:54  ralph
+# Fixes for make_index.sh (see issue #144)
+# Fixes for regression in cfg2html-linux and crontab collecting
 #
+# Revision 6.12  2018/01/04 22:26:07  ralph
 # Revision 6.10.1.1  2013-09-12 16:13:19  ralph
 # Initial 6.10.1 import from GIT Hub, 12.09.2013
-#
 # Revision 4.18  2010-04-27 09:31:02  ralproth
 # cfg4.70-24165: fixes for cfg2html_solaris 1.6.4
-#
 # Revision 4.15  2009/03/09 14:02:21  ralproth
 # cfg4.23-22229: Enhancements for Brocade and Itanium
-#
 # Revision 4.14  2009/03/09 13:47:57  ralproth
-# cfg4.23-22229: fixed error maybe introduced with 4.xx stream?
-#
-# Revision 4.10.1.1  2008/02/07 20:49:54  ralproth
-# Initial cfg2html_hpux 4.xx stream import
-#
 # Revision 3.13  2008/02/07 20:49:53  ralproth
 # 3.56: added SUN support
-#
 # Revision 3.10.1.1  2005/05/09 12:52:02  ralproth
 # Initial 3.x stream import
-#
 # Revision 2.6  2004/11/17 11:39:41  ralproth
 # Enhanced cron collector
 #
 #######################################################################
-# (c) 1999-2018 by cfg2html@hotmail.com, All Rights Reserved, Freeware
+# (c) 1999-2020 by cfg2html@hotmail.com, All Rights Reserved, Freeware
 # http://rose.rult.at/
 #######################################################################
 # Simply run this shell script in the directory, where your cfg2html
@@ -44,10 +36,10 @@ PATH=/bin:/usr/bin:$PATH                ## cygwin
 
 OUT=index.htm
 
-echo "Make_Index for Cfg2Html (HP-UX and *nix)"
+echo "Make_Index for Cfg2Html (Linux, HP-UX and *nix)"
 echo "-------------------------------------------------------------------------"
 echo "Make_Index creates an index of your cfg2html collected hosts files"
-echo "\$Id: make_index.sh,v 6.12 2018/01/04 22:26:07 ralph Exp $"
+echo "\$Id: make_index.sh,v 6.14 2020/10/29 13:19:54 ralph Exp $"
 echo ""
 
 cat >$OUT<<EOF
@@ -60,10 +52,11 @@ cat >$OUT<<EOF
 <br><small>
 EOF
 
-for i in `(find . -name "*.htm*" -print| grep -v -E './index.htm|./allhosts.htm|./info.htm' | sort -u )`  ## this find doesn't support spaces in the filename!
+for i in `(find . -iname "*.htm*" -print| grep -v -E './index.htm|./allhosts.htm|./info.htm' | sort -u )`  ## this find doesn't support spaces in the filename!
 do
   # echo "Host= ["$i"]"
   if (grep -e cfg2Html -e "cfg2html/HPUX" -e "cfg2html/HP-UX" -e Cfg2Html \
+    -e "(cfg2html for Linux)" \
     -e cfg2html-linux -e "cfg2html-brocade" -e "cfg2html/SUN" -e cfg2html_solaris "$i">/dev/null) ;
   then
     typ2=""

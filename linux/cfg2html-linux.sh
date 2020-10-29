@@ -1,10 +1,9 @@
 #!/bin/bash
 #
-# @(#) $Id: cfg2html-linux.sh,v 6.63 2020/06/17 21:24:05 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.65 2020/10/29 13:19:54 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2020 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
 #     Further modified by Joe Wulf:  20200407@1432.
-                   export CustomVer="20200407@1432"
 
 #  If you change this script, please mark your changes with for example
 #  ## <username> and send your diffs from the actual version to my mail
@@ -32,17 +31,17 @@ CFGSH=$_
 # -  Print env|set, and 'shopt | sort | column -t' for root user.
 # -  Ensure all called functions get the rename of variables from $VAR to ${VAR}.
 # -  Rewrite all `<cmd>` to $(<cmd>).
-# -  
-# -  
-# -  
+# -
+# -
+# -
 #
 
 # {jcw} Done:
 # -  Accomplished massive rename of variables from $VAR to ${VAR}.
-# -  
-# -  
-# -  
-# -  
+# -
+# -
+# -
+# -
 #
 
 # [20200312] {jcw}:  PATH management (AKA PathMunge!).
@@ -205,7 +204,7 @@ identify_linux_distribution
 
 ####################################################################
 # needs improvement!
-# trap "echo Signal: Aborting!; rm ${HTML_OUTFILE}_TEMP"  2 13 15
+# trap "echo Signal: Aborting!; rm ${HTML_OUTFILE}"  2 13 15
 
 ####################################################################
 
@@ -217,7 +216,6 @@ identify_linux_distribution
 #
 
 line
-#echo "Starting:          [$(date ${DtFmt})]; ${_VERSION} , {jcw} custom as of: ${CustomVer}."
 echo "Starting:          ${_VERSION}"
 echo "Path to cfg2html:  "$0
 echo "HTML Output File:  "${HTML_OUTFILE}
@@ -258,11 +256,11 @@ inc_heading_level
   DMESG=$(which dmesg 2>/dev/null)         # Added 20201004 by edrulrd
   DMIDECODE=$(which dmidecode 2>/dev/null) # Added 20201004 by edrulrd
   LSCPI=$(which lspci 2>/dev/null)         # Added 20201004 by edrulrd
-  
+
   # It is better to check on a host for the existance of /usr/sbin/esxupdate. Existance of that binary, and its response, will truly indicate an ESX host.
   PhysHost='TRUE'               # General term. Default, and its state is kept beyond this section. Assumed TRUE at the beginning.  TRUE indicates NO   form of Virt Guest.
   VirtMach='false'              # General term. Default, and its state is kept beyond this section. Assumed false at the beginning. TRUE indicates SOME form of Virt Guest.
-  
+
   # These are flags indicating if anything related to their vitrualization-type has been found (or not).
   # Searching for •virtual' by itself is a bad start, as there are numerous exceptions, non-virtualization related. VMdom0= 11false 11 # term was positively found; Xen-related
   VMdomU='false'                # term was positively found; Xen-related
@@ -273,29 +271,29 @@ inc_heading_level
   VMvirtio= 'false'            # { abstraction layer}
   VMxen='false'                 # Xen (as a term)
   VMXEN='false'                 # Xen Default for any form found true (xen, dom0 domU).
-  
+
   # VMware-based flags.
   ESXhost='false'               # Default, and its state is kept beyond this section.
   VMTver='false'                # Default of unknown for VMware-Tools version, if it is installed.
   VMware='false'                # VMware Default for any form found (ESX or client VM).
-  
+
   touch PhysVirt.info_Pt2; chmod 0600 PhysVirt.info_Pt2; chown 0:0 PhysVirt.info_Pt2; sync;sync
-  
+
   for VIRTs in domo domu kvm paravirt qemu virtio vmware xen; do
       VIRTterm='unset'                                        # Local value used within the loop.
-  
+
       VIRTci='unset'                                          # /proc/cpuinfo   # These are only used to display state.
       VIRTdc='unset'                                          # dmesg command
       VIRTdf='unset'                                          # /var/log/dmesg {the long output}
       VIRTdd='unset'                                          # dmidecode {the command}
       VIRTls='unset'                                          # /sbin/lspci {the command}
-  
+
       # These are only indented this way so as to visually distinguish them; there is no desire/need to if-then-else them!
       if [ "$(cat /proc/cpuinfo | grep -i ${VIRTs})" ]; then
            VIRTterm='TRUE'
            VIRTci='TRUE'
       fi
-  
+
       # These are only indented this way so as to visually distinguish them; there is no desire/need to if-then-else them!
       if [ -n "${DMESG}" -a "$(${DMESG} | grep -i ${VIRTs})" ]; then # typo fixed on 20201004 by edrulrd
            # Using the 'dmesg' command is useful for some number of days after the system was last booted; # typo fixed on 20201004 by edrulrd
@@ -306,7 +304,7 @@ inc_heading_level
                 VIRTdc='TRUE'
            fi
       fi
-  
+
       if [ "$(grep -i ${VIRTs} /var/log/dmesg 2>/dev/null)" ]; then
            if [ ! "$(${DMESG} | grep 'Booting paravirtualized kernel on bare hardware')" ]; then
                   # This exception catches the one case of installing RHEL/CentOS on a real physical machine.  This IS properly/necessarily nested!
@@ -314,19 +312,19 @@ inc_heading_level
                   VIRTdf='TRUE'
            fi
       fi
-  
+
       if [ -n "${DMIDECODE}" ] && [ "$(${DMIDECODE} | grep -i ${VIRTs})" != "" ]; then # modified on 20201004 by edrulrd
            # Value is established up above.
            VIRTterm='TRUE'
            VIRTdd='TRUE'
       fi
-  
+
       if [ -n "${LSPCI}" ] && [ "$(${LSPCI} -v | grep -i ${VIRTs})" != "" ]; then # modified on 20201004 by edrulrd
            # Value is established up above; '-v' to lscpi command provides verbosity. # typo fixed on 20201004 by edrulrd
            VIRTterm='TRUE'
            VIRTls='TRUE'
       fi
-  
+
       # Very VMware-based; determine if this is an ESX or a VM, and then use that clue to get and later display the version of VMwareTools (if it can be found).
       if [ "${VIRTs}" == 'vmware' ]; then
            if [ -e /usr/sbin/esxupdate ]; then
@@ -345,7 +343,7 @@ inc_heading_level
                 fi
            fi
       fi
-  
+
       # Need RHEL 7 version of 'chkconfig' accounted for.
       # if [ "$(chkconfig --list vmware-tools 2>&1)" != 'error reading information on service vmware-tools: No such file or directory' ]; then
       #      echo "Status of vmware-tools service: $(-chkconfig --list vmware-tools )"         >> PhysVirt.info
@@ -353,7 +351,7 @@ inc_heading_level
       #      # RHEL 6 under VMware Workstation, for example, even with vmware-tools •installed', the host does not have the vmware-tools •service' anymore.
       #      echo "vmware-tools not installed, so unable to get its running or stopped status" >> PhysVirt. info
       # fi
-  
+
       if [ "${VIRTterm}" == 'TRUE' ]; then
            case ${VIRTs} in
                     dom0) #
@@ -388,7 +386,7 @@ inc_heading_level
                           VMware='TRUE'
                          ;;
            esac
-      
+
            # When ALL of the conditions tested for, through all iterations of the for-loop, remain false, ONLY then can ${PhysHost}/${ESXhost} remain 'TRUE' and ${VirtMach} remain 'false'.
            PhysHost='false'
            ESXhost='false'
@@ -401,7 +399,7 @@ inc_heading_level
       fi
   done
   echo ' ' >> PhysVirt.info_Pt2
-  
+
   if [ ${PhysHost} == 'TRUE' ]; then
        echo "This host is Physical, PhysHost=(${PhysHost}); vice Virtual, VirtMach=(${VirtMach})."    >> PhysVirt.info
        echo ' '                                                                                       >> PhysVirt.info
@@ -455,7 +453,7 @@ inc_heading_level
         exec_command "/usr/bin/virsh list" "virsh Virtualization Support Status"
         exec_command "/usr/bin/virsh sysinfo" "virsh XML Hypervisor Sysinfo"
       fi
-    
+
       if [ -x /usr/sbin/virt-what ] ; then
         exec_command "/usr/sbin/virt-what" "Virtual Machine Check"
       fi
@@ -466,7 +464,7 @@ inc_heading_level
         exec_command "/usr/bin/machinectl --version" "Systemd Virtual Machine and Container Version"
         exec_command "/usr/bin/machinectl list" "Systemd Virtual Machine and Container Status"
       fi
-    
+
       if [ -x /usr/bin/VBoxManage ] ; then
         exec_command "/usr/bin/VBoxManage -v" "VirtualBox Version"
         exec_command "/usr/bin/VBoxManage list systemproperties" "VirtualBox System Properties"
@@ -567,7 +565,7 @@ inc_heading_level
   [ -x /usr/bin/pidstat ] && exec_command "pidstat -lrud 2>/dev/null||pidstat -rud" "pidstat - Statistics for Linux Tasks"
 
   if [ -x "$(which tuned-adm)" ] ; then #  avoid errors if not available # modified on 20201009 by edrulrd
-    exec_command "tuned-adm list" "Tuned Profiles"     	              #06.11.2014, 20:34 added by Dusan Baljevic 
+    exec_command "tuned-adm list" "Tuned Profiles"     	              #06.11.2014, 20:34 added by Dusan Baljevic
     exec_command "tuned-adm active" "Tuned Active Profile Status"       #06.11.2014, Dusan Baljevic -- see also saptune()
   fi
   NUMACTL="$(which numactl 2>/dev/null)"                               # modified on 20201004 added by edrulrd
@@ -785,13 +783,13 @@ inc_heading_level
   ls ${user}cron/* > /dev/null 2>&1
   if [ $? -eq 0 ]
   then
-	  _echo  "\n\n<B>Crontab files:</B>" >> ${HTML_OUTFILE}_TEMP
+	  _echo  "\n\n<B>Crontab files:</B>" >> ${HTML_OUTFILE}
 	  for FILE in ${user}cron/*
 	  do
 		  exec_command "cat ${FILE} | grep -v ^#" "For user `basename ${FILE}`"
 	  done
   else
-	  echo "No crontab files for user.<br>" >> ${HTML_OUTFILE}_TEMP
+	  echo "No crontab files for user.<br>" >> ${HTML_OUTFILE}
   fi
 
   ##
@@ -800,13 +798,13 @@ inc_heading_level
   ls /etc/cron.d/* > /dev/null 2>&1
   if [ $? -eq 0 ]
   then
-	  _echo "\n\n<br><B>/etc/cron.d files:</B>" >> ${HTML_OUTFILE}_TEMP
+	  _echo "\n\n<br><B>/etc/cron.d files:</B>" >> ${HTML_OUTFILE}
 	  for FILE in /etc/cron.d/*
 	  do
 		  exec_command "cat ${FILE} | grep -v ^#" "For utility `basename ${FILE}`"
 	  done
   else
-	  echo "No /etc/cron.d files for utlities." >> ${HTML_OUTFILE}_TEMP
+	  echo "No /etc/cron.d files for utlities." >> ${HTML_OUTFILE}
   fi
 
   if [ -f /etc/crontab ] ; then
@@ -979,7 +977,7 @@ inc_heading_level
   fi
 
   SYSTOOL=`which systool  2>/dev/null`
-  if [ -x "${SYSTOOL}" ]; then # modified on 20201004 by edrulrd 
+  if [ -x "${SYSTOOL}" ]; then # modified on 20201004 by edrulrd
      exec_command "systool -c fc_host -v" "Fibre Channel Host Bus Adapters systool status"
   fi
 
@@ -1044,7 +1042,7 @@ inc_heading_level
   fi
 
   # get IDE Disk information
-  HDPARM=$(which hdparm 2>/dev/null) # modified in case hdparm not installed, on 20201004 by edrulrd 
+  HDPARM=$(which hdparm 2>/dev/null) # modified in case hdparm not installed, on 20201004 by edrulrd
   # if hdparm is installed (DEBIAN 4.0)
   # -i   display drive identification
   # -I   detailed/current information directly from drive
@@ -1366,7 +1364,7 @@ inc_heading_level
     fi # /usr/sbin/kdumptool
     [ -r /proc/diskdump ] && exec_command "cat /proc/diskdump" "Diskdump Status"          #  Added by Dusan Baljevic 6/11/2014, 06.04.2015 Ralph Roth
     [ -r /etc/sysconfig/dump ] && exec_command "cat /etc/sysconfig/dump" "Diskdump config file"    #  Added by Dusan Baljevic 6/11/2014 # Modified on 20201004 by edrulrd
-                                                       
+
     LKCD=$(which lkcd 2>/dev/null)
     if [ -x "${LKCD}" ] ; then                               #  Modified on 20201004 by edrulrd
       exec_command "$(${LKCD} -q)" "SUSE LKCD Status"                    #  Added by Dusan Baljevic 6/11/2014
@@ -1380,7 +1378,7 @@ fi # terminates CFG_FILESYS wrapper
 ## 3/6/08 New: RedHat multipath config  by krtmrrsn@yahoo.com, Marc Korte.
 ## also available at SLES 11 #  07.04.2012, 19:56 modified by Ralph Roth #* rar *#
 if [ ${REDHAT} = "yes" ] && [ -n "$(ps -ef | awk '/\/sbin\/multipathd/ {print $NF}')" ] ; then # modified on 20201005 by edrulrd
-                                                                   
+
     if [ -x /sbin/multipath ]   #  10.11.2011, 22:50 modified by Ralph Roth #* rar *#
     then
       paragraph "Multipath Configuration"
@@ -1746,7 +1744,7 @@ then # else skip to next paragraph
   #    (exec_command "what /usr/lib/netsvc/yp/yp*; ypwhich" "NIS/Yellow Pages")
 
   # ntpq live sometimes in /usr/bin or /usr/sbin
-  NTPQ=`which ntpq 2>/dev/null` # modified in case ntpq not installed, on 20201004 by edrulrd 
+  NTPQ=`which ntpq 2>/dev/null` # modified in case ntpq not installed, on 20201004 by edrulrd
   # if [ ${NTPQ} ] && [ -x ${NTPQ} ] ; then
   if [ -n "${NTPQ}" -a -x "${NTPQ}" ] ; then      # fixes by Ralph Roth, 180403
     exec_command "${NTPQ} -p" "XNTP Time Protocol Daemon"
@@ -2864,4 +2862,3 @@ rm -rf /tmp//tmp/cfg2html.??????????????  # [20200312] {jcw} Pattern of seemingl
 # [20200311] {jcw} Added sync's and sane exit
 sync;sync;sync
 exit 0
-
