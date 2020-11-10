@@ -368,7 +368,7 @@ then # else skip to next paragraph
   exec_command "lsfs -a" "Filesystem Information"
   exec_command "df -k" "Filesystems Usage"
 
-  exec_command "sysdumpdev" "System Dump Information"
+  exec_command "sysdumpdev -l" "System Dump Information" # The -l option who list the current dump values is speeder and avoids the system lvm_change. ###CHANGED###FIXED### 20201110 
   exec_command "sysdumpdev -e" "Estimated System Dump Size"
 
   exec_command "lsps -a" "Swap Partitions"
