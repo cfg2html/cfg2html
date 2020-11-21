@@ -46,26 +46,25 @@ CFGSH=$_
 
 # [20200312] {jcw}:  PATH management (AKA PathMunge!).
      # Good reference:  http://security.stackexchange.com/questions/117535/ordering-of-the-path-environment-variable
-     # echo "PATH was: (${PATH})."  # Debug.
+     CallingPATH=${PATH} # save the original PATH to document it # modified on 20201026 by edrulrd
      ShoptExtglob="$(shopt extglob | tr -s ' ' | tr -d '\t' | cut -d' ' -f2)"  # Preserve current state of extglob.
      shopt -s extglob # Force enable it
      if [[ ${EUID} -eq 0 ]]; then
            # Root-based PATH putting priv dirs before userland: colon-separated; should always be this one.  :)
-           CorePath='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/kerberos/sbin'
+           CorePath='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin' # remove kerberos # modified on 20201026 by edrulrd
      else
            CorePath='/usr/local/bin:/usr/bin:/bin'
      fi; unset BuiltPath
      # Add local paths here, in order of importance (i.e. sbin before bin), without being redundant for paths that are already planned/managed by this function.
-     ScndryPaths='/opt/puppetlabs/puppet/bin:/usr/kerberos/bin:/usr/bin/X11:/usr/X11R6/bin:/usr/lib64/qt-3.3/bin:/root/bin'
-     for PathMgmt in $(echo ${PATH}:${ScndryPaths} | sed 's/:/\n/g' | awk '!LinesSeen[$0]++'); do
+     ScndryPaths='/usr/kerberos/sbin:/opt/puppetlabs/puppet/bin:/usr/kerberos/bin:/usr/bin/X11:/usr/X11R6/bin:/usr/lib64/qt-3.3/bin:/root/bin' # add kerberos back in # modified on 20201026 by edrulrd
+     for PathMgmt in $(echo ${CorePath}:${ScndryPaths} | sed 's/:/\n/g' | awk '!LinesSeen[$0]++'); do # modified on 20201026 by edrulrd
          # The awk defines what lines to print.  "$0" holds the entire contents of 'a' line.  The square brackets are array access.  As each line is processed, awk increments
          # a node of the array (named 'LinesSeen'); printing the line if the content was not (!) previously set.  Very efficient elimination of dups without unwanted 'sorting'.
-         if [ -e "${PathMgmt}" ] && [ -d "${PathMgmt}" ]; then
+         if [ -e "${PathMgmt}" ] && [ -d "${PathMgmt}" -a ! -L "${PathMgmt}" ]; then # don't want dirs that are also links (eg. /usr/bin/X11) # modified on 20201027 by edrulrd
               # If the dir doesn't currently exist then ignore it
               # For the rest, assume the provided sorted order is sufficient to add them back in to the path.
               case ${PathMgmt} in
                    . )                  continue ;;  # Never allow '.' as part of PATH.
-                   /usr/kerberos/sbin ) continue ;;
                    /usr/local/sbin )    continue ;;
                    /usr/local/bin )     continue ;;
                    /usr/sbin )          continue ;;
@@ -91,13 +90,15 @@ _VERSION="cfg2html-linux version ${VERSION} "  # this a common stream so we don?
 # getopt
 #
 
-while getopts ":o:shcSTflkenaHLvhpPA:2:10" Option   ##  -T -0 -1 -2 backported from HPUX
+while getopts ":o:shxOcSTflkenaHLvhpPA2:10" Option   ##  -T -0 -1 -2 backported from HPUX # added new options -x and -O and removed the need for an argument on -A # modified on 20201026 by edrulrd
 do
   case ${Option} in
     o     ) OUTDIR=${OPTARG};;
     v     ) echo ${_VERSION}"// "$(uname -mrs); exit 0;; ## add uname output, see YG MSG 790 ##
     h     ) echo ${_VERSION}; usage; exit 0;;
     s     ) CFG_SYSTEM="no";;
+    x     ) CFG_PATHLIST="no";; # don't generate the list of executables in the PATH # added on 20201025 by edrulrd
+    O     ) CFG_LSOFDEL="no";; # skip showing the list of open files that have been deleted # added on 20201026 by edrulrd
     c     ) CFG_CRON="no";;
     S     ) CFG_SOFTWARE="no";;
     f     ) CFG_FILESYS="no";;
@@ -495,7 +496,54 @@ inc_heading_level
     exec_command "iostat" "IO-Statistics"
   fi
 
-  exec_command "lsof -nP 2>\/dev\/null | grep '(deleted)'" "Files that are open but have been deleted" # modified on 20201026 by edrulrd
+  if [ "${CFG_PATHLIST}" != "no" ] # Added on 20201026 by edrulrd
+  then # else skip to next paragraph # Added on 20201026 by edrulrd
+    # Include information regarding the PATH # Added on 20201025 by edrulrd
+    exec_command "echo ${0} was called with PATH set to: ${CallingPATH}" "PATH Settings" # Added on 20201025 by edrulrd
+    AddText "and this program is using PATH set to: ${PATH}" # Added on 20201025 by edrulrd
+
+    if [ -n "${LOCALPATH}" ] # check if we want to list the executables in a different path # added on 20201113 by edrulrd
+    then
+      AddText "LOCALPATH specified.  Files in "${LOCALPATH}" follow:" # Added on 20201113 by edrulrd
+      echo ${LOCALPATH} | sed 's/:/\n/g' | while read i # Confirm each entry present in the directory list is a folder # added on 20201113 by edrulrd
+      do
+        if [ -e "${i}" -a ! -d "${i}" ] # if the entry exists and isn't a directory, then flag it # added on 20201113 by edrulrd
+        then
+          AddText "Error: "${i}" in "${LOCALPATH}" is not a directory" # Added on 20201113 by edrulrd
+          exit 1 # Added on 20201113 by edrulrd
+        fi
+      done
+      LISTPATH=${LOCALPATH} # Added on 20201113 by edrulrd
+    else
+      LISTPATH=${PATH} # Added on 20201113 by edrulrd
+    fi
+
+    # Get all the executable files including soft-links in the PATH and generate a sorted list # Added on 20201025 by edrulrd
+    exec_command "for Directory in $(/bin/echo ${LISTPATH} |
+    sed 's/:/ /g');
+    do
+      find \$Directory -executable \( -type f -o -type l \) -print 2>\/dev\/null |
+      sort |
+      while read Filename;
+        do
+          /bin/echo -n \$(basename \${Filename});
+          /bin/echo -n ' ';
+          ls -al \${Filename} |
+          awk '{\$1=\"\";\$2=\"\";\$3=\"\";\$4=\"\";\$5=\"\";\$6=\"\";\$7=\"\";\$8=\"\";print}' |
+          sed 's/^        //';
+        done
+    done |
+    sort -k1,1 -u |
+    awk '{\$1=\"\"; print}' |
+    sed 's/^ //'" "Executable Commands found in $LISTPATH" # Added on 20201025 by edrulrd
+    unset LISTPATH
+    # End of code added on 20201025 by edrulrd
+  fi # terminates CFG_PATHLIST wrapper # added on 20201026 by edrulrd
+
+  if [ "${CFG_LSOFDEL}" != "no" ] # added on 20201026 by edrulrd
+  then # else skip to next paragraph # added on 20201026 by edrulrd
+    exec_command "lsof -nP 2>\/dev\/null | grep '(deleted)'" "Files that are open but have been deleted" # modified on 20201026 by edrulrd
+  fi # terminates CFG_LSOFDEL wrapper # added on 20201026 by edrulrd
 
   # In "used memory.swap" section I would add :
   # free -tl     (instead of free, because it gives some more useful infos, about HighMem and LowMem memory regions (zones))
@@ -2703,7 +2751,10 @@ then # else skip to next paragraph
     ###above partitioning and HPACUCLI is contributed by kgalal@gmail.com
 
     exec_command "ls ${temphp}" "These files have been made or captured during CFG2html execution and should be in the zipped TARball"
-    hplog -s INFO -l "CFG2HTML HP Proliant Server report successfully created"
+    if [ -x "$(which hplog 2> /dev/null)" ] # modified on 20201113 by edrulrd
+    then
+      hplog -s INFO -l "CFG2HTML HP Proliant Server report successfully created"
+    fi
 
     dec_heading_level
 
