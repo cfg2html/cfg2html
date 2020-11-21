@@ -13,9 +13,7 @@ PRGNAME=$0
 MY_OS="$(uname -s)"
 args=$@
 
-# [20200323] {jcw} Remove these comments when RR approves the case-statement replacement.
-
-if [ -f /tmp/cfg2html.respawn ]; then
+if [ ! -f /tmp/cfg2html.respawn ]; then # re-added the not "!" operator so we re-execute ourself with the proper shell and options # modified on 20201031 by edrulrd
     touch /tmp/cfg2html.respawn; sync
     case ${MY_OS} in
                               "AIX" ) exec /usr/bin/ksh ${PRGNAME} ${args}         2>&1 ;;
@@ -23,13 +21,9 @@ if [ -f /tmp/cfg2html.respawn ]; then
                             "HP-UX" ) exec /usr/bin/ksh ${PRGNAME} ${args}         2>&1 ;;
                             "Linux" ) exec /bin/bash -O extglob ${PRGNAME} ${args} 2>&1 ;;
                             "SunOS" ) exec /usr/bin/ksh ${PRGNAME} ${args}         2>&1 ;;
-                                 *  ) echo >/dev/null                      # Default fall-through (should it be anything else?).
+                                 *  ) echo "WARNING: Unsupported Operating System, continuing anyway" # prior code just continued on # modified on 20201031 by edrulrd
                                         ;;
     esac
-else
-      # What should be the standard response when the file does exist?
-      # RR: To be honest, I didn't understand meanwhile why we have it :-(
-      echo >/dev/null
 fi
 
 # [20200321] {jcw} Obviously the 'exec' continues through to here.
