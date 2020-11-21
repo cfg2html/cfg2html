@@ -442,7 +442,7 @@ inc_heading_level
       exec_command "${HOSTNAMECTL}" "Hostname settings"
   fi
 
-  [ -x /usr/bin/lsb_release ] && exec_command "/usr/bin/lsb_release -a" "Linux Standard Base Version"
+  [ -x /usr/bin/lsb_release ] && exec_command "/usr/bin/lsb_release -a 2>\/dev\/null" "Linux Standard Base Version" #modified on 20201026 by edrulrd
   for i in /etc/*-release
   do
       [ -r ${i} ] && exec_command "cat ${i}" "OS Specific Release Information for (${i})"
@@ -495,7 +495,7 @@ inc_heading_level
     exec_command "iostat" "IO-Statistics"
   fi
 
-  exec_command "lsof -nP | grep '(deleted)'" "Files that are open but have been deleted"
+  exec_command "lsof -nP 2>\/dev\/null | grep '(deleted)'" "Files that are open but have been deleted" # modified on 20201026 by edrulrd
 
   # In "used memory.swap" section I would add :
   # free -tl     (instead of free, because it gives some more useful infos, about HighMem and LowMem memory regions (zones))
@@ -556,7 +556,7 @@ inc_heading_level
   AddText "The output should be empty!"
 
   ## ps aux --sort=-%cpu,-%mem|head -25 ## 06.03.2015
-  exec_command "ps -e -o 'time,cmd' | sort -r | head -25 | awk '{ printf(\"%10s   %s\\n\", \$1, \$2); }'" "Top load processes" # modified on 20201009 by edrulrd
+  exec_command "ps -e -o 'time,cmd' --sort -cputime | head -25 | awk '{ printf(\"%10s   %s\\n\", \$1, \$2); }'" "Top load processes" # modified on 20201009 by edrulrd
   exec_command "ps -e -o 'vsz pid ruser cpu time args' |sort -nr|head -25" "Top memory consuming processes"
   exec_command topFDhandles "Top file handles consuming processes" # 24.01.2013
   AddText "Hint: Number of open file handles should be less than ulimit -n ("$(ulimit -n)")"
@@ -1035,7 +1035,7 @@ inc_heading_level
   fi
 
   # get serial information
-  SETSERIAL=`which setserial`
+  SETSERIAL=$(which setserial 2>/dev/null) # modified in case setserial not installed, on 20201110 by edrulrd
   if [ -n "${SETSERIAL}" ] && [ -x ${SETSERIAL} ]; then
     exec_command "${SETSERIAL} -a /dev/ttyS0" "Serial ttyS0"
     exec_command "${SETSERIAL} -a /dev/ttyS1" "Serial ttyS1"
