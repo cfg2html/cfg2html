@@ -545,9 +545,6 @@ inc_heading_level
     exec_command "lsof -nP 2>\/dev\/null | grep '(deleted)'" "Files that are open but have been deleted" # modified on 20201026 by edrulrd
   fi # terminates CFG_LSOFDEL wrapper # added on 20201026 by edrulrd
 
-  exec_command "lsof -nP 2>\/dev\/null | grep '(deleted)'" "Files that are open but have been deleted" # modified on 20201026 by edrulrd
-
-
   # In "used memory.swap" section I would add :
   # free -tl     (instead of free, because it gives some more useful infos, about HighMem and LowMem memory regions (zones))
   # cat /proc/meminfo (in order to get some details of memory usage)
