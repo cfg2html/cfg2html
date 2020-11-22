@@ -5,6 +5,10 @@
 %if 0%{?sles_version} == 0
 %undefine sles_version
 %endif
+### Recently in CentOS8, RHEL8, etc, rpmbuild's macros now check for a proper shebang (#!) in the 1st line
+### of the scripts.  Since our scripts are callable by bash, and ksh, we don't have a shebang in our
+### scripts. This disables that checking.  #modifed on 20201115 by edrulrd
+%undefine __brp_mangle_shebangs
 
 Name:		cfg2html
 Version: 6.16
