@@ -41,3 +41,5 @@ sshkey.sh
 *.patch
 *.gcno
 *.o
+*.diff
+*.patch
