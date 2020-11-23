@@ -111,7 +111,7 @@ change stuff in sub directories. But it is good habit to use it.
 How to apply the Patches/Diffs?
 
   $ gunzip delta-1-14-3rar.gz
-  $ patch -p0 < delta-1-14-3rar
+  $ patch -p0 < delta-1-14-3rar        ## --dry-run
   patching file cfg2html-linux-1.14/cfg2html-linux
   patching file cfg2html-linux-1.14/cfg2html_urls.html
 

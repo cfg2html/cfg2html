@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
-# @(#) $Id: rules,v 6.17 2015/04/06 08:47:28 ralph Exp $
+# @(#) $Id: rules,v 6.20 2020/06/17 19:56:53 ralph Exp $
 # -------------------------------------------------------------------------
 # vim:ts=8:sw=4:sts=4 
 # -*- coding: utf-8 -*- http://rose.rult.at/ - Ralph Roth
