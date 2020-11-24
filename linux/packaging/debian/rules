@@ -85,7 +85,11 @@ binary-indep: build
        # This triggers issue #35 on the SUSE OBS environment ....
        # [   77s] cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/cfg2html/
        # [   77s] cp: cannot stat `etc/default.conf': No such file or directory
-	cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/cfg2html/
+       # This still appears to be broken, as on Ubuntu systems, it should go into # modified on 20201114 by edrulrd
+       # /usr/share/cfg2html/etc when installed and not into /usr/share/cfg2html/etc/cfg2html
+       # If SUSE needs it where it was, we can put it in both places
+	cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/cfg2html
+	cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/
 	cp -av etc/local.conf debian/cfg2html/etc/cfg2html/
 	cp -av ../cfg2html debian/cfg2html/usr/sbin/
 	cp -av cfg2html-linux.sh debian/cfg2html/usr/share/cfg2html/
