@@ -23,7 +23,7 @@ Source: cfg2html-6.16-git201312020913.tar.gz
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:	noarch
 
-#BuildRequires:	
+#BuildRequires:
 Requires:	bash gawk psmisc
 Conflicts:	cfg2html-linux
 
@@ -48,7 +48,10 @@ Swiss army knife script for the System Administrators as it was primarily writte
 
 %files
 %defattr(-, root, root, 0755)
-%doc linux/AUTHORS linux/COPYING linux/README linux/doc/*.txt linux/doc/*.html
+
+# linux/doc/*.html   {regression after deleting the .html :-( }
+%doc linux/AUTHORS linux/COPYING linux/README linux/doc/*.txt
+
 %doc %{_mandir}/man8/cfg2html.8*
 %config(noreplace) %{_sysconfdir}/cron.d/%{name}
 %config(noreplace) %{_sysconfdir}/cfg2html/

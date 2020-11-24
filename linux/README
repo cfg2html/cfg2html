@@ -39,25 +39,35 @@ If you use the packages, read the man pages for dpkg or rpm to install.
 
 On SLES/openSUSE
 
-# zypper in cfg2html_linux-2.*.rpm
+   # zypper in cfg2html_linux-2.*.rpm
+
+On CentOS8/RHEL
+
+   [ralph@ralph2co ~]$ sudo rpm -hiv cfg2html-6.41.1.16.gedc280d-1.git202011230748.noarch.rpm
+   error: Failed dependencies:
+      psmisc is needed by cfg2html-6.41.1.16.gedc280d-1.git202011230748.noarch
+
+So better use yum to resolve dependencies:   
+   [ralph@ralph2co ~]$ sudo yum install cfg2html-6.41.1.16.gedc280d-1.git202011230748.noarch.rpm
+
 
 On the other RPM boxes where cfg2html is already installed do this:
 
-# rpm -hiv cfg2html-linux-1.24-7.noarch.rpm
-Preparing...                ########################################### [100%]
-        file /usr/bin/cfg2html-linux from install of cfg2html-linux-1.24-7 conflicts with file from package cfg2html-linux-1.23-11
-        file /usr/share/man/man8/cfg2html-linux.8.gz from install of cfg2html-linux-1.24-7 conflicts with file from package cfg2html-linux-1.23-11
-# rpm -hiv --freshen cfg2html-linux-1.24-7.noarch.rpm
-Preparing...                ########################################### [100%]
-   1:cfg2html-linux         ########################################### [100%]
+   # rpm -hiv cfg2html-linux-1.24-7.noarch.rpm
+   Preparing...                ########################################### [100%]
+         file /usr/bin/cfg2html-linux from install of cfg2html-linux-1.24-7 conflicts with file from package cfg2html-linux-1.23-11
+         file /usr/share/man/man8/cfg2html-linux.8.gz from install of cfg2html-linux-1.24-7 conflicts with file from package cfg2html-linux-1.23-11
+   # rpm -hiv --freshen cfg2html-linux-1.24-7.noarch.rpm
+   Preparing...                ########################################### [100%]
+      1:cfg2html-linux         ########################################### [100%]
 
-hklinx01:~/cfg> sudo rpm -hiv cfg2html-linux-1.74-1.noarch.rpm
-Password:
-Preparing...                ########################################### [100%]
-        file /etc/cfg2html/plugins from install of cfg2html-linux-1.74-1 conflicts with file from package cfg2html-linux-1.61-2
-        file /usr/bin/cfg2html from install of cfg2html-linux-1.74-1 conflicts with file from package cfg2html-linux-1.61-2
-        file /usr/bin/cfg2html-linux from install of cfg2html-linux-1.74-1 conflicts with file from package cfg2html-linux-1.61-2
-        file /usr/share/man/man8/cfg2html-linux.8.gz from install of cfg2html-linux-1.74-1 conflicts with file from package cfg2html-linux-1.61-2
+   hklinx01:~/cfg> sudo rpm -hiv cfg2html-linux-1.74-1.noarch.rpm
+   Password:
+   Preparing...                ########################################### [100%]
+         file /etc/cfg2html/plugins from install of cfg2html-linux-1.74-1 conflicts with file from package cfg2html-linux-1.61-2
+         file /usr/bin/cfg2html from install of cfg2html-linux-1.74-1 conflicts with file from package cfg2html-linux-1.61-2
+         file /usr/bin/cfg2html-linux from install of cfg2html-linux-1.74-1 conflicts with file from package cfg2html-linux-1.61-2
+         file /usr/share/man/man8/cfg2html-linux.8.gz from install of cfg2html-linux-1.74-1 conflicts with file from package cfg2html-linux-1.61-2
 
 
  ____       _       _     _
@@ -111,7 +121,7 @@ change stuff in sub directories. But it is good habit to use it.
 How to apply the Patches/Diffs?
 
   $ gunzip delta-1-14-3rar.gz
-  $ patch -p0 < delta-1-14-3rar
+  $ patch -p0 < delta-1-14-3rar        ## --dry-run
   patching file cfg2html-linux-1.14/cfg2html-linux
   patching file cfg2html-linux-1.14/cfg2html_urls.html
 
@@ -240,14 +250,6 @@ Subject must begin with    [cfg2html]
 |  _/ ___ \ |_| | / / | |  | | \__ \ (__
 |_|/_/   \_\__\_\/_/  |_|  |_|_|___/\___|
 ---------------------------------------------------------------------------
-
-ulmpc014:/tmp # rpm -hiv cfg2html-linux-1.18.3-1.noarch.rpm
-error: failed dependencies:
-        rpmlib(PayloadFilesHavePrefix) <= 4.0-1 is needed by cfg2html-linux-1.18.3-1
-        rpmlib(CompressedFileNames) <= 3.0.4-1 is needed by cfg2html-linux-1.18.3-1
-ulmpc014:/tmp # uname -a
-Linux ulmpc014 2.2.14 #1 Mon Mar 13 10:51:48 GMT 2000 i686 unknown
-
 
 Known Problems
 --------------
