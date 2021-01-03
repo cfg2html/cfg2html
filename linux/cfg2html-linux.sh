@@ -618,7 +618,7 @@ inc_heading_level
   fi
   NUMACTL="$(which numactl 2>/dev/null)"                               # modified on 20201004 added by edrulrd
   if [ -n "${NUMACTL}" -a -x "${NUMACTL}" ] ; then
-    exec_command "$(${NUMACTL} --hardware)" "NUMA Inventory of Available Nodes on the System"     #06.11.2014, added by Dusan Baljevic
+    exec_command "${NUMACTL} --hardware" "NUMA Inventory of Available Nodes on the System"     #06.11.2014, added by Dusan Baljevic
   fi
 
   if [ -x /usr/bin/journalctl ]
