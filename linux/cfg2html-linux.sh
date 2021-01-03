@@ -1860,6 +1860,14 @@ then # else skip to next paragraph
       exec_command "grep -vE '^#|^ *$' /boot/grub/menu.lst" "GRUB Boot Manager" # rar
     fi
 
+    if [ -f /boot/grub/grub.cfg ] ; then
+      exec_command "grep -vE '^#|^ *$' /boot/grub/grub.cfg" "GRUB2 Boot Manager"
+    fi
+
+    if [ -f /boot/grub2/grub.cfg ] ; then
+      exec_command "grep -vE '^#|^ *$' /boot/grub2/grub.cfg" "GRUB2 Boot Manager" # Fedora/RedHat
+    fi
+
     if [ -f /etc/palo.conf ] ; then
       exec_command "grep -vE '^#|^ *$' /etc/palo.conf" "Palo Boot Manager"
     fi
