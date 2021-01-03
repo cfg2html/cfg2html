@@ -1,7 +1,7 @@
-#
+# $Id: .gitignore,v 6.2 2020/04/28 14:37:07 ralph Exp $
 # NOTE! Don't add files that are generated in specific
-# subdirectories here. Add them in the ".gitignore" file
-# in that subdirectory instead.
+# sub-directories here. Add them in the ".gitignore" file
+# in that sub-directory instead.
 #
 # NOTE! Please use 'git ls-files -i --exclude-standard'
 # command after changing this file, to see if there are
@@ -9,10 +9,13 @@
 #
 CVS/
 RCS/
+.gitchangelog.rc
 #
 # Debian directory (make deb-pkg)
 #
-linux/debian/
+#linux/debian/   ## not needed anymore, see issue #128
+linux/build-stamp
+linux/configure-stamp
 linux/packaging/debian/cfg2html.dsc.orig
 linux/packaging/rpm/cfg2html.spec.orig
 #
@@ -24,7 +27,10 @@ cfg2html*.deb
 #
 # rest
 #
+cfg2html.cron
 descript.ion
+todo.*
+sshkey.sh
 *,v
 *.gz
 *.bz2
@@ -35,3 +41,5 @@ descript.ion
 *.patch
 *.gcno
 *.o
+*.diff
+*.patch

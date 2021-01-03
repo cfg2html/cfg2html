@@ -1,4 +1,4 @@
-# @(#) $Id: Makefile,v 6.18 2016/04/13 06:35:52 ralph Exp $
+# @(#) $Id: Makefile,v 6.19 2020/06/17 19:56:51 ralph Exp $
 # -------------------------------------------------------------------------
 # vim:ts=8:sw=4:sts=4
 
@@ -15,6 +15,7 @@ OFFICIAL =
 cfg2htmlbin = ../cfg2html
 name = cfg2html
 version := $(shell awk '/^CVS=/ { print $$3}' $(cfg2htmlbin))
+version := $(shell git describe --long|tr "-" ".")
 
 ### Get the branch information from git
 ifeq ($(OFFICIAL),)

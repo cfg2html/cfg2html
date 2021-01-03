@@ -1,11 +1,16 @@
-# @(#) $Id: anonhugepage_collector.sh,v 1.1 2013/12/23 12:42:09 ralph Exp $
+# @(#) $Id: anonhugepage_collector.sh,v 6.3 2018/03/23 11:07:07 ralph Exp $
 # -------------------------------------------------------------------------
-# vim:ts=8:sw=4:sts=4 -*- coding: utf-8 -*- http://rose.rult.at/ - Ralph Roth
+# vim:ts=8:sw=4:sts=4
+# atom:set fileencoding=utf8 fileformat=unix filetype=shell tabstop=2 expandtab:
+# -*- coding: utf-8 -*- http://rose.rult.at/ - Ralph Roth
 
 # Collector that shows all processes that had allocated anon huge pages
 
 echo "THP/Huge Pages Overview (/proc/meminfo)"
 grep Huge /proc/meminfo
+echo ""
+echo "THP/Huge Pages Overview - Status"
+cat /sys/kernel/mm/transparent_hugepage/enabled
 
 echo ""
 echo "Processes that uses anon huge pages:"
@@ -13,18 +18,18 @@ echo "kb  (PID)  program + command line"
 
 for FILE in /proc/*/smaps
 do
- if [ -r $FILE ]
- then
-        # we must sum them up, for each memory region
-	KBAM=$(grep AnonHugePages $FILE| awk '{ sum += $2; } END { if (sum > 0) {printf ("%d", sum+0);} }' );
-	PID=$(echo $FILE|cut -f3 -d/)
+  if [ -r $FILE ]
+  then
+    # we must sum them up, for each memory region
+    KBAM=$(grep AnonHugePages $FILE| awk '{ sum += $2; } END { if (sum > 0) {printf ("%d", sum+0);} }' );
+    PID=$(echo $FILE|cut -f3 -d/)
 
-	# maybe /proc/$PID/numa_maps is useful for further details??
-	if [ "$KBAM" != "" ]
-	then
-		echo $KBAM"  ("$PID") " $(cat /proc/$PID/cmdline)
-	fi
- fi # vanished meanwhile?
+    # maybe /proc/$PID/numa_maps is useful for further details??
+    if [ "$KBAM" != "" ]
+    then
+      echo $KBAM"  ("$PID") " $(cat /proc/$PID/cmdline)
+    fi
+  fi # vanished meanwhile?
 done | sort -nr | awk ' { sum += $1; print $0; } END { printf "\n%d kb total anon huge pages\n", sum } '
 # the sum calculated with awk and the one from meminfo should be EQUAL!
 

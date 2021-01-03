@@ -1,5 +1,5 @@
 For details see cfg2html.html
-@(#) $Header: /home/cvs/cfg2html/cfg2html_git/linux/README,v 6.13 2016/04/13 06:35:52 ralph Exp $
+@(#) $Header: /home/cvs/cfg2html/cfg2html_git/linux/README,v 6.15 2020/06/17 19:56:51 ralph Exp $
 
 
 This is the READ ME for (the old) cfg2html-linux version 2.xx (c) by ROSE SWE, Dipl.-Ing. Ralph Roth
@@ -12,16 +12,16 @@ This text should be formatted in DOS/Windows CR/LF format that it can be
 mailed (and read) with Windows mail programs!
 
 This is the "Swiss army knife" for the Account Support Engineer, Customer
-Engineer, Sysadmin etc. I wrote it to get the necessary information to plan
-an update, to perform basic trouble shooting or performance analysis. As a
-bonus cfg2html creates a nice HTML and plain ASCII documentation. If you are
-missing something, let me know it!
+Engineer, Sysadmin etc. I wrote it to get the necessary information to plan an
+update, to perform basic trouble shooting or performance analysis. As a bonus
+cfg2html creates a nice HTML and plain ASCII documentation. If you are missing
+something, let me know it!
 
-cfg2html is a UNIX shell script similar to check_config or get_config,
-except that it creates a HTML (and plain ASCII) system documentation for HP-
-UX 10.xx/11.xx, SCO-UNIX, AIX, Sun OS and Linux systems. Plugins for SAP,
-Oracle, Informix, MC/SG, FibreChannel, TIP/ix, Mass Storage like
-XP48/256/512, Network Node Manager and DataProtector etc. are included.
+cfg2html is a UNIX shell script similar to check_config or get_config, except
+that it creates a HTML (and plain ASCII) system documentation for HP- UX
+10.xx/11.xx, SCO-UNIX, AIX, Sun OS and Linux systems. Plugins for SAP, Oracle,
+Informix, MC/SG, FibreChannel, TIP/ix, Mass Storage like XP48/256/512, Network
+Node Manager and DataProtector etc. are included.
 
 
  ___           _        _ _       _   _
@@ -37,29 +37,37 @@ will not work!
 tar ball: To install the script, edit the Makefile and type make install.
 If you use the packages, read the man pages for dpkg or rpm to install.
 
-On SLES/OpenSUSE
+On SLES/openSUSE
 
-# zypper in cfg2html_linux-2.*.rpm
+   # zypper in cfg2html_linux-2.*.rpm
+
+On CentOS8/RHEL
+
+   [ralph@ralph2co ~]$ sudo rpm -hiv cfg2html-6.41.1.16.gedc280d-1.git202011230748.noarch.rpm
+   error: Failed dependencies:
+      psmisc is needed by cfg2html-6.41.1.16.gedc280d-1.git202011230748.noarch
+
+So better use yum to resolve dependencies:   
+   [ralph@ralph2co ~]$ sudo yum install cfg2html-6.41.1.16.gedc280d-1.git202011230748.noarch.rpm
+
 
 On the other RPM boxes where cfg2html is already installed do this:
 
-# rpm -hiv cfg2html-linux-1.24-7.noarch.rpm
-Preparing...                ########################################### [100%]
-        file /usr/bin/cfg2html-linux from install of cfg2html-linux-1.24-7 conflicts with file from package cfg2html-linux-1.23-11
-        file /usr/share/man/man8/cfg2html-linux.8.gz from install of cfg2html-linux-1.24-7 conflicts with file from package cfg2html-linux-1.23-11
-# rpm -hiv --freshen cfg2html-linux-1.24-7.noarch.rpm
-Preparing...                ########################################### [100%]
-   1:cfg2html-linux         ########################################### [100%]
+   # rpm -hiv cfg2html-linux-1.24-7.noarch.rpm
+   Preparing...                ########################################### [100%]
+         file /usr/bin/cfg2html-linux from install of cfg2html-linux-1.24-7 conflicts with file from package cfg2html-linux-1.23-11
+         file /usr/share/man/man8/cfg2html-linux.8.gz from install of cfg2html-linux-1.24-7 conflicts with file from package cfg2html-linux-1.23-11
+   # rpm -hiv --freshen cfg2html-linux-1.24-7.noarch.rpm
+   Preparing...                ########################################### [100%]
+      1:cfg2html-linux         ########################################### [100%]
 
-hklinx01:~/cfg> sudo rpm -hiv cfg2html-linux-1.74-1.noarch.rpm
-Password:
-Preparing...                ########################################### [100%]
-        file /etc/cfg2html/plugins from install of cfg2html-linux-1.74-1 conflicts with file from package cfg2html-linux-1.61-2
-        file /usr/bin/cfg2html from install of cfg2html-linux-1.74-1 conflicts with file from package cfg2html-linux-1.61-2
-        file /usr/bin/cfg2html-linux from install of cfg2html-linux-1.74-1 conflicts with file from package cfg2html-linux-1.61-2
-        file /usr/share/man/man8/cfg2html-linux.8.gz from install of cfg2html-linux-1.74-1 conflicts with file from package cfg2html-linux-1.61-2
-
-
+   hklinx01:~/cfg> sudo rpm -hiv cfg2html-linux-1.74-1.noarch.rpm
+   Password:
+   Preparing...                ########################################### [100%]
+         file /etc/cfg2html/plugins from install of cfg2html-linux-1.74-1 conflicts with file from package cfg2html-linux-1.61-2
+         file /usr/bin/cfg2html from install of cfg2html-linux-1.74-1 conflicts with file from package cfg2html-linux-1.61-2
+         file /usr/bin/cfg2html-linux from install of cfg2html-linux-1.74-1 conflicts with file from package cfg2html-linux-1.61-2
+         file /usr/share/man/man8/cfg2html-linux.8.gz from install of cfg2html-linux-1.74-1 conflicts with file from package cfg2html-linux-1.61-2
 
 
  ____       _       _     _
@@ -105,17 +113,17 @@ put it in the diff, too. This has the advantage that your file is not lost.
 It has the disadvantage that "Makefile" and so on are put into the diff,
 too. So for patches where you don't add new files, you can omit the "-N".
 
-The "-r" means recursive. For cfg2html-linux this is only important if you change
-stuff in subdirectories. But it is good habit to use it.
+The "-r" means recursive. For cfg2html-linux this is only important if you
+change stuff in sub directories. But it is good habit to use it.
 
 ------------------------------------------------------------------------------
 
 How to apply the Patches/Diffs?
 
-	$ gunzip delta-1-14-3rar.gz
-	$ patch -p0 < delta-1-14-3rar
-	patching file cfg2html-linux-1.14/cfg2html-linux
-	patching file cfg2html-linux-1.14/cfg2html_urls.html
+  $ gunzip delta-1-14-3rar.gz
+  $ patch -p0 < delta-1-14-3rar        ## --dry-run
+  patching file cfg2html-linux-1.14/cfg2html-linux
+  patching file cfg2html-linux-1.14/cfg2html_urls.html
 
  _____      _                 _
 | ____|_  _| |_ ___ _ __  ___(_) ___  _ __  ___
@@ -144,9 +152,9 @@ of the cfg2html distribution.
 |____/ \___|\___|\__,_|_|  |_|\__|\__, |
                                   |___/
 ---------------------------------------------------------------------------
-For security reasons it is better to store the HTML and ASCII files
-in a safe place where only root user have access. Then remove the
-files from your file system.
+For security reasons it is better to store the HTML and ASCII files in a safe
+place where only root user have access. Then remove the files from your file
+system.
 
   Usage: cfg2html_linux [OPTION]
   creates HTML and plain ASCII host documentation
@@ -186,14 +194,14 @@ Maintainer of the different versions
 HP-UX              :  Ralph Roth
                       Contributors: Thomas Brix, Martin Kalmbach
 
-Linux port         :  Michael Meifert 
+Linux port         :  Michael Meifert
                       Contributors: Michael Meier,
                       Linux (debian/hppa): Ralph Roth
 
-			To check the rpm use:
-			        rpm -qpl cfg2html-linux-1.16-2.noarch.rpm
-			To check the deb use:
-			        dpkg -c cfg2html-linux_1.16-2_all.deb
+                    To check the rpm use:
+                            rpm -qpl cfg2html-linux-6.16-2.noarch.rpm
+                    To check the deb use:
+                            dpkg -c cfg2html-linux_6.16-2_all.deb
 
 Sun Solaris port   :  Trond Eirik Aune [teaune@online.no]
                       Testing: Gert.Leerdam@getronics.com
@@ -220,11 +228,11 @@ You can contact me (Ralph Roth) the following ways
 
 1.) I have the following accounts:
 
-ICQ:    	22 11 20 58   (rose_swe)
-Yahoo:  	rose_swe
-IRC:    	rose_swe, r0se_swe on #virus
-Jabber/Org:	cfg2html@jabber.org
-SkyPe           Ralph.Roth
+ICQ:          22 11 20 58   (rose_swe)
+Yahoo:        rose_swe
+IRC:          rose_swe, r0se_swe on #virus
+Jabber/Org:   cfg2html@jabber.org
+SkyPe         Ralph.Roth
 
 -------------------------------------------------------------------
 
@@ -232,8 +240,8 @@ SkyPe           Ralph.Roth
 "To:" field, not in the "CC:" or "BCC:" field! No Subjects and text that
 could be flag by a rule based or fuzzy logic spam filter!
 
-The email address is           	cfg2html@hotmail.com
-Subject must begin with		[cfg2html]
+The email address is             cfg2html@hotmail.com
+Subject must begin with    [cfg2html]
 
 
  _____ _    ___      ____  __ _
@@ -242,14 +250,6 @@ Subject must begin with		[cfg2html]
 |  _/ ___ \ |_| | / / | |  | | \__ \ (__
 |_|/_/   \_\__\_\/_/  |_|  |_|_|___/\___|
 ---------------------------------------------------------------------------
-
-ulmpc014:/tmp # rpm -hiv cfg2html-linux-1.18.3-1.noarch.rpm
-error: failed dependencies:
-        rpmlib(PayloadFilesHavePrefix) <= 4.0-1 is needed by cfg2html-linux-1.18.3-1
-        rpmlib(CompressedFileNames) <= 3.0.4-1 is needed by cfg2html-linux-1.18.3-1
-ulmpc014:/tmp # uname -a
-Linux ulmpc014 2.2.14 #1 Mon Mar 13 10:51:48 GMT 2000 i686 unknown
-
 
 Known Problems
 --------------
@@ -318,4 +318,3 @@ Linux ob5700ctx 2.6.16-1-486 #2 Fri May 5 04:53:12 UTC 2006 i586 GNU/Linux
 ---------------------------------------------------------------------------
 Proliant (not Ubuntu)
 sysinfo -a
-

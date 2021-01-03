@@ -1,11 +1,12 @@
-# @(#) $Id: Makefile,v 6.17 2015/11/26 21:00:44 ralph Exp $
-
-# Makefile to create HP-UX software depot or Linux .DEB and .RPM packages etc.
-# -------------------------------------------------------------------------
-# vim:ts=8:sw=4:sts=4 -*- coding: utf-8 -*-
-
+# @(#) $Id: Makefile,v 6.20 2019/03/15 16:53:21 ralph Exp $
+# Makefile to create HP-UX software depot, AIX, FreeBSD, SunOS or Linux .DEB and .RPM packages etc.
+# -------------------------------------------------------------------------------------------------
+# -*- coding: utf-8, LF/Unix -*-
+# IMPORTANT: You need an annotated git tag on your local build system. Else the rpm build will fail
+#            (at least using openSUSE).
 
 product = cfg2html
+#TODO:# release = shell (git describe --long) ??  ## 6.33-6-g48d4c01
 
 all:
 	i=`uname -s`; case $$i in HP-UX) make depot;; Linux) make rpm;; SunOS) echo "Run \"make sunos\"";; FreeBSD|OpenBSD|NetBSD) echo "Run \"make freebsd\"";;*) make help;; esac

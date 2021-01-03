@@ -1,6 +1,9 @@
-# @(#) $Id: cfg2html-hpux.sh,v 6.21 2015/11/26 18:14:29 ralph Exp $
+#!/usr/bin/ksh
+#
+# cfg2html for HP-UX 11.31
+# @(#) $Id: cfg2html-hpux.sh,v 6.25 2019/03/30 15:21:18 ralph Exp $
 # -------------------------------------------------------------------------
-# vim:ts=8:sw=4:sts=4 -*-
+# vim:ts=8:sw=4:sts=4
 
 ####################################################################
 # getopt
@@ -239,16 +242,15 @@ then # else skip to next paragraph
     exec_command "ulimit -aH" "Hard User limits"	#  12.07.2007, 11:34 modified by Ralph Roth
     AddText "Hint: See http://www.faqs.org/faqs/hp/hpux-faq/section-144.html for details about ulimit"
     exec_command "uptime;sar 1 9" "Uptime, Load and SAR"
-## UNIX95 affects a number of processes. It is best to set the variable only for
-##    the desired command.
-##  export UNIX95=yes                                       # hint by Gert Leerdam
+    ## UNIX95 affects a number of processes. It is best to set the variable only for
+    ##    the desired command.
+    ##  export UNIX95=yes                                       # hint by Gert Leerdam
 
     # Dieses Script prueft, ob in der Prozesstabelle noch Platz besteht, um neue
     # Prozesse zu starten. Heiko Koebert, Hewlett-Packard GmbH, Supportzentrum
     # Ratingen - Unix Competency Center
     # Heavy modified by Ralph Roth, 28-Jan-2002
     # Definition der Variablen V mit dem aktuellen Wert von proc-sz (z.B. 89/532)
-    #
     sarV=`sar -v 1 1|tail -1|awk '{print $4}'`
     #
     # Definition der Variablen v in % (aktueller Wert / Maximal Wert * 100)
@@ -307,7 +309,6 @@ then # else skip to next paragraph
         exec_command "ioscan -fk" "Hardware with H/W-Path"
         exec_command "ioscan -fnk" "Hardware including device files"
         exec_command "ioscan -Fk" "Hardware in parseable format"
-
     fi
 
     ## 11.31 only stuff ## LVM ##
@@ -1150,13 +1151,14 @@ then # else skip to next paragraph
 
         ([ -c /dev/fcms* ] || [ -c /dev/td* ]) && exec_command $PLUGINS/get_fcold.sh "Fibre Channel Card Statistics (old Adapter)"
 
-        if [ `ls /dev/td* /dev/fcd*  /dev/fcms* 2>/dev/null | wc -l` != 0 ]
+        if [ `ls /dev/td* /dev/fcd* /dev/fclp* /dev/fcms* 2>/dev/null | wc -l` != 0 ]
         then
             exec_command $PLUGINS/get_fc.sh "Fibrechannel Interface Information" # changed/added 25.07.2003 (11:17) by Ralph Roth, HP, ASO SW
         fi
         exec_command "what /opt/fcms/bin/fcmsutil" "FCMS Util Revision"
         [ -x /opt/fcms/bin/tdlist ] && exec_command "/opt/fcms/bin/tdlist" "Detailed TD List"	#  12.07.2007, 13:43 modified by Ralph Roth
         [ -x /opt/fcms/bin/fcdlist ] && exec_command "/opt/fcms/bin/fcdlist" "Detailed FCD List"	#  24.06.2010, 10:09 added by Reinhard Lubos
+	[ -x /opt/fcms/bin/fclplist ] && exec_command "/opt/fcms/bin/fclplist" "Detailed FCLP List"      #  30.03.2019, 9:38 added by Jason Gersekowski
         dec_heading_level
     fi
 
@@ -1623,7 +1625,7 @@ then
         exec_command "cmviewcl -v -f line 2>/dev/null || cmviewcl -v" "Serviceguard Nodes and Packages"     ## A.11.19?||A.11.16
         [ -x /usr/sbin/cmviewconf ] && exec_command "/usr/sbin/cmviewconf" "Serviceguard Cluster Configuration Information"  ## ! A.11.20
 	## cmquerystg, cmcheckdg, cmcheckvx, comcompare ## A.11.20 ##
-        exec_command "cmscancl -s" "Serviceguard scancl - Detailed Node Configuration"
+        exec_command "$TIMEOUTCMD 60 cmscancl -s" "Serviceguard scancl - Detailed Node Configuration"
         exec_command "ll $SGCONF" "Files in $SGCONG (Default=/etc/cmcluster)"
 
         [ -x /usr/sbin/cmmakepkg ] && exec_command "/usr/sbin/cmmakepkg -l" "Available Serviceguard Modules"

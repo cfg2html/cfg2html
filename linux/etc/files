@@ -1,0 +1,3 @@
+# "files" contains a list of configuration files you want to list during a cfg2html run, e.g.
+# /etc/motd
+# Add one file per line.

@@ -1,14 +1,14 @@
 #!/usr/bin/env perl
 #
-# Description: Linux Cluster status verification 
+# Description: Linux Cluster status verification
 #              Results are displayed on stdout or redirected to a file
 #
-# Last Update:  15 July 2014
+# Last Update:  13 February 2016
 # Designed by:  Dusan U. Baljevic (dusan.baljevic@ieee.org)
 # Coded by:     Dusan U. Baljevic (dusan.baljevic@ieee.org)
-# 
-# Copyright 2009-2014 Dusan Baljevic
-# 
+#
+# Copyright 2009-2016 Dusan Baljevic
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -83,7 +83,18 @@ my $LOCKDIR  = q{};
 my $THRESHOLD = q{};
 my @cmannode = ();
 my $vgformat = q{};
-my @VGCHKARR = (); 
+my @VGCHKARR = ();
+
+my $Hostname2 = `hostname -s 2>/dev/null`;
+chomp($Hostname2);
+
+my $Hostname3 = q{};
+
+my $VH = `uname -a 2>&1`;
+my ( $System, $Hostname3, $Maj, undef, $Hardware, undef ) = split( /\s+/, $VH );
+my $Version = $Maj;
+
+my $Hostname = $Hostname2 || $Hostname3;
 
 # Delay and count values for commands vmstat, ioscan, and sar...
 #
@@ -527,14 +538,14 @@ if ( -s $PVGconf ) {
          $_ =~ s/^\s+//g;
          $_ =~ s/\s+$//g;
 
-         if ( grep(/locking_type/i, $_ ) ) { 
+         if ( grep(/locking_type/i, $_ ) ) {
             ( undef, $LOCKTYPE ) = split( /=/, $_ );
             $LOCKTYPE =~ s/^\s+//g;
             $LOCKTYPE =~ s/\s+$//g;
             push(@LVMCFGARR, "\n$INFOSTR LVM \"locking_type\" is $LOCKTYPE ($LVMLOCKARR{$LOCKTYPE})\n");
          }
 
-         if ( grep(/wait_for_locks/i, $_ ) ) { 
+         if ( grep(/wait_for_locks/i, $_ ) ) {
             ( undef, $WAITLOCK ) = split( /=/, $_ );
             $WAITLOCK =~ s/^\s+//g;
             $WAITLOCK =~ s/\s+$//g;
@@ -548,7 +559,7 @@ if ( -s $PVGconf ) {
             }
          }
 
-         if ( grep(/locking_library/i, $_ ) ) { 
+         if ( grep(/locking_library/i, $_ ) ) {
             ( undef, $LOCKLIB ) = split( /=/, $_ );
             $LOCKLIB =~ s/^\s+//g;
             $LOCKLIB =~ s/\s+$//g;
@@ -561,7 +572,7 @@ if ( -s $PVGconf ) {
          }
 
          if ( "$LOCKTYPE" eq 1 ) {
-            if ( grep(/locking_dir/i, $_ ) ) { 
+            if ( grep(/locking_dir/i, $_ ) ) {
                ( undef, $LOCKDIR ) = split( /=/, $_ );
                $LOCKDIR =~ s/^\s+//g;
                $LOCKDIR =~ s/\s+$//g;
@@ -627,13 +638,13 @@ if ( open( CMANC, "cman_tool status 2>/dev/null |" ) ) {
       push(@MYCLUST, $_);
       $_ =~ s/^\s+//g;
       $_ =~ s/\s+$//g;
-      if ( grep(/^Nodes:/i, $_ ) ) { 
+      if ( grep(/^Nodes:/i, $_ ) ) {
          ( undef, $NODECNT ) = split( /:/, $_ );
          $NODECNT =~ s/^\s+//g;
          $NODECNT =~ s/\s+$//g;
       }
 
-      if ( grep(/^Total votes:/i, $_ ) ) { 
+      if ( grep(/^Total votes:/i, $_ ) ) {
          ( undef, $TOTVOTES ) = split( /:/, $_ );
          $TOTVOTES =~ s/^\s+//g;
          $TOTVOTES =~ s/\s+$//g;
@@ -642,9 +653,27 @@ if ( open( CMANC, "cman_tool status 2>/dev/null |" ) ) {
    close(CMANC);
 }
 
+my @CMANVER = `cman_tool version 2>/dev/null`;
+if ( @CMANVER ) {
+   print "\n$INFOSTR Linux Cluster version\n";
+   print @CMANVER;
+}
+
+my @CMANSER = `cman_tool services 2>/dev/null`;
+if ( @CMANSER ) {
+   print "\n$INFOSTR Linux Cluster services\n";
+   print @CMANSER;
+}
+
 if ( "@MYCLUST" ) {
    print "\n$INFOSTR Linux Cluster vote status\n";
    print @MYCLUST;
+}
+
+my @CHKCONF = `ccs -h localhost --checkconf 2>/dev/null`;
+if ( @CHKCONF ) {
+   print "\n$INFOSTR Linux Cluster check configuration\n";
+   print @CHKCONF;
 }
 
 if ( "$NODECNT" eq 1 ) {
@@ -665,7 +694,7 @@ if ( open( CMANC, "mkqdisk -L 2>/dev/null | awk NF |" ) ) {
       push(@mkqdisk, $_);
       $_ =~ s/^\s+//g;
       $_ =~ s/\s+$//g;
-      if ( grep(/^\//, $_ ) ) { 
+      if ( grep(/^\//, $_ ) ) {
          chomp($_);
          $_ =~ s/://g;
          @qdsk = split( /\//, $_ );
@@ -749,10 +778,12 @@ if ( @cmannode ) {
    print @cmannode;
 }
 
-my @clusvcadm = `clusvcadm -S 2>/dev/null`;
-if ( @clusvcadm ) {
-   print "\n$INFOSTR Linux Cluster lock state\n";
-   print @clusvcadm;
+if ( ! grep(/$Hostname.*fence*/i, @ccstooll) ) {
+   my @clusvcadm = `clusvcadm -S 2>/dev/null`;
+   if ( @clusvcadm ) {
+      print "\n$INFOSTR Linux Cluster lock state\n";
+      print @clusvcadm;
+   }
 }
 
 if ( @CMANA ) {

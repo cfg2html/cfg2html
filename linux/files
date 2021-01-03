@@ -1,0 +1,5 @@
+# dummy file for /etc/cfg2html/files
+
+# files to be processed
+/etc/motd
+

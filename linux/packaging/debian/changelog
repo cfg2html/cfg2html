@@ -1,13 +1,25 @@
-cfg2html (6.26-2) UNRELEASED; urgency=low
+cfg2html (6.41.1) UNRELEASED; urgency=low
 
   [ Ralph Roth ]
   * 6.13 upstream
+  * debian/compat
+    This file should contain the number 9. This is a magic number. Do not put any other number in there.
+    debian/compat specifies the "compatibility level" for the debhelper tool. We don't need to go into what that means, right now.
+  * This is 6.26 upstream
+  * Bumped version number from 6.12 to 6.26
+  * Bumped version number from 6.26 to 6.30
+  * Bumped Version number from 6.30 to 6.31 (github)
+  * Bumped to 6.31/6.33
+  * tagged as 6.33 release. Changed DH_COMPAT from 5 to 9
 
   [ ralph ]
-  * This is 6.26 upstream
-  * Bumped version number vom 6.12 to 6.26
+  * Bumped version number of the Debian ChangeLog using dch (Debian8) to 6.34.2. Build on upstream version: 6.34.2-2-g85ba063@(master)
+  * Applied upstream changes. Upstream is at 6.34.8
+  * Upstream (github) is now at 6.35.1
+  * small fixes 
+  * Bumped version to 6.41.1 (all fixes and enhancements applied from github)
 
- -- ralph <ralph@le6540g.fritz.box>  Thu, 12 Feb 2015 19:42:34 +0100
+ -- ralph <ralph@roth8>  Fri, 19 Jun 2020 10:46:34 +0200
 
 cfg2html (6.11) unstable; urgency=low
 

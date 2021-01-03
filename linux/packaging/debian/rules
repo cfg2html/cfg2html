@@ -1,8 +1,9 @@
 #!/usr/bin/make -f
 
-# @(#) $Id: rules,v 6.17 2015/04/06 08:47:28 ralph Exp $
+# @(#) $Id: rules,v 6.20 2020/06/17 19:56:53 ralph Exp $
 # -------------------------------------------------------------------------
-# vim:ts=8:sw=4:sts=4 -*- coding: utf-8 -*- http://rose.rult.at/ - Ralph Roth
+# vim:ts=8:sw=4:sts=4 
+# -*- coding: utf-8 -*- http://rose.rult.at/ - Ralph Roth
 
 # Sample debian/rules that uses debhelper.
 # GNU copyright 1997 to 1999 by Joey Hess.
@@ -11,7 +12,9 @@
 export DH_VERBOSE=1
 
 # This is the debhelper compatibility version to use.
-export DH_COMPAT=5
+# five or nine????
+# export DH_COMPAT=9
+
 # dh_installdeb: Compatibility levels before 4 are deprecated.
 
 ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
@@ -73,10 +76,20 @@ binary-indep: build
 		cd linux ; \
 		ln -s ../debian . ; \
 		ls -l ; \
+		ls -lR etc/ ; cd .. ; \
 	fi
+                # cd ..       ## maybe a bug for issue #35? break the build, rr, 30.01.2018
 
 	# copy cfg2html components into directories
-	cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/cfg2html/
+	pwd
+       # This triggers issue #35 on the SUSE OBS environment ....
+       # [   77s] cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/cfg2html/
+       # [   77s] cp: cannot stat `etc/default.conf': No such file or directory
+       # This still appears to be broken, as on Ubuntu systems, it should go into # modified on 20201114 by edrulrd
+       # /usr/share/cfg2html/etc when installed and not into /usr/share/cfg2html/etc/cfg2html
+       # If SUSE needs it where it was, we can put it in both places
+	cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/cfg2html
+	cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/
 	cp -av etc/local.conf debian/cfg2html/etc/cfg2html/
 	cp -av ../cfg2html debian/cfg2html/usr/sbin/
 	cp -av cfg2html-linux.sh debian/cfg2html/usr/share/cfg2html/

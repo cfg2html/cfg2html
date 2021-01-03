@@ -1,6 +1,6 @@
-# @(#) $Id: cfg2html-aix.sh,v 1.4 2016/05/03 07:13:18 ralph Exp $
+# @(#) $Id: cfg2html-aix.sh,v 1.5 2019/03/15 16:45:36 ralph Exp $
 # -----------------------------------------------------------------------------------------
-# (c) 1997-2016 by Ralph Roth  -*- http://rose.rult.at -*-
+# (c) 1997-2019 by Ralph Roth  -*- http://rose.rult.at -*-
 # This version replaces all lower versions e.g.the 2.82 floating around!
 
 #  If you change this script, please mark your changes with for example
@@ -8,7 +8,7 @@
 #  address: cfg2html*hotmail.com -- details see in the documentation
 
 CFGSH=$_
-# unset "-set -vx" for debugging purpose, after the exec 2> statement all debug infomation will go the errorlog file (*.err)
+# unset "-set -vx" for debugging purpose, after the exec 2> statement all debug information will go the errorlog file (*.err)
 #set -vx
 #*vim:numbers:ruler
 # ---------------------------------------------------------------------------
@@ -18,7 +18,7 @@ CFGSH=$_
 #  / __| |_ / _` | __) | '_ \| __| '_ ` _ \| |____ / _` | |\ \/ /
 # | (__|  _| (_| |/ __/| | | | |_| | | | | | |____| (_| | | >  <
 #  \___|_|  \__, |_____|_| |_|\__|_| |_| |_|_|     \__,_|_|/_/\_\
-#           |___/
+  #           |___/
 #  system collector script
 #
 # ---------------------------------------------------------------------------
@@ -35,28 +35,28 @@ _VERSION="cfg2html-aix version $VERSION "
 while getopts ":o:shcSTflkenaHLvhpPA:2:10" Option   ##  -T -0 -1 -2 back-ported from HPUX
 do
   case $Option in
-    o     ) OUTDIR=$OPTARG;;
-    v     ) echo $_VERSION"// "$(uname -mrs); exit 0;; ## add uname output, see YG MSG 790 ##
-    h     ) echo $_VERSION; usage; exit 0;;
-    s     ) CFG_SYSTEM="no";;
-    c     ) CFG_CRON="no";;
-    S     ) CFG_SOFTWARE="no";;
-    f     ) CFG_FILESYS="no";;
-    l     ) CFG_LVM="no";;
-    k     ) CFG_KERNEL="no";;
-    e     ) CFG_ENHANCEMENTS="no";;
-    n     ) CFG_NETWORK="no";;
-    a     ) CFG_APPLICATIONS="no";;
-    H     ) CFG_HARDWARE="no";;
-#    L     ) CFG_STINLINE="no";;
-#    p     ) CFG_HPPROLIANTSERVER="yes";;
-    P     ) CFG_PLUGINS="yes";;
-#    A     ) CFG_ALTIRISAGENTFILES="no";;
+    o     ) OUTDIR=$OPTARG ;;
+    v     ) echo $_VERSION"// "$(uname -mrs); exit 0 ;; ## add uname output, see YG MSG 790 ##
+    h     ) echo $_VERSION; usage; exit 0 ;;
+    s     ) CFG_SYSTEM="no" ;;
+    c     ) CFG_CRON="no" ;;
+    S     ) CFG_SOFTWARE="no" ;;
+    f     ) CFG_FILESYS="no" ;;
+    l     ) CFG_LVM="no" ;;
+    k     ) CFG_KERNEL="no" ;;
+    e     ) CFG_ENHANCEMENTS="no" ;;
+    n     ) CFG_NETWORK="no" ;;
+    a     ) CFG_APPLICATIONS="no" ;;
+    H     ) CFG_HARDWARE="no" ;;
+      #    L     ) CFG_STINLINE="no" ;;
+      #    p     ) CFG_HPPROLIANTSERVER="yes" ;;
+    P     ) CFG_PLUGINS="yes" ;;
+      #    A     ) CFG_ALTIRISAGENTFILES="no" ;;
     2     ) CFG_DATE="_"$(date +$OPTARG) ;;
     1     ) CFG_DATE="_"$(date +%d-%b-%Y) ;;
     0     ) CFG_DATE="_"$(date +%d-%b-%Y-%H%M) ;;
-    T     ) CFG_TRACETIME="yes";;   # show each exec_command with timestamp
-    *     ) echo "Unimplemented option chosen. Try -h for help!"; exit 1;;   # DEFAULT
+    T     ) CFG_TRACETIME="yes" ;;   # show each exec_command with timestamp
+    *     ) echo "Unimplemented option chosen. Try -h for help!"; exit 1 ;;   # DEFAULT
   esac
 done
 
@@ -71,7 +71,7 @@ MAILTORALPH="cfg2html&#64;&#104;&#111;&#116;&#109;&#97;&#105;&#108;&#46;&#99;&#1
 
 
 #####################################################################
-# @(#)Cfg2Html (c) by ROSE SWE, Dipl.-Ing. Ralph Roth, cfg2html@hotmail.com
+# @(#)Cfg2Html (c) by ROSE SWE, Dipl -Ing. Ralph Roth, cfg2html@hotmail.com
 #####################################################################
 
 # This is the "swiss army knife" for the ASE, CE, sysadmin etc. I wrote it to
@@ -82,16 +82,14 @@ MAILTORALPH="cfg2html&#64;&#104;&#111;&#116;&#109;&#97;&#105;&#108;&#46;&#99;&#1
 # History
 #####################################################################
 # 28-jan-1999  initial creation, based on get_config, check_config
-#              nickel, snapshoot, vim and a idea from a similar
+#              nickel, snapshot, vim and a idea from a similar
 #              script i have seen on-site.
 #####################################################################
 # 11-Mar-2001  initial creation for debian GNU Linux i386
 #              based on Cfg2Html Version 1.15.06/HP-UX by
-#              by ROSE SWE, Dipl.-Ing. Ralph Roth
-#              ported to Linux  by Michael Meifert
+#              by ROSE SWE, Dipl-Ing. Ralph Roth
 #####################################################################
 # 15-May-2006  Common stream for cfg2html-linux and the Proliant version
-
 
 
 echo "" # should be a newline, more portable? # rar, 20121230
@@ -135,7 +133,6 @@ typeset -i HEADL=0                      # Headinglevel
 ####################################################################
 # needs improvement!
 # trap "echo Signal: Aborting!; rm $HTML_OUTFILE_TEMP"  2 13 15
-
 ####################################################################
 
 #
@@ -152,8 +149,8 @@ echo "Text Output File  "$TEXT_OUTFILE
 #echo "Partitions        "$OUTDIR/$BASEFILE.partitions.save
 echo "Errors logged to  "$ERROR_LOG
 [[ -f $CONFIG_DIR/local.conf ]] && {
-    echo "Local config      "$CONFIG_DIR/local.conf "( $(grep -v -E '(^#|^$)' $CONFIG_DIR/local.conf | wc -l) lines)"
-    }
+  echo "Local config      "$CONFIG_DIR/local.conf "( $(grep -v -E '(^#|^$)' $CONFIG_DIR/local.conf | wc -l) lines)"
+}
 
 echo "Started at        "$DATEFULL
 echo "WARNING           USE AT YOUR OWN RISK!!! :-))           <<<<<"
@@ -191,8 +188,8 @@ then # else skip to next paragraph
     export LC_ALL="C"
   fi
 
-  exec_command "ulimit -a" "System ulimit"                      #  13.08.2007, 14:24 modified by Ralph Roth
-  exec_command "getconf -a" "System Configuration Variables"  
+  exec_command "ulimit -a" "System ulimit"           #  13.08.2007, 14:24 modified by Ralph Roth
+  exec_command "getconf -a" "System Configuration Variables"
 
   if [ -x /usr/bin/mpstat ] ; then
     exec_command "mpstat 1 5" "MP-Statistics"
@@ -222,7 +219,8 @@ then # else skip to next paragraph
   exec_command topFDhandles "Top file handles consuming processes" # 24.01.2013
   AddText "Hint: Number of open file handles should be less than ulimit -n ("$(ulimit -n)")"
 
-  exec_command "last| grep boot" "reboots"
+  exec_command "last| grep boot; who -b" "Reboots/System Reboot"
+
   exec_command "alias"  "Alias"
   [ -r /etc/inittab ] && exec_command "grep -vE '^#|^ *$' /etc/inittab" "inittab"
   exec_command "lssrc -a" "Services - Status"
@@ -255,51 +253,51 @@ fi # terminates CFG_SYSTEM wrapper
 #
 if [ "$CFG_CRON" != "no" ]
 then # else skip to next paragraph
-paragraph "Cron and At"
-inc_heading_level
+  paragraph "Cron and At"
+  inc_heading_level
 
   for FILE in cron.allow cron.deny
-      do
-	  if [ -r /var/adm/cron/$FILE ]
-	  then
-	  exec_command "cat /var/adm/cron/$FILE" "$FILE"
-	  else
-	  exec_command "echo /var/adm/cron/$FILE" "$FILE not found!"
-	  fi
-      done
+  do
+    if [ -r /var/adm/cron/$FILE ]
+    then
+      exec_command "cat /var/adm/cron/$FILE" "$FILE"
+    else
+      exec_command "echo /var/adm/cron/$FILE" "$FILE not found!"
+    fi
+  done
 
-    usercron="/var/spool/cron/crontabs"
+  usercron="/var/spool/cron/crontabs"
 
   ls $usercron/* > /dev/null 2>&1
   if [ $? -eq 0 ]
   then
-	  _echo  "\n\n<B>Crontab files:</B>" >> $HTML_OUTFILE_TEMP
-	  for FILE in $usercron/*
-	  do
-		  exec_command "cat $FILE | grep -v ^#" "For user `basename $FILE`"
-	  done
+    _echo  "\n\n<B>Crontab files:</B>" >> $HTML_OUTFILE_TEMP
+    for FILE in $usercron/*
+    do
+      exec_command "cat $FILE | grep -v ^#" "For user `basename $FILE`"
+    done
   else
-	  echo "No crontab files for user.<br>" >> $HTML_OUTFILE_TEMP
+    echo "No crontab files for user.<br>" >> $HTML_OUTFILE_TEMP
   fi
 
   atconfigpath="/var/adm/cron"
 
   for FILE in at.allow at.deny
 
-      do
-	  if [ -r $atconfigpath/$FILE ]
-	  then
-	      exec_command "cat $atconfigpath/$FILE " "$atconfigpath/$FILE"
-	  else
-	      exec_command "echo $atconfigpath/$FILE" "No $atconfigpath/$FILE"
-	  fi
-      done
+  do
+    if [ -r $atconfigpath/$FILE ]
+    then
+      exec_command "cat $atconfigpath/$FILE " "$atconfigpath/$FILE"
+    else
+      exec_command "echo $atconfigpath/$FILE" "No $atconfigpath/$FILE"
+    fi
+  done
 
   if [ -x /usr/bin/at ] ; then
     exec_command "at -l" "AT Scheduler"
   fi
 
-dec_heading_level
+  dec_heading_level
 fi #terminate CFG_CRON wrapper
 
 #
@@ -308,35 +306,34 @@ fi #terminate CFG_CRON wrapper
 if [ "$CFG_HARDWARE" != "no" ]
 then # else skip to next paragraph
 
-paragraph "Hardware"
-inc_heading_level
+  paragraph "Hardware"
+  inc_heading_level
 
-#RAM=`prtconf | awk -F': *' '/^Memory Size/ {print $2}'`
-#this is possibly less prone to (future parsing) error
-RAM=$((`bootinfo -r`/1024))
-exec_command "echo $RAM" "Physical Memory"
-exec_command "prtconf | egrep -e 'Processor Type|Number Of Processors|Processor Clock Speed|CPU Type' 2> /dev/null" "CPU Information"
-exec_command "prtconf -L && lparstat -i" "LPAR Information"
-exec_command "prtconf |egrep '^\*|^\+|^\-'" "Hardware List"
-exec_command "lsdev -Ccadapter" "HW adapters list"
-exec_command "lsdev -Ccdisk" "Disk Device list"
-exec_command "lsdev -Cctape" "Tape Device list"
-exec_command "lsdev -Ccif" "Network Device list"
-exec_command "prtconf -v" "Detailed Hardware List"
-### ------------------------------------------------------------------------------
-
-
-## MPIO Device Configuration
-[ -x /usr/sbin/lspath ] && exec_command "lspath -s enabled" "MPIO - Enabled Devices"
-[ -x /usr/sbin/lspath ] && exec_command "lspath -s disabled" "MPIO - Disabled Devices"
-[ -x /usr/sbin/lspath ] && exec_command "lspath -s failed" "MPIO - Failed Devices"
-[ -x /usr/sbin/lspath ] && exec_command "lspath -F'name:status:connection:parent:path_status'" "MPIO - Detailed Status"
-## PowerPath Device Configuration
-[ -x /usr/sbin/powermt ] && exec_command "/usr/sbin/powermt display" "Powerpath - Overview"
-[ -x /usr/sbin/powermt ] && exec_command "/usr/sbin/powermt display dev=all" "Powerpath - Devices"
+  #RAM=`prtconf | awk -F': *' '/^Memory Size/ {print $2}'`
+  #this is possibly less prone to (future parsing) error
+  RAM=$((`bootinfo -r`/1024))
+  exec_command "echo $RAM" "Physical Memory"
+  exec_command "prtconf | egrep -e 'Processor Type|Number Of Processors|Processor Clock Speed|CPU Type' 2> /dev/null" "CPU Information"
+  exec_command "prtconf -L && lparstat -i" "LPAR Information"
+  exec_command "prtconf |egrep '^\*|^\+|^\-'" "Hardware List"
+  exec_command "lsdev -Ccadapter" "HW adapters list"
+  exec_command "lsdev -Ccdisk" "Disk Device list"
+  exec_command "lsdev -Cctape" "Tape Device list"
+  exec_command "lsdev -Ccif" "Network Device list"
+  exec_command "prtconf -v" "Detailed Hardware List"
+  ### ------------------------------------------------------------------------------
 
 
-dec_heading_level
+  ## MPIO Device Configuration
+  [ -x /usr/sbin/lspath ] && exec_command "lspath -s enabled" "MPIO - Enabled Devices"
+  [ -x /usr/sbin/lspath ] && exec_command "lspath -s disabled" "MPIO - Disabled Devices"
+  [ -x /usr/sbin/lspath ] && exec_command "lspath -s failed" "MPIO - Failed Devices"
+  [ -x /usr/sbin/lspath ] && exec_command "lspath -F'name:status:connection:parent:path_status'" "MPIO - Detailed Status"
+  ## PowerPath Device Configuration
+  [ -x /usr/sbin/powermt ] && exec_command "/usr/sbin/powermt display" "Powerpath - Overview"
+  [ -x /usr/sbin/powermt ] && exec_command "/usr/sbin/powermt display dev=all" "Powerpath - Devices"
+
+  dec_heading_level
 
 fi # terminates CFG_HARDWARE wrapper
 
@@ -350,11 +347,11 @@ then # else skip to next paragraph
   paragraph "Software"
   inc_heading_level
 
-    exec_command "lslpp -l" "AIX Filesets installed"
-    exec_command "lslpp -e" "Applied efixes"
-    exec_command "rpm -qia | grep -E '^(Name|Group)( )+:'" "RPM Packages installed"
-    exec_command "rpm -qa | sort -d -f" "RPM Packages installed (sorted)"
-    exec_command "rpm --querytags" "RPM Query Tags"
+  exec_command "lslpp -l" "AIX Filesets installed"
+  exec_command "lslpp -e" "Applied efixes"
+  exec_command "rpm -qia | grep -E '^(Name|Group)( )+:'" "RPM Packages installed"
+  exec_command "rpm -qa | sort -d -f" "RPM Packages installed (sorted)"
+  exec_command "rpm --querytags" "RPM Query Tags"
 
   dec_heading_level
 
@@ -364,26 +361,24 @@ fi # terminates CFG_SOFTWARE wrapper
 if [ "$CFG_FILESYS" != "no" ]
 then # else skip to next paragraph
 
-paragraph "Filesystems, Dump and Swap configuration"
-inc_heading_level
+  paragraph "Filesystems, Dump and Swap configuration"
+  inc_heading_level
 
+  exec_command "cat /etc/filesystems" "Filesystem Tab"
+  exec_command "lsfs -a" "Filesystem Information"
+  exec_command "df -k" "Filesystems Usage"
 
+  exec_command "sysdumpdev -l" "System Dump Information" # The -l option who list the current dump values is speeder and avoids the system lvm_change. ###CHANGED###FIXED### 20201110 
+  exec_command "sysdumpdev -e" "Estimated System Dump Size"
 
-exec_command "cat /etc/filesystems" "Filesystem Tab"
-exec_command "lsfs -a" "Filesystem Information"
-exec_command "df -k" "Filesystems Usage"
+  exec_command "lsps -a" "Swap Partitions"
+  exec_command "swap -l" "Swap Usage"
 
-exec_command "sysdumpdev" "System Dump Information"
-exec_command "sysdumpdev -e" "Estimated System Dump Size"
-
-exec_command "lsps -a" "Swap Partitions"
-exec_command "swap -l" "Swap Usage"
-
-if [ -f /etc/exports ] ; then
+  if [ -f /etc/exports ] ; then
     exec_command "grep -vE '^#|^ *$' /etc/exports" "NFS Filesystem Exports"
-fi
+  fi
 
-dec_heading_level
+  dec_heading_level
 
 fi # terminates CFG_FILESYS wrapper
 
@@ -392,17 +387,17 @@ inc_heading_level
 
 ## MPIO Device Configuration
 if [ -x /usr/sbin/lspath ] ; then
-	exec_command "lspath -s enabled" "MPIO - Enabled Devices"
-	exec_command "lspath -s disabled" "MPIO - Disabled Devices"
-	exec_command "lspath -s failed" "MPIO - Failed Devices"
-	exec_command "lspath -F'name:status:connection:parent:path_status:path_id'" "MPIO - Detailed Status"
+  exec_command "lspath -s enabled" "MPIO - Enabled Devices"
+  exec_command "lspath -s disabled" "MPIO - Disabled Devices"
+  exec_command "lspath -s failed" "MPIO - Failed Devices"
+  exec_command "lspath -F'name:status:connection:parent:path_status:path_id'" "MPIO - Detailed Status"
 fi
 
 ## PowerPath Device Configuration
 if [ -x /usr/sbin/powermt ] ; then
-	exec_command "lsattr -EHl powerpath0" "Powerpath Control Device"
-	exec_command "/usr/sbin/powermt display" "Powerpath - Overview"
-	exec_command "/usr/sbin/powermt display dev=all" "Powerpath - Devices"
+  exec_command "lsattr -EHl powerpath0" "Powerpath Control Device"
+  exec_command "/usr/sbin/powermt display" "Powerpath - Overview"
+  exec_command "/usr/sbin/powermt display dev=all" "Powerpath - Devices"
 fi
 dec_heading_level
 
@@ -410,26 +405,26 @@ dec_heading_level
 if [ "$CFG_LVM" != "no" ]
 then # else skip to next paragraph
 
-    paragraph "LVM"
-    inc_heading_level
+  paragraph "LVM"
+  inc_heading_level
 
-    [ -x /usr/sbin/lspv ] && exec_command "lspv" "Physical Volumes"
+  [ -x /usr/sbin/lspv ] && exec_command "lspv" "Physical Volumes"
 
-    exec_command "lsvg" "Defined Volume Groups"
-    exec_command "lsvg -o" "Available Volume Groups"
-    for VG in `lsvg -o`
+  exec_command "lsvg" "Defined Volume Groups"
+  exec_command "lsvg -o" "Available Volume Groups"
+  for VG in `lsvg -o`
+  do
+    exec_command "lsvg ${VG}" "${VG} (VG Properties)"
+    exec_command "lsvg -p ${VG}" "${VG} (Physical Volumes)"
+    exec_command "lsvg -l ${VG}" "${VG} (Logical Volumes)"
+    for LV in `lsvg -l ${VG}|awk '{print $1}'|grep -Ev "^LV|:"`
     do
-	exec_command "lsvg ${VG}" "${VG} (VG Properties)"
-	exec_command "lsvg -p ${VG}" "${VG} (Physical Volumes)"
-	exec_command "lsvg -l ${VG}" "${VG} (Logical Volumes)"
-	for LV in `lsvg -l ${VG}|awk '{print $1}'|grep -Ev "^LV|:"`
-	do
-		exec_command "lslv ${LV}" "${LV} (LV Properties)"
-		exec_command "lslv -l ${LV}" "${LV} Physical Allocation (${VG})"
-	done
+      exec_command "lslv ${LV}" "${LV} (LV Properties)"
+      exec_command "lslv -l ${LV}" "${LV} Physical Allocation (${VG})"
     done
+  done
 
-    dec_heading_level
+  dec_heading_level
 
 fi # terminates CFG_LVM wrapper
 
@@ -443,16 +438,15 @@ then # else skip to next paragraph
   exec_command "lsdev -Ccadapter|grep Ethernet|grep Available" "Network Physical Adapters"
   for ETHER in `lsdev -Ccadapter|grep Ethernet|grep Available|awk '{print $1}'`
   do
-	exec_command "lsattr -EHl ${ETHER}" "${ETHER} Adapter Properties"
+    exec_command "lsattr -EHl ${ETHER}" "${ETHER} Adapter Properties"
   done
   exec_command "lsdev -Ccif|grep Available" "LAN Interfaces"
   for NIC in `lsdev -Ccif|grep Available|awk '{print $1}'`
   do
-	exec_command "ifconfig ${NIC}" "${NIC} Interface Status"
-	exec_command "lsattr -EHl ${NIC}" "${NIC} Interface Properties"
-	exec_command "entstat -d ${NIC}" "${NIC} Interface Statistics"
+    exec_command "ifconfig ${NIC}" "${NIC} Interface Status"
+    exec_command "lsattr -EHl ${NIC}" "${NIC} Interface Properties"
+    exec_command "entstat -d ${NIC}" "${NIC} Interface Statistics"
   done
-
 
   exec_command "netstat -r" "Routing Tables"
   exec_command "netstat -i" "Kernel Interface table"
@@ -474,7 +468,6 @@ then # else skip to next paragraph
 
   exec_command "grep -vE '^#|^ *$' /etc/hosts" "/etc/hosts"
 
-
   if [ -x /usr/sbin/tcpdchk ] ; then
     exec_command "/usr/sbin/tcpdchk -v" "tcpd wrapper"
     exec_command "/usr/sbin/tcpdchk -a" "tcpd warnings"
@@ -483,17 +476,12 @@ then # else skip to next paragraph
   [ -f /etc/hosts.allow ] && exec_command "grep  -vE '^#|^ *$' /etc/hosts.allow" "hosts.allow"
   [ -f /etc/hosts.deny ] && exec_command "grep  -vE '^#|^ *$' /etc/hosts.deny" "hosts.deny"
 
-
-  #if [ -f /etc/gated.conf ] ; then
-  #    exec_command "cat /etc/gated.conf" "Gate Daemon"
-  #fi
-
   if [ -f /etc/bootptab ] ; then
-      exec_command "grep -vE '(^#|^ *$)' /etc/bootptab" "BOOTP Daemon Configuration"
+    exec_command "grep -vE '(^#|^ *$)' /etc/bootptab" "BOOTP Daemon Configuration"
   fi
 
   if [ -f /etc/niminfo ]; then
-      exec_command "cat /etc/niminfo" "NIMINFO file"
+    exec_command "cat /etc/niminfo" "NIMINFO file"
   fi
 
   if [ -r /etc/inetd.conf ]; then
@@ -502,7 +490,7 @@ then # else skip to next paragraph
 
   #exec_command "cat /etc/services" "Internet Daemon Services"
   if [ -f /etc/resolv.conf ] ; then
-     exec_command "grep -vE '^#|^ *$' /etc/resolv.conf;echo; ( [ -f /etc/netsvc.conf ] &&  grep -vE '^#|^ *$' /etc/netsvc.conf)" "DNS & Names"
+    exec_command "grep -vE '^#|^ *$' /etc/resolv.conf;echo; ( [ -f /etc/netsvc.conf ] &&  grep -vE '^#|^ *$' /etc/netsvc.conf)" "DNS & Names"
   fi
 
   # if portmap not available, do nothing
@@ -554,13 +542,13 @@ fi # terminates CFG_NETWORK wrapper
 if [ "$CFG_KERNEL" != "no" ]
 then # else skip to next paragraph
 
-    paragraph "Kernel, Modules and Libraries, Kernel parameters"
-    inc_heading_level
-	exec_command "lsattr -E -l sys0" "Kernel Parameters"
-	exec_command "vmo -a" "Virtual Memory Parameters"
-	exec_command "no -a" "Network Parameters"
-	exec_command "genkex" "Kernel Modules"
-    dec_heading_level
+  paragraph "Kernel, Modules and Libraries, Kernel parameters"
+  inc_heading_level
+  exec_command "lsattr -E -l sys0" "Kernel Parameters"
+  exec_command "vmo -a" "Virtual Memory Parameters"
+  exec_command "no -a" "Network Parameters"
+  exec_command "genkex" "Kernel Modules"
+  dec_heading_level
 
 fi # terminates CFG_KERNEL wrapper
 ######################################################################
@@ -568,12 +556,12 @@ fi # terminates CFG_KERNEL wrapper
 if [ "$CFG_ENHANCEMENTS" != "no" ]
 then # else skip to next paragraph
 
-    paragraph "System Enhancements"
-    inc_heading_level
+  paragraph "System Enhancements"
+  inc_heading_level
 
-	# X Window? ...
+  # X Window? ...
 
-    dec_heading_level
+  dec_heading_level
 
 fi # terminates CFG_ENHANCEMENTS wrapper
 ###########################################################################
@@ -581,76 +569,76 @@ fi # terminates CFG_ENHANCEMENTS wrapper
 if [ "$CFG_APPLICATIONS" != "no" ]
 then # else skip to next paragraph
 
-    paragraph "Applications and Subsystems"
+  paragraph "Applications and Subsystems"
 
-### COMMON ################################################################
+  ### COMMON ################################################################
 
+  inc_heading_level
+
+  if [ -d /usr/local/bin ] ; then
+    exec_command "ls -lisa /usr/local/bin" "Files in /usr/local/bin"
+  fi
+  if [ -d /usr/local/sbin ] ; then
+    exec_command "ls -lisa /usr/local/sbin" "Files in /usr/local/sbin"
+  fi
+  if [ -d /opt ] ; then
+    exec_command "ls -lisa /opt" "Files in /opt"
+  fi
+
+
+  #if [ -x /usr/bin/lpstat ] ; then
+  #  exec_command "/usr/bin/lpstat -t" "SYSV Printer Spooler and Printers"      #*# Alexander De Bernardi, 20100310
+  #fi
+
+  if [ -e /usr/lpp/OV/bin/opcagt ] ; then
+    exec_command "/usr/lpp/OV/bin/opcagt -version" "HP OpenView Agent Version"
+    exec_command "/usr/lpp/OV/bin/opcagt -status" "HP OpenView Agent Status"
+  fi
+  if [ -e /usr/lpp/perf/bin/ovpa ] ; then
+    exec_command "/usr/lpp/perf/bin/ovpa version" "HP OpenView PerfAgent Info, Version"
+  fi
+
+  # Backup Software
+
+  # Veritas Netbackup
+  if [ -e /usr/openv/netbackup/bp.conf ] ; then
+
+    paragraph "Veritas Netbackup Configuration"
     inc_heading_level
 
-    if [ -d /usr/local/bin ] ; then
-      exec_command "ls -lisa /usr/local/bin" "Files in /usr/local/bin"
+    NetBuVersion=$(find /usr/openv/netbackup -name "version")
+    if [ -e ${NetBuVersion} ] ; then
+      exec_command "cat ${NetBuVersion}" "Veritas Netbackup Version"
     fi
-    if [ -d /usr/local/sbin ] ; then
-      exec_command "ls -lisa /usr/local/sbin" "Files in /usr/local/sbin"
+    exec_command "cat /usr/openv/netbackup/bp.conf" "Veritas Netbackup Configuration"
+    exec_command "netstat -a | egrep '(bpcd|bpjava-msvc|bpjava-susvc|vnetd|vopied)|(Active|Proto)'" "Veritas Netbackup Network Connections"
+    ## Use FS="=" in case there's no whitespace in the SERVER lines.
+    if ping -c 3 $(awk 'BEGIN {FS="="} /SERVER/ {print $NF}' /usr/openv/netbackup/bp.conf | head -1) >/dev/null
+    then
+      exec_command "/usr/openv/netbackup/bin/bpclntcmd -pn" "Veritas Netbackup Client to Server Inquiry"
     fi
-    if [ -d /opt ] ; then
-      exec_command "ls -lisa /opt" "Files in /opt"
-    fi
+    dec_heading_level
+  fi ## Veritas Netbackup
 
+  # HP Dataprotector
+  if [ -d /usr/omni/config/client ]; then
 
-    #if [ -x /usr/bin/lpstat ] ; then
-    #  exec_command "/usr/bin/lpstat -t" "SYSV Printer Spooler and Printers"      #*# Alexander De Bernardi, 20100310
-    #fi
+    paragraph "HP Data Protector Configuration"
+    inc_heading_level
 
-    if [ -e /usr/lpp/OV/bin/opcagt ] ; then
-        exec_command "/usr/lpp/OV/bin/opcagt -version" "HP OpenView Agent Version"
-        exec_command "/usr/lpp/OV/bin/opcagt -status" "HP OpenView Agent Status"
-    fi
-    if [ -e /usr/lpp/perf/bin/ovpa ] ; then
-        exec_command "/usr/lpp/perf/bin/ovpa version" "HP OpenView PerfAgent Info, Version"
-    fi
+    exec_command "/usr/omni/bin/omnicc -query|grep -v ' 0'" "Data Protector License Info."
+    exec_command "cat /usr/omni/config/client/omni_info" "Data Protector Client Information"
+    [ -f /usr/omni/.omnirc ] && exec_command "cat /usr/omni/.omnirc | grep -v ^#" "Data Protector Client Configuration"
+    exec_command "cat /usr/omni/config/client/cell_server" "Data Protector Cell Server"
+    exec_command "cat /etc/services | grep -w omni" "Data Protector Service Port"
+    exec_command "netstat -a|grep -w omni" "Data Protector Service Status"
 
-# Backup Software
+    dec_heading_level
+  fi ## HP Dataprotector
 
-    # Veritas Netbackup
-    if [ -e /usr/openv/netbackup/bp.conf ] ; then
-
-      paragraph "Veritas Netbackup Configuration"
-      inc_heading_level
-
-          NetBuVersion=$(find /usr/openv/netbackup -name "version")
-          if [ -e ${NetBuVersion} ] ; then
-            exec_command "cat ${NetBuVersion}" "Veritas Netbackup Version"
-          fi
-          exec_command "cat /usr/openv/netbackup/bp.conf" "Veritas Netbackup Configuration"
-          exec_command "netstat -a | egrep '(bpcd|bpjava-msvc|bpjava-susvc|vnetd|vopied)|(Active|Proto)'" "Veritas Netbackup Network Connections"
-            ## Use FS="=" in case there's no whitespace in the SERVER lines.
-          if ping -c 3 $(awk 'BEGIN {FS="="} /SERVER/ {print $NF}' /usr/openv/netbackup/bp.conf | head -1) >/dev/null
-          then
-            exec_command "/usr/openv/netbackup/bin/bpclntcmd -pn" "Veritas Netbackup Client to Server Inquiry"
-          fi
-      dec_heading_level
-    fi ## Veritas Netbackup
-
-    # HP Dataprotector
-    if [ -d /usr/omni/config/client ]; then
-
-	paragraph "HP Data Protector Configuration"
-	inc_heading_level
-
-	exec_command "/usr/omni/bin/omnicc -query|grep -v ' 0'" "Data Protector License Info."
-	exec_command "cat /usr/omni/config/client/omni_info" "Data Protector Client Information"
-	[ -f /usr/omni/.omnirc ] && exec_command "cat /usr/omni/.omnirc | grep -v ^#" "Data Protector Client Configuration"
-	exec_command "cat /usr/omni/config/client/cell_server" "Data Protector Cell Server"
-	exec_command "cat /etc/services | grep -w omni" "Data Protector Service Port"
-	exec_command "netstat -a|grep -w omni" "Data Protector Service Status"
-
-	dec_heading_level
-    fi ## HP Dataprotector
-
-## SAP stuff
-if [ -x /usr/sap/hostctrl/exe/saphostexec ]
-then
+  ## SAP stuff
+  if [ -x /usr/sap/hostctrl/exe/saphostexec ]
+  then
     paragraph "SAP Information"
     inc_heading_level
 
@@ -658,26 +646,26 @@ then
     exec_command "ps -ef| grep -i ' pf=' | grep -v grep" "Active SAP Processes"
 
     dec_heading_level
-fi ## SAP
+  fi ## SAP
 
 
-######## HACMP/PowerHA stuff ##########
-    if [ -d /usr/es/sbin/cluster/utilities ] # HACMP #
-    then
-	paragraph "HACMP / PowerHA Configuration"
-	inc_heading_level
+  ######## HACMP/PowerHA stuff ##########
+  if [ -d /usr/es/sbin/cluster/utilities ] # HACMP #
+  then
+    paragraph "HACMP / PowerHA Configuration"
+    inc_heading_level
 
-	HACMDPATH="/usr/es/sbin/cluster/utilities"
-        exec_command "${HACMDPATH}/cldump" "HACMP Cluster Configuration Overview"
-        exec_command "${HACMDPATH}/cllsnode" "HACMP Cluster Nodes Configuration"
-        exec_command "${HACMDPATH}/cltopinfo" "HACMP Cluster Topology Configuration"
-        exec_command "${HACMDPATH}/clshowres" "HACMP Cluster Resources Configuration"
-        exec_command "odmget HACMPdaemons" "HACMP Cluster Daemons Configuration"
+    HACMDPATH="/usr/es/sbin/cluster/utilities"
+    exec_command "${HACMDPATH}/cldump" "HACMP Cluster Configuration Overview"
+    exec_command "${HACMDPATH}/cllsnode" "HACMP Cluster Nodes Configuration"
+    exec_command "${HACMDPATH}/cltopinfo" "HACMP Cluster Topology Configuration"
+    exec_command "${HACMDPATH}/clshowres" "HACMP Cluster Resources Configuration"
+    exec_command "odmget HACMPdaemons" "HACMP Cluster Daemons Configuration"
 
-	dec_heading_level
-    fi ## HACMP
+    dec_heading_level
+  fi ## HACMP
 
-dec_heading_level
+  dec_heading_level
 
 fi  #"$CFG_APPLICATIONS"# <m>  23.04.2008, 2145 -  Ralph Roth
 
@@ -700,17 +688,17 @@ if [ -s /etc/oratab ] ; then    # exists and >0
   ##     leaveup:/home/oracle/7.3.2.1.0:N
 
   for  DB in $(grep ':' /etc/oratab|grep -v '^#'|grep -v ':N$')                                 #  27.10.2011, 14:58 modified by Ralph Roth #* rar *#
-       do
-         Ora_Home=`echo $DB | awk -F: '{print $2}'`
-         Sid=`echo $DB | awk -F: '{print $1}'`
-         Init=${Ora_Home}/dbs/init${Sid}.ora
-         if [ -r "$Init" ]
-         then
-            exec_command "cat $Init" "Oracle Instance $Sid"
-         else
-            AddText "WARNING: obsolete entry $Init in /etc/inittab for SID $Sid!"
-         fi
-       done
+  do
+    Ora_Home=`echo $DB | awk -F: '{print $2}'`
+    Sid=`echo $DB | awk -F: '{print $1}'`
+    Init=${Ora_Home}/dbs/init${Sid}.ora
+    if [ -r "$Init" ]
+    then
+      exec_command "cat $Init" "Oracle Instance $Sid"
+    else
+      AddText "WARNING: obsolete entry $Init in /etc/inittab for SID $Sid!"
+    fi
+  done
   dec_heading_level
 fi
 
@@ -723,34 +711,34 @@ fi
 
 if [ "$CFG_PLUGINS" != "no" ];
 then # else skip to next paragraph
-    if [ -f $CONFIG_DIR/plugins ]; then
+  if [ -f $CONFIG_DIR/plugins ]; then
     paragraph "Custom plugins"
 
-        # include plugin configuration
+    # include plugin configuration
     . $CONFIG_DIR/plugins
 
 
     if [ -n "$CFG2HTML_PLUGIN_DIR" -a -n "$CFG2HTML_PLUGINS" ]; then
-            # only run plugins when we know where to find them and at least one of them is enabled
+      # only run plugins when we know where to find them and at least one of them is enabled
 
-        inc_heading_level
+      inc_heading_level
 
-        if [ "$CFG2HTML_PLUGINS" == "all" ]; then
+      if [ "$CFG2HTML_PLUGINS" == "all" ]; then
         # include all plugins
         CFG2HTML_PLUGINS="$(ls -1 $CFG2HTML_PLUGIN_DIR)"
-        fi
+      fi
 
-        for CFG2HTML_PLUGIN in $CFG2HTML_PLUGINS; do
+      for CFG2HTML_PLUGIN in $CFG2HTML_PLUGINS; do
         if [ -f "$CFG2HTML_PLUGIN_DIR/$CFG2HTML_PLUGIN" ]; then
-            . $CFG2HTML_PLUGIN_DIR/$CFG2HTML_PLUGIN
-            exec_command cfg2html_plugin "$CFG2HTML_PLUGINTITLE"
+          . $CFG2HTML_PLUGIN_DIR/$CFG2HTML_PLUGIN
+          exec_command cfg2html_plugin "$CFG2HTML_PLUGINTITLE"
         else
-            AddText "Configured plugin $CFG2HTML_PLUGIN not found in $CFG2HTML_PLUGIN_DIR"
+          AddText "Configured plugin $CFG2HTML_PLUGIN not found in $CFG2HTML_PLUGIN_DIR"
         fi
-        done
-        dec_heading_level
+      done
+      dec_heading_level
     fi
-    fi
+  fi
 fi
 
 ## end of plugin processing
