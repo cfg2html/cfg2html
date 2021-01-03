@@ -1,9 +1,9 @@
 # @(#) $Id: check4errors-linux.sh,v 6.17 2018/03/23 11:07:07 ralph Exp $
 # --=---------------------------------------------------------------------=---
-# Written and (c) 1997 - 2020 by Ralph Roth  -*- http://rose.rult.at -*-
+# Written and (c) 1997 - 2021 by Ralph Roth  -*- http://rose.rult.at -*-
 
 # Like the "check for error" script for HP-UX, this script tries to detect some
-# errors or system misconfiguration.
+# errors or system misconfiguration. Must be run as root of course!
 
 LANG=C
 
@@ -13,12 +13,11 @@ LANG=C
 ## ----------------------------------------------------------------------------- ##
 if [ -f /etc/sysconfig/kernel ]
 then
-
-    echo "# Missing Kernel Modules"
+    echo "## Missing Kernel Modules"
     sed -e '/^#/d;/^$/d;/^[[:space:]]*$/d' /etc/sysconfig/kernel
     . /etc/sysconfig/kernel
 
-    echo "# Kernel Modules not loaded"
+    echo "## Kernel Modules not loaded"
     for i in $INITRD_MODULES $DOMU_INITRD_MODULES $MODULES_LOADED_ON_BOOT
     do
         if ! lsmod | grep"^$i[[:space:]]"&>/dev/null; then
@@ -27,6 +26,14 @@ then
     done; echo
 
 fi
+echo "## Kernel Modules, out of tree?"
+cat /proc/modules |
+while read module rest
+do
+    if [[ $(od -A n /sys/module/$module/taint) != " 000012" ]] ; then
+        echo $module":"$(cat /sys/module/$module/taint)
+    fi
+done
 
 echo "## Grep Patterns"
 
