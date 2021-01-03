@@ -618,7 +618,7 @@ inc_heading_level
   fi
   NUMACTL="$(which numactl 2>/dev/null)"                               # modified on 20201004 added by edrulrd
   if [ -n "${NUMACTL}" -a -x "${NUMACTL}" ] ; then
-    exec_command "$(${NUMACTL} --hardware)" "NUMA Inventory of Available Nodes on the System"     #06.11.2014, added by Dusan Baljevic
+    exec_command "${NUMACTL} --hardware" "NUMA Inventory of Available Nodes on the System"     #06.11.2014, added by Dusan Baljevic
   fi
 
   if [ -x /usr/bin/journalctl ]
@@ -1858,6 +1858,14 @@ then # else skip to next paragraph
 
     if [ -f /boot/grub/menu.lst ] ; then
       exec_command "grep -vE '^#|^ *$' /boot/grub/menu.lst" "GRUB Boot Manager" # rar
+    fi
+
+    if [ -f /boot/grub/grub.cfg ] ; then
+      exec_command "grep -vE '^#|^ *$' /boot/grub/grub.cfg" "GRUB2 Boot Manager"
+    fi
+
+    if [ -f /boot/grub2/grub.cfg ] ; then
+      exec_command "grep -vE '^#|^ *$' /boot/grub2/grub.cfg" "GRUB2 Boot Manager" # Fedora/RedHat
     fi
 
     if [ -f /etc/palo.conf ] ; then
