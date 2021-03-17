@@ -1,5 +1,5 @@
 # get_sap_info.sh
-# @(#) $Id: get_sap_info.sh,v 1.5 2018/05/25 19:19:21 ralph Exp $
+# @(#) $Id: get_sap_info.sh,v 1.7 2021/02/05 11:15:59 ralph Exp $
 # -----------------------------------------------------------------------------
 
 # See also issue #38, can be consolidated with get_sap.sh
@@ -18,5 +18,6 @@ if [[ -x /usr/sap/hostctrl/exe/lssap ]]; then
 fi
 
 # Also we can add new stuff like
+# As SIDadm do
 #      sapcontrol -nr <nr> -function HAGetFailoverConfig
-# etc. Feedback welcome
+# (GetProcessList HAGetFailoverConfig HACheckConfig HACheckFailoverConfig)  etc. Feedback welcome

@@ -1,4 +1,5 @@
-# @(#) $Id: check4errors-linux.sh,v 6.17 2018/03/23 11:07:07 ralph Exp $
+# @(#) $Id: check4errors-linux.sh,v 6.19 2021/03/17 13:50:33 ralph Exp $
+# $Header: /home/cvs/cfg2html/cfg2html_git/linux/contrib/check4errors-linux.sh,v 6.19 2021/03/17 13:50:33 ralph Exp $
 # --=---------------------------------------------------------------------=---
 # Written and (c) 1997 - 2021 by Ralph Roth  -*- http://rose.rult.at -*-
 
@@ -39,10 +40,14 @@ echo "## Grep Patterns"
 
 ## ----------------------------------------------------------------------------- ##
 # grep_error_patterns
-# TODO: refine patterns
+# TODO: refine patterns, new patterns
+
 F=""multi.*path.*down" "bond.*link.*down" "lpfs.*err" "target.failure" "duplicate.VG" "duplicate.PV" \
     "kernel:" "traps:" "not.found" "ocfs2.*ERR" "ocfs2.*not.unmounted.cleanly" "reservation.conflict" \
+    " is invalid$" \
     "segfault.at" "deprecated" "not.supported" "systemd.dumpcore" "unavailable" "tainted" "ERROR""
+
+# we could here do also a zgrep - but this signitficantly slows down the script. Your thoughts?
 
 if [ -r /var/log/messages ]
 then
