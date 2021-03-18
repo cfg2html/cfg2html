@@ -24,7 +24,7 @@ If you do not want to build cfg2html by your own, we have pre-build installation
 
 ## Issue Tracker
 
-If you find a problem or bug, want to discuss feature requests, or have some bright new ideas, please create a new issue on our GitHub project page <https://github.com/cfg2html/cfg2html/issues.>
+If you find a problem or bug, want to discuss feature requests, or have some bright new ideas, please create a new issue on our GitHub project page <https://github.com/cfg2html/cfg2html/issues>
 When using it, please ensure that any criticism you provide is constructive. Please do not use the issue tracker for general help and assistance with using cfg2html.
 
 Feel free to open a pull request to fix a problem yourself or to contribute a new feature. 
