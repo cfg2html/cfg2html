@@ -44,7 +44,7 @@ echo "## Grep Patterns"
 
 F=""multi.*path.*down" "bond.*link.*down" "lpfs.*err" "target.failure" "duplicate.VG" "duplicate.PV" \
     "kernel:" "traps:" "not.found" "ocfs2.*ERR" "ocfs2.*not.unmounted.cleanly" "reservation.conflict" \
-    " is invalid$" \
+    "is.invalid$" \
     "segfault.at" "deprecated" "not.supported" "systemd.dumpcore" "unavailable" "tainted" "ERROR""
 
 # we could here do also a zgrep - but this signitficantly slows down the script. Your thoughts?
@@ -62,6 +62,9 @@ echo "## Misc./Other Stuff"
 ## ----------------------------------------------------------------------------- ##
 ## process without an named owner?
 ps -e -o ruser,pid,args | awk ' ($1+1) > 1 {print $0;} '		# changed 20131211 by Ralph Roth
+
+## Stucked processes? See SUSE TID:  https://www.suse.com/support/kb/doc/?id=000016919
+ps -eo ppid,pid,user,stat,pcpu,comm,wchan:32 | egrep " D| Z"
 
 ## ----------------------------------------------------------------------------- ##
 # Linker Cache? # changed 20131219 by Ralph Roth
