@@ -2,7 +2,7 @@
 #
 # @(#) $Id: cfg2html-linux.sh,v 6.65 2020/10/29 13:19:54 ralph Exp $
 # -----------------------------------------------------------------------------------------
-# (c) 1997-2020 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
+# (c) 1997-2021 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
 #     Further modified by Joe Wulf:  20200407@1432.
 
 #  If you change this script, please mark your changes with for example
@@ -1297,14 +1297,12 @@ then # else skip to next paragraph
   fi
   # end ARCH
 
-  ### Begin changes by Dusan.Baljevic@ieee.org ### 14.05.2014
-
+  ## changes by Dusan.Baljevic@ieee.org ### 14.05.2014
+  ## AppArmor
   if [ -x /usr/sbin/aa-status ]
   then
-   exec_command "/usr/sbin/aa-status" "AppArmor LSM for Name-based Mandatory Access Control"
+   exec_command "/usr/sbin/aa-status --verbose" "AppArmor LSM for Name-based Mandatory Access Control/Profiles"
   fi
-
-  ### End changes by Dusan.Baljevic@ieee.org ### 14.05.2014
 
   #### programming stuff ##### plugin for cfg2html/linux/hpux #  22.11.2005, 16:03 modified by Ralph Roth
   exec_command ProgStuff "Software Development: Programs and Versions"
