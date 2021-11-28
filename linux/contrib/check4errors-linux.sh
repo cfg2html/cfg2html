@@ -1,9 +1,10 @@
-# @(#) $Id: check4errors-linux.sh,v 6.17 2018/03/23 11:07:07 ralph Exp $
+# @(#) $Id: check4errors-linux.sh,v 6.19 2021/03/17 13:50:33 ralph Exp $
+# $Header: /home/cvs/cfg2html/cfg2html_git/linux/contrib/check4errors-linux.sh,v 6.19 2021/03/17 13:50:33 ralph Exp $
 # --=---------------------------------------------------------------------=---
-# Written and (c) 1997 - 2020 by Ralph Roth  -*- http://rose.rult.at -*-
+# Written and (c) 1997 - 2021 by Ralph Roth  -*- http://rose.rult.at -*-
 
 # Like the "check for error" script for HP-UX, this script tries to detect some
-# errors or system misconfiguration.
+# errors or system misconfiguration. Must be run as root of course!
 
 LANG=C
 
@@ -13,12 +14,11 @@ LANG=C
 ## ----------------------------------------------------------------------------- ##
 if [ -f /etc/sysconfig/kernel ]
 then
-
-    echo "# Missing Kernel Modules"
+    echo "## Missing Kernel Modules"
     sed -e '/^#/d;/^$/d;/^[[:space:]]*$/d' /etc/sysconfig/kernel
     . /etc/sysconfig/kernel
 
-    echo "# Kernel Modules not loaded"
+    echo "## Kernel Modules not loaded"
     for i in $INITRD_MODULES $DOMU_INITRD_MODULES $MODULES_LOADED_ON_BOOT
     do
         if ! lsmod | grep"^$i[[:space:]]"&>/dev/null; then
@@ -27,15 +27,27 @@ then
     done; echo
 
 fi
+echo "## Kernel Modules, out of tree?"
+cat /proc/modules |
+while read module rest
+do
+    if [[ $(od -A n /sys/module/$module/taint) != " 000012" ]] ; then
+        echo $module":"$(cat /sys/module/$module/taint)
+    fi
+done
 
 echo "## Grep Patterns"
 
 ## ----------------------------------------------------------------------------- ##
 # grep_error_patterns
-# TODO: refine patterns
+# TODO: refine patterns, new patterns
+
 F=""multi.*path.*down" "bond.*link.*down" "lpfs.*err" "target.failure" "duplicate.VG" "duplicate.PV" \
     "kernel:" "traps:" "not.found" "ocfs2.*ERR" "ocfs2.*not.unmounted.cleanly" "reservation.conflict" \
+    "is.invalid$" \
     "segfault.at" "deprecated" "not.supported" "systemd.dumpcore" "unavailable" "tainted" "ERROR""
+
+# we could here do also a zgrep - but this signitficantly slows down the script. Your thoughts?
 
 if [ -r /var/log/messages ]
 then
@@ -50,6 +62,9 @@ echo "## Misc./Other Stuff"
 ## ----------------------------------------------------------------------------- ##
 ## process without an named owner?
 ps -e -o ruser,pid,args | awk ' ($1+1) > 1 {print $0;} '		# changed 20131211 by Ralph Roth
+
+## Stucked processes? See SUSE TID:  https://www.suse.com/support/kb/doc/?id=000016919
+ps -eo ppid,pid,user,stat,pcpu,comm,wchan:32 | egrep " D| Z"
 
 ## ----------------------------------------------------------------------------- ##
 # Linker Cache? # changed 20131219 by Ralph Roth

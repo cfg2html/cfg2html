@@ -1,5 +1,5 @@
 #!/usr/bin/ksh
-# @(#) $Id: get_sap.sh,v 6.15 2015/04/12 18:00:10 ralph Exp $
+# @(#) $Id: get_sap.sh,v 6.16 2021/02/05 11:15:59 ralph Exp $
 # ---------------------------------------------------------------------------
 #  First Version:    Roland Schoettler, HP Ratingen
 #  Update: 23/08/99: Klaus Doemer, HP Ratingen
@@ -10,6 +10,8 @@
 #          19/03/02: Klaus Doemer / SAP Logfilesize Change
 #          11/04/15: GdH / Enhancements
 # ---------------------------------------------------------------------------
+
+# This plugin might be outdated, e.g. using old StartProfile etc.
 
 get_database()
 {
@@ -107,7 +109,7 @@ get_profiles()
     then
       for i in $profile
       do
-        echo "@@@@@@ START OF $i"
+        echo "@@@@@@ BEGIN OF StartProfile $i"
         echo ""
         if [ -r "$i" ]
         then

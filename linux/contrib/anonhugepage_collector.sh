@@ -1,10 +1,12 @@
-# @(#) $Id: anonhugepage_collector.sh,v 6.3 2018/03/23 11:07:07 ralph Exp $
+# @(#) $Id: anonhugepage_collector.sh,v 6.4 2021/03/17 13:50:32 ralph Exp $
 # -------------------------------------------------------------------------
 # vim:ts=8:sw=4:sts=4
 # atom:set fileencoding=utf8 fileformat=unix filetype=shell tabstop=2 expandtab:
 # -*- coding: utf-8 -*- http://rose.rult.at/ - Ralph Roth
 
 # Collector that shows all processes that had allocated anon huge pages
+
+# Might be broken with openSUSE 15.x and SLES 15.x
 
 echo "THP/Huge Pages Overview (/proc/meminfo)"
 grep Huge /proc/meminfo
@@ -18,19 +20,20 @@ echo "kb  (PID)  program + command line"
 
 for FILE in /proc/*/smaps
 do
-  if [ -r $FILE ]
+  if [ -r ${FILE} ]
   then
     # we must sum them up, for each memory region
-    KBAM=$(grep AnonHugePages $FILE| awk '{ sum += $2; } END { if (sum > 0) {printf ("%d", sum+0);} }' );
-    PID=$(echo $FILE|cut -f3 -d/)
+    KBAM=$(grep AnonHugePages ${FILE}| awk '{ sum += $2; } END { if (sum > 0) {printf ("%d", sum+0);} }' );
+    PID=$(echo ${FILE}|cut -f3 -d/)
 
+    #echo $KBAM
     # maybe /proc/$PID/numa_maps is useful for further details??
-    if [ "$KBAM" != "" ]
+    if [ -n ${KBAM} ]
     then
-      echo $KBAM"  ("$PID") " $(cat /proc/$PID/cmdline)
+      echo "${KBAM}  (${PID})  " $(cat /proc/$PID/cmdline)
     fi
   fi # vanished meanwhile?
-done | sort -nr | awk ' { sum += $1; print $0; } END { printf "\n%d kb total anon huge pages\n", sum } '
+done | sort -nur | awk ' { sum += $1; print $0; } END { printf "\n%d kb total anon huge pages\n", sum } ' 2>/dev/null
 # the sum calculated with awk and the one from meminfo should be EQUAL!
 
 # on a SLES11SP3/64 box this looks like:
