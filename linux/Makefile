@@ -215,6 +215,7 @@ rpm: dist
 	cd .. ; \
 	rpmbuild -tb  \
 		--define "_rpmfilename %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm" \
+		--define "_sourcedir %(pwd)" \
 		--define "debug_package %{nil}" \
 		--define "_rpmdir %(pwd)" $(name)-$(distversion).tar.gz
 
