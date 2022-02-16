@@ -2,7 +2,7 @@
 #
 # @(#) $Id: cfg2html-linux.sh,v 6.65 2020/10/29 13:19:54 ralph Exp $
 # -----------------------------------------------------------------------------------------
-# (c) 1997-2021 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
+# (c) 1997-2022 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
 #     Further modified by Joe Wulf:  20200407@1432.
 
 #  If you change this script, please mark your changes with for example
@@ -94,7 +94,7 @@ while getopts ":o:shxOcSTflkenaHLvhpPA2:10" Option   ##  -T -0 -1 -2 backported 
 do
   case ${Option} in
     o     ) OUTDIR=${OPTARG};;
-    v     ) echo ${_VERSION}"// "$(uname -mrs); exit 0;; ## add uname output, see YG MSG 790 ##
+    v     ) echo ${_VERSION}"// $(uname -mrs)"; exit 0;; ## add uname output, see YG MSG 790 ##
     h     ) echo ${_VERSION}; usage; exit 0;;
     s     ) CFG_SYSTEM="no";;
     x     ) CFG_PATHLIST="no";; # don't generate the list of executables in the PATH # added on 20201025 by edrulrd
@@ -244,7 +244,7 @@ inc_heading_level
 if [ "${CFG_SYSTEM}" != "no" ]
 then # else skip to next paragraph
 
-paragraph "Linux System:  [${distrib}]"   ## empty?
+paragraph "Linux System:  [${distrib}]"   ## empty? ## FIXME ###
 inc_heading_level
 
   ###################################################################################################################################################################
@@ -258,7 +258,7 @@ inc_heading_level
   DMIDECODE=$(which dmidecode 2>/dev/null) # Added 20201004 by edrulrd
   LSCPI=$(which lspci 2>/dev/null)         # Added 20201004 by edrulrd
 
-  # It is better to check on a host for the existance of /usr/sbin/esxupdate. Existance of that binary, and its response, will truly indicate an ESX host.
+  # It is better to check on a host for the existence of /usr/sbin/esxupdate. Existence of that binary, and its response, will truly indicate an ESX host.
   PhysHost='TRUE'               # General term. Default, and its state is kept beyond this section. Assumed TRUE at the beginning.  TRUE indicates NO   form of Virt Guest.
   VirtMach='false'              # General term. Default, and its state is kept beyond this section. Assumed false at the beginning. TRUE indicates SOME form of Virt Guest.
 
@@ -269,7 +269,7 @@ inc_heading_level
   VMKVM='false'                 # KVM-type has been found.
   VMparavirtkrnl='false'        # Indicative of QEmu or KVM; via dmesg, find either of: (Phys) 11 Booting paravirtualized kernel on bare hardware 11 or (kvm-virt) 11 Booting paravirtualized kernel
   VMqemu='false'                # Applicable to KVM, and .... ?
-  VMvirtio= 'false'            # { abstraction layer}
+  VMvirtio='false'              # { abstraction layer}
   VMxen='false'                 # Xen (as a term)
   VMXEN='false'                 # Xen Default for any form found true (xen, dom0 domU).
 
@@ -1455,7 +1455,7 @@ then # else skip to next paragraph
     # WONT WORK WITH HP RAID!
     LVMFDISK=$(/sbin/fdisk -l | grep "LVM$")
 
-    if  [ -n "${LVMFDISK}" -o -s /etc/lvmtab -o /etc/lvm/lvm.conf ]
+    if  [ -n "${LVMFDISK}" -o -s /etc/lvmtab -o /etc/lvm/lvm.conf ]   # This expression is constant. Did you forget a $ somewhere?
     then # <m>  11.03.2008, 1158 -  Ralph Roth
         vgdisplay -s > /dev/null 2>&1 #  10032008 modified by Ralph.Roth
         # due to LVM2 (doesn't use /etc/lvmtab anymore), but should be compatible to LVM1; A. Kumpf
