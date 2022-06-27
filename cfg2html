@@ -45,7 +45,7 @@ OS="$(uname)"
 OS="$(echo ${OS} | tr 'A-Z' 'a-z' | sed -e 's/-//')"
 CFG_CMDLINE=$*
 
-COPYRIGHT="Copyright (C) 1999-2020 ROSE SWE, Dipl.-Ing. Ralph Roth"
+COPYRIGHT="Copyright (C) 1999-2022 ROSE SWE, Dipl.-Ing. Ralph Roth"
 
 LANG="C"
 LANG_ALL="C"
@@ -57,7 +57,7 @@ LC_MESSAGE="C"
 if  [ "$(whoami)" != "root" -a "$1" != "-h" ]
 then
     echo "$(whoami) - You must be root to run the script ${PROGRAM}"
-    exit 42 ## 1 -> 42 for better returncode handling
+    exit 42 ## 1 -> 42 for better return code handling
 fi
 
 # introduce trap to make sure the temporary directories get cleaned up
@@ -109,7 +109,7 @@ i=2030
 # date sanity check. complains if cfg2html is too old, must be adjusted every year to fit
 #
 
-while [ ${i} -gt 2021 ]   ## where we want to stop, complains if older than two years
+while [ ${i} -gt 2023 ]   ## where we want to stop, complains if older than two years
 do
     [ ${YEAR} -gt ${i} ] && OLD=${OLD}" very"
     # echo ${i} - ${OLD}

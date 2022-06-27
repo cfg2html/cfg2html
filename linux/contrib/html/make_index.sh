@@ -22,7 +22,7 @@
 # Enhanced cron collector
 #
 #######################################################################
-# (c) 1999-2020 by cfg2html@hotmail.com, All Rights Reserved, Freeware
+# (c) 1999-2022 by cfg2html@hotmail.com, All Rights Reserved, Freeware
 # http://rose.rult.at/
 #######################################################################
 # Simply run this shell script in the directory, where your cfg2html
