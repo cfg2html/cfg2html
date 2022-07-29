@@ -4,6 +4,8 @@
 ## Which programs use swap? Determine current swap usage for all running processes
 ## 28.04.2020, rr, initial creation
 
+echo "-------------------------------------------------------------------------------"
+echo "Name, Pid, VmSwap (KB)"
 # Output: ProgramName, PID, Swap used in KB
 for i in /proc/*/status
 do
@@ -12,7 +14,7 @@ do
   /VmSwap:/     { Swap = $2; }
   /^Pid:/       { Pid = $2+0; }
   END { if (Swap > 0) { printf ("%s (%d) %8d\n",  Name,Pid,Swap); }}
-  ' $i 2> /dev/null
+  ' ${i} 2> /dev/null
 done | sort -k 3 -n -r
 
 #########################

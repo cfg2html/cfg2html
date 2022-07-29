@@ -43,3 +43,4 @@ sshkey.sh
 *.o
 *.diff
 *.patch
+linux/debian/
