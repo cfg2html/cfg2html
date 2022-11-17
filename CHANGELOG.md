@@ -5,13 +5,184 @@ Changelog
 (unreleased)
 ------------
 
-Changes
-~~~~~~~
-- Merged all enhancements by JW. [roseswe]
-- To build with the correct anotated tag. [Ralph Roth]
+Fix
+~~~
+- Debian build run fixes, prettyfied progs_using_swap.sh. [roseswe]
 
 Other
 ~~~~~
+- Ci(lint): Add differential-shellcheck action (#159) [Jan Macku]
+
+  It performs differential ShellCheck scans and report results directly in pull request.
+
+  documentation: https://github.com/redhat-plumbers-in-action/differential-shellcheck
+- Fix date command in netbackup bcpimagelist (#158) [Christian Ramseyer]
+
+  * date +%d/%m/%Y is not expected format, should be m/d/Y
+   * fixes crash with these messages:
+    * `date: invalid date '19/07/2022'`
+    * `cfg2html-linux.sh: line xxx: (1658233237 - ) /86400 : syntax error: operand expected (error token is ") /86400 ")`
+
+
+6.42.1 (2022-06-27)
+-------------------
+
+Changes
+~~~~~~~
+- Small changes for upcoming SUSE Hackweek. [roseswe]
+- Y2k21, AppArmor. [roseswe]
+- Fix "is.valid", added SUSE TID. [roseswe]
+- Small enhancements and changes to supplemental shell scripts.
+  [roseswe]
+- Copyright add:  check for modules. [roseswe]
+- Linux/packaging/rpm/cfg2html.spec. [Ed Drouillard]
+
+  fix: Turn off the shebang checking in our scripts.
+         On version 8 Redhat-based systems, proper shebang (#!) settings are now required.
+         Since our scripts are callable by bash or ksh by various operating
+         systems, having an empty shebang is deemed necessary.  This change
+         undefines the verification macro that rpmbuild uses.
+- Applied !MR#147, deleted cfg2html.html (empty). [roseswe]
+- Linux/cfg2html-linux.sh. [Ed Drouillard]
+
+  chg: don't put stderr messages in the logfile for lsb_release and lsof commands
+     chg: don't put stderr messages in the logfile for setserial command if missing
+     chg: use the --sort option on the ps command to get properly sorted output
+- Cfg2html. [Ed Drouillard]
+
+  fix: repair re-invocation of the program to ensure the proper shell is used
+- Cfg2html-linux.sh. [Ed Drouillard]
+
+  - fix: determine if a physical or virtual host
+  - fix: display of locale information
+  - fix: update ps command to show processes consuming the most time
+  - fix: confirm presence of executable files to eliminate errors in log file
+  - fix: limit the number of run level changes or reboots listed to 25
+  - fix: use sfdisk or sgdisk depending on version and availability
+  - fix: properly display any defined routing files
+  - chg: add each network interface in turn to the mii-tool and mii-diag commands
+- Dnsdomainname cmd in lib/linux-functions.sh. [Ed Drouillard]
+- Updated CHANGELOG.md, maybe corrupted by rebase/merge? [roseswe]
+- Merged all enhancements by JW. [roseswe]
+- To build with the correct anotated tag. [Ralph Roth]
+
+Fix
+~~~
+- Regression in building RPM after deleting .html file.  Tested on Azure
+  SLES15SP2 and CentOS8.2. [roseswe]
+
+Other
+~~~~~
+- Small changes where MS-Code or ShellCheck complains about (#157)
+  [Ralph Roth]
+- Update compat. [Gratien D'haese]
+- Find sources for RPM building (#156) [Frank Crawford]
+- Update README.md. [Ralph Roth]
+
+  Should fix issue #152
+- Added GRUB2 configuration (#150) [Frank Crawford]
+
+  Yes, there is GRUB 1 and 2 boot manager depending on the distro. Thanks for the enhancements!
+- Numactl fix (#149) [Frank Crawford]
+
+  * Added GRUB2 configuration
+
+  * Fix html call for numactl
+- Fix debian installation so default.conf goes into the right place
+  (#148) [edrulrd]
+
+  * fix_duplicate_lsof_display
+
+  * chg: linux/packaging/debian/rules
+
+    fix: the destination for the default.conf file when installed.
+         The debian rules were checking for the existence of the default.conf file
+         in one directory, and storing it elsewhere.  The default.conf file is
+         now set up to be installed in both /usr/share/cfg2html/etc/ and in
+         /usr/share/cfg2html/etc/cfg2html, in case SUSE needs it there.
+
+  * chg: linux/packaging/rpm/cfg2html.spec
+
+    fix: Turn off the shebang checking in our scripts.
+         On version 8 Redhat-based systems, proper shebang (#!) settings are now required.
+         Since our scripts are callable by bash or ksh by various operating
+         systems, having an empty shebang is deemed necessary.  This change
+         undefines the verification macro that rpmbuild uses.
+- Add: *.diff *.patch. [roseswe]
+- Fix_duplicate_lsof_display. [Ed Drouillard]
+- Testmaster (#146) [Ralph Roth, edrulrd]
+
+  * chg: cfg2html
+
+    fix: repair re-invocation of the program to ensure the proper shell is used
+
+  * chg: linux/cfg2html-linux.sh
+
+     chg: don't put stderr messages in the logfile for lsb_release and lsof commands
+     chg: don't put stderr messages in the logfile for setserial command if missing
+     chg: use the --sort option on the ps command to get properly sorted output
+
+  * chg: linux/cfg2html-linux.sh
+
+    chg: address issue #45 concerning the use of /etc/alternatives.
+         This change lists the executable files in the PATH that are referenced by
+         /etc/alternatives, but much more.  Given that the requester implied
+         that what was desired to be seen were the files that are referenced
+         in the PATH, the implemented change does the following:
+         a) Shows the PATH that the cfg2html program was invoked with.  This is
+           deemed to be useful in case the sysadmin running the program
+           wants to document what the usual path for the invoking user (i.e root)
+           normally has.
+         b) Then the PATH that this program is using internally is shown. The
+            internal PATH command is constructed using directories that are
+            usually on every system (core path), followed by directories that
+            are found on this particular system (secondary path list).
+         c) If the LOCALPATH variable is set to a colon separated list of
+           directories, the definition of this variable is next shown.
+         d) Following this, all the executable files in the PATH or LOCALPATH,
+           if defined, are listed in the order that they would be found.  Thus
+           if a filename appears in the PATH directories more than once, only
+           the first instance of the file is listed.  This effectively mimics
+           the $(which) command on every executable file in the PATH (or LOCALPATH).
+    fix: since /usr/kerberos/sbin is not present on all systems, it was removed
+         from the core path that root uses, and added to the optional secondary
+         list and added to the PATH only if it is present.
+    chg: 2 new switches were added as options when the program is invoked.
+         -x and -O can now be specified to not show the list of executable files
+         in the PATH in case this is not desired, and the ability now exists to
+         not display the list of files that have been deleted but are still open.
+    fix: adjusted the options (while getopts) switches to not require that an
+         argument be supplied for the -A (Altiris) collection.  Even if an
+         argument was supplied, the program ignored it.
+    fix: don't generate an error message if the hplog command is not present when
+         switch -p is enabled.
+
+  chg: linux/etc/default.conf
+
+    chg: added 2 new switches
+         -x - don't display the list of files in the PATH
+         -O - don't display the list of files that are open but deleted
+    fix: recover the ability to set the output location for the generated
+         files by using environment variable "OUTDIR"
+    fix: change the specification of some variables from $xyz to ${xyz}
+
+  chg: linux/etc/local.conf
+
+    chg: added a commented example entry defining the LOCALPATH variable
+
+  chg: linux/lib/help-functions.sh
+
+    chg: updated usage function (-h)
+
+  * chg: linux/doc/cfg2html.8
+
+    chg: enhanced the cfg2html.8 man page
+- Feature request by AB implemented. [roseswe]
+- 1 Fixes for make_index.sh (see issue #144) package 2 Fixes for
+  regression in cfg2html-linux and crontab collecting. [roseswe]
+- Update cfg2html-linux.sh. [unclethom42]
+
+  fix curly brackets on variables in custom plugins section
 - Merge branch 'master' into master. [Ralph Roth]
 
 
