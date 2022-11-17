@@ -47,3 +47,8 @@ aix-rpm:
 
 aix-dist:
 	make -C aix dist
+
+changelog:
+	gitchangelog > CHANGELOG.md
+	git commit -s -m "chg: Updated Changelog (by Makefile)" CHANGELOG.md
+	cat CHANGELOG.md
