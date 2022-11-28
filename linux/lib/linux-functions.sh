@@ -12,14 +12,14 @@ function HostNames {
 
     if [ "$(which dnsdomainname 2>/dev/null)" ]; then
          if [ "$(dnsdomainname)" ]; then
-              echo "DNS Domainname  =  $(dnsdomainname 2>&1)" 
+              echo "DNS Domainname  =  $(dnsdomainname 2>&1)"
          else
               echo 'DNS Domainname  =  <no result returned/null>'
          fi
 	 # -v option on dnsdomainname not available everywhere, -V sometimes used # modified on 20201021 by edrulrd
          dnsdomainname -v 1> /dev/null 2>&1 # don't write out anything, only get return code
          if [ $? -eq 0 ]
-           then 
+           then
              echo "DNS Domainname version  = $(dnsdomainname -v 2>&1)"
            else
              echo "DNS Domainname Version  = $(dnsdomainname -V 2>&1)"
@@ -34,7 +34,7 @@ function HostNames {
     echo  "Hostname (aliases) = "`hostname -a`
     echo  "Hostname (domain)  = "`hostname -d`
     echo  "Hostname (IPaddr)  = "`hostname -i`
-    echo  "Hostname (all IPs) = "`hostname -I`
+    #echo  "Hostname (all IPs) = "`hostname -I`  ## FIXME, not available under SLES1x
 }
 
 function posixversion {
@@ -147,11 +147,11 @@ function DoSmartInfo {
     echo ""
 
     echo "Details:"
-    PHYS_DRIVES=`${FDISKCMD} -l 2>&1 | sort -u | \
+    PHYS_DRIVES=$(${FDISKCMD} -l 2>&1 | sort -u | \
         ${GREPCMD} "^Disk " | \
         ${GREPCMD} -vE "md[0-9]|identifier:|doesn't contain a valid" | \
         ${SEDCMD} -e "s/:.*$//" |  \
-        ${AWKCMD} '{print $2}'`
+        ${AWKCMD} '{print $2}')
 
     for drive in ${PHYS_DRIVES}
     do
@@ -305,3 +305,5 @@ function GetElevator {
         echo $i": "$(cat $i)
     done
 }
+
+#* END *#

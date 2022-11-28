@@ -194,7 +194,7 @@ fi
 [ $(which logger) ] && export _logger="$(which logger)" || export _logger='echo'   # [20200311] {jcw} Aliased logger, just in case.
 ${_logger} "1st Start of cfg2html-linux ${VERSION}"
 RECHNER=$(hostname)         # `hostname -f`
-VERSION_=`echo ${VERSION}/${RECHNER}|tr " " "_"`
+VERSION_=$(echo "${VERSION}/${RECHNER}"|tr " " "_")
 typeset -i HEADL=0                      # Headinglevel
 
 #
@@ -262,7 +262,7 @@ inc_heading_level
   PhysHost='TRUE'               # General term. Default, and its state is kept beyond this section. Assumed TRUE at the beginning.  TRUE indicates NO   form of Virt Guest.
   VirtMach='false'              # General term. Default, and its state is kept beyond this section. Assumed false at the beginning. TRUE indicates SOME form of Virt Guest.
 
-  # These are flags indicating if anything related to their vitrualization-type has been found (or not).
+  # These are flags indicating if anything related to their virtualization-type has been found (or not).
   # Searching for •virtual' by itself is a bad start, as there are numerous exceptions, non-virtualization related. VMdom0= 11false 11 # term was positively found; Xen-related
   VMdomU='false'                # term was positively found; Xen-related
   VMkvm='false'                 # 'kvm' term was positively found.
@@ -296,10 +296,10 @@ inc_heading_level
       fi
 
       # These are only indented this way so as to visually distinguish them; there is no desire/need to if-then-else them!
-      if [ -n "${DMESG}" -a "$(${DMESG} | grep -i ${VIRTs})" ]; then # typo fixed on 20201004 by edrulrd
-           # Using the 'dmesg' command is useful for some number of days after the system was last booted; # typo fixed on 20201004 by edrulrd
+      if [ -n "${DMESG}" ] && [ "$(${DMESG} | grep -i ${VIRTs})" ]; then
+           # Using the 'dmesg' command is useful for some number of days after the system was last booted;
            # beyond that, the /var/log/dmesg file is a good alternate datapoint.
-           if [ ! "$(${DMESG} | grep 'Booting paravirtualized kernel on bare hardware')" ]; then # typo fixed on 20201004 by edrulrd
+           if [ ! "$(${DMESG} | grep 'Booting paravirtualized kernel on bare hardware')" ]; then
                 # This exception catches the one case of installing RHEL/CentOS on a real physical machine.  This IS properly/necessarily nested!
                 VIRTterm='TRUE'
                 VIRTdc='TRUE'
@@ -321,7 +321,7 @@ inc_heading_level
       fi
 
       if [ -n "${LSPCI}" ] && [ "$(${LSPCI} -v | grep -i ${VIRTs})" != "" ]; then # modified on 20201004 by edrulrd
-           # Value is established up above; '-v' to lscpi command provides verbosity. # typo fixed on 20201004 by edrulrd
+           # Value is established up above; '-v' to lscpi command provides verbosity.
            VIRTterm='TRUE'
            VIRTls='TRUE'
       fi
@@ -1164,7 +1164,7 @@ inc_heading_level
 
   if [ -x /usr/sbin/xpinfo ]
   then
-    XPINFOFILE=${OUTDIR}/`hostname`_xpinfo.csv
+    XPINFOFILE="${OUTDIR}/$(hostname)_xpinfo.csv"
     /usr/sbin/xpinfo -d";" | grep -v "Scanning" > ${XPINFOFILE}
 
     AddText "The XP-Info configuration was additionally dumped into the file <b>${XPINFOFILE}</b> for further usage"
@@ -1382,7 +1382,7 @@ inc_heading_level
 	    MD_DEV=$(grep "ARRAY" ${MD_FILE} | awk '{print $2;}')
 	    #         stderr output from "/sbin/mdadm --detail ":   ## SLES 11
 	    #         mdadm: No devices given.
-	    for d in "${MD_DEV}"
+	    for d in "${MD_DEV}"    # FIXNEEDED: SC2066
 	    do
 		exec_command "${MD_CMD} --detail ${d}" "MD Device Setup of ${d}"
 	    done
