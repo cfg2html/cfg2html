@@ -7,6 +7,18 @@ Changelog
 
 Fix
 ~~~
+- Shellcheck fixes. [roseswe]
+
+
+6.43.1 (2022-11-17)
+-------------------
+
+Changes
+~~~~~~~
+- Updated Changelog (by Makefile) [roseswe]
+
+Fix
+~~~
 - Debian build run fixes, prettyfied progs_using_swap.sh. [roseswe]
 
 Other
