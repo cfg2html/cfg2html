@@ -2,7 +2,7 @@
 #
 # @(#) $Id: cfg2html-linux.sh,v 6.65 2020/10/29 13:19:54 ralph Exp $
 # -----------------------------------------------------------------------------------------
-# (c) 1997-2022 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
+# (c) 1997-2023 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
 #     Further modified by Joe Wulf:  20200407@1432.
 
 #  If you change this script, please mark your changes with for example

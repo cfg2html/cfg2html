@@ -1,6 +1,6 @@
 # @(#) $Id: cfg2html-aix.sh,v 1.5 2019/03/15 16:45:36 ralph Exp $
 # -----------------------------------------------------------------------------------------
-# (c) 1997-2019 by Ralph Roth  -*- http://rose.rult.at -*-
+# (c) 1997-2023 by Ralph Roth  -*- http://rose.rult.at -*-
 # This version replaces all lower versions e.g.the 2.82 floating around!
 
 #  If you change this script, please mark your changes with for example

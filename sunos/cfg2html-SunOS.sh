@@ -1,6 +1,6 @@
 # @(#) $Id: cfg2html-SunOS.sh,v 1.5 2014/05/20 10:41:38 dusan Exp dusan $
 # -----------------------------------------------------------------------------------------
-# (c) 1997-2014 by Ralph Roth  -*- http://rose.rult.at -*-
+# (c) 1997-2023 by Ralph Roth  -*- http://rose.rult.at -*-
 
 #  If you change this script, please mark your changes with for example
 #  ## <username> and send your diffs from the actual version to my mail
