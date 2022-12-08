@@ -739,7 +739,15 @@ inc_heading_level
 
   ###  Made by Dusan.Baljevic@ieee.org ### 16.03.2014
   if [ -x /usr/sbin/authconfig ] ; then
-    exec_command "/usr/sbin/authconfig --test" "System authentication resources"
+    ### Cope with change to authselect in RHEL 8. Omits section if no profile selected. j0hn-c0nn0r 27/01/22 ###
+    if [ -x /bin/authselect ] ; then
+      if [[ $(/bin/authselect current) =~ 'Profile ID' ]] ; then
+        ACPROFILE=$(/bin/authselect current | grep 'Profile ID' | cut -d' ' -f 3-)
+        exec_command "(/bin/authselect current; echo; /bin/authselect test '${ACPROFILE}')" "System authentication resources"
+      fi
+    else
+      exec_command "/usr/sbin/authconfig --test" "System authentication resources"
+    fi
   fi
 
   if [ -x /usr/sbin/pwck ] ; then
