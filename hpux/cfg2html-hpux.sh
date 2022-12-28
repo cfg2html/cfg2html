@@ -1,7 +1,7 @@
 #!/usr/bin/ksh
 #
 # cfg2html for HP-UX 11.31
-# @(#) $Id: cfg2html-hpux.sh,v 6.25 2019/03/30 15:21:18 ralph Exp $
+# @(#) $Id: cfg2html-hpux.sh,v 6.26 2022/12/28 16:01:35 ralph Exp $
 # -------------------------------------------------------------------------
 # vim:ts=8:sw=4:sts=4
 
@@ -123,7 +123,7 @@ LANG_C
 # ---------------------------------------------------------------------------
 
 line
-echo "Starting          "$PROGRAM $VERSION" on a "$(model) box
+echo "Starting          "$PROGRAM $VERSION" on a "$(model)" box"
 echo "Path to cfg2Html  "$0
 echo "Path to plug-ins  "$PLUGINS "Arch=$CFG_ARCH"
 echo "HTML Output File  "$HTML_OUTFILE
@@ -648,7 +648,7 @@ $(UNIX95= ps -ef | grep ioscan | grep -v grep)"
     fi
     if [ -x /sbin/autopath ]  # SureStore XP/P9500
     then
-	[ -f /etc/rc.config.d/autopathmapping] && exec_command "cat /etc/rc.config.d/autopathmapping" "SecurePath rc.config.d configuration"
+	[ -f /etc/rc.config.d/autopathmapping ] && exec_command "cat /etc/rc.config.d/autopathmapping" "SecurePath rc.config.d configuration"
 	[ -f /sbin/init.d/autopathinit ] && cat_and_grep "/sbin/init.d/autopathinit" "SecurePath init file"
 	[ -f /sbin/init.d/autopathmapping ] && cat_and_grep "/sbin/init.d/autopathmapping" "SecurePath mapping file"
 	exec_command "/sbin/autopath display all" "SecurePath Active Paths"
@@ -891,7 +891,7 @@ then # else skip to next paragraph
     # then ...) so no LVM information gets to output file. With LVM 2.0 all
     # configuration is stored in /etc/lvmtab_p.
 
-    if  `strings /etc/lvmtab* |grep -q ^/dev/d`
+    if  $(strings /etc/lvmtab* |grep -q ^/dev/d)
     then
         AddText "The system file layout is configured using the LVM (Logical Volume Manager)"
 
@@ -1151,7 +1151,7 @@ then # else skip to next paragraph
 
         ([ -c /dev/fcms* ] || [ -c /dev/td* ]) && exec_command $PLUGINS/get_fcold.sh "Fibre Channel Card Statistics (old Adapter)"
 
-        if [ `ls /dev/td* /dev/fcd* /dev/fclp* /dev/fcms* 2>/dev/null | wc -l` != 0 ]
+        if [ $(ls /dev/td* /dev/fcd* /dev/fclp* /dev/fcms* 2>/dev/null | wc -l) != 0 ]
         then
             exec_command $PLUGINS/get_fc.sh "Fibrechannel Interface Information" # changed/added 25.07.2003 (11:17) by Ralph Roth, HP, ASO SW
         fi
