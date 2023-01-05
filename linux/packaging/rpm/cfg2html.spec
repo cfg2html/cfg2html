@@ -1,5 +1,5 @@
 # I hope these variable are replaced by the make process .... ##TODO##FIXME## 20150212 by Ralph Roth
-%define rpmrelease .git201312020913
+%define rpmrelease .git202301050913
 
 ### Work-around the fact that OpenSUSE/SLES _always_ defined both :-/
 %if 0%{?sles_version} == 0
@@ -11,15 +11,15 @@
 %undefine __brp_mangle_shebangs
 
 Name:		cfg2html
-Version: 6.16
+Version: 6.43
 Release:	1%{?rpmrelease}%{?dist}
 Summary:	Config2HTML is a tool to collect system information in HTML and ASCII format
 
 Group:		Applications/File
 License:	GPL-3.0-or-later
 URL:		http://www.cfg2html.com/
-Source: cfg2html-6.16-git201312020913.tar.gz
-#Source1:	%{name}.cron
+Source: cfg2html-6.43-git202301050913.tar.gz
+#Source1:	%%{name}.cron
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:	noarch
 
@@ -61,7 +61,12 @@ Swiss army knife script for the System Administrators as it was primarily writte
 
 
 %changelog
+* Thu Jan 05 2023 Frank Crawford <frank@crawford.emu.id.au> - 6.43
+  - SPDX licences update
+  - Fix up comments
+
 * Wed May  29 2013 Gratien D'haese <gratien.dhaese@gmail.com> - 6.0
-  update cron lines
+  - update cron lines
+
 * Wed May  01 2013 Gratien D'haese <gratien.dhaese@gmail.com>
-  initial spec file for cfg2html
+  - initial spec file for cfg2html
