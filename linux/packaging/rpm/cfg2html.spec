@@ -16,7 +16,7 @@ Release:	1%{?rpmrelease}%{?dist}
 Summary:	Config2HTML is a tool to collect system information in HTML and ASCII format
 
 Group:		Applications/File
-License:	GPLv3
+License:	GPL-3.0-or-later
 URL:		http://www.cfg2html.com/
 Source: cfg2html-6.16-git201312020913.tar.gz
 #Source1:	%{name}.cron
