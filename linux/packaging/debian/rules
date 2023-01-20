@@ -10,11 +10,9 @@
 
 # Uncomment this to turn on verbose mode.
 export DH_VERBOSE=1
-export BASE=.
 
 # This is the debhelper compatibility version to use.
-# five or nine????
-# export DH_COMPAT=9
+# export DH_COMPAT=10
 
 # dh_installdeb: Compatibility levels before 4 are deprecated.
 
@@ -78,11 +76,11 @@ binary-indep: build
 		ln -s ../debian . ; \
 		ls -l ; \
 		ls -lR etc/ ; cd .. ; \
-		BASE=linux ; \
 	fi
 
-	# copy cfg2html components into directories
+	# copy cfg2html components into directories (on OBS pwd=/usr/src/packages/BUILD)
 	pwd
+
        # This triggers issue #35 on the SUSE OBS environment ....
        # [   77s] cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/cfg2html/
        # [   77s] cp: cannot stat `etc/default.conf': No such file or directory
@@ -90,13 +88,25 @@ binary-indep: build
        # /usr/share/cfg2html/etc when installed and not into /usr/share/cfg2html/etc/cfg2html
        # If SUSE needs it where it was, we can put it in both places
 	#cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/cfg2html
-	cp -av $$BASE/etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/
-	cp -av $$BASE/etc/local.conf debian/cfg2html/etc/cfg2html/
-	cp -av ../cfg2html debian/cfg2html/usr/sbin/
-	cp -av $$BASE/cfg2html-linux.sh debian/cfg2html/usr/share/cfg2html/
-	cp -avLr $$BASE/lib debian/cfg2html/usr/share/cfg2html/
-	cp -av $$BASE/plugins debian/cfg2html/usr/share/cfg2html/
-	cp -avr $$BASE/contrib debian/cfg2html/usr/share/cfg2html/
+	if [ $$(basename $$(pwd)) = "BUILD" ]; then \
+	    cp -av linux/etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/ ; \
+	    cp -av linux/etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/ ; \
+	    cp -av linux/etc/local.conf debian/cfg2html/etc/cfg2html/ ; \
+	    cp -av ./cfg2html debian/cfg2html/usr/sbin/ ; \
+	    cp -av linux/cfg2html-linux.sh debian/cfg2html/usr/share/cfg2html/ ; \
+	    cp -avLr linux/lib debian/cfg2html/usr/share/cfg2html/ ; \
+	    cp -av linux/plugins debian/cfg2html/usr/share/cfg2html/ ; \
+	    cp -avr linux/contrib debian/cfg2html/usr/share/cfg2html/ ; \
+	else  \
+	    cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/ ; \
+	    cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/ ; \
+	    cp -av etc/local.conf debian/cfg2html/etc/cfg2html/ ; \
+	    cp -av ../cfg2html debian/cfg2html/usr/sbin/ ; \
+	    cp -av cfg2html-linux.sh debian/cfg2html/usr/share/cfg2html/ ; \
+	    cp -avLr lib debian/cfg2html/usr/share/cfg2html/ ; \
+	    cp -av plugins debian/cfg2html/usr/share/cfg2html/ ; \
+	    cp -avr contrib debian/cfg2html/usr/share/cfg2html/ ; \
+	fi
 
 	#find debian/cfg2html/usr/share/cfg2html -name '.gitignore' -exec rm -rf {} \;
 
@@ -108,7 +118,11 @@ binary-indep: build
 		debian/cfg2html/usr/sbin/cfg2html
 
 	# update man page with correct locations
-	install -Dp -m0644 $$BASE/doc/cfg2html.8 debian/cfg2html/usr/share/man/man8/cfg2html.8
+	if [ $$(basename $$(pwd)) = "BUILD" ]; then \
+	    install -Dp -m0644 linux/doc/cfg2html.8 debian/cfg2html/usr/share/man/man8/cfg2html.8 ; \
+	else  \
+	    install -Dp -m0644 doc/cfg2html.8 debian/cfg2html/usr/share/man/man8/cfg2html.8 ; \
+	fi
 	sed -i \
 		-e 's#/usr/share/doc/packages#/usr/share/doc#' \
 		debian/cfg2html/usr/share/man/man8/cfg2html.8
