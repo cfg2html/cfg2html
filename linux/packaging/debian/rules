@@ -10,6 +10,7 @@
 
 # Uncomment this to turn on verbose mode.
 export DH_VERBOSE=1
+export BASE=.
 
 # This is the debhelper compatibility version to use.
 # five or nine????
@@ -77,8 +78,8 @@ binary-indep: build
 		ln -s ../debian . ; \
 		ls -l ; \
 		ls -lR etc/ ; cd .. ; \
+		BASE=linux ; \
 	fi
-                # cd ..       ## maybe a bug for issue #35? break the build, rr, 30.01.2018
 
 	# copy cfg2html components into directories
 	pwd
@@ -89,13 +90,13 @@ binary-indep: build
        # /usr/share/cfg2html/etc when installed and not into /usr/share/cfg2html/etc/cfg2html
        # If SUSE needs it where it was, we can put it in both places
 	#cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/cfg2html
-	cp -av linux/etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/
-	cp -av linux/etc/local.conf debian/cfg2html/etc/cfg2html/
-	cp -av ./cfg2html debian/cfg2html/usr/sbin/
-	cp -av linux/cfg2html-linux.sh debian/cfg2html/usr/share/cfg2html/
-	cp -avLr linux/lib debian/cfg2html/usr/share/cfg2html/
-	cp -av linux/plugins debian/cfg2html/usr/share/cfg2html/
-	cp -avr linux/contrib debian/cfg2html/usr/share/cfg2html/
+	cp -av $$BASE/etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/
+	cp -av $$BASE/etc/local.conf debian/cfg2html/etc/cfg2html/
+	cp -av ../cfg2html debian/cfg2html/usr/sbin/
+	cp -av $$BASE/cfg2html-linux.sh debian/cfg2html/usr/share/cfg2html/
+	cp -avLr $$BASE/lib debian/cfg2html/usr/share/cfg2html/
+	cp -av $$BASE/plugins debian/cfg2html/usr/share/cfg2html/
+	cp -avr $$BASE/contrib debian/cfg2html/usr/share/cfg2html/
 
 	#find debian/cfg2html/usr/share/cfg2html -name '.gitignore' -exec rm -rf {} \;
 
@@ -107,7 +108,7 @@ binary-indep: build
 		debian/cfg2html/usr/sbin/cfg2html
 
 	# update man page with correct locations
-	install -Dp -m0644 linux/doc/cfg2html.8 debian/cfg2html/usr/share/man/man8/cfg2html.8
+	install -Dp -m0644 $$BASE/doc/cfg2html.8 debian/cfg2html/usr/share/man/man8/cfg2html.8
 	sed -i \
 		-e 's#/usr/share/doc/packages#/usr/share/doc#' \
 		debian/cfg2html/usr/share/man/man8/cfg2html.8
