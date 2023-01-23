@@ -1,4 +1,4 @@
-cfg2html (6.41.1) UNRELEASED; urgency=low
+cfg2html (6.44.1) UNRELEASED; urgency=low
 
   [ Ralph Roth ]
   * 6.13 upstream
@@ -18,8 +18,10 @@ cfg2html (6.41.1) UNRELEASED; urgency=low
   * Upstream (github) is now at 6.35.1
   * small fixes 
   * Bumped version to 6.41.1 (all fixes and enhancements applied from github)
+  * Bumped version to 6.44.1 (all fixes and enhancements applied from github) - Jan. 2022
+   
 
- -- ralph <ralph@roth8>  Fri, 19 Jun 2020 10:46:34 +0200
+ -- ralph <ralph@roth8>  Mon, 23 Jan 2023 11:33:09 +0100
 
 cfg2html (6.11) unstable; urgency=low
 
