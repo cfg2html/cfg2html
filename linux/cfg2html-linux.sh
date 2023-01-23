@@ -9,7 +9,7 @@
 #  ## <username> and send your diffs from the actual version to my mail
 #  address: cfg2html*hotmail.com -- details see in the documentation
 
-CFGSH=$_
+CFGSH=$_  ### CFGSH appears unused. Verify use (or export if used externally).
 # unset "-set -vx" for debugging purpose (use set +vx to disable); NOTE: After the 'exec 2>' statement all debug info will go the errorlog file (*.err)
 # set -vx
 # *vim:numbers:ruler
@@ -82,7 +82,7 @@ CFGSH=$_
      # echo "PATH is:  (${PATH})."  # Debug.
 unset BuiltPath CorePath PathMgmt ScndryPaths ShoptExtglob
 
-DtFmt='+%Y%m%d@%H%M'; DtFmts='+%Y%m%d@%H%M%S' # [20200312] {jcw} Useful date formats.
+DtFmt='+%Y%m%d@%H%M'; DtFmts='+%Y%m%d@%H%M%S' # [20200312] {jcw} Useful date formats. DtFmt appears unused. Verify use (or export if used externally).
 
 _VERSION="cfg2html-linux version ${VERSION} "  # this a common stream so we don?t need the "Proliant stuff" anymore
 
@@ -95,7 +95,7 @@ do
   case ${Option} in
     o     ) OUTDIR=${OPTARG};;
     v     ) echo ${_VERSION}"// $(uname -mrs)"; exit 0;; ## add uname output, see YG MSG 790 ##
-    h     ) echo ${_VERSION}; usage; exit 0;;
+    h|?   ) echo ${_VERSION}; usage; exit 0;;
     s     ) CFG_SYSTEM="no";;
     x     ) CFG_PATHLIST="no";; # don't generate the list of executables in the PATH # added on 20201025 by edrulrd
     O     ) CFG_LSOFDEL="no";; # skip showing the list of open files that have been deleted # added on 20201026 by edrulrd
@@ -223,6 +223,7 @@ echo "HTML Output File:  "${HTML_OUTFILE}
 echo "Text Output File:  "${TEXT_OUTFILE}
 echo "Partitions:        "${OUTDIR}/${BASEFILE}.partitions.save
 echo "Errors logged to:  "${ERROR_LOG}
+# echo "Commandline:        ${*}"            ## for issue #154, seems not to be exported?
 
 # [20200312] {jcw} Helpful docs for [ .vs. [[ at:
 #            https://unix.stackexchange.com/questions/32210/why-does-parameter-expansion-with-spaces-without-quotes-work-inside-double-brack
@@ -332,7 +333,7 @@ inc_heading_level
                 # Is one way to determine it.
                 ESXhost='TRUE'
            else
-                if [ -n "${DMESG}" -a "$(${DMESG} | grep -i vmxnet)" != "" ] || [ -n "${DMIDECODE}" -a "$(${DMIDECODE} | grep -i vmxnet)" != "" ]; then # modified on 20201004 by edrulrd
+                if [ -n "${DMESG}" -a "$(${DMESG} | grep -i vmxnet)" != "" ] || [ -n "${DMIDECODE}" -a "$(${DMIDECODE} | grep -i vmxnet)" != "" ]; then # modified on 20201004 by edrulrd, Prefer [ p ] && [ q ] as [ p -a q ] is not well defined.
                      VIRTterm='TRUE'
                 fi
                 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Have to add options to check sytemctl, too.
@@ -1390,9 +1391,9 @@ inc_heading_level
 	    MD_DEV=$(grep "ARRAY" ${MD_FILE} | awk '{print $2;}')
 	    #         stderr output from "/sbin/mdadm --detail ":   ## SLES 11
 	    #         mdadm: No devices given.
-	    for d in "${MD_DEV}"    # FIXNEEDED: SC2066
+	    for d in ${MD_DEV}    # FIXNEEDED: SC2066
 	    do
-		exec_command "${MD_CMD} --detail ${d}" "MD Device Setup of ${d}"
+        exec_command "${MD_CMD} --detail ${d}" "MD Device Setup of ${d}"
 	    done
 	else
 	    AddText "${MD_FILE} exists but no ${MD_CMD} command"
@@ -1463,7 +1464,7 @@ then # else skip to next paragraph
     # WONT WORK WITH HP RAID!
     LVMFDISK=$(/sbin/fdisk -l | grep "LVM$")
 
-    if  [ -n "${LVMFDISK}" -o -s /etc/lvmtab -o /etc/lvm/lvm.conf ]   # This expression is constant. Did you forget a $ somewhere?
+    if  [ -n "${LVMFDISK}" -o -r /etc/lvmtab -o -r /etc/lvm/lvm.conf ]   # This expression is constant. Did you forget a $ somewhere?
     then # <m>  11.03.2008, 1158 -  Ralph Roth
         vgdisplay -s > /dev/null 2>&1 #  10032008 modified by Ralph.Roth
         # due to LVM2 (doesn't use /etc/lvmtab anymore), but should be compatible to LVM1; A. Kumpf
