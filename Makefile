@@ -49,6 +49,8 @@ aix-dist:
 	make -C aix dist
 
 changelog:
+        # HINT: git config gitchangelog.rc-path /home/ralph/bin/_.gitchangelog.rc
 	gitchangelog > CHANGELOG.md
 	git commit -s -m "chg: Updated Changelog (by Makefile)" CHANGELOG.md
 	cat CHANGELOG.md
+
