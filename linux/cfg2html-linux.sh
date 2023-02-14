@@ -13,6 +13,7 @@ CFGSH=$_  ### CFGSH appears unused. Verify use (or export if used externally).
 # unset "-set -vx" for debugging purpose (use set +vx to disable); NOTE: After the 'exec 2>' statement all debug info will go the errorlog file (*.err)
 # set -vx
 # *vim:numbers:ruler
+# shellcheck disable=SC2034,SC2154
 
 # ---------------------------------------------------------------------------
 # NEW VERSION - v6/github/GPL
@@ -95,7 +96,7 @@ do
   case ${Option} in
     o     ) OUTDIR=${OPTARG};;
     v     ) echo ${_VERSION}"// $(uname -mrs)"; exit 0;; ## add uname output, see YG MSG 790 ##
-    h|?   ) echo ${_VERSION}; usage; exit 0;;
+    h     ) echo ${_VERSION}; usage; exit 0;;  ## regression, issue #165
     s     ) CFG_SYSTEM="no";;
     x     ) CFG_PATHLIST="no";; # don't generate the list of executables in the PATH # added on 20201025 by edrulrd
     O     ) CFG_LSOFDEL="no";; # skip showing the list of open files that have been deleted # added on 20201026 by edrulrd
@@ -116,7 +117,7 @@ do
     1     ) CFG_DATE="_"$(date +%d-%b-%Y) ;;
     0     ) CFG_DATE="_"$(date +%d-%b-%Y-%H%M) ;;
     T     ) CFG_TRACETIME="yes";;   # show each exec_command with timestamp
-    *     ) echo "Unimplemented option chosen. Try -h for help!"; exit 1;;   # DEFAULT
+    *     ) echo "Unimplemented command line option chosen. Try -h for help!"; exit 1;;   # DEFAULT
   esac
 done
 
@@ -177,8 +178,8 @@ fi
 touch ${HTML_OUTFILE}
 #echo "Starting up ${VERSION}\r"
 [ -s "${ERROR_LOG}" ] && rm -f ${ERROR_LOG} 2> /dev/null
-    DATE=`date "+%Y-%m-%d"` # ISO8601 compliant date string
-DATEFULL=`date "+%Y-%m-%d@%H:%M:%S"` # ISO8601 compliant date and time string
+    DATE=$(date "+%Y-%m-%d") # ISO8601 compliant date string
+DATEFULL=$(date "+%Y-%m-%d@%H:%M:%S") # ISO8601 compliant date and time string
 
 # [20200311] {jcw} My comment; this restarts the process from within this same shell; all errors now go to the named log file.
 exec 2> ${ERROR_LOG}
