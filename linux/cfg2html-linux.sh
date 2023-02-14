@@ -1555,7 +1555,8 @@ then # else skip to next paragraph
       LANS=$(netstat -i | tail -n+3 | awk '{print $1}' |grep -v ^lo)	# RR: ifconfig is decrecapted -> use netstat instead (gdha)
       for i in ${LANS}
       do
-	  exec_command "/usr/sbin/ethtool ${i} 2>/dev/null; /usr/sbin/ethtool -i ${i}" "Ethernet Settings for Interface "${i}
+        # netstat is now (2023) also deprecated, see issue #166
+        exec_command "/usr/sbin/ethtool ${i} 2>/dev/null; /usr/sbin/ethtool -i ${i}" "Ethernet Settings for Interface "${i}
       done; unset i
   fi
 
@@ -1571,7 +1572,7 @@ then # else skip to next paragraph
     ## There will always be at least ifcfg-lo.
     exec_command "for CfgFile in /etc/sysconfig/network-scripts/ifcfg-*; do printf \"\n\n\$(basename \${CfgFile}):\n\n\"; cat \${CfgFile}; done" "LAN Configuration Files"
     ## Check first that any route-* files exist # modified on 20201005 by edrulrd
-### # [20200319] {jcw} See if I can put this as a multi-line command.
+    ### # [20200319] {jcw} See if I can put this as a multi-line command.
     exec_command "if [ $(find /etc/sysconfig/network-scripts/ -name route-* -print |wc -l) -gt 0 ]; then for RouteCfgFile in /etc/sysconfig/network-scripts/route-*; do printf \"\n\n\$(basename \${RouteCfgFile}):\n\n\"; cat \${RouteCfgFile}; done; fi" "Route Configuration Files" # modified on 20201005 by edrulrd
   fi
   ## End Marc Korte display ethernet LAN config files.
@@ -1584,37 +1585,37 @@ then # else skip to next paragraph
     exec_command "netstat -r" "Routing Tables"
     exec_command "ip neigh" "Network Neighborhood"      #  07.11.2011, 21:38 modified by Ralph Roth #* rar *#
 
-  NETSTAT=`which netstat`
+  NETSTAT=$(which netstat)
   if [ ${NETSTAT} ]  && [ -x ${NETSTAT} ]; then
-      # test if netstat version 1.38, because some options differ in older versions
-      # MiMe: '\' auf awk Zeile wichtig
-      RESULT=`netstat -V | awk '/netstat/ {
-	  if ( $2 < 1.38 ) {
-	    print "NO"
-	  } else { print "OK" }
-	}'`
+    # test if netstat version 1.38, because some options differ in older versions
+    # MiMe: '\' auf awk Zeile wichtig
+    RESULT=$(netstat -V | awk '/netstat/ {
+      if ( $2 < 1.38 ) {
+        print "NO"
+      } else { print "OK" }
+    }')
 
-      #exec_command "if [ "${RESULT}" = "OK" ] ; then netstat -gi; fi" "Interfaces"
-      if [ "${RESULT}" = "OK" ]
-	then
-	  exec_command "netstat -gi" "Interfaces"
-	  exec_command "netstat -tlpn" "TCP Daemons accepting connection"
-	  exec_command "netstat -ulpn" "UDP Daemons accepting connection"
-	fi
+    #exec_command "if [ "${RESULT}" = "OK" ] ; then netstat -gi; fi" "Interfaces"
+    if [ "${RESULT}" = "OK" ]
+    then
+      exec_command "netstat -gi" "Interfaces"
+      exec_command "netstat -tlpn" "TCP Daemons accepting connection"
+      exec_command "netstat -ulpn" "UDP Daemons accepting connection"
+    fi
 
-      exec_command "netstat -s" "Summary statistics for each protocol"
-      [ -x /usr/sbin/nstat ] && exec_command "/usr/sbin/nstat" "Other Network statistics" # gdha, 13/oct/2014 #47
-      exec_command "netstat -i" "Kernel Interface table"
-      # MiMe: iptables since 2.4.x
-      # MiMe: iptable_nat realisiert dabei das Masquerading
-      # MiMe: Details stehen in /proc/net/ip_conntrack
-      if [ -e /proc/net/ip_masquerade ]; then
-	exec_command "netstat -M" "Masqueraded sessions"
-      fi
-      if [ -e /proc/net/ip_conntrack ]; then
-	exec_command "cat /proc/net/ip_conntrack" "Masqueraded sessions"
-      fi
-      exec_command "netstat -an" "list of all sockets"
+    exec_command "netstat -s" "Summary statistics for each protocol"
+    [ -x /usr/sbin/nstat ] && exec_command "/usr/sbin/nstat" "Other Network statistics" # gdha, 13/oct/2014 #47
+    exec_command "netstat -i" "Kernel Interface table"
+    # MiMe: iptables since 2.4.x
+    # MiMe: iptable_nat realisiert dabei das Masquerading
+    # MiMe: Details stehen in /proc/net/ip_conntrack
+    if [ -e /proc/net/ip_masquerade ]; then
+      exec_command "netstat -M" "Masqueraded sessions"
+    fi
+    if [ -e /proc/net/ip_conntrack ]; then
+      exec_command "cat /proc/net/ip_conntrack" "Masqueraded sessions"
+    fi
+    exec_command "netstat -an" "list of all sockets"
   fi  ## netstat
   # -----------------------------------------------------------------------------
   if [ -x /usr/sbin/ss ]
