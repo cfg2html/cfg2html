@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# @(#) $Id: cfg2html-linux.sh,v 6.65 2020/10/29 13:19:54 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.68 2023/02/15 11:10:05 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2023 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
 #     Further modified by Joe Wulf:  20200407@1432.
