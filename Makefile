@@ -1,4 +1,4 @@
-# @(#) $Id: Makefile,v 6.22 2023/02/15 11:07:45 ralph Exp $
+# @(#) $Id: Makefile,v 6.23 2023/03/20 13:28:22 ralph Exp $
 # Makefile to create HP-UX software depot, AIX, FreeBSD, SunOS or Linux .DEB and .RPM packages etc.
 # -------------------------------------------------------------------------------------------------
 # -*- coding: utf-8, LF/Unix -*-
