@@ -7,6 +7,16 @@ Changelog
 
 Changes
 ~~~~~~~
+- Small changes for version number 7.0.0. [roseswe]
+
+
+7.0.0 (2023-03-20)
+------------------
+
+Changes
+~~~~~~~
+- ReadMe, Changelog. [roseswe]
+- Updated Changelog (by Makefile) [roseswe]
 - Headers bumped, ReadMe changed. [roseswe]
 - MakeIndex - ShellCheck fixes. [roseswe]
 - Reformated/documented issue #166. [roseswe]
