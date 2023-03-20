@@ -2,17 +2,17 @@
 
 ## Overview
 
-**cfg2html** is a little utility to collect the necessary system configuration files and system set-up to an ASCII file and HTML file. Simple to use and very helpful in disaster recovery situations. cfg2html is written entirely in the native language for system administration: as shell scripts. Experienced users and system admins can adapt or extend the cfg2html scripts to make it work for their particular cases either by using the plugin framework or by modifying the source code.
+**cfg2html** is a small utility for collecting the necessary system configuration files and system setup into an ASCII file and an HTML file. Easy to use and very useful in disaster recovery situations. cfg2html is written entirely in the native language of system administration: as shell scripts. Experienced users and system administrators can adapt or extend the cfg2html scripts to suit their particular needs, either by using the plugin framework or by modifying the source code.
 
 ## Purpose
 
-cfg2html collects the system configuration into an HTML and a text file. cfg2html is the "Swiss Army knife" for the sysadmins. It was written to get all the information needed to plan an update, do basic troubleshooting or performance analysis. As a bonus, cfg2html creates a nice HTML and simple plain ASCII documentation of your system.
+cfg2html collects the system configuration into one HTML and one text file. cfg2html is the sysadmin's Swiss Army knife. It was written to get all the information needed to plan an update, do basic troubleshooting or performance analysis. As a bonus, cfg2html produces a nice HTML and simple plain ASCII documentation of your system.
 
-This include the collection of Cron and At, installed Hardware, installed Software, Filesystems, Dump- and Swap-configuration, LVM, Network Settings, Kernel, System enhancements and Applications, Subsystems.
+This includes the collection of cron and at, installed hardware, installed software, file systems, dump and swap configuration, LVM, network settings, kernel, system extensions, applications and subsystems.
 
 ## Where to get cfg2html
 
-The first versions of cfg2html were written for HP-UX. Meanwhile the cfg2html HP-UX stream was ported to all major *NIX platforms and small embedded systems. cfg2html works on Linux, HP-UX, SunOS, AIX etc.
+The first versions of cfg2html were written for HP-UX. Meanwhile the cfg2html HP-UX stream has been ported to all major *NIX platforms and small embedded systems. cfg2html works on Linux, HP-UX, SunOS, AIX etc. The HP-UX version is now deprecated!
 
 See our GitHub Source development tree <https://github.com/cfg2html/cfg2html> and clone it to your system via:
 
@@ -32,6 +32,8 @@ Feel free to open a pull request to fix a problem yourself or to contribute to a
 ## Contributing on GitHub
 
 To contribute to a project that is hosted on GitHub, you can fork the project on github.com, then clone your fork locally, make a change, push back to GitHub and then send us a merge request for your pull, which will email the maintainer.
+
+Please consider to give a star on github to show your support! +1
 
 Please try to keep pull requests as small as possible - one new feature or fix set per pull request is preferred. This makes it easier to review and discuss your contribution.
 
