@@ -7,6 +7,11 @@ Changelog
 
 Changes
 ~~~~~~~
+- Headers bumped, ReadMe changed. [roseswe]
+- MakeIndex - ShellCheck fixes. [roseswe]
+- Reformated/documented issue #166. [roseswe]
+- Hint about gitchangelog.rc-path added. [roseswe]
+- Updated Changelog (by Makefile) [roseswe]
 - Debian Chnagelog bumped to version 6.44 for upcoming release. [Ralph
   Roth]
 - Bumped version number for upcoming release 6.44. [Ralph Roth]
