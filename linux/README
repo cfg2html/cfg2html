@@ -153,6 +153,7 @@ of the cfg2html distribution.
 |____/ \___|\___|\__,_|_|  |_|\__|\__, |
                                   |___/
 ---------------------------------------------------------------------------
+
 For security reasons it is better to store the HTML and ASCII files in a safe
 place where only root user have access. Then remove the files from your file
 system.
@@ -187,32 +188,32 @@ system.
 |_| \___/_|  \__\___\__,_|   \_/\___|_| /__/_\___/_||_/__/
 ------------------------------------------------------------------
 
-For your information, there are also ported *NIX versions available
-on the web page for free downloading!
+For your information, there are also ported *NIX versions available on the web
+page for free downloading!
 
 Maintainer of the different versions
 
-HP-UX              :  Ralph Roth
-                      Contributors: Thomas Brix, Martin Kalmbach
+HP-UX            : Ralph Roth
+                   Contributors: Thomas Brix, Martin Kalmbach
 
-Linux port         :  Michael Meifert
-                      Contributors: Michael Meier,
-                      Linux (debian/hppa): Ralph Roth
+Linux port       : Michael Meifert
+                   Contributors: Michael Meier,
+                   Linux (debian/hppa): Ralph Roth
 
-                    To check the rpm use:
-                            rpm -qpl cfg2html-linux-6.16-2.noarch.rpm
-                    To check the deb use:
-                            dpkg -c cfg2html-linux_6.16-2_all.deb
+                   To check the rpm use:
+                           rpm -qpl cfg2html-linux-6.16-2.noarch.rpm
+                   To check the deb use:
+                           dpkg -c cfg2html-linux_6.16-2_all.deb
 
-Sun Solaris port   :  Trond Eirik Aune [teaune@online.no]
-                      Testing: Gert.Leerdam@getronics.com
-                      Version 1.7++: Van Laethem, Marc (hp)
+Sun Solaris port : Trond Eirik Aune [teaune@online.no]
+                   Testing: Gert.Leerdam@getronics.com
+                   Version 1.7++: Van Laethem, Marc (hp)
 
-SCO port           :  Jan Damen, Support Specialist, jdamen@triple-p.nl
+SCO port         : Jan Damen, Support Specialist, jdamen@triple-p.nl
 
-AIX port           :  Gert Leerdam, Gert.Leerdam@getronics.com
+AIX port         : Gert Leerdam, Gert.Leerdam@getronics.com
 
-Win32              :  Better use GetConfig:  www.getconfig.com
+Win32            : Better use GetConfig:  www.getconfig.com
 
 
  _   _               ____   ____            _             _
@@ -224,22 +225,19 @@ Win32              :  Better use GetConfig:  www.getconfig.com
 
 You can contact me (Ralph Roth) the following ways
 
-1.) Instant Messenger   (preferred)
+1.) Instant Messenger   (deprecated)
 2.) Email
 
 1.) I have the following accounts:
 
 ICQ:          22 11 20 58   (rose_swe)
 Yahoo:        rose_swe
-IRC:          rose_swe, r0se_swe on #virus
-Jabber/Org:   cfg2html@jabber.org
-SkyPe         Ralph.Roth
 
 -------------------------------------------------------------------
 
-2.) Email: I do spam filtering with various tools, so put only me in the
-"To:" field, not in the "CC:" or "BCC:" field! No Subjects and text that
-could be flag by a rule based or fuzzy logic spam filter!
+2.) Email: I do spam filtering with various tools, so put only me in the "To:"
+field, not in the "CC:" or "BCC:" field! No Subjects and text that could be flag
+by a rule based or fuzzy logic spam filter!
 
 The email address is             cfg2html@hotmail.com
 Subject must begin with    [cfg2html]
@@ -280,35 +278,18 @@ Do a "test_neu.txt.13320" to see the output of last command, this gives you
 often a hint where cfg2html hangs, for example waits for a keystroke etc.
 
 
-Building cfg2html
------------------
+Building cfg2html (Debian/Ubuntu)
+---------------------------------
 
-0.) sudo aptitude install alien fakeroot devscripts lintian gawk
+0.)   sudo aptitude install alien fakeroot devscripts lintian gawk
 
-1.) pack+go.sh
-dh_builddeb
-dpkg-deb: building package `cfg2html-linux' in `../cfg2html-linux_1.37-2_all.deb'.
-tar: -: file name read contains nul character
- signfile cfg2html-linux_1.37-2.dsc
-dpkg-genchanges
+1.)   cd ~/cfg2html/cfg2html/linux/packaging on master [!$]
+      dch -v 7.0.0
+      dch -i
 
+2.)   cd ~/cfg2html/cfg2html
+      make deb
 
-
-2.) Alien and the file: Copyright
-
-error: Legacy syntax is unsupported: copyright
-error: line 6: Unknown tag: Copyright: see /usr/share/doc/cfg2html-linux/copyright
-
-Ralph: Changed: Copyright: xxx to License: xxx
-
---> But this didn't work either :-((
-
----
-alien version 8.56
-Linux ob5700ctx 2.6.16-1-486 #2 Fri May 5 04:53:12 UTC 2006 i586 GNU/Linux
-
-/* end */
-:wq!
 
  _____     ____
 |_   _|__ |  _ \  ___
