@@ -2,16 +2,21 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+7.0.1 (2023-03-29)
+------------------
 
 Changes
 ~~~~~~~
+- Updated Changelog (by Makefile), Version: [roseswe]
 - Debian 7.0.1 build tags. [Ralph Roth]
 - Cleanup of dox. [roseswe]
 - Debian - bumped files to reflect version 7.0.0. [Ralph Roth]
 - Updated Changelog (by Makefile) [roseswe]
 - Small changes for version number 7.0.0. [roseswe]
+
+Other
+~~~~~
+- Add: Changelog build target for the Makefile. [roseswe]
 
 
 7.0.0 (2023-03-20)
