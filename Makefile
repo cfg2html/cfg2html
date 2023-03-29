@@ -22,6 +22,8 @@ help:
 	@echo "|    FreeBSD|OpenBSD|NetBSD: \"make bsd\"    |"
 	@echo "|    AIX:   \"make aix-rpm\"                 |"
 	@echo "|    AIX:   \"make aix-dist\"                |"
+	@echo "|                                          |"
+	@echo "|    changelog: build CHANGELOG-md         |"
 	@echo "+------------------------------------------+"
 
 depot:
