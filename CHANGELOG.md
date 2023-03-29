@@ -7,6 +7,10 @@ Changelog
 
 Changes
 ~~~~~~~
+- Debian 7.0.1 build tags. [Ralph Roth]
+- Cleanup of dox. [roseswe]
+- Debian - bumped files to reflect version 7.0.0. [Ralph Roth]
+- Updated Changelog (by Makefile) [roseswe]
 - Small changes for version number 7.0.0. [roseswe]
 
 
