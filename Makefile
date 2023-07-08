@@ -1,4 +1,4 @@
-# @(#) $Id: Makefile,v 6.21 2022/12/28 16:02:24 ralph Exp $
+# @(#) $Id: Makefile,v 6.23 2023/03/20 13:28:22 ralph Exp $
 # Makefile to create HP-UX software depot, AIX, FreeBSD, SunOS or Linux .DEB and .RPM packages etc.
 # -------------------------------------------------------------------------------------------------
 # -*- coding: utf-8, LF/Unix -*-
@@ -22,6 +22,8 @@ help:
 	@echo "|    FreeBSD|OpenBSD|NetBSD: \"make bsd\"    |"
 	@echo "|    AIX:   \"make aix-rpm\"                 |"
 	@echo "|    AIX:   \"make aix-dist\"                |"
+	@echo "|                                          |"
+	@echo "|    changelog: build CHANGELOG-md         |"
 	@echo "+------------------------------------------+"
 
 depot:
@@ -49,6 +51,8 @@ aix-dist:
 	make -C aix dist
 
 changelog:
+	# HINT: git config gitchangelog.rc-path /home/ralph/bin/_.gitchangelog.rc
 	gitchangelog > CHANGELOG.md
-	git commit -s -m "chg: Updated Changelog (by Makefile)" CHANGELOG.md
+	git commit -s -m "chg: Updated Changelog (by Makefile), Version: $(git describe)" CHANGELOG.md
 	cat CHANGELOG.md
+

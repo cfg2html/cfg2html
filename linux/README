@@ -1,5 +1,5 @@
 For details see cfg2html.html
-@(#) $Header: /home/cvs/cfg2html/cfg2html_git/linux/README,v 6.15 2020/06/17 19:56:51 ralph Exp $
+@(#) $Header: /home/cvs/cfg2html_cvs/cfg2html_git/linux/README,v 6.16 2023/02/15 11:10:05 ralph Exp $
 
 
 This is the READ ME for (the old) cfg2html-linux version 2.xx (c) by ROSE SWE, Dipl.-Ing. Ralph Roth
@@ -8,20 +8,20 @@ This is the READ ME for (the old) cfg2html-linux version 2.xx (c) by ROSE SWE, D
 -------------------------------------------------------------
 
 
-This text should be formatted in DOS/Windows CR/LF format that it can be
-mailed (and read) with Windows mail programs!
+This text should be formatted in DOS/Windows CR/LF format so that it can be sent
+(and read) by Windows mail programs!
 
-This is the "Swiss army knife" for the Account Support Engineer, Customer
+This is the "Swiss Army Knife" for the Account Support Engineer, Customer
 Engineer, Sysadmin etc. I wrote it to get the necessary information to plan an
-update, to perform basic trouble shooting or performance analysis. As a bonus
-cfg2html creates a nice HTML and plain ASCII documentation. If you are missing
-something, let me know it!
+update, do basic troubleshooting or performance analysis. As a bonus, cfg2html
+produces nice HTML and plain ASCII documentation. If you miss something, let me
+know!
 
 cfg2html is a UNIX shell script similar to check_config or get_config, except
-that it creates a HTML (and plain ASCII) system documentation for HP- UX
+that it produces HTML (and plain ASCII) system documentation for HP-UX
 10.xx/11.xx, SCO-UNIX, AIX, Sun OS and Linux systems. Plugins for SAP, Oracle,
-Informix, MC/SG, FibreChannel, TIP/ix, Mass Storage like XP48/256/512, Network
-Node Manager and DataProtector etc. are included.
+Informix, MC/ServiceGuard, FibreChannel, TIP/ix, Mass Storage, Network Node
+Manager and DataProtector etc. are included.
 
 
  ___           _        _ _       _   _
@@ -31,11 +31,11 @@ Node Manager and DataProtector etc. are included.
 |___|_| |_|___/\__\__,_|_|_|\__,_|\__|_|\___/|_| |_|
 ---------------------------------------------------------------------------
 
-To install and to execute cfg2html you must be root! A normal user account
-will not work!
+To install and to execute cfg2html you must be root! A normal user account will
+not work!
 
-tar ball: To install the script, edit the Makefile and type make install.
-If you use the packages, read the man pages for dpkg or rpm to install.
+tar ball: To install the script, edit the Makefile and type make install. If you
+use the packages, read the man pages for dpkg or rpm to install.
 
 On SLES/openSUSE
 
@@ -47,7 +47,7 @@ On CentOS8/RHEL
    error: Failed dependencies:
       psmisc is needed by cfg2html-6.41.1.16.gedc280d-1.git202011230748.noarch
 
-So better use yum to resolve dependencies:   
+So better use yum to resolve dependencies:
    [ralph@ralph2co ~]$ sudo yum install cfg2html-6.41.1.16.gedc280d-1.git202011230748.noarch.rpm
 
 
@@ -82,8 +82,8 @@ Read this if you are a developer and interested in enhancing cfg2html!
 OK, I fixed a bug and enhanced cfg2html, how do I make a diff for upstream
 enhancement?
 
-That is quite easy. First, get yourself GNU diff. The other diffs will work,
-too, but this tutorial only applies to GNU diff. We want unified diffs!
+That is quite easy. First, get yourself GNU diff. The other diffs will work, too,
+but this tutorial only applies to GNU diff. We want unified diffs!
 
    1. If you change cfg2html-linux, please mark your changes with for example
       # <name>. Do not forgot to remove all backup files from your editor.
@@ -104,17 +104,17 @@ too, but this tutorial only applies to GNU diff. We want unified diffs!
       cfg2hthml@hotmail.com (subject [cfg2html] + your text)
 
 
-The "-u" creates a unified diff, which has 3 lines of context per default.
-This has the advantage that patches can be applied to other versions of
+The "-u" creates a unified diff, which has 3 lines of context per default. This
+has the advantage that patches can be applied to other versions of
 cfg2html-linux, too.
 
-The "-N" treats new files as empty. That means if you add a file, diff will
-put it in the diff, too. This has the advantage that your file is not lost.
-It has the disadvantage that "Makefile" and so on are put into the diff,
-too. So for patches where you don't add new files, you can omit the "-N".
+The "-N" treats new files as empty. That means if you add a file, diff will put
+it in the diff, too. This has the advantage that your file is not lost. It has
+the disadvantage that "Makefile" and so on are put into the diff, too. So for
+patches where you don't add new files, you can omit the "-N".
 
-The "-r" means recursive. For cfg2html-linux this is only important if you
-change stuff in sub directories. But it is good habit to use it.
+The "-r" means recursive. For cfg2html-linux this is only important if you change
+stuff in sub directories. But it is good habit to use it.
 
 ------------------------------------------------------------------------------
 
@@ -131,9 +131,10 @@ How to apply the Patches/Diffs?
 | |___ >  <| ||  __/ | | \__ \ | (_) | | | \__ \
 |_____/_/\_\\__\___|_| |_|___/_|\___/|_| |_|___/
 ---------------------------------------------------------------------------
-cfg2html can be extended easily by writing small scripts and configuring them
-as plugins in /etc/cfg2html/plugins.  You can do whatever you want in your
-plugin and all of stdout will be included in the output file.
+
+cfg2html can be extended easily by writing small scripts and configuring them as
+plugins in /etc/cfg2html/plugins. You can do whatever you want in your plugin and
+all of stdout will be included in the output file.
 
 There are two rules you'll have to follow to make your script run as a plugin
 within cfg2html:
@@ -152,6 +153,7 @@ of the cfg2html distribution.
 |____/ \___|\___|\__,_|_|  |_|\__|\__, |
                                   |___/
 ---------------------------------------------------------------------------
+
 For security reasons it is better to store the HTML and ASCII files in a safe
 place where only root user have access. Then remove the files from your file
 system.
@@ -186,32 +188,32 @@ system.
 |_| \___/_|  \__\___\__,_|   \_/\___|_| /__/_\___/_||_/__/
 ------------------------------------------------------------------
 
-For your information, there are also ported *NIX versions available
-on the web page for free downloading!
+For your information, there are also ported *NIX versions available on the web
+page for free downloading!
 
 Maintainer of the different versions
 
-HP-UX              :  Ralph Roth
-                      Contributors: Thomas Brix, Martin Kalmbach
+HP-UX            : Ralph Roth
+                   Contributors: Thomas Brix, Martin Kalmbach
 
-Linux port         :  Michael Meifert
-                      Contributors: Michael Meier,
-                      Linux (debian/hppa): Ralph Roth
+Linux port       : Michael Meifert
+                   Contributors: Michael Meier,
+                   Linux (debian/hppa): Ralph Roth
 
-                    To check the rpm use:
-                            rpm -qpl cfg2html-linux-6.16-2.noarch.rpm
-                    To check the deb use:
-                            dpkg -c cfg2html-linux_6.16-2_all.deb
+                   To check the rpm use:
+                           rpm -qpl cfg2html-linux-6.16-2.noarch.rpm
+                   To check the deb use:
+                           dpkg -c cfg2html-linux_6.16-2_all.deb
 
-Sun Solaris port   :  Trond Eirik Aune [teaune@online.no]
-                      Testing: Gert.Leerdam@getronics.com
-                      Version 1.7++: Van Laethem, Marc (hp)
+Sun Solaris port : Trond Eirik Aune [teaune@online.no]
+                   Testing: Gert.Leerdam@getronics.com
+                   Version 1.7++: Van Laethem, Marc (hp)
 
-SCO port           :  Jan Damen, Support Specialist, jdamen@triple-p.nl
+SCO port         : Jan Damen, Support Specialist, jdamen@triple-p.nl
 
-AIX port           :  Gert Leerdam, Gert.Leerdam@getronics.com
+AIX port         : Gert Leerdam, Gert.Leerdam@getronics.com
 
-Win32              :  Better use GetConfig:  www.getconfig.com
+Win32            : Better use GetConfig:  www.getconfig.com
 
 
  _   _               ____   ____            _             _
@@ -223,22 +225,19 @@ Win32              :  Better use GetConfig:  www.getconfig.com
 
 You can contact me (Ralph Roth) the following ways
 
-1.) Instant Messenger   (preferred)
+1.) Instant Messenger   (deprecated)
 2.) Email
 
 1.) I have the following accounts:
 
 ICQ:          22 11 20 58   (rose_swe)
 Yahoo:        rose_swe
-IRC:          rose_swe, r0se_swe on #virus
-Jabber/Org:   cfg2html@jabber.org
-SkyPe         Ralph.Roth
 
 -------------------------------------------------------------------
 
-2.) Email: I do spam filtering with various tools, so put only me in the
-"To:" field, not in the "CC:" or "BCC:" field! No Subjects and text that
-could be flag by a rule based or fuzzy logic spam filter!
+2.) Email: I do spam filtering with various tools, so put only me in the "To:"
+field, not in the "CC:" or "BCC:" field! No Subjects and text that could be flag
+by a rule based or fuzzy logic spam filter!
 
 The email address is             cfg2html@hotmail.com
 Subject must begin with    [cfg2html]
@@ -279,35 +278,18 @@ Do a "test_neu.txt.13320" to see the output of last command, this gives you
 often a hint where cfg2html hangs, for example waits for a keystroke etc.
 
 
-Building cfg2html
------------------
+Building cfg2html (Debian/Ubuntu)
+---------------------------------
 
-0.) sudo aptitude install alien fakeroot devscripts lintian gawk
+0.)   sudo aptitude install alien fakeroot devscripts lintian gawk
 
-1.) pack+go.sh
-dh_builddeb
-dpkg-deb: building package `cfg2html-linux' in `../cfg2html-linux_1.37-2_all.deb'.
-tar: -: file name read contains nul character
- signfile cfg2html-linux_1.37-2.dsc
-dpkg-genchanges
+1.)   cd ~/cfg2html/cfg2html/linux/packaging on master [!$]
+      dch -v 7.0.0
+      dch -i
 
+2.)   cd ~/cfg2html/cfg2html
+      make deb
 
-
-2.) Alien and the file: Copyright
-
-error: Legacy syntax is unsupported: copyright
-error: line 6: Unknown tag: Copyright: see /usr/share/doc/cfg2html-linux/copyright
-
-Ralph: Changed: Copyright: xxx to License: xxx
-
---> But this didn't work either :-((
-
----
-alien version 8.56
-Linux ob5700ctx 2.6.16-1-486 #2 Fri May 5 04:53:12 UTC 2006 i586 GNU/Linux
-
-/* end */
-:wq!
 
  _____     ____
 |_   _|__ |  _ \  ___

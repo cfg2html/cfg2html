@@ -23,6 +23,8 @@ linux/packaging/rpm/cfg2html.spec.orig
 #
 cfg2html-6*git*.tar.gz
 cfg2html-6*git*.noarch.rpm
+cfg2html-7*git*.tar.gz
+cfg2html-7*git*.noarch.rpm
 cfg2html*.deb
 #
 # rest
@@ -44,3 +46,4 @@ sshkey.sh
 *.diff
 *.patch
 linux/debian/
+

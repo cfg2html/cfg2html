@@ -1,7 +1,8 @@
-#  !/usr/bin/ksh
+#!/usr/bin/sh
+## needs maybe tweaks for HP-UX, AIX or Solaris?
 #######################################################################
-# @(#) $Id: make_index.sh,v 6.14 2020/10/29 13:19:54 ralph Exp $
-# $Log: make_index.sh,v $
+# @(#) $Id: make_index.sh,v 6.17 2023/02/18 11:42:27 ralph Exp $
+
 # Revision 6.14  2020/10/29 13:19:54  ralph
 # Fixes for make_index.sh (see issue #144)
 # Fixes for regression in cfg2html-linux and crontab collecting
@@ -39,7 +40,7 @@ OUT=index.htm
 echo "Make_Index for Cfg2Html (Linux, HP-UX and *nix)"
 echo "-------------------------------------------------------------------------"
 echo "Make_Index creates an index of your cfg2html collected hosts files"
-echo "\$Id: make_index.sh,v 6.14 2020/10/29 13:19:54 ralph Exp $"
+echo "\$Id: make_index.sh,v 6.17 2023/02/18 11:42:27 ralph Exp $"
 echo ""
 
 cat >$OUT<<EOF
@@ -52,7 +53,7 @@ cat >$OUT<<EOF
 <br><small>
 EOF
 
-for i in `(find . -iname "*.htm*" -print| grep -v -E './index.htm|./allhosts.htm|./info.htm' | sort -u )`  ## this find doesn't support spaces in the filename!
+for i in $(find . -iname "*.htm*" -print| grep -v -E './index.htm|./allhosts.htm|./info.htm' | sort -u)  ## this find doesn't support spaces in the filename!
 do
   # echo "Host= ["$i"]"
   if (grep -e cfg2Html -e "cfg2html/HPUX" -e "cfg2html/HP-UX" -e Cfg2Html \
@@ -61,14 +62,14 @@ do
   then
     typ2=""
     ########### 0.54 changes ##########
-    typ=`grep "HP-UX " "$i" | grep "uname -a" | head -1 | awk '{print $5"-"$7}'`
+    typ=$(grep "HP-UX " "$i" | grep "uname -a" | head -1 | awk '{print $5"-"$7}')
     if [ -z "$typ" ]
     then
-      typ=`grep "kernel.osrelease" "$i"|grep "= "|head -1 | awk -F"= " '{print $2;}'	# cut -f3 -d" "`
+      typ=$(grep "kernel.osrelease" "$i"|grep "= "|head -1 | awk -F"= " '{print $2;}')	# cut -f3 -d" "
       [ -z "$typ" ] && typ=$(grep "<B>SunOS" "$i"| head -1) ## <PRE><B>SunOS 5.9</B></PRE>
       [ -z "$typ" ] && typ=$(grep "Kernel version: SunOS" "$i"| head -1|awk '{print $3,$4,$5,$6;}') ## Kernel version: SunOS 5.8 Generic 108528-24 Sep 2003</PRE>
     else
-      typ2=`grep 9000 "$i" | grep -E '0/8|Itanium'| head -1 | sed 's+^.*9000/\(.*\)$+\1+g' `
+      typ2=$(grep 9000 "$i" | grep -E '0/8|Itanium'| head -1 | sed 's+^.*9000/\(.*\)$+\1+g' )
     fi
     echo "Added host: $i ($typ)"
     echo "<A HREF=\"$i\" TARGET=\"info\"><b>$i</b>" >> $OUT
@@ -80,11 +81,11 @@ do
     fi
     echo "<br>" >> $OUT
   else
-    echo "Skipping: " $i
+    echo "Skipping:  ${i}"
   fi
 done
 
-echo "<p><hr><p>Created: `date +%x-%X`">>$OUT
+echo "<p><hr><p>Created: $(date +%x-%X)">>$OUT
 
 cat >> $OUT<<EOF
 <br></small>

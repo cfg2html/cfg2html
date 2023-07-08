@@ -2,8 +2,73 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+7.0.1 (2023-03-29)
+------------------
+
+Changes
+~~~~~~~
+- Updated Changelog (by Makefile), Version: [roseswe]
+- Debian 7.0.1 build tags. [Ralph Roth]
+- Cleanup of dox. [roseswe]
+- Debian - bumped files to reflect version 7.0.0. [Ralph Roth]
+- Updated Changelog (by Makefile) [roseswe]
+- Small changes for version number 7.0.0. [roseswe]
+
+Other
+~~~~~
+- Add: Changelog build target for the Makefile. [roseswe]
+
+
+7.0.0 (2023-03-20)
+------------------
+
+Changes
+~~~~~~~
+- ReadMe, Changelog. [roseswe]
+- Updated Changelog (by Makefile) [roseswe]
+- Headers bumped, ReadMe changed. [roseswe]
+- MakeIndex - ShellCheck fixes. [roseswe]
+- Reformated/documented issue #166. [roseswe]
+- Hint about gitchangelog.rc-path added. [roseswe]
+- Updated Changelog (by Makefile) [roseswe]
+- Debian Chnagelog bumped to version 6.44 for upcoming release. [Ralph
+  Roth]
+- Bumped version number for upcoming release 6.44. [Ralph Roth]
+- Copyright changed to 2023 :-) [roseswe]
+
+Fix
+~~~
+- Regression CLI -?, issue #165. [roseswe]
+- Tried to fix some shellcheck errors. [roseswe]
+- Markdown lints. [roseswe]
+- Copyright notice, shellcheck fixes. [roseswe]
+- Authselect patch from j0hn-c0nn0r 27/01/22 applied. [roseswe]
+
+Other
+~~~~~
+- Merge branch 'master' of https://github.com/cfg2html/cfg2html.
+  [roseswe]
+
+  * 'master' of https://github.com/cfg2html/cfg2html:
+    chg: Bumped version number for upcoming release 6.44
+- Try to fox OBS build as well #35. [Gratien D'haese]
+- #164 fix build on ubunto/debian. [gdha]
+- #35 fix the debiam package biuilds. [Gratien D'haese]
+- More minor updates to RPM spec file template (#163) [Frank Crawford]
+
+  * Update License field in RPM spec file
+
+  * Correct minor issues with spec file
+- Update License field in RPM spec file (#162) [Frank Crawford]
+- Add: stale action handler (experimental) [roseswe]
+
+
+6.43.2 (2022-11-28)
+-------------------
+
+Changes
+~~~~~~~
+- Updated Changelog (by Makefile) [roseswe]
 
 Fix
 ~~~
