@@ -453,8 +453,8 @@ inc_heading_level
 
   ### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
       if [ -x /usr/bin/virsh ] ; then
-        exec_command "/usr/bin/virsh list" "virsh Virtualization Support Status"
-        exec_command "/usr/bin/virsh sysinfo" "virsh XML Hypervisor Sysinfo"
+        exec_command "${TIMEOUTCMD} 20 /usr/bin/virsh list" "virsh Virtualization Support Status"
+        exec_command "${TIMEOUTCMD} 20 /usr/bin/virsh sysinfo" "virsh XML Hypervisor Sysinfo"
       fi
 
       if [ -x /usr/sbin/virt-what ] ; then
