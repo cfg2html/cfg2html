@@ -1277,7 +1277,9 @@ then # else skip to next paragraph
     exec_command "rpm -qa --queryformat '%{NAME}\n' | sort -d -f" "Packages installed, Name only (sorted)"      #*#   Alexander De Bernardi //21.04.2010/rr
     exec_command "rpm -qa --queryformat '%-50{NAME} %{VENDOR}\n' | sort -d -f" "Packages installed, Name and Vendor only (sorted)"      #*#   Alexander De Bernardi //21.04.2010/rr
     exec_command "rpm --querytags" "RPM Query Tags"     #*#   Alexander De Bernardi //21.04.2010/rr
-    if [ -x /usr/bin/yum ] ; then
+    if [ -x /usr/bin/dnf ] ; then
+        exec_command "dnf history" "DNF: Last actions performed"
+    elif [ -x /usr/bin/yum ] ; then
         exec_command "yum history" "YUM: Last actions performed"
     fi  # yum
   fi
