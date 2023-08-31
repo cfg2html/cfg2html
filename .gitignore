@@ -1,4 +1,4 @@
-# $Id: .gitignore,v 6.4 2023/08/31 07:56:05 ralph Exp $
+# $Id: .gitignore,v 6.5 2023/08/31 08:04:58 ralph Exp $
 # NOTE! Don't add files that are generated in specific
 # sub-directories here. Add them in the ".gitignore" file
 # in that sub-directory instead.
