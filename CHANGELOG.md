@@ -7,6 +7,10 @@ Changelog
 
 Changes
 ~~~~~~~
+- Documented rpm build, this hopefully closes issue jenkins: problem
+  with 'make rpm' -> git_branch in the Makefile is not set #155.
+  [roseswe]
+- Updated Changelog (by Makefile), Version: [roseswe]
 - Updated Changelog (by Makefile), Version: [roseswe]
 
 Other
