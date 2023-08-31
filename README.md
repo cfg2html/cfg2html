@@ -20,7 +20,10 @@ See our GitHub Source development tree <https://github.com/cfg2html/cfg2html> an
     cd cfg2html
     make help
 
-If you do not want to build cfg2html by your own, we have pre-build installations that you can download from <http://www.cfg2html.com>
+NOTE:  You need an annotated git tag on your local build system, else the build will fail.
+git describe --long should output something like "7.0.1-4-g6cef5f2"
+
+If you do not want to build cfg2html by your own, we have pre-build installations that you can download from <http://www.cfg2html.com> and also from the github release page <https://github.com/cfg2html/cfg2html/releases>
 
 ## Issue Tracker
 
@@ -62,7 +65,5 @@ NOTE: This is only a suggestion!
     To see a full documentation of such commit message convention, please look up the reference file gitchangelog.rc.reference, see <https://github.com/vaab/gitchangelog/blob/master/src/gitchangelog/gitchangelog.rc.reference>
 
 ----
-<!--  $Id: README.md,v 6.16 2023/03/20 13:28:22 ralph Exp $ -->
-
-<!-- Atom:set encoding=utf8 lineEnding=unix grammar=md tabLength=4 useSoftTabs: -->
+<!--  $Id: README.md,v 6.17 2023/08/31 07:56:06 ralph Exp $ -->
 <!-- vim:set fileencoding=utf8 fileformat=unix filetype=md tabstop=4 expandtab: -->

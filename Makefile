@@ -1,9 +1,10 @@
-# @(#) $Id: Makefile,v 6.23 2023/03/20 13:28:22 ralph Exp $
+# @(#) $Id: Makefile,v 6.24 2023/08/31 07:56:06 ralph Exp $
 # Makefile to create HP-UX software depot, AIX, FreeBSD, SunOS or Linux .DEB and .RPM packages etc.
 # -------------------------------------------------------------------------------------------------
 # -*- coding: utf-8, LF/Unix -*-
-# IMPORTANT: You need an annotated git tag on your local build system. Else the rpm build will fail
-#            (at least using openSUSE).
+#
+# IMPORTANT: You need an annotated git tag on your local build system, else the build will fail
+#            (at least using openSUSE).   Maybe a workaround could: git checkout master?
 
 product = cfg2html
 #TODO:# release = shell (git describe --long) ??  ## 6.33-6-g48d4c01
@@ -16,7 +17,7 @@ help:
 	@echo "|    cfg2html Makefile targets             |"
 	@echo "|    =========================             |"
 	@echo "|    HP-UX: \"make depot\"                   |"
-	@echo "|    Linux: \"make rpm\"                     |"
+	@echo "|    Linux: \"make rpm\"       (1)           |"
 	@echo "|    Linux: \"make deb\"                     |"
 	@echo "|    SunOS: \"make sunos\"                   |"
 	@echo "|    FreeBSD|OpenBSD|NetBSD: \"make bsd\"    |"
@@ -25,6 +26,10 @@ help:
 	@echo "|                                          |"
 	@echo "|    changelog: build CHANGELOG-md         |"
 	@echo "+------------------------------------------+"
+	@echo ""
+	@echo "IMPORTANT: You need an annotated git tag on your local build system"
+	@echo " (1) Jenkins workaround:  git checkout master; make rpm ## see issue #155"
+	@echo ""
 
 depot:
 	gmake -C hpux depot
