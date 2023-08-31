@@ -2,6 +2,32 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+Changes
+~~~~~~~
+- Updated Changelog (by Makefile), Version: [roseswe]
+
+Other
+~~~~~
+- Add: Playing around with github actions.... [roseswe]
+- Add timeout for virsh (#169) [Frank Crawford]
+
+  * Update License field in RPM spec file
+
+  * Correct minor issues with spec file
+
+  * Add timeout for virsh
+- Use DNF rather than YUM. if available (#170) [Frank Crawford]
+
+  * Update License field in RPM spec file
+
+  * Correct minor issues with spec file
+
+  * Use DNF rather than YUM. if available
+
+
 7.0.1 (2023-03-29)
 ------------------
 
