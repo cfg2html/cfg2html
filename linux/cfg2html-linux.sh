@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# @(#) $Id: cfg2html-linux.sh,v 6.68 2023/02/15 11:10:05 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.69 2023/09/14 07:05:13 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2023 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
 #     Further modified by Joe Wulf:  20200407@1432.
@@ -256,7 +256,7 @@ inc_heading_level
   #                   One good reference for this is: http://www.dmo.ca/blog/detecting-virtualization-on-linux
   #
 
-  DMESG=$(which dmesg 2>/dev/null)         # Added 20201004 by edrulrd
+  DMESG=$(which dmesg 2>/dev/null)         # Added 20201004 by edrulrd, a possible solution could be using the same trick as done in gdha/upgrade-ux#135
   DMIDECODE=$(which dmidecode 2>/dev/null) # Added 20201004 by edrulrd
   LSCPI=$(which lspci 2>/dev/null)         # Added 20201004 by edrulrd
 
@@ -301,6 +301,7 @@ inc_heading_level
       if [ -n "${DMESG}" ] && [ "$(${DMESG} | grep -i ${VIRTs})" ]; then
            # Using the 'dmesg' command is useful for some number of days after the system was last booted;
            # beyond that, the /var/log/dmesg file is a good alternate datapoint.
+           # See also https://github.com/cfg2html/cfg2html/issues/153
            if [ ! "$(${DMESG} | grep 'Booting paravirtualized kernel on bare hardware')" ]; then
                 # This exception catches the one case of installing RHEL/CentOS on a real physical machine.  This IS properly/necessarily nested!
                 VIRTterm='TRUE'
