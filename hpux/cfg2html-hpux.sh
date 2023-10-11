@@ -189,8 +189,8 @@ then # else skip to next paragraph
 
     ((MHZ=(($HZ+1)/10000)))
 
-    BITS=`getconf KERNEL_BITS`
-    HWBITS=`getconf HW_CPU_SUPP_BITS`
+    BITS=$(getconf KERNEL_BITS)
+    HWBITS=$(getconf HW_CPU_SUPP_BITS)
 
     #((ncpu = `sar -M 1 1 | wc -l` - 5 )) ####### cpus: 04.05.2000, rar
     #((ncpu = `sar -M 1 1 | grep -v system | wc -l` - 4 )) # bugfix for sar patch with new sar output by Peter Krueger, 31.07.2001
@@ -199,17 +199,17 @@ then # else skip to next paragraph
 
     mdl=$(model -D || model) ## rar, 06052005
     # fix provided 12.06.2001 by Stefan Fournier
-    mdl1=`model|cut -f2 -d/`
-    if [ `echo $mdl1 | grep -c "^7"` -gt 0 ]
+    mdl1=$(model|cut -f2 -d/)
+    if [ $(echo $mdl1 | grep -c "^7") -gt 0 ]
     then
         # machine is 7XX model
         mdls=$mdl1
     else
-        mdls=`model|cut -f3 -d/`
+        mdls=$(model|cut -f3 -d/)
     fi
 
-    mdls=`model|cut -f3 -d/`
-    [ -z "$mdls" ] && mdls="^"`model|cut -f2 -d/`   # e.g. 9000/720
+    mdls=$(model|cut -f3 -d/)
+    [ -z "$mdls" ] && mdls="^"$(model|cut -f2 -d/)   # e.g. 9000/720
 
     exec_command PrintModel "Model"  ##  14.07.2005, 18:56 modified by Ralph.Roth
     if [ $(uname -m) = "ia64" ]
@@ -225,7 +225,7 @@ then # else skip to next paragraph
         fi
     fi
     if [ -f /etc/.supported_bits ] ; then
-        suppbits=`grep $mdl /etc/.supported_bits`
+        suppbits=$(grep $mdl /etc/.supported_bits)
         [ -z "$suppbits" ] &&   AddText "WARNING: Model string does not match /etc/.supported_bits - An update of HP-UX may fail!"
         exec_command "grep $mdl /etc/.supported_bits" "Supported Bits (32/64)"
     fi
@@ -251,7 +251,7 @@ then # else skip to next paragraph
     # Ratingen - Unix Competency Center
     # Heavy modified by Ralph Roth, 28-Jan-2002
     # Definition der Variablen V mit dem aktuellen Wert von proc-sz (z.B. 89/532)
-    sarV=`sar -v 1 1|tail -1|awk '{print $4}'`
+    sarV=$(sar -v 1 1|tail -1|awk '{print $4}')
     #
     # Definition der Variablen v in % (aktueller Wert / Maximal Wert * 100)
     #
