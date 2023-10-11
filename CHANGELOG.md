@@ -7,6 +7,9 @@ Changelog
 
 Changes
 ~~~~~~~
+- Shellcheck fix SC2006. [roseswe]
+- Bumped version number for Debian. [roseswe]
+- Updated Changelog (by Makefile), Version: 7.0.1-7-gf11e501. [roseswe]
 - Updated Changelog (by Makefile), Version: [roseswe]
 - Documented rpm build, this hopefully closes issue jenkins: problem
   with 'make rpm' -> git_branch in the Makefile is not set #155.
@@ -14,8 +17,23 @@ Changes
 - Updated Changelog (by Makefile), Version: [roseswe]
 - Updated Changelog (by Makefile), Version: [roseswe]
 
+Fix
+~~~
+- This hopefully fixes issue #171? [Ralph Roth]
+- Makefile - version was empty. [roseswe]
+
 Other
 ~~~~~
+- Insert ZFS from BSD Module, to Linux so it exports zfs on linux (#172)
+  [root, tyl0re]
+
+  * Insert ZFS from BSD Module, to Linux so it exports zfs on linux
+
+  * Added Dump of the dpkg-conf values for installed Packages
+
+  ---------
+- Dch -i, bumped version number. [Ralph Roth]
+- Doc: Comments about issue #153 added. [roseswe]
 - Add: Playing around with github actions.... [roseswe]
 - Add timeout for virsh (#169) [Frank Crawford]
 
