@@ -1236,6 +1236,10 @@ then # else skip to next paragraph
     AddText "$(dpkg --version|grep program)"
     exec_command "grep -vE '^#|^ *$' /etc/apt/sources.list" "Installed from"
     [ -x /usr/bin/dpigs ] && exec_command "/usr/bin/dpigs" "Largest installed packages"
+    AddText "Debian Settings"
+    AddText "Hint: to reinstall this list use:"
+    AddText "cat this_list | debconf-set-selections -v "
+   [ -x /usr/bin/debconf-get-selections ] && exec_command "/usr/bin/debconf-get-selections" "Debian Pakage Configuration Values"
   fi
   # end Debian
 
