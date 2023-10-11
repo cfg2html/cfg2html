@@ -1,5 +1,5 @@
 # I hope these variable are replaced by the make process .... ##TODO##FIXME## 20150212 by Ralph Roth
-%define rpmrelease .git202301050913
+%define rpmrelease .git202310050913
 
 ### Work-around the fact that OpenSUSE/SLES _always_ defined both :-/
 %if 0%{?sles_version} == 0
@@ -11,7 +11,7 @@
 %undefine __brp_mangle_shebangs
 
 Name:		cfg2html
-Version: 6.43
+Version: 7.01
 Release:	1%{?rpmrelease}%{?dist}
 Summary:	Config2HTML is a tool to collect system information in HTML and ASCII format
 
