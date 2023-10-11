@@ -88,9 +88,10 @@ binary-indep: build
        # /usr/share/cfg2html/etc when installed and not into /usr/share/cfg2html/etc/cfg2html
        # If SUSE needs it where it was, we can put it in both places
 	#cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/cfg2html
+       # I assume this introduced a regression, see issue #171, 11.10.23
 	if [ $$(basename $$(pwd)) = "BUILD" ]; then \
 	    cp -av linux/etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/ ; \
-	    cp -av linux/etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/ ; \
+	    cp -av linux/systeminfo     debian/cfg2html/etc/cfg2html/ ; \
 	    cp -av linux/etc/local.conf debian/cfg2html/etc/cfg2html/ ; \
 	    cp -av ./cfg2html debian/cfg2html/usr/sbin/ ; \
 	    cp -av linux/cfg2html-linux.sh debian/cfg2html/usr/share/cfg2html/ ; \
@@ -99,8 +100,8 @@ binary-indep: build
 	    cp -avr linux/contrib debian/cfg2html/usr/share/cfg2html/ ; \
 	else  \
 	    cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/ ; \
-	    cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/ ; \
-	    cp -av etc/local.conf debian/cfg2html/etc/cfg2html/ ; \
+	    cp -av systeminfo       debian/cfg2html/etc/cfg2html/ ; \
+	    cp -av etc/local.conf   debian/cfg2html/etc/cfg2html/ ; \
 	    cp -av ../cfg2html debian/cfg2html/usr/sbin/ ; \
 	    cp -av cfg2html-linux.sh debian/cfg2html/usr/share/cfg2html/ ; \
 	    cp -avLr lib debian/cfg2html/usr/share/cfg2html/ ; \

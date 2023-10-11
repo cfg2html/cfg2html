@@ -1,6 +1,6 @@
 Format: 1.0
 Source: cfg2html
-Version: 6.34-5
+Version: 7.00-1
 Binary: cfg2html
 Maintainer: Gratien D'haese <gratien.dhaese@gmail.com>
 Architecture: all
