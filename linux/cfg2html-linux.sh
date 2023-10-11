@@ -1531,6 +1531,29 @@ then # else skip to next paragraph
     dec_heading_level
 
 fi # terminates CFG_LVM wrapper
+#
+# CFG_ZFS
+#
+if [ "$CFG_ZFS" != "no" ]
+then # else skip to next paragraph
+   paragraph "ZFS Status"
+   inc_heading_level
+
+   exec_command "zfs mount" "ZFS mount status"
+
+   exec_command "zfs get all" "ZFS properties"
+
+   exec_command "zpool list -H" "ZFS pool status"
+
+   exec_command "zpool list -Ho bootfs" "ZFS boot pool"
+
+   exec_command "zpool upgrade" "ZFS pool version"
+
+   exec_command "zpool history" "ZFS pool history"
+
+  dec_heading_level
+fi
+# terminates CFG_ZFS wrapper
 
 ###########################################################################
 if [ "${CFG_NETWORK}" != "no" ]
