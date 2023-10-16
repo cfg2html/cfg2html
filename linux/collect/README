@@ -50,4 +50,4 @@ cat identity.pub >> .ssh/authorized_keys
 now the user "root" from a client machine can login without password.
 
 Source: Unknown!
-$Id: README,v 6.12 2018/01/04 22:24:45 ralph Exp $
+$Id: README,v 6.14 2023/10/12 05:32:10 ralph Exp $

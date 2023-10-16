@@ -1,8 +1,8 @@
 For details see cfg2html.html
-@(#) $Header: /home/cvs/cfg2html_cvs/cfg2html_git/linux/README,v 6.17 2023/09/14 07:05:13 ralph Exp $
+@(#) $Header: /home/cvs/cfg2html_cvs/cfg2html_git/linux/README,v 6.18 2023/10/16 06:36:52 ralph Exp $
 
 
-This is the READ ME for (the old) cfg2html-linux version 2.xx (c) by ROSE SWE, Dipl.-Ing. Ralph Roth
+This is the READ ME for (the old) cfg2html-linux version 7.xx (c) by ROSE SWE, Dipl.-Ing. Ralph Roth
 
 !! WARNING, USE the cfg2html-linux script AT YOUR OWN RISK !!
 -------------------------------------------------------------
@@ -39,7 +39,7 @@ use the packages, read the man pages for dpkg or rpm to install.
 
 On SLES/openSUSE
 
-   # zypper in cfg2html_linux-2.*.rpm
+   # zypper in cfg2html_linux-7*.rpm
 
 On CentOS8/RHEL
 
@@ -53,21 +53,21 @@ So better use yum to resolve dependencies:
 
 On the other RPM boxes where cfg2html is already installed do this:
 
-   # rpm -hiv cfg2html-linux-1.24-7.noarch.rpm
+   # rpm -hiv cfg2html-linux-6.24-7.noarch.rpm
    Preparing...                ########################################### [100%]
-         file /usr/bin/cfg2html-linux from install of cfg2html-linux-1.24-7 conflicts with file from package cfg2html-linux-1.23-11
-         file /usr/share/man/man8/cfg2html-linux.8.gz from install of cfg2html-linux-1.24-7 conflicts with file from package cfg2html-linux-1.23-11
-   # rpm -hiv --freshen cfg2html-linux-1.24-7.noarch.rpm
+         file /usr/bin/cfg2html-linux from install of cfg2html-linux-6.24-7 conflicts with file from package cfg2html-linux-6.23-11
+         file /usr/share/man/man8/cfg2html-linux.8.gz from install of cfg2html-linux-6.24-7 conflicts with file from package cfg2html-linux-6.23-11
+   # rpm -hiv --freshen cfg2html-linux-6.24-7.noarch.rpm
    Preparing...                ########################################### [100%]
       1:cfg2html-linux         ########################################### [100%]
 
-   hklinx01:~/cfg> sudo rpm -hiv cfg2html-linux-1.74-1.noarch.rpm
+   hklinx01:~/cfg> sudo rpm -hiv cfg2html-linux-6.74-1.noarch.rpm
    Password:
    Preparing...                ########################################### [100%]
-         file /etc/cfg2html/plugins from install of cfg2html-linux-1.74-1 conflicts with file from package cfg2html-linux-1.61-2
-         file /usr/bin/cfg2html from install of cfg2html-linux-1.74-1 conflicts with file from package cfg2html-linux-1.61-2
-         file /usr/bin/cfg2html-linux from install of cfg2html-linux-1.74-1 conflicts with file from package cfg2html-linux-1.61-2
-         file /usr/share/man/man8/cfg2html-linux.8.gz from install of cfg2html-linux-1.74-1 conflicts with file from package cfg2html-linux-1.61-2
+         file /etc/cfg2html/plugins from install of cfg2html-linux-6.74-1 conflicts with file from package cfg2html-linux-6.61-2
+         file /usr/bin/cfg2html from install of cfg2html-linux-6.74-1 conflicts with file from package cfg2html-linux-6.61-2
+         file /usr/bin/cfg2html-linux from install of cfg2html-linux-6.74-1 conflicts with file from package cfg2html-linux-6.61-2
+         file /usr/share/man/man8/cfg2html-linux.8.gz from install of cfg2html-linux-6.74-1 conflicts with file from package cfg2html-linux-6.61-2
 
 
  ____       _       _     _
@@ -132,19 +132,23 @@ How to apply the Patches/Diffs?
 |_____/_/\_\\__\___|_| |_|___/_|\___/|_| |_|___/
 ---------------------------------------------------------------------------
 
-cfg2html can be extended easily by writing small scripts and configuring them as
-plugins in /etc/cfg2html/plugins. You can do whatever you want in your plugin and
-all of stdout will be included in the output file.
+Extending `cfg2html` is a straightforward process accomplished by crafting small
+scripts and configuring them as plugins located in the `/etc/cfg2html/plugins`
+directory. The possibilities within your plugin are virtually limitless, with the
+entire stdout content being incorporated into the output file.
 
-There are two rules you'll have to follow to make your script run as a plugin
-within cfg2html:
+To ensure seamless integration of your script as a `cfg2html` plugin, adhere to
+the following two essential guidelines:
 
-1. Assign your desired paragraph title to a variable named CFG2HTML_PLUGINTITLE
-2. Run all your program logic in a function called "cfg2html_plugin".
+1. Define your desired paragraph title by assigning it to a variable named `CFG2HTML_PLUGINTITLE`.
+2. Execute all of your program's logic within a function aptly named "cfg2html_plugin."
 
-Examples of cfg2html plugins can be found in the contrib/plugins/ directory
-of the cfg2html distribution.
+For reference and inspiration, you can explore a wealth of sample `cfg2html`
+plugins available in the `contrib/plugins/` directory within the `cfg2html`
+distribution.
 
+Please note that contrib scripts are additional programs provided as "bonuses"
+and are not directly used or executed by `cfg2html` itself.
 
  ____                       _ _
 / ___|  ___  ___ _   _ _ __(_) |_ _   _
@@ -300,3 +304,6 @@ Building cfg2html (Debian/Ubuntu)
 ---------------------------------------------------------------------------
 Proliant (not Ubuntu)
 sysinfo -a
+
+
+/* end */
