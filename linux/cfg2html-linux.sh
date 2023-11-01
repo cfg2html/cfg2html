@@ -2338,7 +2338,7 @@ if [ -s "$SSDCONF" ] ; then
     exec_command "cat $SSSDCONF" "SSSD configuration"
     exec_command "realm list" "List enrollments in realms"
     [ -x /usr/bin/systemctl ] && exec_command "/usr/bin/systemctl status sssd" "Systemd SSSD status"
-    exec_command "getenet passwd" "List all users"
+    exec_command "getent passwd" "List all users"  ## Fix-Typing mistake result in invalid command (Issue #175)
     exec_command "getent group" "List all groups"
     [ -x /sbin/sssctl ] && exec_command "/sbin/sssctl config-check" "SSSD configuration verification"
     [ -x /sbin/sssctl ] && exec_command "/sbin/sssctl domain-list" "SSSD domain list"
