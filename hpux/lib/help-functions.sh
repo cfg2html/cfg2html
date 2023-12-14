@@ -1,6 +1,9 @@
 function usage {
+
     echo ""
-    echo "usage: cfg2html_hpux.sh [options]\ncreates a HTML and plain ASCII host documentation"
+    echo "usage: cfg2html_hpux.sh [options]"
+    echo "Creates a HTML and plain ASCII host documentation"
+    echo ""
     echo "Output modifier:"
     echo "  -o path       directory to write (or use the environment variable)"
     echo "                OUTDIR=\"/path/to/dir\" (directory must exist)"
@@ -36,9 +39,12 @@ function usage {
     echo "  -s            disable: System"
     ### echo "  -t            enable:  TGV Volumegroup/LVM collector (#*)   (obsolete)"
 
-    echo  "\n(#) these collectors create a lot of information!"
-    echo  "(*) collector not included into this package!"
-    echo  "Example:  /usr/sbin/cfg2html -AL -o /tmp/hp \t to collect EVERYTHING"
-    echo  "A shell wrapper with handy options is included into this distribution, "
-    echo  "simply try: cfg2html  (calls cfg2html_hpux.sh -o /var/log/cfg2html)"
+    echo ""
+    echo "(#) these collectors create a lot of information!"
+    echo "(*) collector not included into this package!"
+    echo "Example:  /usr/sbin/cfg2html -AL -o /tmp/hp    to collect EVERYTHING"
+    echo "A shell wrapper with handy options is included into this distribution, "
+    echo "simply try: cfg2html  (calls cfg2html_hpux.sh -o /var/log/cfg2html)"
 }
+
+# rr 14.12.23, fixes for https://www.shellcheck.net/wiki/SC2028
