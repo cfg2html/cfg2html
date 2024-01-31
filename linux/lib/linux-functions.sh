@@ -211,7 +211,8 @@ function PartitionDump {
         if [ -x /sbin/parted ]; then
             for i in $(fdisk -l| grep "^Disk " | grep "/dev/"|cut -f1 -d:|cut -f2 -d" ")
             do
-                /sbin/parted -s $i print # The -s option avoids prompts that cause parted to wait forever for user interaction.
+                /sbin/parted -s $i print 2> /dev/null # The -s option avoids prompts that cause parted to wait forever for user interaction. # discard error message # modified on 20240119 by edrulrd
+                [ $? -ne 0 ] && echo # issue a blank line if we have a physical volume without known partitions (ie, just logical volumes) # modified on 20240119 by edrulrd
             done
         else
             /sbin/fdisk -l      ## -cul, fixed for OpenSUSE 12.1/KDE -- #  28.08.2012, 07:55 modified by Ralph Roth #* rar *#
