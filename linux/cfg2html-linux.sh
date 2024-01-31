@@ -91,7 +91,7 @@ _VERSION="cfg2html-linux version ${VERSION} "  # this a common stream so we don?
 # getopt
 #
 
-while getopts ":o:shxOcSTflkenaHLvhpPA2:10" Option   ##  -T -0 -1 -2 backported from HPUX # added new options -x and -O and removed the need for an argument on -A # modified on 20201026 by edrulrd
+while getopts ":o:shxOcSTflzkenaHLvhpPAV2:10w:" Option   ##  -T -0 -1 -2 backported from HPUX # added new options -x and -O and removed the need for an argument on -A, also added -w, -z  and -V # modified on 20240119 by edrulrd
 do
   case ${Option} in
     o     ) OUTDIR=${OPTARG};;
@@ -104,15 +104,18 @@ do
     S     ) CFG_SOFTWARE="no";;
     f     ) CFG_FILESYS="no";;
     l     ) CFG_LVM="no";;
+    z     ) CFG_ZFS="no";; # skip showing information about our zfs filesystems # added on 20240119 by edrulrd
     k     ) CFG_KERNEL="no";;
     e     ) CFG_ENHANCEMENTS="no";;
     n     ) CFG_NETWORK="no";;
     a     ) CFG_APPLICATIONS="no";;
     H     ) CFG_HARDWARE="no";;
+    V     ) CFG_VMWARE="no";;
+    A     ) CFG_ALTIRISAGENTFILES="no";;
     L     ) CFG_STINLINE="no";;
+    w     ) CFG_TEXTWIDTH="${OPTARG}";; # override the default width in the generated .txt file for section titles # added on 20240119 by edrulrd
     p     ) CFG_HPPROLIANTSERVER="yes";;
     P     ) CFG_PLUGINS="yes";;
-    A     ) CFG_ALTIRISAGENTFILES="no";;
     2     ) CFG_DATE="_"$(date +${OPTARG}) ;;
     1     ) CFG_DATE="_"$(date +%d-%b-%Y) ;;
     0     ) CFG_DATE="_"$(date +%d-%b-%Y-%H%M) ;;
