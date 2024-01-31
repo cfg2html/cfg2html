@@ -2507,43 +2507,46 @@ inc_heading_level
           exec_command "cat /etc/cluster/cluster.conf" "Cluster Configuration"
       fi
   fi
-dec_heading_level
 
-fi  #"${CFG_APPLICATIONS}"# <m>  23.04.2008 -  Ralph Roth
+# moved the end of the CFG_APPLICATIONS section to below the Oracle section # modified on 20240119 by edrulrd
 
 ##########################################################################
-##
-## Display Oracle configuration if applicable
-## Begin Oracle Config Display
-## 31jan2003 it233 FRU U.Frey
-
-if [ -s /etc/oratab ] ; then    # exists and >0
-
-  paragraph "Oracle Configuration"
-  inc_heading_level
-
-  exec_command "grep -vE '^#|^$|:N' /etc/oratab " "Configured Oracle Databases Startups"        #  27.10.2011, modified by Ralph Roth #* rar *#
-
   ##
-  ## Display each Oracle initSID.ora File
-  ##     orcl:/home/oracle/7.3.3.0.0:Y
-  ##     leaveup:/home/oracle/7.3.2.1.0:N
+  ## Display Oracle configuration if applicable
+  ## Begin Oracle Config Display
+  ## 31jan2003 it233 FRU U.Frey
 
-  for  DB in $(grep ':' /etc/oratab|grep -v '^#'|grep -v ':N$')                                 #  27.10.2011, 14:58 modified by Ralph Roth #* rar *#
-       do
-         Ora_Home=`echo ${DB} | awk -F: '{print $2}'`
-         Sid=`echo ${DB} | awk -F: '{print $1}'`
-         Init=${Ora_Home}/dbs/init${Sid}.ora
-         if [ -r "${Init}" ]
-         then
-            exec_command "cat ${Init}" "Oracle Instance ${Sid}"
-         else
-            AddText "WARNING: obsolete entry ${Init} in /etc/inittab for SID ${Sid}!"
-         fi
-       done
-  dec_heading_level
-fi
+  if [ -s /etc/oratab ] ; then    # exists and >0
 
+    dec_heading_level
+    paragraph "Oracle Configuration"
+    inc_heading_level
+
+    exec_command "grep -vE '^#|^$|:N' /etc/oratab " "Configured Oracle Databases Startups"        #  27.10.2011, modified by Ralph Roth #* rar *#
+
+    ##
+    ## Display each Oracle initSID.ora File
+    ##     orcl:/home/oracle/7.3.3.0.0:Y
+    ##     leaveup:/home/oracle/7.3.2.1.0:N
+
+    for  DB in $(grep ':' /etc/oratab|grep -v '^#'|grep -v ':N$')                                 #  27.10.2011, 14:58 modified by Ralph Roth #* rar *#
+         do
+           Ora_Home=`echo ${DB} | awk -F: '{print $2}'`
+           Sid=`echo ${DB} | awk -F: '{print $1}'`
+           Init=${Ora_Home}/dbs/init${Sid}.ora
+           if [ -r "${Init}" ]
+           then
+              exec_command "cat ${Init}" "Oracle Instance ${Sid}"
+           else
+              AddText "WARNING: obsolete entry ${Init} in /etc/inittab for SID ${Sid}!"
+           fi
+         done
+    dec_heading_level
+  fi
+
+dec_heading_level
+
+fi  #"${CFG_APPLICATIONS}"# <m>  23.04.2008 -  Ralph Roth # included Oracle within the Applications section # modified on 20240119 by edrulrd
 
 ###
 ##############################################################################
