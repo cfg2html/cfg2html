@@ -506,12 +506,13 @@ inc_heading_level
   if [ "${CFG_PATHLIST}" != "no" ] # Added on 20201026 by edrulrd
   then # else skip to next paragraph # Added on 20201026 by edrulrd
     # Include information regarding the PATH # Added on 20201025 by edrulrd
-    exec_command "echo ${0} was called with PATH set to: ${CallingPATH}" "PATH Settings" # Added on 20201025 by edrulrd
-    AddText "and this program is using PATH set to: ${PATH}" # Added on 20201025 by edrulrd
+    exec_command "" "PATH Settings" # don't display the N/A message # Added on 20201025 by edrulrd # modified on 20240119 by edrulrd
+    AddText "${0} was called with PATH set to: \"${CallingPATH}\", but" # Added on 20201025 by edrulrd # modified on 20240119 by edrulrd
+    AddText "it generated this report using the PATH set to: \"${PATH}\"" # Added on 20201025 by edrulrd # modified on 20240119 by edrulrd
 
     if [ -n "${LOCALPATH}" ] # check if we want to list the executables in a different path # added on 20201113 by edrulrd
     then
-      AddText "LOCALPATH specified.  Files in "${LOCALPATH}" follow:" # Added on 20201113 by edrulrd
+      AddText "LOCALPATH specified.  Files existing in \""${LOCALPATH}"\" follow:" # Added on 20201113 by edrulrd # modified on 20240119 by edrulrd
       echo ${LOCALPATH} | sed 's/:/\n/g' | while read i # Confirm each entry present in the directory list is a folder # added on 20201113 by edrulrd
       do
         if [ -e "${i}" -a ! -d "${i}" ] # if the entry exists and isn't a directory, then flag it # added on 20201113 by edrulrd
