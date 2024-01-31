@@ -593,8 +593,8 @@ inc_heading_level
 
   if [ -x /usr/bin/vmstat ] ; then        ## <c/m/a>  14.04.2009 - Ralph Roth
     ## [20200408] {jcw} expanded 'VM' to Virtual Memory, to avoid confusion with virtualization.
-    exec_command "vmstat 1 10" "Virtual Memory-Statistics (1 10)"
-    exec_command "vmstat -dn;vmstat -f" "Virtual Memory-Statistics (Summary)"
+    exec_command "vmstat -w 1 10" "Virtual Memory-Statistics (1 10)" # added -w option for readability # modified on 20240119 by edrulrd
+    exec_command "vmstat -dnw; vmstat -f" "Disk Statistics (averages) and Forks since boot" # changed title and added -w option for readability # modified on 20240119 by edrulrd
   fi
 
   # sysutils
