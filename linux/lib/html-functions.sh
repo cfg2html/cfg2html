@@ -115,7 +115,7 @@ function exec_command {
 
     [[ "${CFG_TRACETIME}" = "no" ]] && _echo ".\c"  # fails under Ubuntu/Linit Mint based systems!?
 
-    _echo "\n---=[ $2 ]=----------------------------------------------------------------" | cut -c1-74 >> ${TEXT_OUTFILE_TEMP}
+    _echo "\n---=[ $2 ]=------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" | cut -c1-${CFG_TEXTWIDTH} >> ${TEXT_OUTFILE_TEMP} # modified on 20240119 by edrulrd to not be limited to separators of 74 characters
     echo "       - $2" >> ${TEXT_OUTFILE}
 
     # Extend the meaning of CFG_STINLINE to also apply to showing, or not showing, the command in the text file # added on 20240119 by edrulrd
@@ -147,7 +147,7 @@ function exec_command {
     #'
     #EXECRES=$(eval $1 2> $TMP_EXEC_COMMAND_ERR | expand | cut -c 1-150 | sed +"$CONVSTR")
 
-    if [ -z "$EXECRES" ]
+    if [ -z "$EXECRES" ] && [ -n "$1" ] # don't set the message if we didn't pass a command (or string) # modified on 20240119 by edrulrd
     then
         EXECRES="n/a or not configured"
     fi

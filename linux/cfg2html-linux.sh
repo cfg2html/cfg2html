@@ -842,8 +842,7 @@ inc_heading_level
   ls ${user}cron/* > /dev/null 2>&1
   if [ $? -eq 0 ]
   then
-	  _echo  "\n\n<B>Crontab files:</B>" >> ${HTML_OUTFILE}
-	  for FILE in ${user}cron/*
+     exec_command "" "Crontab files:" # fixed title # modified on 20240119 by edrulrd 
 	  do
 		  exec_command "cat ${FILE} | grep -v ^#" "For user `basename ${FILE}`"
 	  done
@@ -857,7 +856,7 @@ inc_heading_level
   ls /etc/cron.d/* > /dev/null 2>&1
   if [ $? -eq 0 ]
   then
-	  _echo "\n\n<br><B>/etc/cron.d files:</B>" >> ${HTML_OUTFILE}
+      exec_command "" "/etc/cron.d files:" # fixed title in webpage # modified on 20240119 by edrulrd 
 	  for FILE in /etc/cron.d/*
 	  do
 		  exec_command "cat ${FILE} | grep -v ^#" "For utility `basename ${FILE}`"
@@ -880,7 +879,7 @@ inc_heading_level
 	  then
 	      exec_command "cat ${atconfigpath}/${FILE} " "${atconfigpath}/${FILE}"
 	  else
-	      exec_command "echo ${atconfigpath}/${FILE}" "No ${atconfigpath}/${FILE}"
+	      exec_command " " "${atconfigpath}/${FILE}" # modified on 20240119 by edrulrd
 	  fi
   done
 
@@ -1552,8 +1551,10 @@ then # else skip to next paragraph
    exec_command "zpool list -H" "ZFS pool status"
 
    exec_command "zpool list -Ho bootfs" "ZFS boot pool"
+      exec_command " " "zfs command"  # execute nothing, but allow the N/A message to appear # modified on 20240119 by edrulrd
 
    exec_command "zpool upgrade" "ZFS pool version"
+      exec_command " " "zpool command" # execute nothing, but allow the N/A message to appear # modified on 20240119 by edrulrd
 
    exec_command "zpool history" "ZFS pool history"
 
