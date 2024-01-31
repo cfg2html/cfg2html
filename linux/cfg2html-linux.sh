@@ -429,10 +429,11 @@ inc_heading_level
   # [20200324] {jcw} Seperated these-->exec_command "cat /proc/cpuinfo; echo; /usr/bin/lscpu;" "CPU and Model info" #  20.08.2012, 15:59 modified by Ralph Roth #* rar *#
   exec_command "cat /proc/cpuinfo" "CPU and Model info"
   [ -x /usr/bin/lscpu ] && exec_command "/usr/bin/lscpu" "CPU Architecture Information Helper"
-  [ -x /usr/bin/cpufreq-info ] && exec_command cpufreq-info "CPU Frequenc Information"
+  [ -x /usr/bin/cpufreq-info ] && exec_command cpufreq-info "CPU Frequency Information" # noted to be replaced by cpupower # comment added on 20240119 by edrulrd
 
   CPUPOWER=$(which cpupower)
   if [ -n "${CPUPOWER}" ] && [ -x "${CPUPOWER}" ] ; then
+      exec_command "${CPUPOWER} frequency-info" "CPU Frequency Information"  ## closes issue #53 - rr, 20140725 # replacement for cpufreq-info cmd # added on 20240119 by edrulrd
       exec_command "${CPUPOWER} idle-info" "Processor idle state information"  ## closes issue #53 - rr, 20140725
       exec_command "${CPUPOWER} info" "Processor power related kernel or hardware configuration"
       exec_command "${CPUPOWER} monitor" "Monitor"
