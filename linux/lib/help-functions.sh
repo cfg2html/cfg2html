@@ -19,23 +19,26 @@ function usage {
   echo "    -h      display this help and exit"
   echo
 
-  echo "    use the following options to disable / enable collections:"
+  echo "    use the following options to disable / enable collections:" # modified the order of the statements  # modified on 20240119 by edrulrd
   echo "    -s      disable: System"
-  echo "    -x      disable: PATH files"
-  echo "    -O      disable: open but deleted files"
-  echo "    -c      disable: Cron"
+  echo "    -k      disable: Kernel/Libraries"
+  echo "    -n      disable: Network"
+  echo "    -H      disable: Hardware"
+  echo "    -x      disable: PATH file listing (only effective if System is not disabled, ie. -s is not specified)" # modified on 20240119 by edrulrd
   echo "    -S      disable: Software"
-  echo "    -T      enable:  trace timings in output (txt, html and err)"
+  echo "    -a      disable: Applications"
   echo "    -f      disable: Filesystem"
   echo "    -l      disable: LVM"
-  echo "    -L      disable: Screen tips inline"
-  echo "    -k      disable: Kernel/Libraries"
+  echo "    -z      disable: ZFS"
+  echo "    -c      disable: Cron"
+  echo "    -O      disable: listing of open but deleted files (only effective if System is not disabled, ie. -s is not specified)" # modified on 20240119 by edrulrd
+  echo "    -L      disable: Screen tips inline, and do not display the issued command" # modified on 20240119 by edrulrd 
   echo "    -e      disable: Enhancements"
-  echo "    -n      disable: Network"
-  echo "    -a      disable: Applications"
-  echo "    -H      disable: Hardware"
-  echo "    -p      enable:  collecting the system's log files particularly if on an HP Proliant Server"
+  echo "    -V      disable: Collecting VMWare log files and settings" # added on 20240119 by edrulrd
   echo "    -A      disable: Altiris ADL agent log files and settings"
+  echo "    -w arg  adjust the width of the section separators in the generated ASCII file and allow for columnar output" # added on 20240119 by edrulrd
+  echo "    -T      enable:  trace timings in output (txt, html and err)"
+  echo "    -p      enable:  collecting the system's log files particularly if on an HP Proliant Server"
   echo "    -P      enable:  cfg2html plugin architecture"
   #echo
 }
