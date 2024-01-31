@@ -115,7 +115,13 @@ function exec_command {
     ######the working horse##########
     TMP_EXEC_COMMAND_ERR=/tmp/exec_cmd.tmp.$$
     ## Modified 1/13/05 by marc.korte@oracle.com, Marc Korte, TEKsystems (150 -> 250)
-    EXECRES=`eval $1 2> $TMP_EXEC_COMMAND_ERR | expand | cut -c 1-250`
+    ## Do not cut off output from very wide commands which are  over 250 characters wide, but instead continue the output onto the next line # added on 202040119 by edrulrd 
+    if [ ${CFG_TEXTWIDTH} -le  350 ] # check if the line length value defaulted to, or was specified to be, less than 350.  This will  handle commands with very wide output # added on 20240119 by edrulrd
+    then # show command output with at least 350 characters (instead of 250) before wrapping to the next line # added on 20240119 by edrulrd
+       EXECRES=$(eval $1 2> $TMP_EXEC_COMMAND_ERR | expand | fold -s -w 350)  # wrap extra long lines instead of cutting them off # modified 20240119 by edrulrd
+    else
+       EXECRES=$(eval $1 2> $TMP_EXEC_COMMAND_ERR | expand | fold -s -w ${CFG_TEXTWIDTH})  # wrap extra long lines using the desired line width # modified 20240119 by edrulrd
+    fi
 
 
     ########### test it ############
