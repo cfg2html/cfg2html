@@ -186,13 +186,24 @@ function ProgStuff {
 function display_ext_fs_param {
     #function used in FILESYS added 2011.09.02 by Peter Boysen
     # fixes, changed 20140924 by Ralph Roth
-    for fs in $(grep ext[2-4] /proc/mounts | awk '{print $1}' | sort -u)
-    do
-        echo "Dumping: "$fs
-        dumpe2fs -h $fs  2> /dev/null   ## -> dumpe2fs 1.41.3 (12-Oct-2008)
-         ##TODO## better: tune2fs -l  ??? rr, 20140929
+    # function extended to display filesystem paramaters on all ext2, 3 or 4 filesystems, whether they are mounted or not # modified on 20240119 by edrulrd
+    if [ $(which lsblk 2>/dev/null) ] # added on 20240119 by edrulrd
+    then
+      for fs in $(lsblk -ln -o PATH,FSTYPE | grep ext[2-4] | awk '{print $1}') # added on 20240119 by edrulrd
+      do
+        echo "Dumping: "${fs} # added on 20240119 by edrulrd
+        dumpe2fs -h ${fs}  2>/dev/null   ## -> dumpe2fs 1.41.3 (12-Oct-2008) # added on 20240119 by edrulrd
+      done
+    else
+      echo "Hint: lsblk command not available; showing mounted filesystems only" # added on 20240119 by edrulrd
+      for fs in $(grep ext[2-4] /proc/mounts | awk '{print $1}' | sort -u) # if we don't have lsblk, only check mounted filesystems # modified on 20240119 by edrulrd
+      do
+        echo "Dumping: "${fs}
+        dumpe2fs -h ${fs}  2> /dev/null   ## -> dumpe2fs 1.41.3 (12-Oct-2008)
+        ##TODO## better: tune2fs -l  ??? rr, 20140929
         echo
-    done
+      done
+    fi
 }
 
 function PartitionDump {
