@@ -2211,6 +2211,15 @@ then # else skip to next paragraph
       fi
     fi
 
+### Section about borg and borgmatic backups # added on 20240119 by edrulrd
+    if [ $(which borgmatic) ] ; then
+      dec_heading_level
+      paragraph "Borg backups"
+      inc_heading_level
+      exec_command "cat ~root/.config/borgmatic/config.yaml 2>/dev/null | grep -vE '^ *#|^ *$'" "Borgmatic backup configuration"
+      exec_command "borgmatic -l --syslog-verbosity=-1 -c ~root/.config/borgmatic/config.yaml 2>/dev/null" "List of borg backups"
+    fi
+
 ### new stuff with 2.83 by Dusan // # changed 20140319 by Ralph Roth
 PUPPETEXE=$(which puppet  2>/dev/null)
 if [ -x "${PUPPETEXE}" ] # modified on 20201006 by edrulrd
