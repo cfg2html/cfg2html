@@ -612,7 +612,7 @@ inc_heading_level
 
   ## ps aux --sort=-%cpu,-%mem|head -25 ## 06.03.2015
   exec_command "ps -e -o 'time,cmd' --sort -cputime | head -25 | awk '{ printf(\"%10s   %s\\n\", \$1, \$2); }'" "Top load processes" # modified on 20201009 by edrulrd
-  exec_command "ps -e -o 'vsz pid ruser cpu time args' |sort -nr|head -25" "Top memory consuming processes"
+  exec_command "ps -e -o 'vsz pid ruser cpu time args'  --sort=-vsz | head -25" "Top memory consuming processes" # use ps command's sort command instead # modified on 20240119 by edrulrd
   exec_command topFDhandles "Top file handles consuming processes" # 24.01.2013
   AddText "Hint: Number of open file handles should be less than ulimit -n ("$(ulimit -n)")"
 
