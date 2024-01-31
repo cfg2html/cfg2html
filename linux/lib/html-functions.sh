@@ -101,6 +101,11 @@ function paragraph() {
     echo "<A NAME=\"Inhalt-$1\"></A><A HREF=\"#$1\">$1</A>" >> ${HTML_OUTFILE}
     _echo "\nCollecting: " $1 " .\c"
     echo "    $1 ---- " >> ${TEXT_OUTFILE}
+    let p_len=$(echo $1 | wc -c)  # get the length of the title # added on 20240119 by edrulrd
+    let p_len-- # adjust the length # added on 20240119 by edrulrd
+    _echo "\n\n#========================================================================================" | cut -c1-${p_len} >> ${TEXT_OUTFILE_TEMP} # highlight around the command # added on 20240119 by edrulrd
+    _echo "$1" >> ${TEXT_OUTFILE_TEMP} # Add the paragraph title to the ASCII file too # added on 20240119 by edrulrd
+    _echo "#========================================================================================" | cut -c1-${p_len} >> ${TEXT_OUTFILE_TEMP} # on both sides # added on 20240119 by edrulrd
 }
 
 function exec_command {
@@ -112,6 +117,14 @@ function exec_command {
 
     _echo "\n---=[ $2 ]=----------------------------------------------------------------" | cut -c1-74 >> ${TEXT_OUTFILE_TEMP}
     echo "       - $2" >> ${TEXT_OUTFILE}
+
+    # Extend the meaning of CFG_STINLINE to also apply to showing, or not showing, the command in the text file # added on 20240119 by edrulrd
+    if [ "${CFG_STINLINE}" != "no" ]
+    then
+        # Add the command we're about to execute into the text file and mark it for easy searching # added on 20240119 by edrulrd
+        _echo "### $1 " >>${TEXT_OUTFILE_TEMP} # don't limit the width of the command like we do for the section separator so the command isn't cut off # modified on 20240119 by edrulrd
+    fi
+
     ######the working horse##########
     TMP_EXEC_COMMAND_ERR=/tmp/exec_cmd.tmp.$$
     ## Modified 1/13/05 by marc.korte@oracle.com, Marc Korte, TEKsystems (150 -> 250)
