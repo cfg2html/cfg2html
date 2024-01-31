@@ -586,7 +586,7 @@ inc_heading_level
       #                 ${cntb}++;
       #             }
 
-  exec_command "cat /proc/slabinfo" "Kernel slabinfo Statistics" 	                # changed 20131211 by Ralph Roth
+  exec_command "cat /proc/slabinfo | sed 's/# name/#name/' | tr '<' ' ' | tr '>' ' ' | awk 'NR<3{print;next}{print | \"sort -k3,3nr -k1,1\"}' | column --table --output-width ${CFG_TEXTWIDTH}" "Kernel slabinfo Statistics" # changed 20131211 by Ralph Roth # added column command to put the output in an aligned table after sorting it in descending order by number  of objects $ modified on 20240119 by edrulrd
   AddText "Frequently used objects in the Linux kernel (buffer heads, inodes, dentries, etc.) have their own cache.  The file /proc/slabinfo gives statistics."
   exec_command "cat /proc/pagetypeinfo" "Additional page allocator information" 	# changed 20131211 by Ralph Roth
   exec_command "cat /proc/zoneinfo" "Per-zone page allocator" 		                # changed 20131211 by Ralph Roth
