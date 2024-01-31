@@ -143,22 +143,30 @@ function DoSmartInfo {
     #  18.07.2011, 14:40 modified by Ralph Roth #* rar *#
 
     echo "Overview:"
-    $SMARTCTL --scan                    #  18.07.2011, 14:58 modified by Ralph Roth #* rar *#
+    ${SMARTCTL} --scan #  18.07.2011, 14:58 modified by Ralph Roth #* rar *# # modified on 20240119 by edrulrd
+
     echo ""
 
     echo "Details:"
-    PHYS_DRIVES=$(${FDISKCMD} -l 2>&1 | sort -u | \
-        ${GREPCMD} "^Disk " | \
-        ${GREPCMD} -vE "md[0-9]|identifier:|doesn't contain a valid" | \
-        ${SEDCMD} -e "s/:.*$//" |  \
-        ${AWKCMD} '{print $2}')
+    # PHYS_DRIVES=$(${FDISKCMD} -l 2>&1 | sort -u | \
+        # ${GREPCMD} "^Disk " | \
+        # ${GREPCMD} -vE "md[0-9]|identifier:|doesn't contain a valid" | \
+        # ${SEDCMD} -e "s/:.*$//" |  \
+        # ${AWKCMD} '{print $2}')
+    PHYS_DRIVES=$( ${SMARTCTL} --scan | ${AWKCMD} '{print $1}') # only use drives smartctl knows about # replaced above section on 20240119 by edrulrd
 
     for drive in ${PHYS_DRIVES}
     do
-        echo "---- Drive="$drive
-        $SMARTCTL -P show $drive      # "SMART features of drive $drive"
-        $SMARTCTL --info $drive       # "SMART information of drive $drive"
-        $SMARTCTL --xall $drive       # "SMART extended information of drive $drive"
+        echo "---- Drive=${drive} --------------------------------------------------------------------------------" | cut -c1-74 # make the sections more visible # modified on 20240119 by edrulrd
+        echo "# ${SMARTCTL} -P show ${drive}" # show the command in the reports # added on 20240119 by edrulrd
+        ${SMARTCTL} -P show ${drive}      # "SMART features of drive $drive"
+        echo "" # added on 20240119 by edrulrd
+
+        echo "# ${SMARTCTL} --info ${drive}" # show the command in the reports # added on 20240119 by edrulrd
+        ${SMARTCTL} --info ${drive}       # "SMART information of drive $drive"
+
+        echo "# ${SMARTCTL} --xall ${drive}" # show the command in the reports  # added on 20240119 by edrulrd
+        ${SMARTCTL} --xall ${drive}       # "SMART extended information of drive $drive"
         echo ""
     done
 }
