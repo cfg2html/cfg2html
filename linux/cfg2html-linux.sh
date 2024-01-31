@@ -605,7 +605,7 @@ inc_heading_level
   [ -x /usr/bin/procinfo ] && exec_command "procinfo -a" "System status from /proc" #  15.11.2004, 14:09 modified by Ralph Roth
   # usage: pstree [ -a ] [ -c ] [ -h | -H pid ] [ -l ] [ -n ] [ -p ] [ -u ]
   #               [ -G | -U ] [ pid | user]
-  exec_command "pstree -p -a  -l -G -A" "Active Process - Tree Overview" #  15.11.2004/2011, 14:09 modified by Ralph.Roth
+  exec_command "pstree -a -l -G -A" "Active Process - Tree Overview" #  15.11.2004/2011, 14:09 modified by Ralph.Roth # removed -p (pid) flag to compact the report # modified on 20240119 by edrulrd
                 # changed 20131211 by Ralph Roth, # changed 20140129 by Ralph Roth # cmd. line:1: ^ unexpected newline or end of string
   exec_command "ps -e -o ruser,pid,args | awk ' ((\$1+1) > 1) {print \$0;} '" "Processes without a named owner"
   AddText "The output should be empty!"
