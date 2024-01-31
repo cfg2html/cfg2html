@@ -2017,7 +2017,7 @@ then # else skip to next paragraph
     if [ -d /sys/devices ]
     then                                                    # The new Linux 2.6.x  I/O system and the I/O scheduler
         exec_command GetElevator "Kernel I/O Elevator"      # 18.07.2011, 13:33 modified by Ralph Roth #* rar *#
-        exec_command "lsblk -ta" "List of Block Devices"    # changed 20130627 by Ralph Roth
+        exec_command "lsblk -ta -o +UUID" "List of Block Devices"    # changed 20130627 by Ralph Roth # add UUID option # modified on 20240119 by edrulrd
     fi
     dec_heading_level
 
