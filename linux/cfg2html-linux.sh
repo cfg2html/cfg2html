@@ -769,6 +769,20 @@ inc_heading_level
   exec_command "cat /etc/passwd" "Password File"  # Added by Dusan.Baljevic@ieee.org 6/11/2014
   exec_command "awk -F: 'BEGIN{OFS=FS}{if ( \$2 != \"*\" ) \$2='x'; print \$0}' /etc/shadow" "Shadow File"  # Added by Dusan.Baljevic@ieee.org 6/11/2014 (issue #83)
   exec_command "cat /etc/sudoers" "Sudo Config"  # Added by Dusan.Baljevic@ieee.org 6/11/2014
+
+  # we also show  any local sudoers files under /etc/sudoers.d  # added on 20240119 by edrulrd
+  ls /etc/sudoers.d/* > /dev/null 2>&1 # added on 20240119 by edrulrd
+  if [ $? -eq 0 ] # added on 20240119 by edrulrd
+  then
+      for FILE in $(ls -1 /etc/sudoers.d/*)  # added on 20240119 by edrulrd
+      do
+        if [ $(grep -vE '^#|^ *$' ${FILE} | wc -l) -gt 0 ] # added on 20240119 by edrulrd
+        then
+          exec_command "cat ${FILE} | grep -vE '^#|^ *$'" "sudoers.d/$(basename ${FILE})" # added on 20240119 by edrulrd
+        fi
+      done
+  fi
+
   dec_heading_level
 
 fi # terminates CFG_SYSTEM wrapper
