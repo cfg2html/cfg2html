@@ -2313,7 +2313,7 @@ then
   [ -x /usr/lpp/mmfs/bin/mmnetverify ] && exec_command "/usr/lpp/mmfs/bin/mmnetverify connectivity -N all -T all" "GPFS network verification"
 fi
 
-# Added by Dusan Baljevic on 24 December 2017
+# Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 24 December 2017
 #
 SSSDCONF="/etc/sssd/sssd.conf"
 if [ -s "${SSSDCONF}" ] ; then
@@ -2323,56 +2323,15 @@ if [ -s "${SSSDCONF}" ] ; then
     exec_command "cat ${SSSDCONF}" "SSSD configuration"
     exec_command "realm list" "List enrollments in realms"
     [ -x /usr/bin/systemctl ] && exec_command "/usr/bin/systemctl status sssd" "Systemd SSSD status"
-    exec_command "getent passwd" "List all users"
+    exec_command "getent passwd" "List all users"  ## Fix-Typing mistake result in invalid command (Issue #175)
     exec_command "getent group" "List all groups"
     [ -x /sbin/sssctl ] && exec_command "/sbin/sssctl config-check" "SSSD configuration verification"
     [ -x /sbin/sssctl ] && exec_command "/sbin/sssctl domain-list" "SSSD domain list"
     [ -x /sbin/sssctl ] && exec_command "/sbin/sssctl domain-list | xargs -n1 /sbin/sssctl domain-status" "SSSD domain status"
 fi
 
-## this is newer stuff 2020
-if  [ -x /usr/lpp/mmfs/bin/mmlscluster ]
-then
-    ###  IBM GPFS clusters
-    ###  Made by Dusan.Baljevic@ieee.org ### 24.12.2017
-	dec_heading_level
-	paragraph "IBM GPFS Clustering"
-	inc_heading_level
-	[ -x /usr/lpp/mmfs/bin/mmlscluster ] && exec_command "/usr/lpp/mmfs/bin/mmlscluster" "GPFS cluster status"
-	[ -x /usr/lpp/mmfs/bin/mmlsconfig ] && exec_command "/usr/lpp/mmfs/bin/mmlsconfig" "GPFS config"
-	[ -x /usr/lpp/mmfs/bin/mmfsenv ] && exec_command "/usr/lpp/mmfs/bin/mmfsenv" "GPFS environment"
-	[ -x /usr/lpp/mmfs/bin/mmdiag ] && exec_command "/usr/lpp/mmfs/bin/mmdiag --config" "GPFS complete configuration status"
-	[ -x /usr/lpp/mmfs/bin/mmlsnode ] && exec_command "/usr/lpp/mmfs/bin/mmlsnode -a" "GPFS node status"
-	[ -x /usr/lpp/mmfs/bin/mmlsnsd ] && exec_command "/usr/lpp/mmfs/bin/mmlsnsd -a" "GPFS Network Shared Disk (NSD) status"
-	[ -x /usr/lpp/mmfs/bin/mmlsfs ] && exec_command "/usr/lpp/mmfs/bin/mmlsfs all" "GPFS file system status"
-	[ -x /usr/lpp/mmfs/bin/mmlsmount ] && exec_command "/usr/lpp/mmfs/bin/mmlsmount all -L" "GPFS mount status"
-	[ -x /usr/lpp/mmfs/bin/mmlslicense ] && exec_command "/usr/lpp/mmfs/bin/mmlslicense -L" "GPFS licenses"
-	[ -x /usr/lpp/mmfs/bin/mmhealth ] && exec_command "/usr/lpp/mmfs/bin/mmhealth node show --verbose" "GPFS node health status"
-	[ -x /usr/lpp/mmfs/bin/mmhealth ] && exec_command "/usr/lpp/mmfs/bin/mmhealth cluster show" "GPFS cluster health status"
-	[ -x /usr/lpp/mmfs/bin/mmhealth ] && exec_command "/usr/lpp/mmfs/bin/mmhealth thresholds list" "GPFS thresholds"
-	[ -x /usr/lpp/mmfs/bin/mmlsnode ] && exec_command "/usr/lpp/mmfs/bin/mmlsnode -N waiters -L" "GPFS waiters"
-	[ -x /usr/lpp/mmfs/bin/mmdiag ] && exec_command "/usr/lpp/mmfs/bin/mmdiag --network" "GPFS mmdiag network"
-	[ -x /usr/lpp/mmfs/bin/mmnetverify ] && exec_command "/usr/lpp/mmfs/bin/mmnetverify connectivity -N all -T all" "GPFS network verification"
-    ##############################################################################
-fi
-
-## this is newer stuff 2020
-# Added by Dusan Baljevic (dusan.baljevic@ieee.org) on 24 December 2017
-#
-SSDCONF="/etc/sssd/sssd.conf"
-if [ -s "$SSDCONF" ] ; then
-    dec_heading_level
-    paragraph "System Security Services Daemon (SSSD)"
-    inc_heading_level
-    exec_command "cat $SSSDCONF" "SSSD configuration"
-    exec_command "realm list" "List enrollments in realms"
-    [ -x /usr/bin/systemctl ] && exec_command "/usr/bin/systemctl status sssd" "Systemd SSSD status"
-    exec_command "getent passwd" "List all users"  ## Fix-Typing mistake result in invalid command (Issue #175)
-    exec_command "getent group" "List all groups"
-    [ -x /sbin/sssctl ] && exec_command "/sbin/sssctl config-check" "SSSD configuration verification"
-    [ -x /sbin/sssctl ] && exec_command "/sbin/sssctl domain-list" "SSSD domain list"
-    [ -x /sbin/sssctl ] && exec_command "/sbin/sssctl domain-status" "SSSD domain status"
-fi
+# removed duplicate GPFS Clustering section # modified on 20240119 by edrulrd
+# removed duplicate SSSD Status section # modified on 20240119 by edrulrd
 
 # this may need reworking - works only if CFEngine agent is installed. # changed 20140319 by Ralph Roth
 if [ -x /var/cfengine/bin/cfagent ]
@@ -2464,7 +2423,7 @@ fi
 
   dec_heading_level
   paragraph "Cluster Services"
-inc_heading_level
+  inc_heading_level
 
 ######## SLES 11 SP1 Pacemaker stuff ########## Mittwoch, 16. March 2011 ##### Ralph Roth ####
   [ -x /usr/sbin/corosync-cfgtool ] && exec_command "/usr/sbin/corosync-cfgtool -s;corosync -v" "Corosync TOTEM Status/Active Rings"
