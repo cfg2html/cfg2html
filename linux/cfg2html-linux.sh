@@ -2879,32 +2879,32 @@ fi  # end of CFG_VMWARE paragraph
 if [ "${CFG_PLUGINS}" != "no" ];
 then # else skip to next paragraph
     if [ -f ${CONFIG_DIR}/plugins ]; then
-    paragraph "Custom plugins"
+      paragraph "Custom plugins"
 
-        # include plugin configuration
-    . ${CONFIG_DIR}/plugins
+      # include plugin configuration
+      . ${CONFIG_DIR}/plugins
 
 
-    if [ -n "${CFG2HTML_PLUGIN_DIR}" -a -n "${CFG2HTML_PLUGINS}" ]; then
-            # only run plugins when we know where to find them and at least one of them is enabled
+      if [ -n "${CFG2HTML_PLUGIN_DIR}" -a -n "${CFG2HTML_PLUGINS}" ]; then
+        # only run plugins when we know where to find them and at least one of them is enabled
 
         inc_heading_level
 
         if [ "${CFG2HTML_PLUGINS}" == "all" ]; then
-        # include all plugins
-        CFG2HTML_PLUGINS="$(ls -1 ${CFG2HTML_PLUGIN_DIR})"
+          # include all plugins
+          CFG2HTML_PLUGINS="$(ls -1 ${CFG2HTML_PLUGIN_DIR})"
         fi
 
         for CFG2HTML_PLUGIN in ${CFG2HTML_PLUGINS}; do
-        if [ -f "${CFG2HTML_PLUGIN_DIR}/${CFG2HTML_PLUGIN}" ]; then
-            . ${CFG2HTML_PLUGIN_DIR}/${CFG2HTML_PLUGIN}
-            exec_command cfg2html_plugin "${CFG2HTML_PLUGINTITLE}"
-        else
-            AddText "Configured plugin ${CFG2HTML_PLUGIN} not found in ${CFG2HTML_PLUGIN_DIR}"
-        fi
+          if [ -f "${CFG2HTML_PLUGIN_DIR}/${CFG2HTML_PLUGIN}" ]; then
+              . ${CFG2HTML_PLUGIN_DIR}/${CFG2HTML_PLUGIN}
+              exec_command cfg2html_plugin "${CFG2HTML_PLUGINTITLE}"
+          else
+              AddText "Configured plugin ${CFG2HTML_PLUGIN} not found in ${CFG2HTML_PLUGIN_DIR}"
+          fi
         done
-        dec_heading_level
-    fi
+      dec_heading_level
+      fi
     fi
 fi
 
