@@ -859,15 +859,16 @@ inc_heading_level
 # for user in $(getent passwd|cut -f1 -d:); do echo "### Crontabs for ${user} ####"; crontab -u ${user} -l; done
 # changed 20140212 by Ralph Roth
 
-  ls ${user}cron/* > /dev/null 2>&1
+  ls ${usercron}/* > /dev/null 2>&1 # $usercron variable was not being used # modified on 20240119 by edrulrd
   if [ $? -eq 0 ]
   then
      exec_command "" "Crontab files:" # fixed title # modified on 20240119 by edrulrd 
+	  for FILE in ${usercron}/* # $usercron variable was not being used # modified on 20240119 by edrulrd
 	  do
-		  exec_command "cat ${FILE} | grep -v ^#" "For user `basename ${FILE}`"
+		  exec_command "cat ${FILE} | grep -vE '^#|^ *$'" "${usercron}/$(basename ${FILE})" # get rid of blank lines too # modified on 20240119 by edrulrd
 	  done
   else
-	  echo "No crontab files for user.<br>" >> ${HTML_OUTFILE}
+      exec_command "echo 'No user crontab files'" "${usercron}"  # modified on 20240119 by edrulrd
   fi
 
   ##
@@ -1102,7 +1103,7 @@ inc_heading_level
   fi
 
   SGMAP=`which sg_map 2>/dev/null`
-  if [ -x "${SMAP}" ]; then # modified on 20201009 by edrulrd
+  if [ -x "${SGMAP}" ]; then # modified on 20201009 by edrulrd # fixed variable name bug # modified on 20240119 by edrulrd
      exec_command "sg_map -x" "Fibre Channel Host Bus Adapters sg_map status"
   fi
 
@@ -2779,7 +2780,7 @@ then # else skip to next paragraph
 
     if [ -e /opt/netxen ] ; then
         echo "NetXen diagnostic utility detected; to get full NetXEN diag output run command:"
-        echo "/opt/netxen/nxudiag -i ethX (ethX is your eth adapter like eth0 / eth1"
+        echo "/opt/netxen/nxudiag -i ethX (ethX is your eth adapter like eth0 / eth1)"  # added closing ')' # modified on 20240119 by edrulrd
     fi
 
     ###below partitioning and HPACUCLI is contributed by kgalal@gmail.com
@@ -2865,7 +2866,7 @@ then # else skip to next paragraph
       echo "VMWare server detected. We will start now the vm-support script in case you"
       echo "need this vmware debugging file send to VMWare support or other support teams."
       vm-support
-      exec_command "cat esx-$(date -I).$$.tgz" "vm-support ticket generated in local directory if vm-support is installed."
+      exec_command "ls -l esx-$(date -I).$$.tgz" "vm-support ticket generated in local directory if vm-support is installed." # changed cat to ls for tar file # modified on 20240119 by edrulrd
     dec_heading_level
   fi
 fi  # end of CFG_VMWARE paragraph
@@ -2965,7 +2966,7 @@ rm -f core > /dev/null
 ########## remove the error.log if it has size zero #######################
 [ ! -s "${ERROR_LOG}" ] && rm -f ${ERROR_LOG} 2> /dev/null
 
-rm -rf /tmp//tmp/cfg2html.??????????????  # [20200312] {jcw} Pattern of seemingly hangers-on directories after a run.
+rm -rf /tmp/cfg2html.???????????????  # [20200312] {jcw} Pattern of seemingly hangers-on directories after a run. # adjusted file name # modified on 20240119 by edrulrd
 
 ####################################################################
 
