@@ -84,7 +84,7 @@ function dec_heading_level {
 }
 
 ######################################################################
-#  Creates an own paragraph, $1 = heading
+#  Creates a new paragraph, $1 = heading #modified on 20240119 by edrulrd
 ######################################################################
 
 # [20200310] {jcw} added the reserved word 'function' for consistency.

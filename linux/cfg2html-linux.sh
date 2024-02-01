@@ -426,7 +426,7 @@ inc_heading_level
     exec_command "cat ${CONFIG_DIR}/systeminfo" "System description"
   fi
 
-  # [20200324] {jcw} Seperated these-->exec_command "cat /proc/cpuinfo; echo; /usr/bin/lscpu;" "CPU and Model info" #  20.08.2012, 15:59 modified by Ralph Roth #* rar *#
+  # [20200324] {jcw} Separated these-->exec_command "cat /proc/cpuinfo; echo; /usr/bin/lscpu;" "CPU and Model info" #  20.08.2012, 15:59 modified by Ralph Roth #* rar *#
   exec_command "cat /proc/cpuinfo" "CPU and Model info"
   [ -x /usr/bin/lscpu ] && exec_command "/usr/bin/lscpu" "CPU Architecture Information Helper"
   [ -x /usr/bin/cpufreq-info ] && exec_command cpufreq-info "CPU Frequency Information" # noted to be replaced by cpupower # comment added on 20240119 by edrulrd
@@ -1591,7 +1591,7 @@ then # else skip to next paragraph
   inc_heading_level
 
   if [[ -x /sbin/ifconfig ]]; then
-     exec_command "/sbin/ifconfig" "LAN Interfaces Settings (ifconfig)"    #D011 -- 16. March 2011,  28. Dezember 2011, ER by Heiko Andresen // to avoid erros of ifconfig not found
+     exec_command "/sbin/ifconfig" "LAN Interfaces Settings (ifconfig)"    #D011 -- 16. March 2011,  28. Dezember 2011, ER by Heiko Andresen // to avoid error if ifconfig not found
   fi
   exec_command "ip addr" "LAN Interfaces Settings (ip addr)"            #D011 -- 16. March 2011,  28. Dezember 2011, ER by Heiko Andresen
   exec_command "ip -s l" "Detailed NIC Statistics"                      #07.11.2011, 21:33 modified by Ralph Roth #* rar *#
@@ -1599,7 +1599,7 @@ then # else skip to next paragraph
   if [ -x /usr/bin/nmcli ]
   then
       # exec_command "nmcli nm status" "NetworkManager Status"
-      #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org##FIXED## 20150304 by Ralph Roth //  not availabe on openSUSE 13.2!
+      #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org##FIXED## 20150304 by Ralph Roth //  not available on openSUSE 13.2!
       exec_command "nmcli device status" "NetworkManager Device Status"   	#20150527 by Ralph Roth
       exec_command "nmcli connection show" "NetworkManager Connections"     	#06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org##FIXED## 20150304 by Ralph Roth
   fi ## /usr/bin/nmcli
@@ -2282,7 +2282,7 @@ then
     exec_command "${PUPPETEXE} config print modulepath" "Puppet configuration module paths"
   fi
 
-  # gdha - 16/Nov/2015 - added TIEMOUTCMD - issue #95
+  # gdha - 16/Nov/2015 - added TIMEOUTCMD - issue #95
   exec_command "${TIMEOUTCMD} 60 ${PUPPETEXE} resource user" "Users in Puppet Resource Abstraction Layer (RAL)"
   exec_command "${PUPPETEXE} resource package" "Packages in Puppet Resource Abstraction Layer (RAL)"
   # SUSE-SU-2014:0155-1 # seems to crash plain installed servers, puppet not configured ## changed 20140429 by Ralph Roth

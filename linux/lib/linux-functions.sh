@@ -139,7 +139,7 @@ function topFDhandles {
 }
 
 function DoSmartInfo {
-    ## Bundeled by Ralph Roth to avoid massive exec_command calls under Debian Linux!
+    ## Bundled by Ralph Roth to avoid massive exec_command calls under Debian Linux!
     #  18.07.2011, 14:40 modified by Ralph Roth #* rar *#
 
     echo "Overview:"
