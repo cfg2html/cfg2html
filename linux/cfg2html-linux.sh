@@ -560,7 +560,7 @@ inc_heading_level
 
   # [20200409] {jcw} Added section for processor, kernel and memory status details
   ESXHost='false'; [ -e /usr/sbin/esxupdate ] && [ $(rpm -qa | grep -i vmware-esx | wc -l | tr -d' ') -ge 2 ] && ESXHost='TRUE'
-  echo "Identify processor architecture, installed OS architecture, and the type/amount fo system memory (best approximation)."                     > /tmp/ProcKernMem.info
+  echo "Identify processor architecture, installed OS architecture, and the type/amount of system memory (best approximation)."                     > /tmp/ProcKernMem.info
   echo "Note:  Math rounding may result in displaying a slightly smaller number than actually installed/configured (g=GB, m=MB, k=KB, b=bytes)."   >> /tmp/ProcKernMem.info
   echo "       kcore line is processed from size of '/proc/kcore'; free is processed from 'free' command."                                         >> /tmp/ProcKernMem.info
   echo "---------------------------------------------------------------------------------------------------------------------------------------"   >> /tmp/ProcKernMem.info
@@ -1240,7 +1240,7 @@ then # else skip to next paragraph
       AddText "Debian Settings"
       AddText "Hint: to reinstall this list use:"
       AddText "cat this_list | debconf-set-selections -v "
-      exec_command "/usr/bin/debconf-get-selections" "Debian Pakage Configuration Values"
+      exec_command "/usr/bin/debconf-get-selections" "Debian Package Configuration Values"
     fi
   fi
   # end Debian
@@ -2773,7 +2773,7 @@ then # else skip to next paragraph
     if [ -x /usr/local/bin/vcsu ] ; then
         echo "HP Virtual Connect Support Utility (VCSU) detected; get if needed the VC logs"
         echo " collected via /usr/local/bin/vcsu -a collect. and with vcsu -a -supportdump and"
-        echo " executute then again cfg2html to get all the logs included automatically."
+        echo " execute cfg2html again to get all the logs included automatically." # modified phrasing # modified on 20240119 by edrulrd
         cp /usr/local/bin/*.txt ${temphp}
         cp /usr/local/bin/vcsu*.log ${temphp}
     fi
@@ -2863,8 +2863,8 @@ then # else skip to next paragraph
     paragraph "VMWare logfiles and settings"
     inc_heading_level
       exec_command "vmware -v" "VMWare Server version"
-      echo "VMWare server detected. We will start now the vm-support script in case you"
-      echo "need this vmware debugging file send to VMWare support or other support teams."
+      echo "VMWare server detected. We will now start the vm-support script in case you" # wording changes # modified on 20240119 by edrulrd
+      echo "need this vmware debugging file to send to VMWare support or other support teams." # wording changes # modified on 20240119 by edrulrd
       vm-support
       exec_command "ls -l esx-$(date -I).$$.tgz" "vm-support ticket generated in local directory if vm-support is installed." # changed cat to ls for tar file # modified on 20240119 by edrulrd
     dec_heading_level
