@@ -436,7 +436,7 @@ inc_heading_level
       exec_command "${CPUPOWER} frequency-info" "CPU Frequency Information"  ## closes issue #53 - rr, 20140725 # replacement for cpufreq-info cmd # added on 20240119 by edrulrd
       exec_command "${CPUPOWER} idle-info" "Processor idle state information"  ## closes issue #53 - rr, 20140725
       exec_command "${CPUPOWER} info" "Processor power related kernel or hardware configuration"
-      exec_command "${CPUPOWER} monitor" "Monitor"
+      exec_command "${CPUPOWER} monitor" "Processor Monitor"
   fi
 
   exec_command  HostNames "uname and hostname details"
@@ -460,6 +460,7 @@ inc_heading_level
       if [ -x /usr/bin/virsh ] ; then
         exec_command "${TIMEOUTCMD} 20 /usr/bin/virsh list" "virsh Virtualization Support Status"
         exec_command "${TIMEOUTCMD} 20 /usr/bin/virsh sysinfo" "virsh XML Hypervisor Sysinfo"
+        AddText "Hint: You may need to view your browser's page source to see the XML tags, or refer to the ASCII report" # xml tags are taken out (at least) by Firefox # modified on 20240119 by edrulrd
       fi
 
       if [ -x /usr/sbin/virt-what ] ; then
@@ -494,7 +495,7 @@ inc_heading_level
 
   # [20200407] {jcw} It's funny, the getconf man-page does not even mention the -a argument, nor does `getconf --help` (they are dated back to 2003, though).
   #                  A good reference page is:  www.mkssoftware.com/docs/man1/getconf.1.asp
-  exec_command "getconf -a | sort" "System Configuration Variables"   ## at least SLES11, #  14.06.2011, 18:53 modified by Ralph Roth #* rar *#      ## [20200407] {jcw} added sort.
+  exec_command "getconf -a | sort | column --output-width ${CFG_TEXTWIDTH}" "System Configuration Variables"   ## at least SLES11, #  14.06.2011, 18:53 modified by Ralph Roth #* rar *#      ## [20200407] {jcw} added sort. # added column # modified on 20240119 by edrulrd
 
   if [ -x /usr/bin/mpstat ] ; then
     exec_command "mpstat 1 5" "MP-Statistics"
@@ -543,7 +544,7 @@ inc_heading_level
     done |
     sort -k1,1 -u |
     awk '{\$1=\"\"; print}' |
-    sed 's/^ //'" "Executable Commands found in $LISTPATH" # Added on 20201025 by edrulrd
+    sed 's/^ //' | column --output-width ${CFG_TEXTWIDTH}" "Executable Commands found in $LISTPATH" # Added on 20201025 by edrulrd, modified on 20240119 by edrulrd
     unset LISTPATH
     # End of code added on 20201025 by edrulrd
   fi # terminates CFG_PATHLIST wrapper # added on 20201026 by edrulrd
@@ -603,7 +604,7 @@ inc_heading_level
   # exec_command "sar 1 9" "System Activity Report"
   # exec_command "sar -b 1 9" "Buffer Activity"
 
-  [ -x /usr/bin/procinfo ] && exec_command "procinfo -a" "System status from /proc" #  15.11.2004, 14:09 modified by Ralph Roth
+  [ -x /usr/bin/procinfo ] && exec_command "procinfo" "System status from /proc" #  15.11.2004, 14:09 modified by Ralph Roth # -a option of procinfo appears deprecated, removed # modified on 20240119 by edrulrd
   # usage: pstree [ -a ] [ -c ] [ -h | -H pid ] [ -l ] [ -n ] [ -p ] [ -u ]
   #               [ -G | -U ] [ pid | user]
   exec_command "pstree -a -l -G -A" "Active Process - Tree Overview" #  15.11.2004/2011, 14:09 modified by Ralph.Roth # removed -p (pid) flag to compact the report # modified on 20240119 by edrulrd
@@ -666,7 +667,7 @@ inc_heading_level
     ## new 20140613 by Ralph Roth
     [ -x /usr/bin/journalctl ] && exec_command "/usr/bin/journalctl -b -p 3 --no-pager" "Systemd Journal with Errors and Warnings"
 
-    if [ "${ARCH}" = "yes" ] ; then   ## M.Weiller, LUG-Ottobrunn.de, 2013-02-04 ## OpenSUSE also and SLES12?
+    if [ "${ARCH}" = "yes" -o "${DEBIAN}" = "yes" ] ; then   ## M.Weiller, LUG-Ottobrunn.de, 2013-02-04 ## OpenSUSE also and SLES12? # found to be supported on Debian too # modified on 20240119 by edrulrd
       exec_command "/usr/bin/systemctl --failed" "Systemd: Failed Units"
     fi
   else ## old SYS5 RC stuff!
@@ -703,7 +704,7 @@ inc_heading_level
 
   # Added by Dusan Baljevic on 24 December 2017
   if [ -x /usr/bin/coredumpctl ] ; then
-    exec_command "/usr/bin/coredumpctl list" "List available coredumps"
+    exec_command "/usr/bin/coredumpctl list 2>&1" "List available coredumps" # added error redirection to get 0 coredumps message, if applicable # modified on 20240119 by edrulrd
   fi
 
   ## we want to display the Boot Messages too ## 30Jan2003 it233 FRU
@@ -768,7 +769,7 @@ inc_heading_level
 
   exec_command "cat /etc/passwd" "Password File"  # Added by Dusan.Baljevic@ieee.org 6/11/2014
   exec_command "awk -F: 'BEGIN{OFS=FS}{if ( \$2 != \"*\" ) \$2='x'; print \$0}' /etc/shadow" "Shadow File"  # Added by Dusan.Baljevic@ieee.org 6/11/2014 (issue #83)
-  exec_command "cat /etc/sudoers" "Sudo Config"  # Added by Dusan.Baljevic@ieee.org 6/11/2014
+  exec_command "cat /etc/sudoers | grep -vE '^#|^ *$'" "Sudo Config"  # Added by Dusan.Baljevic@ieee.org 6/11/2014 # don't display blank or commented out lines # modified on 20240119 by edrulrd
 
   # we also show  any local sudoers files under /etc/sudoers.d  # added on 20240119 by edrulrd
   ls /etc/sudoers.d/* > /dev/null 2>&1 # added on 20240119 by edrulrd
@@ -878,10 +879,10 @@ inc_heading_level
       exec_command "" "/etc/cron.d files:" # fixed title in webpage # modified on 20240119 by edrulrd 
 	  for FILE in /etc/cron.d/*
 	  do
-		  exec_command "cat ${FILE} | grep -v ^#" "For utility `basename ${FILE}`"
+		  exec_command "cat ${FILE} | grep -vE '^#|^ *$'" "For utility: $(basename ${FILE})" # modified on 20240119 by edrulrd
 	  done
   else
-	  echo "No /etc/cron.d files for utlities." >> ${HTML_OUTFILE}
+      exec_command "echo 'No /etc/cron.d files for utilities'" "/etc/cron.d"  # modified on 20240119 by edrulrd
   fi
 
   if [ -f /etc/crontab ] ; then
@@ -896,7 +897,7 @@ inc_heading_level
   for FILE in at.allow at.deny; do
 	  if [ -r ${atconfigpath}/${FILE} ]
 	  then
-	      exec_command "cat ${atconfigpath}/${FILE} " "${atconfigpath}/${FILE}"
+	      exec_command "cat ${atconfigpath}/${FILE} | grep -vE '^#|^ *$'" "${atconfigpath}/${FILE}" # modified on 20240119 by edrulrd
 	  else
 	      exec_command " " "${atconfigpath}/${FILE}" # modified on 20240119 by edrulrd
 	  fi
@@ -971,20 +972,15 @@ inc_heading_level
   exec_command "cat /proc/interrupts" "Interrupts"
   if [ -f /proc/scsi/scsi ] ;then
     exec_command "find /proc/scsi" "SCSI Components" #  22.11.2004, 16:08 modified by Ralph.Roth
-    exec_command "cat /proc/scsi/scsi" "SCSI Devices"
   fi
 
   if  [ -x /usr/bin/lsscsi ]
   then
-  	# Debian 6.06 # 24.01.2013, doesn't have -p option yet!
-  	#        -p, --protection        Output additional data integrity (protection) information.
-	exec_command "/usr/bin/lsscsi -lv" "SCSI Devices (long, details)"  ## rr, 16. March 2011
-	exec_command "/usr/bin/lsscsi -s" "SCSI Devices (size)"  ## rr, 16. March 2011, 27 May 2015
-  fi
-
-  if [ -x "${FDISKCMD}" -a -x "${GREPCMD}" -a -x "${SEDCMD}" -a -x "${AWKCMD}" -a -x "${SMARTCTL}" ]
-  then
-      exec_command DoSmartInfo "SMART disk drive features and information"
+    # Debian 6.06 # 24.01.2013, doesn't have -p option yet!
+    #        -p, --protection        Output additional data integrity (protection) information. # -p option is available at least in Debian 12 (bookworm), but not (yet) implemented here # modified on 20240119 by edrulrd
+    exec_command "cat /proc/scsi/scsi 2>/dev/null || /usr/bin/lsscsi -c" "SCSI Devices" # moved from above.  lsscsi -c provides similar output to /proc/scsi/scsi # modified on 20240119 by edrulrd
+    exec_command "/usr/bin/lsscsi -lv 2>/dev/null " "SCSI Devices (long, details)"  ## rr, 16. March 2011 # don't flag it if there are no nvme devices # modified on 20240119 by edrulrd
+    exec_command "/usr/bin/lsscsi -s" "SCSI Devices (size)"  ## rr, 16. March 2011, 27 May 2015
   fi
 
   ## rar, 13.02.2004
@@ -993,6 +989,48 @@ inc_heading_level
 
   ## Added 15.05.2006 (09:30) by Peter Lindblom, HP, STCC EMEA
   [ -x /usr/sbin/lssg ] && exec_command "/usr/sbin/lssg" "Generic SCSI Devices"
+
+  if [ -x "${FDISKCMD}" -a -x "${GREPCMD}" -a -x "${SEDCMD}" -a -x "${AWKCMD}" -a -x "${SMARTCTL}" ]
+  then
+    exec_command DoSmartInfo "SMART disk drive features and information"
+
+    # Moved disk info section from below to here # modified on 20240119 by edrulrd
+    # get IDE and/or ATA Disk information # modified on 20240119 by edrulrd
+    HDPARM=$(which hdparm 2>/dev/null) # modified in case hdparm not installed, on 20201004 by edrulrd
+    # if hdparm is installed (DEBIAN 4.0)
+    # -i   display drive identification
+    # -I   detailed/current information directly from drive
+
+    #  -i   display drive identification (SUSE 10u1)
+    #  -I   detailed/current information directly from drive
+    #  --Istdin  reads identify data from stdin as ASCII hex
+    #  --Istdout writes identify data to stdout as ASCII hex
+
+    # Sep 23 19:12:47 hp02 root: Start of cfg2html-linux version 1.63-2009-08-27
+    # Sep 23 19:13:03 hp02 kernel: hda: drive_cmd: status=0x51 { DriveReady SeekComplete Error }
+    # Sep 23 19:13:03 hp02 kernel: hda: drive_cmd: error=0x04Aborted Command
+    # Sep 23 19:13:18 hp02 root: End of cfg2html-linux version 1.63-2009-08-27
+
+    # Anpassung auf hdparm -i wegen Fehler im Syslog (siehe oben, cfg1.63)
+    # Ingo Metzler 23.09.2009
+
+    if [ ${HDPARM} ]  && [ -x ${HDPARM} ]; then # added on 20240119 by edrulrd
+      PHYS_DRIVES=$( ${SMARTCTL} --scan | ${AWKCMD} '{print $1}') # only use drives smartctl knows about # modified on 20240119 by edrulrd
+
+      exec_command "for drive in ${PHYS_DRIVES}; do ${HDPARM} -i \${drive}; done" "Disk Identification Information" # added on 20240119 by edrulrd
+
+
+      for drive in ${PHYS_DRIVES} # added on 20240119 by edrulrd
+      do
+          exec_command "${HDPARM} -t -T ${drive}" "Transfer Speed for ${drive}" # added on 20240119 by edrulrd
+      done
+    fi
+  fi
+
+  # Moved cdrom info from below to here # modified on 20240119 by edrulrd
+  if [ -e /proc/sys/dev/cdrom/info ] ; then
+    exec_command "cat /proc/sys/dev/cdrom/info" "CDROM Drive"
+  fi
 
   ## rar, 13.02.2004
   ## Added 15.05.2006 (09:30) by Peter Lindblom, HP, STCC EMEA, Added the echo between the command to get a new line and move it down below lssg and lssd.
@@ -1118,66 +1156,9 @@ inc_heading_level
     exec_command "${SETSERIAL} -a /dev/ttyS1" "Serial ttyS1"
   fi
 
-  # get IDE Disk information
-  HDPARM=$(which hdparm 2>/dev/null) # modified in case hdparm not installed, on 20201004 by edrulrd
-  # if hdparm is installed (DEBIAN 4.0)
-  # -i   display drive identification
-  # -I   detailed/current information directly from drive
+  # moved disk information section to up above # modified on 20240119 by edrulrd
 
-  #  -i   display drive identification (SUSE 10u1)
-  #  -I   detailed/current information directly from drive
-  #  --Istdin  reads identify data from stdin as ASCII hex
-  #  --Istdout writes identify data to stdout as ASCII hex
-
-  # Sep 23 19:12:47 hp02 root: Start of cfg2html-linux version 1.63-2009-08-27
-  # Sep 23 19:13:03 hp02 kernel: hda: drive_cmd: status=0x51 { DriveReady SeekComplete Error }
-  # Sep 23 19:13:03 hp02 kernel: hda: drive_cmd: error=0x04Aborted Command
-  # Sep 23 19:13:18 hp02 root: End of cfg2html-linux version 1.63-2009-08-27
-
-  # Anpassung auf hdparm -i wegen Fehler im Syslog (siehe oben, cfg1.63)
-  # Ingo Metzler 23.09.2009
-
-  if [ ${HDPARM} ]  && [ -x ${HDPARM} ]; then
-    exec_command "\
-      if [ -e /proc/ide/hda ] ; then _echo  -n \"read from drive\"; ${HDPARM} -i /dev/hda;fi;\
-      if [ -e /proc/ide/hdb ] ; then echo; _echo -n \"read from drive\"; ${HDPARM} -i /dev/hdb;fi;\
-      if [ -e /proc/ide/hdc ] ; then echo; _echo -n \"read from drive\"; ${HDPARM} -i /dev/hdc;fi;\
-      if [ -e /proc/ide/hdd ] ; then echo; _echo -n \"read from drive\"; ${HDPARM} -i /dev/hdd;fi;"\
-    "IDE Disks"
-
-    if [ -e /proc/ide/hda ] ; then
-      if grep disk /proc/ide/hda/media > /dev/null ;then
-        exec_command "${HDPARM} -t -T /dev/hda" "Transfer Speed"
-      fi
-    fi
-    if [ -e /proc/ide/hdb ] ; then
-      if grep disk /proc/ide/hdb/media > /dev/null ;then
-        exec_command "${HDPARM} -t -T /dev/hdb" "Transfer Speed"
-      fi
-    fi
-    if [ -e /proc/ide/hdc ] ; then
-      if grep disk /proc/ide/hdc/media > /dev/null ;then
-        exec_command "${HDPARM} -t -T /dev/hdc" "Transfer Speed"
-      fi
-    fi
-    if [ -e /proc/ide/hdd ] ; then
-      if grep disk /proc/ide/hdd/media > /dev/null ;then
-        exec_command "${HDPARM} -t -T /dev/hdd" "Transfer Speed"
-      fi
-    fi
-  else
-  # if hdparm not available
-    exec_command "\
-      if [ -e /proc/ide/hda/model ] ; then _echo -n \"hda: \";cat /proc/ide/hda/model ;fi;\
-      if [ -e /proc/ide/hdb/model ] ; then _echo -n \"hdb: \";cat /proc/ide/hdb/model ;fi;\
-      if [ -e /proc/ide/hdc/model ] ; then _echo -n \"hdc: \";cat /proc/ide/hdc/model ;fi;\
-      if [ -e /proc/ide/hdd/model ] ; then _echo -n \"hdd: \";cat /proc/ide/hdd/model ;fi;"\
-  "IDE Disks"
-  fi
-
-  if [ -e /proc/sys/dev/cdrom/info ] ; then
-    exec_command "cat /proc/sys/dev/cdrom/info" "CDROM Drive"
-  fi
+  # Moved cdrom section to up above # modified on 20240119 by edrulrd
 
   if [ -e /proc/ide/piix ] ; then
     exec_command "cat /proc/ide/piix" "IDE Chipset info"
@@ -1186,9 +1167,9 @@ inc_heading_level
   # Test HW Health
   # MiMe
   if [ -x /usr/bin/sensors ] ; then
-    if [ -e /proc/sys/dev/sensors/chips ] ; then
-      exec_command "/usr/bin/sensors" "Sensors"
-    fi
+    # if [ -e /proc/sys/dev/sensors/chips ] ; then # commented out as cmd exists, but proc file doesn't # modified on 20240119 by edrulrd
+      exec_command "/usr/bin/sensors" "Sensor Information" # modified on 20240119 by edrulrd
+    # fi # commented out on 20240119 by edrulrd
   fi
 
   if [ -x /usr/sbin/xpinfo ]
@@ -1240,10 +1221,10 @@ then # else skip to next paragraph
   # Debian
   if [ "${DEBIAN}" = "yes" ] ; then
     dpkg --get-selections | awk '!/deinstall/ {print $1}' > /tmp/cfg2html-debian.$$
-    exec_command "column /tmp/cfg2html-debian.$$" "Packages installed"
+    exec_command "column --output-width ${CFG_TEXTWIDTH} /tmp/cfg2html-debian.$$" "Packages installed" # specify a maximum width for our columns # modified on 20240119 by edrulrd
     rm -f /tmp/cfg2html-debian.$$
     AddText "Hint: to reinstall this list use:"
-    AddText "awk '{print \$1\"\\n\"\$2}' this_list |  dpkg --set-selections"
+    AddText "awk '{print \$1\" install\"}' this_list | dpkg --set-selections" # modified on 20240119 by edrulrd
     exec_command "dpkg -C" "Misconfigured Packages"
 #   # { changed/added 25.11.2003 (14:29) by Ralph Roth }
     if [ -x /usr/bin/deborphan ] ; then
@@ -1252,8 +1233,8 @@ then # else skip to next paragraph
     fi
     exec_command "dpkg -l" "Detailed list of installed Packages"
     AddText "$(dpkg --version|grep program)"
-    exec_command "grep -vE '^#|^ *$' /etc/apt/sources.list" "Installed from"
-    [ -x /usr/bin/dpigs ] && exec_command "/usr/bin/dpigs" "Largest installed packages"
+    exec_command "grep -vE '^#|^ *$' /etc/apt/sources.list" "Package Source repositories" # modified on 20240119 by edrulrd
+    [ -x /usr/bin/dpigs ] && exec_command "/usr/bin/dpigs -H" "Largest installed packages" # added -H # modified on 20240119 by edrulrd
     if [ -x /usr/bin/debconf-get-selections ]; then
       AddText "Debian Settings"
       AddText "Hint: to reinstall this list use:"
@@ -1338,7 +1319,7 @@ then # else skip to next paragraph
   ## AppArmor
   if [ -x /usr/sbin/aa-status ]
   then
-   exec_command "/usr/sbin/aa-status --verbose" "AppArmor LSM for Name-based Mandatory Access Control/Profiles"
+    exec_command "/usr/sbin/aa-status --verbose" "AppArmor LSM for Name-based Mandatory Access Control/Profiles"
   fi
 
   #### programming stuff ##### plugin for cfg2html/linux/hpux #  22.11.2005, 16:03 modified by Ralph Roth
@@ -1363,8 +1344,13 @@ inc_heading_level
     then
       exec_command "display_ext_fs_param" "Filesystems Parameters"	# needs fixing, 20140929 by Ralph Roth
     fi
-    exec_command "mount" "Local Mountpoints"
-    exec_command PartitionDump "Disk Partition Layout"        #  30.03.2011, 20:00 modified by Ralph Roth #** rar **#
+    exec_command "mount | column --table --output-width ${CFG_TEXTWIDTH}" "Mount points" # more readable in table format # modified on 20240119 by edrulrd
+    exec_command PartitionDump "Disk Partition Layout (showing sizes)"        #  30.03.2011, 20:00 modified by Ralph Roth #** rar ** # modified title # modified on 20240119 by edrulrd
+
+    # moved the partition map showing sectors from below to here  # modified on 20240119 by edrulrd
+    # for LVM using sed
+    exec_command "/sbin/fdisk -l|sed 's/8e \ Unknown/8e \ LVM/g'" "Disk Partitions (showing sectors)" # modified on 20240119 by edrulrd
+
     #
     # 20201008 following code added by edrulrd
     # We want to save the partition tables for each of the disks so we can restore them if they get corrupted.
@@ -1389,14 +1375,20 @@ inc_heading_level
       for HardDisk in $(lsblk -p | grep "^/" | grep disk | awk '{print $1}') # get the harddrives only eg. /dev/sda, not lv's etc.
       do
         if [ -x "$(which sgdisk)" -a "${do_sgdisk}" = "yes" ] ; then
-          sgdisk --backup="${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk})" ${HardDisk}
-          exec_command "ls -l ${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk})" "Disk Partitions to restore from"
-          AddText "WARNING: use at your own risk!  To restore your partitions use the saved file: ${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk}). Read the man page for sgdisk for usage. (Hint: sgdisk --load-backup=${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk}) ${HardDisk}"
+          sgdisk --backup="${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk})" ${HardDisk} && # don't proceed if sgdisk fails # modified on 20240119 by edrulrd
+          if [ -s "${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk})" ] # ignore empty files # added on 20240119 by edrulrd
+          then
+            exec_command "ls -l ${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk})" "SGDisk Partition specification for ${HardDisk}" # modified on 20240119 by edrulrd
+            AddText "WARNING: use at your own risk!  To restore your partitions use the saved file: ${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk}). Read the man page for sgdisk for usage. (Hint: sgdisk --load-backup=${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk}) ${HardDisk}"
+          fi # added on 20240119 by edrulrd
         else
           if [ "${do_sfdisk}" = "yes" ] ; then
-            sfdisk -d ${HardDisk} > ${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk})
-            exec_command "cat ${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk})" "Disk Partitions to restore from"
-            AddText "WARNING: use at your own risk!  To restore your partitions use the saved file: ${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk}). Read the man page for sfdisk for usage. (Hint: sfdisk --force /dev/device < file.save)"
+            sfdisk -d ${HardDisk} > ${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk}) && # don't proceed if sfdisk fails # modified on 20240119 by edrulrd
+            if [ -s "${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk})" ] # ignore empty files # added on 20240119 by edrulrd
+            then
+              exec_command "cat ${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk})" "SFDisk Partition specification for ${HardDisk}" # modified on 20240119 by edrulrd
+              AddText "WARNING: use at your own risk!  To restore your partitions use the saved file: ${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk}). Read the man page for sfdisk for usage. (Hint: sfdisk --force /dev/device < file.save)"
+            fi
           else
              AddText "Warning: sfdisk version is too old and sgdisk is not available"
           fi
@@ -1408,28 +1400,40 @@ inc_heading_level
     #*# Alexander De Bernard 20100310
     #*#
 
-    MD_FILE="/etc/mdadm.conf"
+    MD_FILE_LIST="/etc/mdadm.conf /etc/mdadm/mdadm.conf" # mdadm.conf found at alternative locations # modified on 20240119 by edrulrd
     MD_CMD="/sbin/mdadm"
 
-    if [ -f ${MD_FILE} ]
-    then
-	exec_command "grep -vE '^#|^ *$' ${MD_FILE}" "MD Configuration File"
-	if [ -x ${MD_CMD} ]
-	then
-	    MD_DEV=$(grep "ARRAY" ${MD_FILE} | awk '{print $2;}')
-	    #         stderr output from "/sbin/mdadm --detail ":   ## SLES 11
-	    #         mdadm: No devices given.
-	    for d in ${MD_DEV}    # FIXNEEDED: SC2066
-	    do
-        exec_command "${MD_CMD} --detail ${d}" "MD Device Setup of ${d}"
-	    done
-	else
-	    AddText "${MD_FILE} exists but no ${MD_CMD} command"
-	fi
-    fi
+    for MD_FILE in ${MD_FILE_LIST} # check each of the files for software raid config # modified on 20240119 by edrulrd
+    do
+      if [ -f ${MD_FILE} ]
+      then
+         exec_command "grep -vE '^#|^ *$' ${MD_FILE}" "MD Software RAID Configuration File" # modified title # modified on 20240119 by edrulrd
+         if [ -x ${MD_CMD} ]
+         then
+           MD_DEV=$(grep "ARRAY" ${MD_FILE} | awk '{print $2;}')
+           #         stderr output from "/sbin/mdadm --detail ":   ## SLES 11
+           #         mdadm: No devices given.
+           for d in ${MD_DEV}    # FIXNEEDED: SC2066
+           do
+               exec_command "${MD_CMD} --detail ${d}" "MD Device Setup of ${d}"
+           done
+         else
+           AddText "${MD_FILE} exists but no ${MD_CMD} command"
+         fi
+      fi
+    done
 
-    # for LVM using sed
-    exec_command "/sbin/fdisk -l|sed 's/8e \ Unknown/8e \ LVM/g'" "Disk Partitions"
+    # moved the following RAID section from the LVM section # modified on 20240119 by edrulrd
+    # MD Tools, Ralph Roth
+
+    # if [ -r /etc/raidtab ] # Note: /etc/raidtab is not present on some software raid enabled systems - commented out # modified on 20240119 by edrulrd
+    #then
+    [ -r /proc/mdstat ] &&  exec_command "cat /proc/mdstat" "Software RAID: mdstat" # modified on 20240119 by edrulrd
+    [ -r /etc/raidtab ] &&  exec_command "cat /etc/raidtab" "Software RAID: raidtab" # modified on 20240119 by edrulrd
+    [ -r /proc/devices/md ] && exec_command "cat /proc/devices/md" "Software RAID: MD Devices"
+    #fi
+
+    # command showing Partition map showing sectors moved up above # modified on 20240119 by edrulrd
 
     if [ -f /etc/exports ] ; then
 	exec_command "grep -vE '^#|^ *$' /etc/exports" "NFS Filesystems"
@@ -1508,23 +1512,23 @@ then # else skip to next paragraph
                 case "${LVM_VER}" in
                 "1")
                   exec_command "lvscan --version" "LVM Version"
-                  exec_command "ls -la /dev/*/group" "Volumegroup Device Files"
+                  exec_command "ls -la /dev/*/group" "Volume Group Device Files" # minor title change # modified on 20240119 by edrulrd
                   # { changed/added 29.01.2004 (11:15) by Ralph Roth } - sr by winfried knobloch for Serviceguard
                   exec_command "cat /proc/lvm/global" "LVM global info"
-                  exec_command "vgdisplay -v | awk -F' +' '/PV Name/ {print \$4}'" "Available Physical Groups"
+                  exec_command "vgdisplay -v | awk -F' +' '/PV Name/ {print \$4}'" "Available Physical Volumes" # changed Groups to Volumes # modified on 20240119 by edrulrd
                   exec_command "vgdisplay -s | awk -F\\\" '{print \$2}'" "Available Volume Groups"
                   exec_command "vgdisplay -v | awk -F' +' '/LV Name/ {print \$3}'" "Available Logical Volumes"
                   ;;
                 "2")
-                  exec_command "ls -al /dev/mapper/*" "Volumegroup Device Files"
+                  exec_command "ls -al /dev/mapper/*; [ -x /sbin/vgs ] && echo && /sbin/vgs -o vg_name,lv_name,devices" "Volume Group Device Files" # minor title change # modified on 20240119 by edrulrd
                   exec_command "lvm version" "LVM global info"
                   exec_command "lvm dumpconfig" "LVM dumpconfig"
-                  exec_command "vgdisplay -v | awk -F' +' '/PV Name/ {print \$4}'" "Available Physical Groups"
+                  exec_command "vgdisplay -v | awk -F' +' '/PV Name/ {print \$4}'" "Available Physical Volumes" # changed Groups to Volumes # modified on 20240119 by edrulrd
                   exec_command "vgdisplay -s | awk -F\\\" '{print \$2}'" "Available Volume Groups"
                   exec_command "vgdisplay -v | awk -F' +' '/LV Name/ {print \$4}'" "Available Logical Volumes"
                   # The command vgs -o +tags vgname will display any tags that are set for a volume group. *TODO*
                   # vgcreate --addtag $(uname -n) /dev/vgpkgA /dev/sda1 /dev/sdb1 // vgchange --deltag $(uname -n) vgpkgA  *SGLX*
-                  [ -x /sbin/vgs ] && exec_command "/sbin/vgs -o vg_name,lv_name,devices" "Detailed Volume Groups Report" #  27.10.2011 #* rar *# EHR by Jim Bruce
+                  # [ -x /sbin/vgs ] && exec_command "/sbin/vgs -o vg_name,lv_name,devices" "Detailed Volume Groups Report" #  27.10.2011 #* rar *# EHR by Jim Bruce # combined with /dev/mapper report to put under same heading # modified on 20240119 by edrulrd
                   exec_command "lvs -o +devices" "Logical Volumes"      #  07.11.2011, 21:46 modified by Ralph Roth #* rar *#
                   ;;
                   *)
@@ -1532,7 +1536,7 @@ then # else skip to next paragraph
                   ;;
                   esac
             #
-              exec_command "vgdisplay -v" "Volumegroups"
+              exec_command "vgdisplay -v" "Volume Group Details" # minor title change # modified on 20240119 by edrulrd
               exec_command PVDisplay "Physical Devices used for LVM"
               AddText "Note: Run vgcfgbackup on a regular basis to backup your volume group layout"
             else
@@ -1543,15 +1547,7 @@ then # else skip to next paragraph
         AddText "This system seems to be configured with whole disk layout (WDL)"
     fi
 
-    # MD Tools, Ralph Roth
-
-    if [ -r /etc/raidtab ]
-    then
-        exec_command "cat /proc/mdstat" "Software RAID: mdstat"
-        exec_command "cat /etc/raidtab" "Software RAID: raidtab"
-        [ -r /proc/devices/md ] && exec_command "cat /proc/devices/md" "Software RAID: MD Devices"
-    fi
-
+    # moved the Software RAID section to up above in the Filesystem section.  # modified on 20240119 by edrulrd
     dec_heading_level
 
 fi # terminates CFG_LVM wrapper
@@ -1560,22 +1556,27 @@ fi # terminates CFG_LVM wrapper
 #
 if [ "$CFG_ZFS" != "no" ]
 then # else skip to next paragraph
-   paragraph "ZFS Status"
+   paragraph "ZFS Filesystem Status"
    inc_heading_level
 
-   exec_command "zfs mount" "ZFS mount status"
-
-   exec_command "zfs get all" "ZFS properties"
-
-   exec_command "zpool list -H" "ZFS pool status"
-
-   exec_command "zpool list -Ho bootfs" "ZFS boot pool"
+  if [ $(which zfs 2>/dev/null) ] # check if the command is in the program's path # Modified on 20240119 by edrulrd
+  then
+      exec_command "zfs mount" "ZFS mount status"
+      exec_command "zfs get all" "ZFS properties"
+  else 
       exec_command " " "zfs command"  # execute nothing, but allow the N/A message to appear # modified on 20240119 by edrulrd
+  fi
 
-   exec_command "zpool upgrade" "ZFS pool version"
+  if [ $(which zpool 2>/dev/null) ] # check if the command is in the program's path # Modified on 20240119 by edrulrd
+  then
+      exec_command "zpool list -H" "ZFS pool status"
+      exec_command "zpool list -Ho bootfs" "ZFS boot pool"
+      exec_command "zpool upgrade" "ZFS pool version"
+      exec_command "zpool history" "ZFS pool history"
+  else
       exec_command " " "zpool command" # execute nothing, but allow the N/A message to appear # modified on 20240119 by edrulrd
 
-   exec_command "zpool history" "ZFS pool history"
+  fi
 
   dec_heading_level
 fi
@@ -1604,7 +1605,7 @@ then # else skip to next paragraph
 
   if [ -x /usr/sbin/ethtool ]     ###  22.11.2010, 23:44 modified by Ralph Roth
   then
-      LANS=$(netstat -i | tail -n+3 | awk '{print $1}' |grep -v ^lo)	# RR: ifconfig is decrecapted -> use netstat instead (gdha)
+      LANS=$(ip link | grep -v '^ ' | awk '{print $2}' | grep -v "lo:" | sed 's/://') # netstat is deprecated, use ip link instead # modified on 20240119 by edrulrd
       for i in ${LANS}
       do
         # netstat is now (2023) also deprecated, see issue #166
@@ -1630,14 +1631,15 @@ then # else skip to next paragraph
   ## End Marc Korte display ethernet LAN config files.
 
   # Need to add the interface to the mii-tool and mii-diag commands # added on 20201005 by edrulrd
-  [ -x /sbin/mii-tool ] && exec_command "for Interface in $(netstat -ni | tail -n +3 |awk '{print $1}'); do /sbin/mii-tool -v \${Interface}; done" "MII Status"
-  [ -x /sbin/mii-diag ] && exec_command "for Interface in $(netstat -ni | tail -n +3 |awk '{print $1}'); do /sbin/mii-diag -a \${Interface}; done" "MII Diagnostics"
+  # Warning: mii-tool is noted to be obsolete, especially for speeds > 100 mb # added on 20240119 by edrulrd
+  [ -x /sbin/mii-tool ] && exec_command "for Interface in $(ip link | grep -v '^ ' | awk '{print $2}' | grep -v "lo:" | sed 's/://') do /sbin/mii-tool -v \${Interface}; done" "MII Status" # use ip link instead of netstat -ni # modified on 20240119 by edrulrd
+  [ -x /sbin/mii-diag ] && exec_command "for Interface in $(ip link | grep -v '^ ' | awk '{print $2}' | grep -v "lo:" | sed 's/://') do /sbin/mii-diag -a \${Interface}; done" "MII Diagnostics" # use ip link instead of netstat -ni # modified on 20240119 by edrulrd
 
-    exec_command "ip route" "Network Routing"           #  07.11.2011, 21:37 modified by Ralph Roth #* rar *#
-    exec_command "netstat -r" "Routing Tables"
-    exec_command "ip neigh" "Network Neighborhood"      #  07.11.2011, 21:38 modified by Ralph Roth #* rar *#
+  exec_command "ip route | column -t" "Network Routing"  #  07.11.2011, 21:37 modified by Ralph Roth #* rar *# #added table format # modified on 20240119 by edrulrd
+  NETSTAT=$(which netstat 2> /dev/null) # modified on 20240119 by edrulrd
+  [ ${NETSTAT} ] && [ -x ${NETSTAT} ] && exec_command "netstat -r | column -t" "Routing Tables" # modified on 20240119 by edrulrd
+  exec_command "ip neigh | column --table" "Network Neighborhood"      #  07.11.2011, 21:38 modified by Ralph Roth #* rar *# # added table format # modified on 20240119 by edrulrd
 
-  NETSTAT=$(which netstat)
   if [ ${NETSTAT} ]  && [ -x ${NETSTAT} ]; then
     # test if netstat version 1.38, because some options differ in older versions
     # MiMe: '\' auf awk Zeile wichtig
@@ -1656,7 +1658,6 @@ then # else skip to next paragraph
     fi
 
     exec_command "netstat -s" "Summary statistics for each protocol"
-    [ -x /usr/sbin/nstat ] && exec_command "/usr/sbin/nstat" "Other Network statistics" # gdha, 13/oct/2014 #47
     exec_command "netstat -i" "Kernel Interface table"
     # MiMe: iptables since 2.4.x
     # MiMe: iptable_nat realisiert dabei das Masquerading
@@ -1670,11 +1671,27 @@ then # else skip to next paragraph
     exec_command "netstat -an" "list of all sockets"
   fi  ## netstat
   # -----------------------------------------------------------------------------
-  if [ -x /usr/sbin/ss ]
+
+  # Since netstat is deprecated, the following commands attempt to show the equivalent output using more modern network commands # added on 20240119 by edrulrd
+  exec_command "ip maddress show" "Multicast IP addresses" # replacement for netstat -gi # added on 20240119 by edrulrd
+
+  if [ $(which ss 2>/dev/null) ] # check if the command is in the program's path # added on 20220119 by edrulrd
   then
-    exec_command "/usr/sbin/ss -planeto" "TCP Listening Sockets Statistics" # changed 20131211 by Ralph Roth
-    exec_command "/usr/sbin/ss -planeuo" "UDP Listening Sockets Statistics" # UDP and listening? :)
+    exec_command "ss -planeto" "TCP Listening Sockets Statistics" # changed 20131211 by Ralph Roth # modified on 20240119 by edrulrd
+    exec_command "ss -planeuo" "UDP Listening Sockets Statistics" # UDP and listening? :) # modified on 20240119 by edrulrd
   fi # ss
+  if [ $(which pminfo 2>/dev/null) ] # check if the command is in the program's path # Added on 20220119 by edrulrd
+  then
+     exec_command "pminfo -f network | column --output-width ${CFG_TEXTWIDTH}" "Summary statistics for each protocol"  # replacement for the netstat -s command.  Is part of the "pcp" package if installed.  # added on 20240119 by edrulrd
+  fi
+
+  if [ $(which nstat 2>/dev/null) ] # just check if it's in the path # modified on 20240119 by edrulrd
+  then
+     exec_command "nstat -a | grep -v '^#' | column --output-width ${CFG_TEXTWIDTH}" "Other Network statistics" # Added on 20220119 by edrulrd
+  fi
+
+  exec_command "ip -statistics link" "Kernel Interface table" # replacement for the netstat -i command.  # added on 20240119 by edrulrd
+  exec_command "ss -a | column --output-width ${CFG_TEXTWIDTH}" "list of all sockets" # replacement for the netstat -a command.  # added on 20240119 by edrulrd
   # -----------------------------------------------------------------------------
   ## Added 4/07/06 by krtmrrsn@yahoo.com, Marc Korte, probe and display
   ##        kernel interface bonding info.
@@ -1688,7 +1705,7 @@ then # else skip to next paragraph
   # -----------------------------------------------------------------------------
   DIG=`which dig`
   if [ -n "${DIG}" ] && [ -x ${DIG} ] ; then
-    exec_command "dig `hostname -f`" "dig hostname"
+    exec_command "dig `hostname -f`| grep -vE '^;|^ *$'" "dig hostname"
   else
     NSLOOKUP=`which nslookup`
     if [ -n "${NSLOOKUP}" ] && [ -x ${NSLOOKUP} ] ; then
@@ -1696,7 +1713,7 @@ then # else skip to next paragraph
     fi
   fi
 
-  exec_command "grep -vE '^#|^ *$' /etc/hosts" "/etc/hosts"
+  exec_command "grep -vE '^#|^ *$' /etc/hosts | column -t" "/etc/hosts" # added column # modified on 20240119 by edrulrd
 #
   if [ -f /proc/sys/net/ipv4/ip_forward ] ; then
     FORWARD=`cat /proc/sys/net/ipv4/ip_forward`
@@ -1768,7 +1785,7 @@ then # else skip to next paragraph
   [ -r /etc/bind/named.boot ] && exec_command "grep -v '^;' /etc/named.boot"  "DNS/Named"
 
   if [ -s /etc/dnsmasq.conf ] ; then
-     exec_command "cat /etc/dnsmasq.conf; systemctl status dnsmasq" "DNSMASQ"
+     exec_command "cat /etc/dnsmasq.conf | grep -vE '^#|^ *$'; systemctl status dnsmasq" "DNSMASQ" # removed commented and blank lines # modified on 20240119 by edrulrd
   fi
 
   if [ -s /etc/nscd.conf ] ; then
@@ -1815,7 +1832,7 @@ then # else skip to next paragraph
     aliasespath="/etc/mail"
   fi
   if [ -f ${aliasespath}/aliases ] ; then
-    exec_command "grep -vE '^#|^ *$' ${aliasespath}/aliases" "Email Aliases"
+    exec_command "grep -vE '^#|^ *$' ${aliasespath}/aliases | column -t" "Email Aliases" # added column cmd # modified on 20240119 by edrulrd
   fi
   #exec_command "grep -vE '^#|^$' /etc/rc.config.d/nfsconf" "NFS settings"
   exec_command "ps -ef|grep -E '[Nn]fsd|[Bb]iod'" "NFSD and BIOD utilization"   ## fixed 2007-02-28 Oliver Schwabedissen
@@ -1880,8 +1897,8 @@ then # else skip to next paragraph
   [ -f /etc/host.conf ] && exec_command "grep  -vE '^#|^ *$' /etc/host.conf" "host.conf"
 
   ######### SNMP ############
-  [ -f /etc/snmpd.conf ] && exec_command "grep -vE '^#|^ *$' /etc/snmpd.conf" "Simple Network Management Protocol (SNMP)"
-  [ -f /etc/snmp/snmpd.conf ] && exec_command "grep -vE '^#|^ *$' /etc/snmp/snmpd.conf" "Simple Network Management Protocol (SNMP)"
+  [ -f /etc/snmpd.conf ] && exec_command "grep -vE '^#|^ *$' /etc/snmpd.conf | column -t" "Simple Network Management Protocol (SNMP)" # added column cmd # modified on 20240119 by edrulrd
+  [ -f /etc/snmp/snmpd.conf ] && exec_command "grep -vE '^#|^ *$' /etc/snmp/snmpd.conf | column -t" "Simple Network Management Protocol (SNMP)" # added column cmd # modified on 20240119 by edrulrd
   [ -f /etc/snmp/snmptrapd.conf ] && exec_command "grep -vE '^#|^ *$' /etc/snmp/snmptrapd.conf" "SNMP Trapdaemon config"
 
   [ -f  /opt/compac/cma.conf ] && "grep -vE '^#|^ *$' /opt/compac/cma.conf" "HP Insight Management Agents configuration"
@@ -1995,14 +2012,14 @@ then # else skip to next paragraph
             which rpm > /dev/null  && exec_command "rpm -qi glibc" "libc6 Version (RPM)" # rar, SUSE+RH
     fi
 
-    exec_command "/sbin/ldconfig -vN  2>/dev/null" "Run-time link bindings"		### changed 20130730 by Ralph Roth
+    exec_command "/sbin/ldconfig -vN  2>/dev/null | column --output-width ${CFG_TEXTWIDTH}" "Run-time link bindings" ### changed 20130730 by Ralph Roth # modified on 20240119 by edrulrd
 
     # MiMe: SUSE patched kernel params into /proc
     if [ -e /proc/config.gz ] ; then
-      exec_command "zcat /proc/config.gz | grep -vE '^#|^ *$'" "Kernelparameter /proc/config.gz"
+      exec_command "zcat /proc/config.gz | grep -vE '^#|^ *$'" "Kernel Parameter /proc/config.gz" # modified on 20240119 by edrulrd
     else
       if [ -e /usr/src/linux/.config ] ; then
-        exec_command "grep -vE '^#|^ *$' /usr/src/linux/.config" "Kernelsource .config"
+        exec_command "grep -vE '^#|^ *$' /usr/src/linux/.config" "Kernel Source .config" # modified on 20240119 by edrulrd
       fi
     fi
 
@@ -2014,8 +2031,8 @@ then # else skip to next paragraph
     fi
 
     if [ -x /sbin/sysctl ] ; then ##  11.01.2010, 10:44 modified by Ralph Roth
-      exec_command "/sbin/sysctl -a 2> /dev/null | sort -u" "configured kernel variables at runtime"  ## rr, 20120212
-      exec_command "cat /etc/sysctl.conf | sort -u |grep -v -e ^# -e ^$" "configured kernel variables in /etc/sysctl.conf"
+      exec_command "/sbin/sysctl -a 2> /dev/null | sort -u | column --output-width ${CFG_TEXTWIDTH}" "Configured Kernel variables at runtime"  ## rr, 20120212 # added column # modified on 20240119 by edrulrd
+      exec_command "cat /etc/sysctl.conf | sort -u |grep -v -e ^# -e ^$" "Configured Kernel variables in /etc/sysctl.conf" # minor title change # modified on 20240119 by edrulrd
     fi
 
     # Added by Dusan Baljevic on 15 July 2013
@@ -2896,8 +2913,9 @@ fi
 #
 # collect local files
 #
+
+paragraph "Local files" # moved title so it's always generated # modified on 20240119 by edrulrd
 if [ -f ${CONFIG_DIR}/files ] ; then
-        paragraph "Local files"
         inc_heading_level
         ## . ${CONFIG_DIR}/files -- not needed anymore to be sourced with the fix below/changed format
         ## FILES=`grep -vE '(^#|^ *$)' ${CONFIG_DIR}/files`   ## 25.08.2017 modified by Bernhard Keppel
@@ -2907,9 +2925,9 @@ if [ -f ${CONFIG_DIR}/files ] ; then
                         exec_command "grep -vE '(^#|^ *$)' ${i}" "Contents of the file: ${i}"
                 fi
         done; unset i
-        AddText "You can customize this paragraph by editing the file: ${CONFIG_DIR}/files"
         dec_heading_level
 fi
+AddText "You can customize this paragraph by editing the file: ${CONFIG_DIR}/files" # always add this final statement # modified on 20240119 by edrulrd
 
 dec_heading_level
 
@@ -2921,11 +2939,12 @@ close_html
 if [ "${CFG_HPPROLIANTSERVER}" != "no" ]
 then # else skip to next paragraph
 
- if [ -f ${OUTDIR}/${BASEFILE}.tar ] ; then
-        rm ${OUTDIR}/${BASEFILE}.tar
+ if [ -f ${OUTDIR}/${BASEFILE}.tar.gz ] ; then # added .gz appendage # modified on 20240119 by edrulrd
+        rm ${OUTDIR}/${BASEFILE}.tar.gz # added .gz appendage # modified on 20240119 by edrulrd
  fi
 echo " "
     echo "The following files are included in your gzipped tarball file:"
+	ls -l ${temphp} # added file listing # modified on 20240119 by edrulrd
     tar -czf ${OUTDIR}/${BASEFILE}.tar.gz ${temphp}
     echo " "
     echo "The tar file can be mailed to your support supplier if needed"
