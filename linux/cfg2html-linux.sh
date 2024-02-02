@@ -2158,7 +2158,7 @@ then # else skip to next paragraph
       exec_command "/usr/sbin/lpc status" "BSD Printer Spooler and Printers"    #*# Alexander De Bernardi, 20100310
     fi
      if [ -x /usr/bin/lpstat ] ; then
-     exec_command "/usr/bin/lpstat -t" "SYSV Printer Spooler and Printers"      #*# Alexander De Bernardi, 20100310
+     exec_command "/usr/bin/lpstat -t 2>/dev/null" "SYSV Printer Spooler and Printers"      #*# Alexander De Bernardi, 20100310 # dismiss error report # modified on 20240202 by edrulrd
      fi
 #     if [ -x /usr/bin/hp-info ] ; then
 #
