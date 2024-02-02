@@ -1112,10 +1112,12 @@ inc_heading_level
   if [ $? -eq 0 ]
   then
     exec_command "ls -ld /sys/block/sd*" "Block disk devices"
+    if [ $(which /lib/udev/scsi_id) ]; then # we have this library installed # added on 20240202 by edrulrd
+      exec_command "ls -v -1c /dev/sd*[!0-9] | xargs -I {} sh -c 'echo -n "{}:" ; /lib/udev/scsi_id --whitelisted --device={}'" "Fibre Channel Host Bus Adapters scsi_id"
+    fi
   else
     exec_command "ls -ld /sys/block/* | grep -v virtual" "Non-virtual Block devices" # if no /sd* devices, list all non-virtual ones # modified on 20240202 by edrulrd
   fi
-  exec_command "ls -v -1c /dev/sd*[!0-9] | xargs -I {} sh -c 'echo -n "{}:" ; /lib/udev/scsi_id --whitelisted --device={}'" "Fibre Channel Host Bus Adapters scsi_id"
 
   #### End of Fibre HBA info.
 
