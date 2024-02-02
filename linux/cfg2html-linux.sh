@@ -1108,7 +1108,13 @@ inc_heading_level
   fi
 
   exec_command "ls -la /dev/disk/by-id" "Disk devices by-id"
-  exec_command "ls -ld /sys/block/sd*" "Block disk devices"
+  ls -ld /sys/block/sd* 2>/dev/null 1>&2 # check to see if we have sd* block devices # added on 20240202 by edrulrd
+  if [ $? -eq 0 ]
+  then
+    exec_command "ls -ld /sys/block/sd*" "Block disk devices"
+  else
+    exec_command "ls -ld /sys/block/* | grep -v virtual" "Non-virtual Block devices" # if no /sd* devices, list all non-virtual ones # modified on 20240202 by edrulrd
+  fi
   exec_command "ls -v -1c /dev/sd*[!0-9] | xargs -I {} sh -c 'echo -n "{}:" ; /lib/udev/scsi_id --whitelisted --device={}'" "Fibre Channel Host Bus Adapters scsi_id"
 
   #### End of Fibre HBA info.
