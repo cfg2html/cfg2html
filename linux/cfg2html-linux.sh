@@ -495,7 +495,7 @@ inc_heading_level
 
   # [20200407] {jcw} It's funny, the getconf man-page does not even mention the -a argument, nor does `getconf --help` (they are dated back to 2003, though).
   #                  A good reference page is:  www.mkssoftware.com/docs/man1/getconf.1.asp
-  exec_command "getconf -a | sort | column --output-width ${CFG_TEXTWIDTH}" "System Configuration Variables"   ## at least SLES11, #  14.06.2011, 18:53 modified by Ralph Roth #* rar *#      ## [20200407] {jcw} added sort. # added column # modified on 20240119 by edrulrd
+  exec_command "getconf -a | sort | column -c ${CFG_TEXTWIDTH}" "System Configuration Variables"   ## at least SLES11, #  14.06.2011, 18:53 modified by Ralph Roth #* rar *#      ## [20200407] {jcw} added sort. # added column # modified on 20240119 by edrulrd
 
   if [ -x /usr/bin/mpstat ] ; then
     exec_command "mpstat 1 5" "MP-Statistics"
@@ -544,7 +544,7 @@ inc_heading_level
     done |
     sort -k1,1 -u |
     awk '{\$1=\"\"; print}' |
-    sed 's/^ //' | column --output-width ${CFG_TEXTWIDTH}" "Executable Commands found in $LISTPATH" # Added on 20201025 by edrulrd, modified on 20240119 by edrulrd
+    sed 's/^ //' | column -c ${CFG_TEXTWIDTH}" "Executable Commands found in $LISTPATH" # Added on 20201025 by edrulrd, modified on 20240119 by edrulrd
     unset LISTPATH
     # End of code added on 20201025 by edrulrd
   fi # terminates CFG_PATHLIST wrapper # added on 20201026 by edrulrd
@@ -588,7 +588,7 @@ inc_heading_level
       #                 ${cntb}++;
       #             }
 
-  exec_command "cat /proc/slabinfo | sed 's/# name/#name/' | tr '<' ' ' | tr '>' ' ' | awk 'NR<3{print;next}{print | \"sort -k3,3nr -k1,1\"}' | column --table --output-width ${CFG_TEXTWIDTH}" "Kernel slabinfo Statistics" # changed 20131211 by Ralph Roth # added column command to put the output in an aligned table after sorting it in descending order by number  of objects $ modified on 20240119 by edrulrd
+  exec_command "cat /proc/slabinfo | sed 's/# name/#name/' | tr '<' ' ' | tr '>' ' ' | awk 'NR<3{print;next}{print | \"sort -k3,3nr -k1,1\"}' | column --table -c ${CFG_TEXTWIDTH}" "Kernel slabinfo Statistics" # changed 20131211 by Ralph Roth # added column command to put the output in an aligned table after sorting it in descending order by number  of objects $ modified on 20240119 by edrulrd
   AddText "Frequently used objects in the Linux kernel (buffer heads, inodes, dentries, etc.) have their own cache.  The file /proc/slabinfo gives statistics."
   exec_command "cat /proc/pagetypeinfo" "Additional page allocator information" 	# changed 20131211 by Ralph Roth
   exec_command "cat /proc/zoneinfo" "Per-zone page allocator" 		                # changed 20131211 by Ralph Roth
@@ -1230,7 +1230,7 @@ then # else skip to next paragraph
   # Debian
   if [ "${DEBIAN}" = "yes" ] ; then
     dpkg --get-selections | awk '!/deinstall/ {print $1}' > /tmp/cfg2html-debian.$$
-    exec_command "column --output-width ${CFG_TEXTWIDTH} /tmp/cfg2html-debian.$$" "Packages installed" # specify a maximum width for our columns # modified on 20240119 by edrulrd
+    exec_command "column -c ${CFG_TEXTWIDTH} /tmp/cfg2html-debian.$$" "Packages installed" # specify a maximum width for our columns # modified on 20240119 by edrulrd
     rm -f /tmp/cfg2html-debian.$$
     AddText "Hint: to reinstall this list use:"
     AddText "awk '{print \$1\" install\"}' this_list | dpkg --set-selections" # modified on 20240119 by edrulrd
@@ -1353,7 +1353,7 @@ inc_heading_level
     then
       exec_command "display_ext_fs_param" "Filesystems Parameters"	# needs fixing, 20140929 by Ralph Roth
     fi
-    exec_command "mount | column --table --output-width ${CFG_TEXTWIDTH}" "Mount points" # more readable in table format # modified on 20240119 by edrulrd
+    exec_command "mount | column --table -c ${CFG_TEXTWIDTH}" "Mount points" # more readable in table format # modified on 20240119 by edrulrd
     exec_command PartitionDump "Disk Partition Layout (showing sizes)"        #  30.03.2011, 20:00 modified by Ralph Roth #** rar ** # modified title # modified on 20240119 by edrulrd
 
     # moved the partition map showing sectors from below to here  # modified on 20240119 by edrulrd
@@ -1691,16 +1691,16 @@ then # else skip to next paragraph
   fi # ss
   if [ $(which pminfo 2>/dev/null) ] # check if the command is in the program's path # Added on 20220119 by edrulrd
   then
-     exec_command "pminfo -f network | column --output-width ${CFG_TEXTWIDTH}" "Summary statistics for each protocol"  # replacement for the netstat -s command.  Is part of the "pcp" package if installed.  # added on 20240119 by edrulrd
+     exec_command "pminfo -f network | column -c ${CFG_TEXTWIDTH}" "Summary statistics for each protocol"  # replacement for the netstat -s command.  Is part of the "pcp" package if installed.  # added on 20240119 by edrulrd
   fi
 
   if [ $(which nstat 2>/dev/null) ] # just check if it's in the path # modified on 20240119 by edrulrd
   then
-     exec_command "nstat -a | grep -v '^#' | column --output-width ${CFG_TEXTWIDTH}" "Other Network statistics" # Added on 20220119 by edrulrd
+     exec_command "nstat -a | grep -v '^#' | column -c ${CFG_TEXTWIDTH}" "Other Network statistics" # Added on 20240119 by edrulrd
   fi
 
   exec_command "ip -statistics link" "Kernel Interface table" # replacement for the netstat -i command.  # added on 20240119 by edrulrd
-  exec_command "ss -a | column --output-width ${CFG_TEXTWIDTH}" "list of all sockets" # replacement for the netstat -a command.  # added on 20240119 by edrulrd
+  exec_command "ss -a | column -c ${CFG_TEXTWIDTH}" "list of all sockets" # replacement for the netstat -a command.  # added on 20240119 by edrulrd
   # -----------------------------------------------------------------------------
   ## Added 4/07/06 by krtmrrsn@yahoo.com, Marc Korte, probe and display
   ##        kernel interface bonding info.
@@ -2021,7 +2021,7 @@ then # else skip to next paragraph
             which rpm > /dev/null  && exec_command "rpm -qi glibc" "libc6 Version (RPM)" # rar, SUSE+RH
     fi
 
-    exec_command "/sbin/ldconfig -vN  2>/dev/null | column --output-width ${CFG_TEXTWIDTH}" "Run-time link bindings" ### changed 20130730 by Ralph Roth # modified on 20240119 by edrulrd
+    exec_command "/sbin/ldconfig -vN  2>/dev/null | column -c ${CFG_TEXTWIDTH}" "Run-time link bindings" ### changed 20130730 by Ralph Roth # modified on 20240119 by edrulrd
 
     # MiMe: SUSE patched kernel params into /proc
     if [ -e /proc/config.gz ] ; then
@@ -2040,7 +2040,7 @@ then # else skip to next paragraph
     fi
 
     if [ -x /sbin/sysctl ] ; then ##  11.01.2010, 10:44 modified by Ralph Roth
-      exec_command "/sbin/sysctl -a 2> /dev/null | sort -u | column --output-width ${CFG_TEXTWIDTH}" "Configured Kernel variables at runtime"  ## rr, 20120212 # added column # modified on 20240119 by edrulrd
+      exec_command "/sbin/sysctl -a 2> /dev/null | sort -u | column -c ${CFG_TEXTWIDTH}" "Configured Kernel variables at runtime"  ## rr, 20120212 # added column # modified on 20240119 by edrulrd
       exec_command "cat /etc/sysctl.conf | sort -u |grep -v -e ^# -e ^$" "Configured Kernel variables in /etc/sysctl.conf" # minor title change # modified on 20240119 by edrulrd
     fi
 
