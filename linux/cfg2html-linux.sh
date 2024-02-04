@@ -1351,7 +1351,11 @@ inc_heading_level
     exec_command "my_df" "All Filesystems and Usage"
     if [ -x /sbin/dumpe2fs ]
     then
-      exec_command "display_ext_fs_param" "Filesystems Parameters"	# needs fixing, 20140929 by Ralph Roth
+      exec_command "display_ext_fs_param" "EXT Filesystems Parameters"	# needs fixing, 20140929 by Ralph Roth # modified on 20240202 by edrulrd
+    fi
+    if [ $(which xfs_db 2>/dev/null) ] # added on 20240202 by edrulrd
+    then
+      exec_command "display_xfs_fs_param" "XFS Filesystems Parameters" # added on 20240202 by edrulrd
     fi
     exec_command "mount | column --table -c ${CFG_TEXTWIDTH}" "Mount points" # more readable in table format # modified on 20240119 by edrulrd
     exec_command PartitionDump "Disk Partition Layout (showing sizes)"        #  30.03.2011, 20:00 modified by Ralph Roth #** rar ** # modified title # modified on 20240119 by edrulrd

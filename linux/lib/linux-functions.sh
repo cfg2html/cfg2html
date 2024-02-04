@@ -187,16 +187,16 @@ function display_ext_fs_param {
     #function used in FILESYS added 2011.09.02 by Peter Boysen
     # fixes, changed 20140924 by Ralph Roth
     # function extended to display filesystem paramaters on all ext2, 3 or 4 filesystems, whether they are mounted or not # modified on 20240119 by edrulrd
-    if [ $(which lsblk 2>/dev/null) ] # added on 20240119 by edrulrd
+    if [ $(which lsblk 2>/dev/null) ] && lsblk -o PATH 2>/dev/null 1>&2 # added on 20240119 by edrulrd # old versions don't have PATH option # modified on 20240202 by edrulrd
     then
-      for fs in $(lsblk -ln -o PATH,FSTYPE | grep ext[2-4] | awk '{print $1}') # added on 20240119 by edrulrd
+      for fs in $(lsblk -ln -o PATH,FSTYPE | grep -w ext[2-4] | awk '{print $1}') # added on 20240119 by edrulrd
       do
         echo "Dumping: "${fs} # added on 20240119 by edrulrd
         dumpe2fs -h ${fs}  2>/dev/null   ## -> dumpe2fs 1.41.3 (12-Oct-2008) # added on 20240119 by edrulrd
       done
     else
-      echo "Hint: lsblk command not available; showing mounted filesystems only" # added on 20240119 by edrulrd
-      for fs in $(grep ext[2-4] /proc/mounts | awk '{print $1}' | sort -u) # if we don't have lsblk, only check mounted filesystems # modified on 20240119 by edrulrd
+      echo "Hint: lsblk command is old or not available; showing mounted filesystems only" # added on 20240119 by edrulrd
+      for fs in $(grep -w ext[2-4] /proc/mounts | awk '{print $1}' | sort -u) # if we don't have lsblk, only check mounted filesystems # modified on 20240119 by edrulrd
       do
         echo "Dumping: "${fs}
         dumpe2fs -h ${fs}  2> /dev/null   ## -> dumpe2fs 1.41.3 (12-Oct-2008)
@@ -204,6 +204,16 @@ function display_ext_fs_param {
         echo
       done
     fi
+}
+
+function display_xfs_fs_param {
+    #function used in FILESYS added 20240202 by edrulrd
+    for fs in $(grep -w xfs /proc/mounts | awk '{print $1}' | sort -u) # only check mounted xfs filesystems
+    do
+      echo "Dumping: "${fs}
+      xfs_db -r -c sb -c print ${fs} # print superblock info
+      echo
+    done
 }
 
 function PartitionDump {
