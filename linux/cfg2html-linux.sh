@@ -195,7 +195,7 @@ if [ ! -f ${HTML_OUTFILE} ]; then
 fi
 
 # [20200312] {jcw} 1st logger for starting.
-[ $(which logger) ] && export _logger="$(which logger)" || export _logger='echo'   # [20200311] {jcw} Aliased logger, just in case.
+[ $(which logger 2>/dev/null) ] && export _logger="$(which logger)" || export _logger='echo'   # [20200311] {jcw} Aliased logger, just in case. # added /dev/null # modified on 20240202 by edrulrd
 ${_logger} "1st Start of cfg2html-linux ${VERSION}"
 RECHNER=$(hostname)         # `hostname -f`
 VERSION_=$(echo "${VERSION}/${RECHNER}"|tr " " "_")
@@ -431,7 +431,7 @@ inc_heading_level
   [ -x /usr/bin/lscpu ] && exec_command "/usr/bin/lscpu" "CPU Architecture Information Helper"
   [ -x /usr/bin/cpufreq-info ] && exec_command cpufreq-info "CPU Frequency Information" # noted to be replaced by cpupower # comment added on 20240119 by edrulrd
 
-  CPUPOWER=$(which cpupower)
+  CPUPOWER=$(which cpupower 2>/dev/null) # added /dev/null # modified on 20240202 by edrulrd
   if [ -n "${CPUPOWER}" ] && [ -x "${CPUPOWER}" ] ; then
       exec_command "${CPUPOWER} frequency-info" "CPU Frequency Information"  ## closes issue #53 - rr, 20140725 # replacement for cpufreq-info cmd # added on 20240119 by edrulrd
       exec_command "${CPUPOWER} idle-info" "Processor idle state information"  ## closes issue #53 - rr, 20140725
@@ -621,7 +621,7 @@ inc_heading_level
                                           #  10.11.2012 modified by Ralph Roth #* rar *# fix for SLES11,SP2, 29.01.2014
   [ -x /usr/bin/pidstat ] && exec_command "pidstat -lrud 2>/dev/null||pidstat -rud" "pidstat - Statistics for Linux Tasks"
 
-  if [ -x "$(which tuned-adm)" ] ; then #  avoid errors if not available # modified on 20201009 by edrulrd
+  if [ -x "$(which tuned-adm 2>/dev/null)" ] ; then #  avoid errors if not available # modified on 20201009 by edrulrd # added /dev/null # modified on 20240202 by edrulrd
     exec_command "tuned-adm list" "Tuned Profiles"     	              #06.11.2014, 20:34 added by Dusan Baljevic
     exec_command "tuned-adm active" "Tuned Active Profile Status"       #06.11.2014, Dusan Baljevic -- see also saptune()
   fi
@@ -643,7 +643,7 @@ inc_heading_level
   #     stderr output from " blame":
   #     /usr/share/cfg2html/lib/html-functions.sh: line 107: blame: command not found
 
-  SYSTEMD=$(which systemd-analyze)
+  SYSTEMD=$(which systemd-analyze 2>/dev/null) # added /dev/null # modified on 20240202 by edrulrd
   if [ -x ${SYSTEMD} ] ; then
      exec_command "${SYSTEMD}" "systemd-analyze Boot Performance Profiler"
      exec_command "${SYSTEMD} blame" "systemd-analyze Boot Sequence and Performance Profiler"
@@ -930,11 +930,11 @@ inc_heading_level
   exec_command "echo ${RAM}" "Physical Memory"
 
   ## Murray Barton, 14/4/2010
-  DMIDECODE=`which dmidecode`; if [ -n "${DMIDECODE}" ] && [ -x ${DMIDECODE} ] ; then exec_command "${DMIDECODE} 2> /dev/null" "DMI Table Decoder"; fi
+  DMIDECODE=`which dmidecode 2>/dev/null`; if [ -n "${DMIDECODE}" ] && [ -x ${DMIDECODE} ] ; then exec_command "${DMIDECODE} 2> /dev/null" "DMI Table Decoder"; fi # added /dev/null # modified on 20240202 by edrulrd
 
   ### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
 
-  BIOSDECODE=$(which biosdecode)
+  BIOSDECODE=$(which biosdecode 2>/dev/null) # added /dev/null # modified on 20240202 by edrulrd
   if [ -n "${BIOSDECODE}" ] && [ -x ${BIOSDECODE} ] ; then
     exec_command "${BIOSDECODE}" "biosdecode"
   fi
@@ -1097,7 +1097,7 @@ inc_heading_level
      exec_command "systool -c fc_host -v" "Fibre Channel Host Bus Adapters systool status"
   fi
 
-  SGSCAN=`which sg_scan` 2>/dev/null
+  SGSCAN=`which sg_scan 2>/dev/null` 2>/dev/null # added /dev/null # modified on 20240202 by edrulrd
   if [ -x "${SGSCAN}" ]; then # modified on 20201009 by edrulrd
      exec_command "sg_scan -i" "Fibre Channel Host Bus Adapters sg_scan SCSI inquiry"
   fi
@@ -1112,7 +1112,7 @@ inc_heading_level
   if [ $? -eq 0 ]
   then
     exec_command "ls -ld /sys/block/sd*" "Block disk devices"
-    if [ $(which /lib/udev/scsi_id) ]; then # we have this library installed # added on 20240202 by edrulrd
+    if [ $(which /lib/udev/scsi_id 2>/dev/null) ]; then # we have this library installed # added on 20240202 by edrulrd
       exec_command "ls -v -1c /dev/sd*[!0-9] | xargs -I {} sh -c 'echo -n "{}:" ; /lib/udev/scsi_id --whitelisted --device={}'" "Fibre Channel Host Bus Adapters scsi_id"
     fi
   else
@@ -1367,7 +1367,7 @@ inc_heading_level
     # So, where we can, we'll save the partition tables with sfdisk, and where we can't we'll use sgdisk
     do_sgdisk=no
     do_sfdisk=no
-    if [ -x "$(which sfdisk)" ] ; then
+    if [ -x "$(which sfdisk 2>/dev/null)" ] ; then # added /dev/null # modified on 20240202 by edrulrd
       vl="$(sfdisk -v | awk '{print $NF}'|sed 's/\./ /g')" # get version and level of sfdisk command
       v="$(echo ${vl} | awk '{print $1}')" # get version
       l="$(echo ${vl} | awk '{print $2}')" # level
@@ -1380,10 +1380,10 @@ inc_heading_level
       do_sgdisk=yes  # do sgdisk if sfdisk is not available but sgdisk is
     fi
 
-    if [ -x "$(which lsblk)" ] ; then
+    if [ -x "$(which lsblk 2>/dev/null)" ] ; then # added /dev/null # modified on 20240202 by edrulrd
       for HardDisk in $(lsblk -p | grep "^/" | grep disk | awk '{print $1}') # get the harddrives only eg. /dev/sda, not lv's etc.
       do
-        if [ -x "$(which sgdisk)" -a "${do_sgdisk}" = "yes" ] ; then
+        if [ -x "$(which sgdisk 2>/dev/null)" -a "${do_sgdisk}" = "yes" ] ; then # added /dev/null # modified on 20240202 by edrulrd
           sgdisk --backup="${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk})" ${HardDisk} && # don't proceed if sgdisk fails # modified on 20240119 by edrulrd
           if [ -s "${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk})" ] # ignore empty files # added on 20240119 by edrulrd
           then
@@ -1453,7 +1453,7 @@ inc_heading_level
          ##CHANGED##FIXED## 20150304 by Ralph Roth
 	 exec_command "/usr/sbin/kdumptool dump_config; echo; /usr/sbin/kdumptool find_kernel; echo; /usr/sbin/kdumptool print_target" "Kdump Status (kdumptool)"
     else
-      if [ -x "$(which kdumpctl)" ] ; then # modified on 20201009 by edrulrd
+      if [ -x "$(which kdumpctl 2>/dev/null)" ] ; then # modified on 20201009 by edrulrd # added /dev/null # modified on 20240202 by edrulrd
     	exec_command "kdumpctl status" "Kdump Status"              #  Added by Dusan Baljevic 6/11/2014  (not on SLES11!) // 04.03.2015 Ralph Roth
     	exec_command "kdumpctl showmem" "Kdump memory allocation"  #  Added by Dusan Baljevic 24/12/2017
       fi
@@ -1641,8 +1641,8 @@ then # else skip to next paragraph
 
   # Need to add the interface to the mii-tool and mii-diag commands # added on 20201005 by edrulrd
   # Warning: mii-tool is noted to be obsolete, especially for speeds > 100 mb # added on 20240119 by edrulrd
-  [ -x /sbin/mii-tool ] && exec_command "for Interface in $(ip link | grep -v '^ ' | awk '{print $2}' | grep -v "lo:" | sed 's/://') do /sbin/mii-tool -v \${Interface}; done" "MII Status" # use ip link instead of netstat -ni # modified on 20240119 by edrulrd
-  [ -x /sbin/mii-diag ] && exec_command "for Interface in $(ip link | grep -v '^ ' | awk '{print $2}' | grep -v "lo:" | sed 's/://') do /sbin/mii-diag -a \${Interface}; done" "MII Diagnostics" # use ip link instead of netstat -ni # modified on 20240119 by edrulrd
+  [ -x /sbin/mii-tool ] && exec_command "for Interface in $(ip link | grep -v '^ ' | awk '{print $2}' | grep -v "lo:" | sed 's/://'); do /sbin/mii-tool -v \${Interface} 2>/dev/null; done" "MII Status" # use ip link instead of netstat -ni # modified on 20240119 by edrulrd
+  [ -x /sbin/mii-diag ] && exec_command "for Interface in $(ip link | grep -v '^ ' | awk '{print $2}' | grep -v "lo:" | sed 's/://'); do /sbin/mii-diag -a \${Interface} 2>/dev/null; done" "MII Diagnostics" # use ip link instead of netstat -ni # modified on 20240119 by edrulrd
 
   exec_command "ip route | column -t" "Network Routing"  #  07.11.2011, 21:37 modified by Ralph Roth #* rar *# #added table format # modified on 20240119 by edrulrd
   NETSTAT=$(which netstat 2> /dev/null) # modified on 20240119 by edrulrd
@@ -1684,12 +1684,12 @@ then # else skip to next paragraph
   # Since netstat is deprecated, the following commands attempt to show the equivalent output using more modern network commands # added on 20240119 by edrulrd
   exec_command "ip maddress show" "Multicast IP addresses" # replacement for netstat -gi # added on 20240119 by edrulrd
 
-  if [ $(which ss 2>/dev/null) ] # check if the command is in the program's path # added on 20220119 by edrulrd
+  if [ $(which ss 2>/dev/null) ] # check if the command is in the program's path # added on 20240119 by edrulrd
   then
     exec_command "ss -planeto" "TCP Listening Sockets Statistics" # changed 20131211 by Ralph Roth # modified on 20240119 by edrulrd
     exec_command "ss -planeuo" "UDP Listening Sockets Statistics" # UDP and listening? :) # modified on 20240119 by edrulrd
   fi # ss
-  if [ $(which pminfo 2>/dev/null) ] # check if the command is in the program's path # Added on 20220119 by edrulrd
+  if [ $(which pminfo 2>/dev/null) ] # check if the command is in the program's path # Added on 20240119 by edrulrd
   then
      exec_command "pminfo -f network | column -c ${CFG_TEXTWIDTH}" "Summary statistics for each protocol"  # replacement for the netstat -s command.  Is part of the "pcp" package if installed.  # added on 20240119 by edrulrd
   fi
@@ -1712,7 +1712,7 @@ then # else skip to next paragraph
   fi
   ## End Marc Korte kernel interface bonding addition.
   # -----------------------------------------------------------------------------
-  DIG=`which dig`
+  DIG=`which dig 2>/dev/null` # added /dev/null # modified on 20240202 by edrulrd
   if [ -n "${DIG}" ] && [ -x ${DIG} ] ; then
     exec_command "dig `hostname -f`| grep -vE '^;|^ *$'" "dig hostname"
   else
@@ -1855,7 +1855,7 @@ then # else skip to next paragraph
   #  if [ "${MOUNTD}"="mountd" ] ; then
     if [ -n "${MOUNTD}" ] ; then
       exec_command "rpcinfo -u 127.0.0.1 100003" "NSFD responds to RPC requests"
-      SHOWMOUNT=`which showmount`   ## 2007-02-27 Oliver Schwabedissen
+      SHOWMOUNT=`which showmount 2>/dev/null`   ## 2007-02-27 Oliver Schwabedissen # added /dev/null # modified on 20240202 by edrulrd
       if [ ${SHOWMOUNT} ] && [ -x ${SHOWMOUNT} ] ; then
         exec_command "${SHOWMOUNT} -a" "Mounted NFS File Systems"
       fi
@@ -2046,7 +2046,7 @@ then # else skip to next paragraph
 
     # Added by Dusan Baljevic on 15 July 2013
     #
-    BOOTCTL=$(which bootctl)
+    BOOTCTL=$(which bootctl 2>/dev/null) # added /dev/null # modified on 20240202 by edrulrd
     if [ -n "${BOOTCTL}" ] && [ -x "${BOOTCTL}" ] ; then
       exec_command "${BOOTCTL} status | awk NF" "Firmware and boot manager settings"
     fi
@@ -2253,7 +2253,7 @@ then # else skip to next paragraph
     fi
 
 ### Section about borg and borgmatic backups # added on 20240119 by edrulrd
-    if [ $(which borgmatic) ] ; then
+    if [ $(which borgmatic 2>/dev/null) ] ; then # added /dev/null # modified on 20240202 by edrulrd
       dec_heading_level
       paragraph "Borg backups"
       inc_heading_level
