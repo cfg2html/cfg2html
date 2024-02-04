@@ -127,12 +127,10 @@ done
 shift $((${OPTIND} - 1))
 # Decrements the argument pointer so it points to next argument.
 
-#
 # linux port
 MAILTO="&#106;&#101;&#114;&#111;&#101;&#110;&#46;&#107;&#108;&#101;&#101;&#110;&#64;&#104;&#112;&#46;&#99;&#111;&#109;"
 MAILTORALPH="cfg2html&#64;&#104;&#111;&#116;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;"
 # changed/added 08.07.2003 (13:04) by Ralph Roth
-
 
 #####################################################################
 # @(#)Cfg2Html (c) by ROSE SWE, Dipl.-Ing. Ralph Roth, cfg2html@hotmail.com
@@ -236,6 +234,15 @@ echo "Errors logged to:  "${ERROR_LOG}
 echo "Started at        "${DATEFULL}
 echo "WARNING           USE AT YOUR OWN RISK!!! :-))           <<<<<"
 line
+
+# Check the numerical value of CFG_TEXTWIDTH, and complain if not a number # added on 20240202 by edrulrd
+if [[ "${CFG_TEXTWIDTH}" =~ ^[0-9]+$ ]]
+then
+  [ ${CFG_TEXTWIDTH} -ne ${COLUMNS} ] && COLUMNS=${CFG_TEXTWIDTH} # set COLUMNS variable if CFG_TEXTWIDTH changed # added on 20240202 by edrulrd
+else
+  echo "Improper -w value given:  width value must be numerical. Try -h for help!"
+  exit 1
+fi
 
 # 2nd one for starting.
 ${_logger} "2nd Start of cfg2html-linux ${VERSION}"
