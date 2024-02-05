@@ -1294,11 +1294,11 @@ then # else skip to next paragraph
 
   # REDHAT
   if [ "${REDHAT}" = "yes" ] || [ "${MANDRAKE}" = "yes" ] ; then
-    exec_command "rpm -qia | grep -E '^(Name|Group)( )+:'" "Packages installed" ## Chris Gardner - 24.01.2012
-    exec_command "rpm -qa | sort -d -f" "Packages installed (sorted)"       #*#   Alexander De Bernardi //09.03.2010 12:31/rr
-    exec_command "rpm -qa --queryformat '%{NAME}\n' | sort -d -f" "Packages installed, Name only (sorted)"      #*#   Alexander De Bernardi //21.04.2010/rr
-    exec_command "rpm -qa --queryformat '%-50{NAME} %{VENDOR}\n' | sort -d -f" "Packages installed, Name and Vendor only (sorted)"      #*#   Alexander De Bernardi //21.04.2010/rr
-    exec_command "rpm --querytags" "RPM Query Tags"     #*#   Alexander De Bernardi //21.04.2010/rr
+    exec_command "rpm -qia | grep -E '^(Name|Group)( )+:' | column -c ${CFG_TEXTWIDTH}" "Packages installed" ## Chris Gardner - 24.01.2012 # added column option # modified on 20240202 by edrulrd
+    exec_command "rpm -qa | sort -d -f | column -c ${CFG_TEXTWIDTH}" "Packages installed (sorted)"       #*#   Alexander De Bernardi //09.03.2010 12:31/rr # added column option # modified on 20240202 by edrulrd
+    exec_command "rpm -qa --queryformat '%{NAME}\n' | sort -d -f | column -c ${CFG_TEXTWIDTH}" "Packages installed, Name only (sorted)"      #*#   Alexander De Bernardi //21.04.2010/rr # added column option # modified on 20240202 by edrulrd
+    exec_command "rpm -qa --queryformat '%-50{NAME} %{VENDOR}\n' | sort -d -f | column -c ${CFG_TEXTWIDTH}" "Packages installed, Name and Vendor only (sorted)"      #*#   Alexander De Bernardi //21.04.2010/rr # added column option # modified on 20240202 by edrulrd
+    exec_command "rpm --querytags | column -c ${CFG_TEXTWIDTH}" "RPM Query Tags"     #*#   Alexander De Bernardi //21.04.2010/rr # added column option # modified on 20240202 by edrulrd
     if [ -x /usr/bin/dnf ] ; then
         exec_command "dnf history" "DNF: Last actions performed"
     elif [ -x /usr/bin/yum ] ; then
@@ -1997,7 +1997,7 @@ then # else skip to next paragraph
     if [ "${DEBIAN}" = "yes" ] ; then
         exec_command "dpkg -l | grep -i -e Kernel-image -e Linux-image" "Kernel related DEBs"
     fi
-    [ -x /usr/sbin/getsebool ] && exec_command "/usr/sbin/getsebool -a" "SELinux Settings"
+    [ -x /usr/sbin/getsebool ] && exec_command "/usr/sbin/getsebool -a | column -c ${CFG_TEXTWIDTH}" "SELinux Settings" # added column cmd # modified on 20240202 by edrulrd
 
     who -b 2>/dev/null > /dev/null && exec_command "who -b" "System boot" #  23.03.2006, 13:18 modified by Ralph Roth
     exec_command "cat /proc/cmdline" "Kernel command line"
@@ -2032,7 +2032,7 @@ then # else skip to next paragraph
             which rpm > /dev/null  && exec_command "rpm -qi glibc" "libc6 Version (RPM)" # rar, SUSE+RH
     fi
 
-    exec_command "/sbin/ldconfig -vN  2>/dev/null | column -c ${CFG_TEXTWIDTH}" "Run-time link bindings" ### changed 20130730 by Ralph Roth # modified on 20240119 by edrulrd
+    exec_command "/sbin/ldconfig -vN  2>/dev/null" "Run-time link bindings" ### changed 20130730 by Ralph Roth # modified on 20240119 by edrulrd # removed column cmd(too messy) # modified on 20240202 by edrulrd
 
     # MiMe: SUSE patched kernel params into /proc
     if [ -e /proc/config.gz ] ; then
