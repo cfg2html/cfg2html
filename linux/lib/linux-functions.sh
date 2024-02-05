@@ -336,4 +336,28 @@ function GetElevator {
     done
 }
 
+function DoPATHList {
+    #function used in System-section
+    # arg1: a list of directories separated by colons (":") # moved from cfg2html-linux.sh on 20240202 by edrulrd
+    local LISTPATH=$1
+    local Directory
+    for Directory in $(/bin/echo ${LISTPATH} |
+        sed 's/:/ /g');
+        do
+          find ${Directory} -executable \( -type f -o -type l \) -print 2>\/dev\/null |
+          sort |
+          while read Filename;
+            do
+              /bin/echo -n $(basename ${Filename});
+              /bin/echo -n ' ';
+              ls -al ${Filename} |
+              awk '{$1="";$2="";$3="";$4="";$5="";$6="";$7="";$8="";print}' |
+              sed 's/^        //';
+            done
+        done |
+        sort -k1,1 -u |
+        awk '{$1=""; print}' |
+        sed 's/^ //' | column -c ${CFG_TEXTWIDTH}
+}
+
 #* END *#

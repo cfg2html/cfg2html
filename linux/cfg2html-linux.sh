@@ -535,23 +535,7 @@ inc_heading_level
     fi
 
     # Get all the executable files including soft-links in the PATH and generate a sorted list # Added on 20201025 by edrulrd
-    exec_command "for Directory in $(/bin/echo ${LISTPATH} |
-    sed 's/:/ /g');
-    do
-      find \$Directory -executable \( -type f -o -type l \) -print 2>\/dev\/null |
-      sort |
-      while read Filename;
-        do
-          /bin/echo -n \$(basename \${Filename});
-          /bin/echo -n ' ';
-          ls -al \${Filename} |
-          awk '{\$1=\"\";\$2=\"\";\$3=\"\";\$4=\"\";\$5=\"\";\$6=\"\";\$7=\"\";\$8=\"\";print}' |
-          sed 's/^        //';
-        done
-    done |
-    sort -k1,1 -u |
-    awk '{\$1=\"\"; print}' |
-    sed 's/^ //' | column -c ${CFG_TEXTWIDTH}" "Executable Commands found in $LISTPATH" # Added on 20201025 by edrulrd, modified on 20240119 by edrulrd
+    exec_command "DoPATHList ${LISTPATH}" "Executable Commands found in $LISTPATH" # Added on 20201025 by edrulrd # moved into a function # modified on 20240202 by edrulrd
     unset LISTPATH
     # End of code added on 20201025 by edrulrd
   fi # terminates CFG_PATHLIST wrapper # added on 20201026 by edrulrd
