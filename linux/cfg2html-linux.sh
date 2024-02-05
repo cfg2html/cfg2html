@@ -1449,8 +1449,8 @@ inc_heading_level
 	 exec_command "/usr/sbin/kdumptool dump_config; echo; /usr/sbin/kdumptool find_kernel; echo; /usr/sbin/kdumptool print_target" "Kdump Status (kdumptool)"
     else
       if [ -x "$(which kdumpctl 2>/dev/null)" ] ; then # modified on 20201009 by edrulrd # added /dev/null # modified on 20240202 by edrulrd
-    	exec_command "kdumpctl status" "Kdump Status"              #  Added by Dusan Baljevic 6/11/2014  (not on SLES11!) // 04.03.2015 Ralph Roth
-    	exec_command "kdumpctl showmem" "Kdump memory allocation"  #  Added by Dusan Baljevic 24/12/2017
+    	exec_command "kdumpctl status 2>&1" "Kdump Status"              #  Added by Dusan Baljevic 6/11/2014  (not on SLES11!) // 04.03.2015 Ralph Roth # redirect response to stdout # modified on 20240202 by edrulrd
+    	exec_command "kdumpctl showmem 2>&1" "Kdump memory allocation"  #  Added by Dusan Baljevic 24/12/2017 # redirect response to stdout # modified on 20240202 by edrulrd
       fi
     fi # /usr/sbin/kdumptool
     [ -r /proc/diskdump ] && exec_command "cat /proc/diskdump" "Diskdump Status"          #  Added by Dusan Baljevic 6/11/2014, 06.04.2015 Ralph Roth
