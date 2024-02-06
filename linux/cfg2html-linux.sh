@@ -743,7 +743,7 @@ inc_heading_level
     if [ -x /bin/authselect ] ; then
       if [[ $(/bin/authselect current) =~ 'Profile ID' ]] ; then
         ACPROFILE=$(/bin/authselect current | grep 'Profile ID' | cut -d' ' -f 3-)
-        exec_command "(/bin/authselect current; echo; /bin/authselect test '${ACPROFILE}')" "System authentication resources"
+        exec_command "/bin/authselect current; echo; /bin/authselect test '${ACPROFILE}' | grep -vE '^#|^ *$'" "System authentication resources" # discard commented and empty lines # modified on 20240202 by edrulrd
       fi
     else
       exec_command "/usr/sbin/authconfig --test" "System authentication resources"
