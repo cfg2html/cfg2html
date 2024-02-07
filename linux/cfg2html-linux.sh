@@ -1519,17 +1519,17 @@ then # else skip to next paragraph
                   exec_command "ls -la /dev/*/group" "Volume Group Device Files" # minor title change # modified on 20240119 by edrulrd
                   # { changed/added 29.01.2004 (11:15) by Ralph Roth } - sr by winfried knobloch for Serviceguard
                   exec_command "cat /proc/lvm/global" "LVM global info"
-                  exec_command "vgdisplay -v | awk -F' +' '/PV Name/ {print \$4}'" "Available Physical Volumes" # changed Groups to Volumes # modified on 20240119 by edrulrd
+                  exec_command "vgdisplay -v 2>/dev/null | awk -F' +' '/PV Name/ {print \$4}'" "Available Physical Volumes" # delete any errors we might get # changed Groups to Volumes # modified on 20240119 by edrulrd
                   exec_command "vgdisplay -s | awk -F\\\" '{print \$2}'" "Available Volume Groups"
-                  exec_command "vgdisplay -v | awk -F' +' '/LV Name/ {print \$3}'" "Available Logical Volumes"
+                  exec_command "vgdisplay -v 2>/dev/null | awk -F' +' '/LV Name/ {print \$3}'" "Available Logical Volumes" # delete any errors we might get # modified on 20240202 by edrulrd
                   ;;
                 "2")
                   exec_command "ls -al /dev/mapper/*; [ -x /sbin/vgs ] && echo && /sbin/vgs -o vg_name,lv_name,devices" "Volume Group Device Files" # minor title change # modified on 20240119 by edrulrd
                   exec_command "lvm version" "LVM global info"
                   exec_command "lvm dumpconfig" "LVM dumpconfig"
-                  exec_command "vgdisplay -v | awk -F' +' '/PV Name/ {print \$4}'" "Available Physical Volumes" # changed Groups to Volumes # modified on 20240119 by edrulrd
+                  exec_command "vgdisplay -v 2>/dev/null | awk -F' +' '/PV Name/ {print \$4}'" "Available Physical Volumes" # delete any errors we might get # changed Groups to Volumes # modified on 20240119 by edrulrd
                   exec_command "vgdisplay -s | awk -F\\\" '{print \$2}'" "Available Volume Groups"
-                  exec_command "vgdisplay -v | awk -F' +' '/LV Name/ {print \$4}'" "Available Logical Volumes"
+                  exec_command "vgdisplay -v 2>/dev/null | awk -F' +' '/LV Name/ {print \$4}'" "Available Logical Volumes" # delete any errors we might get # modified on 20240202 by edrulrd
                   # The command vgs -o +tags vgname will display any tags that are set for a volume group. *TODO*
                   # vgcreate --addtag $(uname -n) /dev/vgpkgA /dev/sda1 /dev/sdb1 // vgchange --deltag $(uname -n) vgpkgA  *SGLX*
                   # [ -x /sbin/vgs ] && exec_command "/sbin/vgs -o vg_name,lv_name,devices" "Detailed Volume Groups Report" #  27.10.2011 #* rar *# EHR by Jim Bruce # combined with /dev/mapper report to put under same heading # modified on 20240119 by edrulrd
@@ -1540,7 +1540,7 @@ then # else skip to next paragraph
                   ;;
                   esac
             #
-              exec_command "vgdisplay -v" "Volume Group Details" # minor title change # modified on 20240119 by edrulrd
+              exec_command "vgdisplay -v 2>&1" "Volume Group Details" # display any errors we might get # minor title change # modified on 20240119 by edrulrd
               exec_command PVDisplay "Physical Devices used for LVM"
               AddText "Note: Run vgcfgbackup on a regular basis to backup your volume group layout"
             else
