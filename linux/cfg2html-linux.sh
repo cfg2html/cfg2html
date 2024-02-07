@@ -1812,6 +1812,9 @@ then # else skip to next paragraph
             MTA='/usr/sbin/sendmail/sendmail.sendmail'
           elif [ -x /usr/sbin/sendmail ]; then
             MTA='/usr/sbin/sendmail'
+            if [ -L /usr/sbin/sendmail ]; then # found /usr/sbin/sendmail pointing to exim4 # added on 20240202 by edrulrd
+              MTA=$(readlink -e /usr/sbin/sendmail) # reset the MTA to what we're pointing to # added on 20240202 by edrulrd
+            fi
           fi
       fi
       case "${MTA}" in
@@ -1824,6 +1827,9 @@ then # else skip to next paragraph
           exec_command "echo '\$Z' |/usr/sbin/sendmail -bt -d0.1; echo Smart Relay Host=${SMARTHOST}" "Detailed Sendmail Configuration"   # From cfg2html-hpux
           #  From cfg2html-hpux
           exec_command "cat $(grep -e '^Kmailertable' /etc/mail/sendmail.cf | cut -d ' ' -f 4 | sed s/\.db//) /dev/null | grep -vE '^#|^ *$'" "Sendmail Mailertable"
+          ;;
+        *exim?) # added on 20240202 by edrulrd
+          exec_command "${MTA} --version | grep version" "Sendmail version ($MTA)" # added on 20240202 by edrulrd
           ;;
         *)
           exec_command "echo SENDMAIL or POSTFIX VERSION not found issue" "Sendmail/Postfix version"
