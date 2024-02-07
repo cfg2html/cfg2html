@@ -579,7 +579,7 @@ inc_heading_level
       #                 ${cntb}++;
       #             }
 
-  exec_command "cat /proc/slabinfo | sed 's/# name/#name/' | tr '<' ' ' | tr '>' ' ' | awk 'NR<3{print;next}{print | \"sort -k3,3nr -k1,1\"}' | column --table -c ${CFG_TEXTWIDTH}" "Kernel slabinfo Statistics" # changed 20131211 by Ralph Roth # added column command to put the output in an aligned table after sorting it in descending order by number  of objects $ modified on 20240119 by edrulrd
+  exec_command "cat /proc/slabinfo | sed 's/# name/#name/' | tr '<' ' ' | tr '>' ' ' | awk 'NR<3{print;next}{print | \"sort -k3,3nr -k1,1\"}' | column -t -c ${CFG_TEXTWIDTH}" "Kernel slabinfo Statistics" # changed 20131211 by Ralph Roth # added column command to put the output in an aligned table after sorting it in descending order by number  of objects $ modified on 20240119 by edrulrd
   AddText "Frequently used objects in the Linux kernel (buffer heads, inodes, dentries, etc.) have their own cache.  The file /proc/slabinfo gives statistics."
   exec_command "cat /proc/pagetypeinfo" "Additional page allocator information" 	# changed 20131211 by Ralph Roth
   exec_command "cat /proc/zoneinfo" "Per-zone page allocator" 		                # changed 20131211 by Ralph Roth
@@ -1348,7 +1348,7 @@ inc_heading_level
     then
       exec_command "display_xfs_fs_param" "XFS Filesystems Parameters" # added on 20240202 by edrulrd
     fi
-    exec_command "mount | column --table -c ${CFG_TEXTWIDTH}" "Mount points" # more readable in table format # modified on 20240119 by edrulrd
+    exec_command "mount | column -t -c ${CFG_TEXTWIDTH}" "Mount points" # more readable in table format # modified on 20240119 by edrulrd
     exec_command PartitionDump "Disk Partition Layout (showing sizes)"        #  30.03.2011, 20:00 modified by Ralph Roth #** rar ** # modified title # modified on 20240119 by edrulrd
 
     # moved the partition map showing sectors from below to here  # modified on 20240119 by edrulrd
@@ -1642,7 +1642,7 @@ then # else skip to next paragraph
   exec_command "ip route | column -t" "Network Routing"  #  07.11.2011, 21:37 modified by Ralph Roth #* rar *# #added table format # modified on 20240119 by edrulrd
   NETSTAT=$(which netstat 2> /dev/null) # modified on 20240119 by edrulrd
   [ ${NETSTAT} ] && [ -x ${NETSTAT} ] && exec_command "netstat -r | column -t" "Routing Tables" # modified on 20240119 by edrulrd
-  exec_command "ip neigh | column --table" "Network Neighborhood"      #  07.11.2011, 21:38 modified by Ralph Roth #* rar *# # added table format # modified on 20240119 by edrulrd
+  exec_command "ip neigh | column -t" "Network Neighborhood"      #  07.11.2011, 21:38 modified by Ralph Roth #* rar *# # added table format # modified on 20240119 by edrulrd
 
   if [ ${NETSTAT} ]  && [ -x ${NETSTAT} ]; then
     # test if netstat version 1.38, because some options differ in older versions
