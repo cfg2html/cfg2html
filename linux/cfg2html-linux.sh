@@ -1897,7 +1897,7 @@ then # else skip to next paragraph
 
   exec_command "timedatectl status" "System Time and Date Status"  # Added by Dusan Baljevic on 6 November 2014
 
-  exec_command "hwclock -r" "Time: HWClock" # rr, 20121201
+  which hwclock 2>/dev/null 1>&2 && exec_command "hwclock -r 2>/dev/null" "Time: HWClock" # rr, 20121201 # check for being in the path, but don't show it if is # modified on 20240202 by edrulrd
   [ -f /etc/ntp.conf ] && exec_command "grep  -vE '^#|^ *$' /etc/ntp.conf" "ntp.conf"
   [ -f /etc/shells ] && exec_command "grep  -vE '^#|^ *$'  /etc/shells" "FTP Login Shells"
   [ -f /etc/ftpusers ] && exec_command "grep  -vE '^#|^ *$'  /etc/ftpusers" "FTP Rejections (/etc/ftpusers)"
