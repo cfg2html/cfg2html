@@ -56,8 +56,10 @@ function open_html {
 
     (line
       echo
-      _banner ${RECHNER}
+      _banner "${RECHNER} - System Documentation" # title change # modified on 20240202 by edrulrd
       #echo ${RECHNER}
+      echo
+      _banner "Created ${DATEFULL} by ${PROGRAM} ${VERSION} ... Customized (v:${CustomVer})" # added some titles to the Ascii file too # modified on 20240202 by edrulrd
       echo
     line) > ${TEXT_OUTFILE}
     _echo  "\n" >> ${TEXT_OUTFILE}
