@@ -560,7 +560,7 @@ inc_heading_level
 
 
   # 20190828, rr - swapon -s is deprecated, better use --show
-  exec_command "free -tml;echo;free -tm;echo; swapon --show;swapon -s" "Used Memory and Swap Summary" #  04.07.2011+05.07.2018 modified by Ralph Roth #* rar *#
+  exec_command "free -tml; echo; free -tm; echo; swapon --show; echo; swapon -s" "Used Memory and Swap Summary" #  04.07.2011+05.07.2018 modified by Ralph Roth #* rar *#
   exec_command "cat /proc/meminfo; echo THP:; cat /sys/kernel/mm/transparent_hugepage/enabled" "Detailed Memory Usage (meminfo)"  # changed 20131218 by Ralph Roth
   exec_command "cat /proc/buddyinfo" "Zoned Buddy Allocator/Memory Fragmentation and Zones" 	#  09.01.2012 Ralph Roth
   AddText "The number on the left is bigger than right (by factor 2)."
@@ -587,7 +587,7 @@ inc_heading_level
   if [ -x /usr/bin/vmstat ] ; then        ## <c/m/a>  14.04.2009 - Ralph Roth
     ## [20200408] {jcw} expanded 'VM' to Virtual Memory, to avoid confusion with virtualization.
     exec_command "vmstat -w 1 10" "Virtual Memory-Statistics (1 10)" # added -w option for readability # modified on 20240119 by edrulrd
-    exec_command "vmstat -dnw; vmstat -f" "Disk Statistics (averages) and Forks since boot" # changed title and added -w option for readability # modified on 20240119 by edrulrd
+    exec_command "vmstat -dnw; echo; vmstat -f" "Disk Statistics (averages) and Forks since boot" # changed title and added -w option for readability # modified on 20240119 by edrulrd
   fi
 
   # sysutils
@@ -2152,7 +2152,7 @@ then # else skip to next paragraph
     ### Debian...., maybe a smbstatus -V/samba -V is useful
     [ -x /usr/bin/smbstatus ] && exec_command "/usr/bin/smbstatus 2>/dev/null" "Samba (smbstatus)"  ## fixed 2007-02-27 Oliver Schwabedissen
     [ -x /usr/bin/testparm ] && exec_command "/usr/bin/testparm -s 2> /dev/null" "Samba Configuration (testparm)" #  09.01.2008, 14:53 modified by Ralph Roth
-    [ -f /etc/samba/smb.conf ] && exec_command "cat /etc/samba/smb.conf" "Samba Configuration (smb.conf)" #*#  Alexander De Bernardi, 20100421 testparm does not show complete config
+    [ -f /etc/samba/smb.conf ] && exec_command "cat /etc/samba/smb.conf | grep -vE '^[#;]|^ *$'" "Samba Configuration (smb.conf)" #*#  Alexander De Bernardi, 20100421 testparm does not show complete config # remove commented and blank lines # modified on 20240202 by edrulrd
     [ -f /etc/init.d/samba ] && exec_command "ps -ef | grep -E '(s|n)m[b]'" "Samba Daemons"
 
     if [ -x /usr/sbin/lpc ] ; then
