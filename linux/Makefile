@@ -56,7 +56,7 @@ ifeq ($(OFFICIAL),)
     obspackage = $(name)
 endif
 
-ifneq ($(shell which apt),)
+ifneq ($(shell which apt 2>/dev/null),)
 T := deb
 else
 T := rpm
