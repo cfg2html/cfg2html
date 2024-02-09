@@ -1797,7 +1797,7 @@ then # else skip to next paragraph
   fi
 
   if [ -s /etc/nscd.conf ] ; then
-     exec_command "cat /etc/nscd.conf" "Name Service Cache Daemon (NSCD)"
+     exec_command "cat /etc/nscd.conf | grep -vE '^#|^ *$'" "Name Service Cache Daemon (NSCD)" # removed commented and blank lines # modified on 20240202 by edrulrd
   fi
 
   if [ -x /usr/sbin/nullmailer-send ]	## backport from cfg2html-linux 2.97 -- 04.04.2015, rr
