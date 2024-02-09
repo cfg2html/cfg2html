@@ -2030,7 +2030,7 @@ then # else skip to next paragraph
 
     # MiMe: SUSE patched kernel params into /proc
     if [ -e /proc/config.gz ] ; then
-      exec_command "zcat /proc/config.gz | grep -vE '^#|^ *$'" "Kernel Parameter /proc/config.gz" # modified on 20240119 by edrulrd
+      exec_command "zcat /proc/config.gz | grep -vE '^#|^ *$' | column -c ${CFG_TEXTWIDTH}" "Kernel Parameter /proc/config.gz" # added column cmd # modified on 20240119 by edrulrd
     else
       if [ -e /usr/src/linux/.config ] ; then
         exec_command "grep -vE '^#|^ *$' /usr/src/linux/.config" "Kernel Source .config" # modified on 20240119 by edrulrd
