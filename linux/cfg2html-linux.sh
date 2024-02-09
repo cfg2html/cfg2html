@@ -613,8 +613,8 @@ inc_heading_level
   [ -x /usr/bin/pidstat ] && exec_command "pidstat -lrud 2>/dev/null||pidstat -rud" "pidstat - Statistics for Linux Tasks"
 
   if [ -x "$(which tuned-adm 2>/dev/null)" ] ; then #  avoid errors if not available # modified on 20201009 by edrulrd # added /dev/null # modified on 20240202 by edrulrd
-    exec_command "tuned-adm list" "Tuned Profiles"     	              #06.11.2014, 20:34 added by Dusan Baljevic
-    exec_command "tuned-adm active" "Tuned Active Profile Status"       #06.11.2014, Dusan Baljevic -- see also saptune()
+    exec_command "tuned-adm list 2>/dev/null" "Tuned Profiles"     	              #06.11.2014, 20:34 added by Dusan Baljevic # discard daemon not running comment # modified on 20240202 by edrulrd
+    exec_command "tuned-adm active 2>/dev/null" "Tuned Active Profile Status"       #06.11.2014, Dusan Baljevic -- see also saptune() # discard daemon not running comment # modified on 20240202 by edrulrd
   fi
   NUMACTL="$(which numactl 2>/dev/null)"                               # modified on 20201004 added by edrulrd
   if [ -n "${NUMACTL}" -a -x "${NUMACTL}" ] ; then
@@ -1098,7 +1098,7 @@ inc_heading_level
      exec_command "sg_map -x" "Fibre Channel Host Bus Adapters sg_map status"
   fi
 
-  exec_command "ls -la /dev/disk/by-id" "Disk devices by-id"
+  exec_command "ls -l /dev/disk/by-id" "Disk devices by-id" # removed -a (don't need . files?) # modified on 20240202 by edrulrd
   ls -ld /sys/block/sd* 2>/dev/null 1>&2 # check to see if we have sd* block devices # added on 20240202 by edrulrd
   if [ $? -eq 0 ]
   then
