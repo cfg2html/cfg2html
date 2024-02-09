@@ -246,6 +246,37 @@ function display_xfs_fs_param {
     fi
 }
 
+function display_btrfs_fs_param {
+    #function used in FILESYS added 20240202 by edrulrd
+    if [ $(which lsblk 2>/dev/null) ] && lsblk -o PATH 2>/dev/null 1>&2 # added on 20240202 by edrulrd
+    then
+      for fs in $(lsblk -ln -o PATH,FSTYPE | grep -w btrfs | awk '{print $1}') # added on 20240202 by edrulrd
+      do
+        echo "Dumping: "${fs} # added on 20240202 by edrulrd
+        btrfs inspect-internal dump-super ${fs} # print superblock summary info # added on 20240202 by edrulrd
+        echo
+      done
+    else
+      if [ $(which blkid 2>/dev/null) ] && blkid | grep -w btrfs | cut -d: -f1 2>/dev/null 1>&2 # try getting all btrfs filesystems using blkid if available # added on 20240202 by edrulrd
+      then 
+        for fs in $(blkid | grep -w btrfs | cut -d: -f1 | sort -u) # added on 20240202 by edrulrd
+        do
+          echo "Dumping: "${fs} # added on 20240202 by edrulrd
+          btrfs inspect-internal dump-super ${fs} # print superblock summary info # added on 20240202 by edrulrd
+          echo
+        done
+      else
+        echo "Hint: lsblk and/or blkid commands are old or not available, showing mounted filesystems only" # added on 20240202 by edrulrd
+        for fs in $(grep -w btrfs /proc/mounts | awk '{print $1}' | sort -u) # if we don't have blk cmds, only check mounted filesystems # added on 20240202 by edrulrd
+        do
+          echo "Dumping: "${fs} # added on 20240202 by edrulrd
+          btrfs inspect-internal dump-super ${fs} # print superblock summary info # added on 20240202 by edrulrd
+          echo
+        done
+      fi
+    fi
+}
+
 function PartitionDump {
     if [ -x /sbin/fdisk ]; then
         if [ -x /sbin/parted ]; then

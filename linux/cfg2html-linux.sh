@@ -1348,6 +1348,10 @@ inc_heading_level
     then
       exec_command "display_xfs_fs_param" "XFS Filesystems Parameters" # added on 20240202 by edrulrd
     fi
+    if [ $(which btrfs 2>/dev/null) ] # added on 20240202 by edrulrd
+    then
+      exec_command "display_btrfs_fs_param" "BTRFS Filesystems Parameters" # added on 20240202 by edrulrd
+    fi
     exec_command "mount | column -t -c ${CFG_TEXTWIDTH}" "Mount points" # more readable in table format # modified on 20240119 by edrulrd
     exec_command PartitionDump "Disk Partition Layout (showing sizes)"        #  30.03.2011, 20:00 modified by Ralph Roth #** rar ** # modified title # modified on 20240119 by edrulrd
 
