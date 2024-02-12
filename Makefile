@@ -17,7 +17,8 @@ help:
 	@echo "|    cfg2html Makefile targets             |"
 	@echo "|    =========================             |"
 	@echo "|    HP-UX: \"make depot\"                   |"
-	@echo "|    Linux: \"make rpm\"       (1)           |"
+	@echo "|    Linux: \"make Linux\"     (1)           |"
+	@echo "|    Linux: \"make rpm\"       (2)           |"
 	@echo "|    Linux: \"make deb\"                     |"
 	@echo "|    SunOS: \"make sunos\"                   |"
 	@echo "|    FreeBSD|OpenBSD|NetBSD: \"make bsd\"    |"
@@ -28,7 +29,8 @@ help:
 	@echo "+------------------------------------------+"
 	@echo ""
 	@echo "IMPORTANT: You need an annotated git tag on your local build system"
-	@echo " (1) Jenkins workaround:  git checkout master; make rpm ## see issue #155"
+	@echo " (1) tries to guess which package to build (RPM or DEB)"
+	@echo " (2) Jenkins workaround:  git checkout master; make rpm ## see issue #155"
 	@echo ""
 
 depot:

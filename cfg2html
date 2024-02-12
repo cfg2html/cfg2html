@@ -45,7 +45,7 @@ OS="$(uname)"
 OS="$(echo ${OS} | tr 'A-Z' 'a-z' | sed -e 's/-//')"
 CFG_CMDLINE=$*
 
-COPYRIGHT="Copyright (C) 1999-2023 by ROSE SWE, Dipl.-Ing. Ralph Roth"
+COPYRIGHT="Copyright (C) 1999-2024 by ROSE SWE, Dipl.-Ing. Ralph Roth"
 
 LANG="C"
 LANG_ALL="C"

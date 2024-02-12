@@ -75,6 +75,7 @@ help:
   uninstall       - Uninstall cfg2html (may remove files)\n\
   dist            - Create tar file\n\
   deb             - Create DEB package\n\
+  Linux           - tries to guess RPM or DEB creation\n\
   rpm             - Create RPM package\n\
   pacman          - Create Pacman package\n\
   obs             - Initiate OBS builds\n\
