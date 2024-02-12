@@ -7,6 +7,8 @@ Changelog
 
 Changes
 ~~~~~~~
+- Bumped year in copyright notice ;) [roseswe]
+- Updated Changelog (by Makefile), Version: 7.0.1-15-g6ca1f33. [roseswe]
 - Shellcheck fix SC2006. [roseswe]
 - Bumped version number for Debian. [roseswe]
 - Updated Changelog (by Makefile), Version: 7.0.1-7-gf11e501. [roseswe]
@@ -19,11 +21,371 @@ Changes
 
 Fix
 ~~~
+- SC2028, closes issue cfg2html/hpux /cfg2html-hpux.sh missing usage
+  #176. [roseswe]
+- Typing mistake result in invalid command (Issue #175) [roseswe]
+- Closes issue #174 (contrib scripts) [roseswe]
 - This hopefully fixes issue #171? [Ralph Roth]
 - Makefile - version was empty. [roseswe]
 
 Other
 ~~~~~
+- Doc: Documented new make feature:  Linux. [roseswe]
+- New changes by Ed Drouillard (#177) [edrulrd]
+
+  * chg: usr: adjust command output so it continues onto the next line
+
+  files affected:
+  - linux/lib/html-functions.sh
+  - linux/etc/default.conf
+
+  Some unix commands generate output with very long lines of output.
+  The program was previously cutting off all text beyond the 250'th
+  character.  The full output width of commands are now shown in the
+  reports.
+
+  This change introduces a new variable in the config file, namely
+  CFG_TEXTWIDTH, which is used to specify the width of the window
+  that the program should use before continuing the output onto the
+  next line.  This variable will have a new option (-w) defined in an
+  upcoming change that will allow this to be set from the command line.
+  The default setting for this variable is set to what was the previously
+  hard-coded value of 74 characters wide.  Note that this value never had
+  any effect on the executed internal linux command output, as many of
+  them generated output longer than 74 characters.  Where this value had
+  the most effect was in the section headers in the generated ASCII file.
+
+  * chg: dev: add COLUMNS variable to config file
+
+  files affected:
+  - linux/etc/default.conf
+  - linux/cfg2html-linux.sh
+
+  It was found that the systemd-cgls command depends on the value of
+  the COLUMNS variable to set the amount of output that it generates.
+  The variable was set to the value of the new CFG_TEXTWIDTH variable.
+
+  * chg: usr: Record the paragraph title and executed command in the ASCII file
+
+  files affected:
+  - linux/lib/html-functions.sh
+
+  Until now, the paragraph title and the executed command are shown under
+  each heading in the generated HTML file, but not in the ASCII file.
+  This change puts the paragraph title and the command or function
+  called, in the .txt file.  So that they can each be easily found in
+  the report, the commands begin with the prefix "###".
+
+  This extends the meaning of the CFG_STINLINE variable (-L option), to
+  now also include recording the command in the ASCII file by default. If
+  the variable is set to "no" or the -L option is specified, recording
+  of the command will be turned off in both generated reports.
+
+  * chg: Standardize the section titles in the HTML and ASCII reports
+
+  files affected:
+  - linux/lib/html-functions.sh
+  - linux/cfg2html-linux.sh
+
+  There were a few cases, namely in the "Cron and At" section where
+  the section titles were displayed differently than in most other
+  cases. This change allows a section title to be shown without issuing
+  any other message in the body section of the report.
+
+  In addition, by default, each section header title in the body of
+  the ASCII report was only 74 characters wide.  This change allows the
+  separator line to make use of the previously introduced CFG_TEXTWIDTH
+  variable, thus making the section separators more visible.
+
+  * chg: usr: Command option additions (-z, -v, -w)
+
+  files affected:
+  - linux/etc/default.conf
+  - linux/cfg2html-linux.sh
+
+  Code was recently added to the program to gather information regarding
+  ZFS filesystems and VMware.  However, there was no means to turn off
+  incorporating these sections into the report.  New variables have been
+  added to support their inclusion (by default), or exclusion.  By using
+  the -z and -v options, we can now selectively turn off collecting
+  information for the ZFS filesystem and VMware sections, respectively.
+
+  The new command-line option, -w allows a report width value to be
+  provided to the program at runtime.  This overrides the default and
+  previously hardcoded value of 74.  Depending on your X-window screen
+  size in which you view the report, a value of 300 to 350 was found
+  to be quite useful.
+
+  * chg: usr: command line help option (-h) modifications
+
+  files affected:
+  - linux/lib/help-functions.sh
+
+  New options were added to the help function, and the order of the
+  various command-line options were modified to put related items in
+  proximity to each other.
+
+  * chg: usr: better reporting in DoSmartInfo function
+
+  files affected:
+  - linux/lib/linux-functions.sh
+
+  The executed smart commands are now shown in the report.  Also,
+  for each disk drive, the separator line is made longer to make it
+  more visible.
+
+  * chg: show all ext2-4 partitions in display_ext_fs_param function
+
+  files affected:
+  - linux/lib/linux-functions.sh
+
+  If the lsblk command is in the PATH, then execute it to find
+  all partitions that are ext2, 3, or 4, be them mounted or not,
+  and display the filesystem information in turn for each of them.
+  If lsblk is not available, then as before this change, only details
+  about the mounted filesystems is provided in the report.
+
+  * chg: usr: ignore error message in PartitionDump function
+
+  files affected:
+  - linux/lib/linux-functions.sh
+
+  In the case where we have a physical volume without known partitions
+  (ie. just logical volumes), we discard the error message that was
+  being generated.
+
+  * chg: cpupower now has cpufreq-info
+
+  * chg: add +UUID to lsblk command
+
+  * chg: add --sort option on ps command
+
+  * chg: removed showing the pid on the pstree cmd
+
+  * chg: added the wide (-w) option on the vmstat cmd
+
+  * new: added borg backup system config file and backup logs
+
+  * chg: sort the output of slabinfo in descending order, in table format
+
+  * chg: clarify the text in the PATH section
+
+  * new: show config information in sudoers.d files
+
+  * chg: moved Oracle into the Applications and Subsystems paragraph
+
+  * chg: dev: removed duplicated GPFS and SSSD code sections
+
+  * chg: use new network commands, put output in columns, adjust section titles, and more
+
+  files affected:
+  - linux/cfg2html-linux.sh
+
+  Summary of included changes, by category:
+  ########################################################################
+  1 - Command enhancements, additions and replacements
+      - removed commented out and blank lines from dnsmasq.conf file and
+       dig output, amongst many others
+      - started using new network commands instead of legacy commands
+        - ip maddress show
+        - ip link
+        - pminfo
+        - ss
+
+  2 - Added ability to specify page width, including providing columnar
+      and table output
+      - where suitable, adjust command output to be in table format to
+        better align columns of output
+      - where suitable, adjust commands that produce many lines of
+        relatively small amounts of output on each line within columns
+
+  3 - Modify Report titles or report text
+      - changed several section titles including:
+        - "Monitor" to "Processor Monitor"
+        - "Installed from" to "Package Source repositories"
+        - "Local Mountpoints" to "Mount points"
+        - "ZFS Status" to "ZFS Filesystem Status"
+        - and several other minor heading changes
+
+  4 - adjust logic affecting command inclusion or position in the report
+      - moved a few sections to be in proximity to similar items
+      - included the execution of some commands when they were available
+        even though, for example, tests of /proc indicated the command
+        wouldn't run properly
+        - eg. sensors
+        - eg. software raid status
+
+  * fix: dev: variable issues and /tmp file anomaly
+
+  files affected:
+  - linux/cfg2html-linux.sh
+
+  - The variable being used to find the user crontab files was ill-defined.
+  - The variable SMAP should have been SGMAP.
+  - The /tmp/cfg2html file definition didn't match the pattern defined.
+  - It was likely desired to list a compressed tar file instead of cat'ing it.
+  - A parenthesis was missing at the end of an echo cmd.
+
+  * fix: usr: some wording and spelling changes in the generated reports
+
+  * fix: dev: fixed typos !cosmetic
+
+  * fix: dev: refactor plugin paragraph !cosmetic
+
+  * chg: usr: man page enhancements to include new and revised options
+
+  Also, some clarification, and other wording changes
+
+  * chg: check for non-existent block devices
+
+  files affected:
+  - linux/cfg2html-linux.sh
+
+  In a virtual environment, we may not have /dev/sd* disk devices.
+  If not found, we list all non-virtual block devices.
+
+  * chg: dev: check for missing /lib/udev/scsi_id executable
+
+  * chg: dev: dismiss no printers error msg
+
+  * chg: dev: adjust Makefiles to determine debian vs rpm
+
+  files affected:
+  - Makefile
+  - linux/Makefile
+
+  Based on the presence of the apt program, if found, "make deb"
+  will be executed.  If not found, "make rpm" will be executed.
+
+  * chg: dev: use cross-platform column -c option
+
+  files affected:
+  - linux/cfg2html-linux.sh
+
+  The --output-width option on the column command is not supported on older
+  releases of CentOS (7).  Using the -c option instead addresses this issue.
+
+  * chg: dev: quiet the which command's msg if not found
+
+  files affected:
+  - linux/cfg2html-linux.sh
+
+  The which command issues a "not found" message on some systems.
+  The message is dropped from the errorlog.
+
+  * chg: dev: lsblk -o PATH N/A on old systems. Also added XFS
+
+  files affected:
+  - linux/lib/linux-functions.sh
+  - linux/cfg2html-linux.sh
+
+  older lsblk command didn't have the PATH option, so just dump out
+  the mounted ext2-4 filesystems in that case.
+
+  XFS filesystem parameters for the superblock for mounted filesystems,
+  if any, are now shown too.
+
+  * chg: dev: confirm proper numerical width (-w) value provided
+
+  * chg: usr: added column option for redhat rpm commands
+
+  files affected:
+  - linux/cfg2html-linux-sh
+
+  CentOS generated a very long list of RPM package information, so the
+  column command was added in case the -w option was used.
+
+  column cmd  was added to the selinux command as well.
+
+  The column command was removed from ldconfig, as it made the output
+  very messy looking.
+
+  * chg: dev: created DoPATHList function
+
+  files affected:
+  - linux/lib/linux-functions.sh
+  - linux/cfg2html-linux-sh
+
+  The code to list the files in the PATH was moved into a function.
+  Now the function name is shown in the reports, instead of the code.
+
+  * chg: usr: send output from kdumpctl to stdout
+
+  * chg: usr: discard commented and blank lines from authselect
+
+  * chg: dev: use blkid if lsblk is not available
+
+  files affected:
+  - linux/lib/linux-functions.sh
+
+  For ext2-4 and xfs filesystems, try to find them whether they
+  are mounted or not by using blkid, if lsblk is not available.
+  Worst case, just fall back to only displaying information about
+  mounted filesystems.
+
+  * chg: dev: sendmail was actually exim4
+
+  files affected:
+  - linux/cfg2html-linux.sh
+
+  When sendmail links to exim, sendmail.cf was found not to exist,
+  and exim also uses different debugging options.
+
+  * chg: dev: use cross-platform column -t option
+
+  files affected:
+  - linux/cfg2html-linux.sh
+
+  The --table option on the column command is not supported on older
+  releases of Ubuntu.  Using the -t option instead addresses this issue.
+
+  * chg: usr: if no LVM volume groups, show it
+
+  files affected:
+  - linux/cfg2html-linux.sh
+
+  Show the No Volume Groups found msg if that is the case
+
+  * chg: usr: remove comments from samba's smb.conf
+
+  files affected:
+  - linux/cfg2html-linux.sh
+
+  Also added a couple of echo statements for easier report readability.
+
+  * chg: usr: added top-most titles to Ascii file
+
+  * chg: dev: check for existence of hwclock cmd
+
+  * chg: usr: discard apt missing msg in linux/Makefile
+
+  * chg: usr: don't need tuned-adm's warning message
+
+  files affected:
+  - linux/cfg2html-linux.sh
+
+  Also probably don't need to see dot files in /dev/disk/by-id listing
+
+  * chg: usr: dump btrfs superblock information
+
+  files affected:
+  - linux/lib/linux-functions.sh
+  - linux/cfg2html-linux.sh
+
+  If applicable, summary btrfs superblock filesystem parameters are
+  now shown
+
+  * chg: usr: remove commented lines from nscd.conf
+
+  * chg: usr: added column cmd to /proc/config.gz list
+
+  * fix: dev: fixed typo in comment !cosmetic
+- Merge branch 'master' of github.com:cfg2html/cfg2html. [roseswe]
+
+  * 'master' of github.com:cfg2html/cfg2html:
+    Imrpoved Handeling, so output only apears when it is used (#173)
+- Imrpoved Handeling, so output only apears when it is used (#173)
+  [tyl0re]
 - Insert ZFS from BSD Module, to Linux so it exports zfs on linux (#172)
   [root, tyl0re]
 
