@@ -56,8 +56,10 @@ function open_html {
 
     (line
       echo
-      _banner ${RECHNER}
+      _banner "${RECHNER} - System Documentation" # title change # modified on 20240202 by edrulrd
       #echo ${RECHNER}
+      echo
+      _banner "Created ${DATEFULL} by ${PROGRAM} ${VERSION} ... Customized (v:${CustomVer})" # added some titles to the Ascii file too # modified on 20240202 by edrulrd
       echo
     line) > ${TEXT_OUTFILE}
     _echo  "\n" >> ${TEXT_OUTFILE}
@@ -84,7 +86,7 @@ function dec_heading_level {
 }
 
 ######################################################################
-#  Creates an own paragraph, $1 = heading
+#  Creates a new paragraph, $1 = heading #modified on 20240119 by edrulrd
 ######################################################################
 
 # [20200310] {jcw} added the reserved word 'function' for consistency.
@@ -101,6 +103,11 @@ function paragraph() {
     echo "<A NAME=\"Inhalt-$1\"></A><A HREF=\"#$1\">$1</A>" >> ${HTML_OUTFILE}
     _echo "\nCollecting: " $1 " .\c"
     echo "    $1 ---- " >> ${TEXT_OUTFILE}
+    let p_len=$(echo $1 | wc -c)  # get the length of the title # added on 20240119 by edrulrd
+    let p_len-- # adjust the length # added on 20240119 by edrulrd
+    _echo "\n\n#========================================================================================" | cut -c1-${p_len} >> ${TEXT_OUTFILE_TEMP} # highlight around the command # added on 20240119 by edrulrd
+    _echo "$1" >> ${TEXT_OUTFILE_TEMP} # Add the paragraph title to the ASCII file too # added on 20240119 by edrulrd
+    _echo "#========================================================================================" | cut -c1-${p_len} >> ${TEXT_OUTFILE_TEMP} # on both sides # added on 20240119 by edrulrd
 }
 
 function exec_command {
@@ -110,12 +117,26 @@ function exec_command {
 
     [[ "${CFG_TRACETIME}" = "no" ]] && _echo ".\c"  # fails under Ubuntu/Linit Mint based systems!?
 
-    _echo "\n---=[ $2 ]=----------------------------------------------------------------" | cut -c1-74 >> ${TEXT_OUTFILE_TEMP}
+    _echo "\n---=[ $2 ]=------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" | cut -c1-${CFG_TEXTWIDTH} >> ${TEXT_OUTFILE_TEMP} # modified on 20240119 by edrulrd to not be limited to separators of 74 characters
     echo "       - $2" >> ${TEXT_OUTFILE}
+
+    # Extend the meaning of CFG_STINLINE to also apply to showing, or not showing, the command in the text file # added on 20240119 by edrulrd
+    if [ "${CFG_STINLINE}" != "no" ]
+    then
+        # Add the command we're about to execute into the text file and mark it for easy searching # added on 20240119 by edrulrd
+        _echo "### $1 " >>${TEXT_OUTFILE_TEMP} # don't limit the width of the command like we do for the section separator so the command isn't cut off # modified on 20240119 by edrulrd
+    fi
+
     ######the working horse##########
     TMP_EXEC_COMMAND_ERR=/tmp/exec_cmd.tmp.$$
     ## Modified 1/13/05 by marc.korte@oracle.com, Marc Korte, TEKsystems (150 -> 250)
-    EXECRES=`eval $1 2> $TMP_EXEC_COMMAND_ERR | expand | cut -c 1-250`
+    ## Do not cut off output from very wide commands which are  over 250 characters wide, but instead continue the output onto the next line # added on 20240119 by edrulrd 
+    if [ ${CFG_TEXTWIDTH} -le  350 ] # check if the line length value defaulted to, or was specified to be, less than 350.  This will  handle commands with very wide output # added on 20240119 by edrulrd
+    then # show command output with at least 350 characters (instead of 250) before wrapping to the next line # added on 20240119 by edrulrd
+       EXECRES=$(eval $1 2> $TMP_EXEC_COMMAND_ERR | expand | fold -s -w 350)  # wrap extra long lines instead of cutting them off # modified 20240119 by edrulrd
+    else
+       EXECRES=$(eval $1 2> $TMP_EXEC_COMMAND_ERR | expand | fold -s -w ${CFG_TEXTWIDTH})  # wrap extra long lines using the desired line width # modified 20240119 by edrulrd
+    fi
 
 
     ########### test it ############
@@ -128,7 +149,7 @@ function exec_command {
     #'
     #EXECRES=$(eval $1 2> $TMP_EXEC_COMMAND_ERR | expand | cut -c 1-150 | sed +"$CONVSTR")
 
-    if [ -z "$EXECRES" ]
+    if [ -z "$EXECRES" ] && [ -n "$1" ] # don't set the message if we didn't pass a command (or string) # modified on 20240119 by edrulrd
     then
         EXECRES="n/a or not configured"
     fi

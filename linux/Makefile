@@ -56,6 +56,12 @@ ifeq ($(OFFICIAL),)
     obspackage = $(name)
 endif
 
+ifneq ($(shell which apt 2>/dev/null),)
+T := deb
+else
+T := rpm
+endif
+
 .PHONY: doc
 
 all:
@@ -209,6 +215,9 @@ $(name)-$(distversion).tar.gz:
 	git checkout $(git_branch) ; \
 	git ls-tree -r --name-only --full-tree $(git_branch) | grep -v -E '(^bin|^hpux|^doc|^aix|^bsd|^sunos)' | \
 		tar -czf $(name)-$(distversion).tar.gz --transform='s,^,$(name)-$(distversion)/,S' --files-from=-
+
+Linux:
+	case $T in deb) make deb;; rpm) make rpm;; *) make help;; esac
 
 rpm: dist
 	@echo -e "\033[1m== Building RPM package $(name)-$(distversion) ==\033[0;0m"

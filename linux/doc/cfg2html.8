@@ -3,7 +3,8 @@
 
 .TH cfg2html-linux 8 "13.03.2018" "gdh/mime/rar"
 
-cfg2html is a little utility program that can be used to collect the necessary system configuration files and system set-up information to both an ASCII and an HTML file. Simple to use and very helpful when preparing for disaster recovery situations.
+.B cfg2html
+is a little utility program that can be used to collect the necessary system configuration files and system set-up information to both an ASCII and an HTML file. Simple to use and very helpful when preparing for disaster recovery situations.  This program only provides information about the system it is being run on; it does not make any changes.
 
 .SH NAME
 cfg2html \- creates nice HTML and plain ASCII documentation of your GNU/Linux
@@ -13,7 +14,7 @@ systems.
 .SH SYNOPSIS
 
 .B cfg2html
-.RB [ \-oshxOcSTflkenaHLvhpPA210]
+.RB [ \-hvsOxkHnflzcSaVAeLwpPo210T]
 .IR option ...
 .br
 
@@ -46,6 +47,14 @@ exists, you can add your own list of files to collect - see example included.
 .SS Switches
 The following switches are available from the command line:
 .TP
+.B \-h
+output usage information and exit
+
+.TP
+.B \-v
+output cfg2html version information, kernel information and exit
+
+.TP
 .B \-o
 .IR dir
 .br
@@ -75,14 +84,6 @@ append the datestamp to the Logfile (OUTDIR) with the date format of your own ch
 .B %Y%m%d-%H%M
 would append the date with a format of 20201028-2212 to the log file name.
 
-.TP
-.B \-v
-output cfg2html version information, kernel information and exit
-
-.TP
-.B \-h
-output usage information and exit
-
 .P
 By default, information in each of the following categories will be collected.  Use the following options to disable the collection of the indicated configuration information:
 
@@ -90,11 +91,24 @@ By default, information in each of the following categories will be collected.  
 .B \-s
 disable: System
 .TP
-.B \-c
-disable: Cron
+.B \-O
+disable listing open files that have been deleted
+.br
+This switch has no effect if -s is specified.
 .TP
-.B \-S
-disable: Software
+.B \-x
+disable listing the executable files in the PATH (or LOCALPATH if specified)
+.br
+This switch has no effect if -s is specified.
+.TP
+.B \-k
+disable: Kernel
+.TP
+.B \-n
+disable: Network
+.TP
+.B \-H
+disable: Hardware
 .TP
 .B \-f
 disable: Filesystem
@@ -102,46 +116,43 @@ disable: Filesystem
 .B \-l
 disable: LVM
 .TP
-.B \-k
-disable: Kernel
+.B \-z
+disable: ZFS filesystem information collection
 .TP
-.B \-e
-disable: Enhancements
+.B \-S
+disable: Software
 .TP
-.B \-n
-disable: Network
+.B \-c
+disable: Cron
 .TP
 .B \-a
 disable: Applications
 .TP
-.B \-H
-disable: Hardware
-.TP
-.B \-x
-disable listing the executable files in the PATH
-.br
-This switch has no effect if -s is specified.
-.TP
-.B \-O
-disable listing open files that have been deleted
-.br
-This switch has no effect if -s is specified.
+.B \-V
+disable: collecting VMware settings and log files 
 .TP
 .B \-A
-disable collecting the Altiris ADL Agent files, if present
+disable: collecting the Altiris ADL Agent files, if present
+.TP
+.B \-e
+disable: Enhancements
 
 .P
 Other options
 
+.TP
+.B \-L
+By default, the command that was executed in each section to generate the information will be shown in the generated HTML and ASCII file.  This option provides the ability to  disable showing the command.  For the html file, the issued command will become visible if you hover over the section title with a mouse.
+.TP
+.B \-w
+By default, the section separators in the generated text file is 74 characters long.  Since many commands generate output wider than this, this option allows the separator width to be adjusted.  In addition, specifying this option allows some columnar output to use the specified width to obtain more columns of output, shortening the report.
+During testing, an optimal screen width was found to be approximately 300 to 350.  e.g. -w 350
 .TP
 .B \-p
 enable collecting the system's Log files.  If running on an HP PROLIANT SERVER, collect additional relevant logs.
 .TP
 .B \-P
 enable the processing of the custom plugins that you may have configured
-.TP
-.B \-L
-disable showing the command that was executed to generate the html output in each section
 .TP
 .B \-T
 enable showing performance information regarding the execution of cfg2html
@@ -166,12 +177,17 @@ PATH as stated in
 .br
 .I http://security.stackexchange.com/questions/117535/ordering-of-the-path-environment-variable
 .br
-defined at the beginning of the path, followed by specific additional directories that cfg2html has found to be installed.
+The PATH variable will be set to this optimal value.  Then, specific additional directories that cfg2html found on the system during execution will be appended to this default PATH.
+The program will generate a list of the executable files found in this PATH.  The program will only execute programs that are found within this PATH, whether or not LOCALPATH
+is specified.
 .br
+
 .B LOCALPATH
-provides a means for the Sysadmin to specify the PATH for which they want to see the contents.  If defined, the variable should
-be set to a colon-separated list of directories, which do not need to exist.
+provides a means for the Sysadmin to specify a different set of directories for which they want to see the contents.  If defined, the variable should
+be set to a colon-separated list of directories, which do not need to exist.  Note that defining this variable in no way affects which system programs that cfg2html will use
+to generate its reports.
 .br
+
 e.g. LOCALPATH=/operator/bin:/sbin:/bin:/usr/sbin:/usr/bin
 .br
 The best location for setting this variable is in
@@ -231,7 +247,7 @@ error logfile (if any errors are generated)
 
 .TP
 .B <hostname>.partitions.save
-Disk Partitions to restore from
+Disk Partition definitions that can be used to redefine them in the event that they become corrupted
 
 .TP
 .B <hostname>._xpinfo.csv
@@ -286,7 +302,7 @@ writes errors to <hostname>.err
 
 .SH BUGS
 There are probably a lot of bugs.  We are currently using this script
-successfully for our own systems, but there are many features included
+successfully on our own systems, but there are many features included
 that we don't have any way to test right now. If you find a bug or have a
 comment or suggestion about the script, please submit an issue at
 .I https://github.com/cfg2html/cfg2html/issues

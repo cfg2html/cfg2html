@@ -139,26 +139,34 @@ function topFDhandles {
 }
 
 function DoSmartInfo {
-    ## Bundeled by Ralph Roth to avoid massive exec_command calls under Debian Linux!
+    ## Bundled by Ralph Roth to avoid massive exec_command calls under Debian Linux!
     #  18.07.2011, 14:40 modified by Ralph Roth #* rar *#
 
     echo "Overview:"
-    $SMARTCTL --scan                    #  18.07.2011, 14:58 modified by Ralph Roth #* rar *#
+    ${SMARTCTL} --scan #  18.07.2011, 14:58 modified by Ralph Roth #* rar *# # modified on 20240119 by edrulrd
+
     echo ""
 
     echo "Details:"
-    PHYS_DRIVES=$(${FDISKCMD} -l 2>&1 | sort -u | \
-        ${GREPCMD} "^Disk " | \
-        ${GREPCMD} -vE "md[0-9]|identifier:|doesn't contain a valid" | \
-        ${SEDCMD} -e "s/:.*$//" |  \
-        ${AWKCMD} '{print $2}')
+    # PHYS_DRIVES=$(${FDISKCMD} -l 2>&1 | sort -u | \
+        # ${GREPCMD} "^Disk " | \
+        # ${GREPCMD} -vE "md[0-9]|identifier:|doesn't contain a valid" | \
+        # ${SEDCMD} -e "s/:.*$//" |  \
+        # ${AWKCMD} '{print $2}')
+    PHYS_DRIVES=$( ${SMARTCTL} --scan | ${AWKCMD} '{print $1}') # only use drives smartctl knows about # replaced above section on 20240119 by edrulrd
 
     for drive in ${PHYS_DRIVES}
     do
-        echo "---- Drive="$drive
-        $SMARTCTL -P show $drive      # "SMART features of drive $drive"
-        $SMARTCTL --info $drive       # "SMART information of drive $drive"
-        $SMARTCTL --xall $drive       # "SMART extended information of drive $drive"
+        echo "---- Drive=${drive} --------------------------------------------------------------------------------" | cut -c1-74 # make the sections more visible # modified on 20240119 by edrulrd
+        echo "# ${SMARTCTL} -P show ${drive}" # show the command in the reports # added on 20240119 by edrulrd
+        ${SMARTCTL} -P show ${drive}      # "SMART features of drive $drive"
+        echo "" # added on 20240119 by edrulrd
+
+        echo "# ${SMARTCTL} --info ${drive}" # show the command in the reports # added on 20240119 by edrulrd
+        ${SMARTCTL} --info ${drive}       # "SMART information of drive $drive"
+
+        echo "# ${SMARTCTL} --xall ${drive}" # show the command in the reports  # added on 20240119 by edrulrd
+        ${SMARTCTL} --xall ${drive}       # "SMART extended information of drive $drive"
         echo ""
     done
 }
@@ -178,13 +186,95 @@ function ProgStuff {
 function display_ext_fs_param {
     #function used in FILESYS added 2011.09.02 by Peter Boysen
     # fixes, changed 20140924 by Ralph Roth
-    for fs in $(grep ext[2-4] /proc/mounts | awk '{print $1}' | sort -u)
-    do
-        echo "Dumping: "$fs
-        dumpe2fs -h $fs  2> /dev/null   ## -> dumpe2fs 1.41.3 (12-Oct-2008)
-         ##TODO## better: tune2fs -l  ??? rr, 20140929
+    # function extended to display filesystem paramaters on all ext2, 3 or 4 filesystems, whether they are mounted or not # modified on 20240119 by edrulrd
+    if [ $(which lsblk 2>/dev/null) ] && lsblk -o PATH 2>/dev/null 1>&2 # added on 20240119 by edrulrd # old versions don't have PATH option # modified on 20240202 by edrulrd
+    then
+      for fs in $(lsblk -ln -o PATH,FSTYPE | grep -w ext[2-4] | awk '{print $1}') # added on 20240119 by edrulrd
+      do
+        echo "Dumping: "${fs} # added on 20240119 by edrulrd
+        dumpe2fs -h ${fs}  2>/dev/null   ## -> dumpe2fs 1.41.3 (12-Oct-2008) # added on 20240119 by edrulrd
+      done
+    else
+      if [ $(which blkid 2>/dev/null) ] && blkid | grep -wE 'ext[2-4]' | cut -d: -f1 2>/dev/null 1>&2 # try getting all ext2-4 filesystems using blkid if available # added on 20240202 by edrulrd
+      then 
+        for fs in $(blkid | grep -wE 'ext[2-4]' | cut -d: -f1 | sort -u) # added on 20240202 by edrulrd
+        do
+          echo "Dumping: "${fs} # added on 20240202 by edrulrd
+          dumpe2fs -h ${fs}  2>/dev/null   ## -> dumpe2fs 1.41.3 (12-Oct-2008) # added on 20240202 by edrulrd
+        done
+      else
+        echo "Hint: lsblk and/or blkid commands are old or not available, showing mounted filesystems only" # added on 20240119 by edrulrd # modified on 20240202 by edrulrd
+        for fs in $(grep -w ext[2-4] /proc/mounts | awk '{print $1}' | sort -u) # if we don't have blk cmds, only check mounted filesystems # modified on 20240119 by edrulrd
+        do
+          echo "Dumping: "${fs}
+          dumpe2fs -h ${fs}  2> /dev/null   ## -> dumpe2fs 1.41.3 (12-Oct-2008)
+          ##TODO## better: tune2fs -l  ??? rr, 20140929
+          echo
+        done
+      fi
+    fi
+}
+
+function display_xfs_fs_param {
+    #function used in FILESYS added 20240202 by edrulrd
+    if [ $(which lsblk 2>/dev/null) ] && lsblk -o PATH 2>/dev/null 1>&2 # added on 20240119 by edrulrd # old versions don't have PATH option # modified on 20240202 by edrulrd
+    then
+      for fs in $(lsblk -ln -o PATH,FSTYPE | grep -w xfs | awk '{print $1}') # added on 20240119 by edrulrd
+      do
+        echo "Dumping: "${fs} # added on 20240119 by edrulrd
+        xfs_db -r -c sb -c print ${fs} # print superblock info
         echo
-    done
+      done
+    else
+      if [ $(which blkid 2>/dev/null) ] && blkid | grep -w xfs | cut -d: -f1 2>/dev/null 1>&2 # try getting all xfs filesystems using blkid if available # added on 20240202 by edrulrd
+      then 
+        for fs in $(blkid | grep -w xfs | cut -d: -f1 | sort -u) # added on 20240202 by edrulrd
+        do
+          echo "Dumping: "${fs} # added on 20240202 by edrulrd
+          xfs_db -r -c sb -c print ${fs} # print superblock info
+          echo
+        done
+      else
+        echo "Hint: lsblk and/or blkid commands are old or not available, showing mounted filesystems only" # added on 20240119 by edrulrd # modified on 20240202 by edrulrd
+        for fs in $(grep -w xfs /proc/mounts | awk '{print $1}' | sort -u) # if we don't have blk cmds, only check mounted filesystems # modified on 20240119 by edrulrd
+        do
+          echo "Dumping: "${fs}
+          xfs_db -r -c sb -c print ${fs} # print superblock info
+          echo
+        done
+      fi
+    fi
+}
+
+function display_btrfs_fs_param {
+    #function used in FILESYS added 20240202 by edrulrd
+    if [ $(which lsblk 2>/dev/null) ] && lsblk -o PATH 2>/dev/null 1>&2 # added on 20240202 by edrulrd
+    then
+      for fs in $(lsblk -ln -o PATH,FSTYPE | grep -w btrfs | awk '{print $1}') # added on 20240202 by edrulrd
+      do
+        echo "Dumping: "${fs} # added on 20240202 by edrulrd
+        btrfs inspect-internal dump-super ${fs} # print superblock summary info # added on 20240202 by edrulrd
+        echo
+      done
+    else
+      if [ $(which blkid 2>/dev/null) ] && blkid | grep -w btrfs | cut -d: -f1 2>/dev/null 1>&2 # try getting all btrfs filesystems using blkid if available # added on 20240202 by edrulrd
+      then 
+        for fs in $(blkid | grep -w btrfs | cut -d: -f1 | sort -u) # added on 20240202 by edrulrd
+        do
+          echo "Dumping: "${fs} # added on 20240202 by edrulrd
+          btrfs inspect-internal dump-super ${fs} # print superblock summary info # added on 20240202 by edrulrd
+          echo
+        done
+      else
+        echo "Hint: lsblk and/or blkid commands are old or not available, showing mounted filesystems only" # added on 20240202 by edrulrd
+        for fs in $(grep -w btrfs /proc/mounts | awk '{print $1}' | sort -u) # if we don't have blk cmds, only check mounted filesystems # added on 20240202 by edrulrd
+        do
+          echo "Dumping: "${fs} # added on 20240202 by edrulrd
+          btrfs inspect-internal dump-super ${fs} # print superblock summary info # added on 20240202 by edrulrd
+          echo
+        done
+      fi
+    fi
 }
 
 function PartitionDump {
@@ -192,7 +282,8 @@ function PartitionDump {
         if [ -x /sbin/parted ]; then
             for i in $(fdisk -l| grep "^Disk " | grep "/dev/"|cut -f1 -d:|cut -f2 -d" ")
             do
-                /sbin/parted -s $i print # The -s option avoids prompts that cause parted to wait forever for user interaction.
+                /sbin/parted -s $i print 2> /dev/null # The -s option avoids prompts that cause parted to wait forever for user interaction. # discard error message # modified on 20240119 by edrulrd
+                [ $? -ne 0 ] && echo # issue a blank line if we have a physical volume without known partitions (ie, just logical volumes) # modified on 20240119 by edrulrd
             done
         else
             /sbin/fdisk -l      ## -cul, fixed for OpenSUSE 12.1/KDE -- #  28.08.2012, 07:55 modified by Ralph Roth #* rar *#
@@ -304,6 +395,30 @@ function GetElevator {
     do
         echo $i": "$(cat $i)
     done
+}
+
+function DoPATHList {
+    #function used in System-section
+    # arg1: a list of directories separated by colons (":") # moved from cfg2html-linux.sh on 20240202 by edrulrd
+    local LISTPATH=$1
+    local Directory
+    for Directory in $(/bin/echo ${LISTPATH} |
+        sed 's/:/ /g');
+        do
+          find ${Directory} -executable \( -type f -o -type l \) -print 2>\/dev\/null |
+          sort |
+          while read Filename;
+            do
+              /bin/echo -n $(basename ${Filename});
+              /bin/echo -n ' ';
+              ls -al ${Filename} |
+              awk '{$1="";$2="";$3="";$4="";$5="";$6="";$7="";$8="";print}' |
+              sed 's/^        //';
+            done
+        done |
+        sort -k1,1 -u |
+        awk '{$1=""; print}' |
+        sed 's/^ //' | column -c ${CFG_TEXTWIDTH}
 }
 
 #* END *#
