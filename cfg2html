@@ -1,6 +1,5 @@
-#
-# @(#) $Id: cfg2html,v 6.46 2023/03/20 13:28:22 ralph Exp $
-#     Further modified by Joe Wulf:  20200323@0929.
+# @(#) $Id: cfg2html,v 6.47 2024/02/15 07:09:40 ralph Exp $
+
 # -------------------------------------------------------------------------
 # This is the wrapper for cfg2html for LINUX and HP-UX
 # CFG2HTML - license: see GPL v3
@@ -8,6 +7,8 @@
 # The cfg2html is developed on https://github.com/cfg2html/cfg2html
 # The main download area/web site is http://www.cfg2html.com
 # SUSE open build service (OBS): https://build.opensuse.org/package/show/home:gdha/cfg2html
+# -------------------------------------------------------------------------
+# Further modified by Joe Wulf:  20200323@0929.
 
 PRGNAME=$0
 MY_OS="$(uname -s)"
@@ -35,11 +36,12 @@ rm -f /tmp/cfg2html.respawn # get rid of the temporary lock as soon as possible
 PRODUCT="Config to HTML - cfg2html"
 # this CVS id is also used by the Makefiles to get the version number!
 # may be obsoleted by git tag --describe or git describe handling?
-CVS="$Id: cfg2html,v 7.0.0 2023/03/20 13:28:22 ralph Exp $"
-PROGRAM=$(echo ${CVS}|cut -f2 -d" "|cut -f1 -d,)
-VERSION=$(echo ${CVS}|cut -f3 -d" ")
-RELEASE_DATE="2023-03-20"	## YYYY-MM-DD ?!
+# CVS="$Id: cfg2html,v 7.1.0 2024/02/15 07:09:40 ralph Exp $"
+# PROGRAM=$(echo ${CVS}|cut -f2 -d" "|cut -f1 -d,)
+# VERSION=$(echo ${CVS}|cut -f3 -d" ")
+# RELEASE_DATE="2024-01-15"	## YYYY-MM-DD ?!
 #echo ${PROGRAM},$VERSION,$RELEASE_DATE
+PROGRAM="cfg2html"
 
 OS="$(uname)"
 OS="$(echo ${OS} | tr 'A-Z' 'a-z' | sed -e 's/-//')"
@@ -150,8 +152,8 @@ fi
 
 # cleanup
 rm -f /tmp/cfg2html.respawn $LOCK
-rm -rf ${TMP_DIR}
-rm -rf /tmp//tmp/cfg2html.??????????????  # [20200312] {jcw} Pattern of seemingly hangers-on directories after a run.
+rm -rf "${TMP_DIR}"
+rm -rf "/tmp//tmp/cfg2html.*"  ## issue #167 | [20200312] {jcw} Pattern of seemingly hangers-on directories after a run.
 
 sync;sync;sync
 exit ${RETCODE}
