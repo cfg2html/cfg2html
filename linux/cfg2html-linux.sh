@@ -853,7 +853,7 @@ inc_heading_level
   ls ${usercron}/* > /dev/null 2>&1 # $usercron variable was not being used # modified on 20240119 by edrulrd
   if [ $? -eq 0 ]
   then
-     exec_command "" "Crontab files:" # fixed title # modified on 20240119 by edrulrd 
+     exec_command "" "Crontab files:" # fixed title # modified on 20240119 by edrulrd
 	  for FILE in ${usercron}/* # $usercron variable was not being used # modified on 20240119 by edrulrd
 	  do
 		  exec_command "cat ${FILE} | grep -vE '^#|^ *$'" "${usercron}/$(basename ${FILE})" # get rid of blank lines too # modified on 20240119 by edrulrd
@@ -868,7 +868,7 @@ inc_heading_level
   ls /etc/cron.d/* > /dev/null 2>&1
   if [ $? -eq 0 ]
   then
-      exec_command "" "/etc/cron.d files:" # fixed title in webpage # modified on 20240119 by edrulrd 
+      exec_command "" "/etc/cron.d files:" # fixed title in webpage # modified on 20240119 by edrulrd
 	  for FILE in /etc/cron.d/*
 	  do
 		  exec_command "cat ${FILE} | grep -vE '^#|^ *$'" "For utility: $(basename ${FILE})" # modified on 20240119 by edrulrd
@@ -1571,7 +1571,7 @@ then # else skip to next paragraph
   then
       exec_command "zfs mount" "ZFS mount status"
       exec_command "zfs get all" "ZFS properties"
-  else 
+  else
       exec_command " " "zfs command"  # execute nothing, but allow the N/A message to appear # modified on 20240119 by edrulrd
   fi
 
@@ -1918,7 +1918,7 @@ then # else skip to next paragraph
   [ -f  /opt/compac/cma.conf ] && "grep -vE '^#|^ *$' /opt/compac/cma.conf" "HP Insight Management Agents configuration"
 
   ## ssh
-  [ -f /etc/ssh/sshd_config ] && exec_command "grep -vE '^#|^ *$' /etc/ssh/sshd_config" "sshd config"
+  [ -f /etc/ssh/sshd_config ] && exec_command "grep -vE '^#|^ *$' /etc/ssh/sshd_config" "sshd config" && exec_command "sshd -T" "All SSHD settings"
   [ -f /etc/ssh/ssh_config ] && exec_command "grep -vE '^#|^ *$' /etc/ssh/ssh_config" "ssh config"
 
   dec_heading_level
@@ -2130,6 +2130,7 @@ then # else skip to next paragraph
     inc_heading_level
 
     [ -x /usr/sbin/rear ] && exec_command "/usr/sbin/rear dump" "ReaR Configuration"    #  14.06.2011, 18:58 modified by Ralph Roth #* rar *#
+    [ -x /usr/bin/flatpak ] && exec_command "/usr/bin/flatpak list" "Flatpak packages installed" # +26.02.2024, rr
 
     if [ -d /usr/local/bin ] ; then
       exec_command "ls -lisa /usr/local/bin" "Files in /usr/local/bin"
