@@ -196,7 +196,7 @@ function display_ext_fs_param {
       done
     else
       if [ $(which blkid 2>/dev/null) ] && blkid | grep -wE 'ext[2-4]' | cut -d: -f1 2>/dev/null 1>&2 # try getting all ext2-4 filesystems using blkid if available # added on 20240202 by edrulrd
-      then 
+      then
         for fs in $(blkid | grep -wE 'ext[2-4]' | cut -d: -f1 | sort -u) # added on 20240202 by edrulrd
         do
           echo "Dumping: "${fs} # added on 20240202 by edrulrd
@@ -217,29 +217,30 @@ function display_ext_fs_param {
 
 function display_xfs_fs_param {
     #function used in FILESYS added 20240202 by edrulrd
+    # TODO: Needs re-write on Debian 12 (at least)
     if [ $(which lsblk 2>/dev/null) ] && lsblk -o PATH 2>/dev/null 1>&2 # added on 20240119 by edrulrd # old versions don't have PATH option # modified on 20240202 by edrulrd
     then
       for fs in $(lsblk -ln -o PATH,FSTYPE | grep -w xfs | awk '{print $1}') # added on 20240119 by edrulrd
       do
-        echo "Dumping: "${fs} # added on 20240119 by edrulrd
-        xfs_db -r -c sb -c print ${fs} # print superblock info
+        echo "Dumping: ${fs}" # added on 20240119 by edrulrd
+        xfs_db -r -c sb -c print "${fs}" # print superblock info,       ## /usr/share/cfg2html/lib/linux-functions.sh: line 222: 11558 Illegal instruction     xfs_db -r -c sb -c print ${fs}
         echo
       done
     else
       if [ $(which blkid 2>/dev/null) ] && blkid | grep -w xfs | cut -d: -f1 2>/dev/null 1>&2 # try getting all xfs filesystems using blkid if available # added on 20240202 by edrulrd
-      then 
+      then
         for fs in $(blkid | grep -w xfs | cut -d: -f1 | sort -u) # added on 20240202 by edrulrd
         do
-          echo "Dumping: "${fs} # added on 20240202 by edrulrd
-          xfs_db -r -c sb -c print ${fs} # print superblock info
+          echo "Dumping: ${fs}" # added on 20240202 by edrulrd
+          xfs_db -r -c sb -c print "${fs}" # print superblock info
           echo
         done
       else
         echo "Hint: lsblk and/or blkid commands are old or not available, showing mounted filesystems only" # added on 20240119 by edrulrd # modified on 20240202 by edrulrd
         for fs in $(grep -w xfs /proc/mounts | awk '{print $1}' | sort -u) # if we don't have blk cmds, only check mounted filesystems # modified on 20240119 by edrulrd
         do
-          echo "Dumping: "${fs}
-          xfs_db -r -c sb -c print ${fs} # print superblock info
+          echo "Dumping: ${fs}"
+          xfs_db -r -c sb -c print "${fs}" # print superblock info
           echo
         done
       fi
@@ -258,7 +259,7 @@ function display_btrfs_fs_param {
       done
     else
       if [ $(which blkid 2>/dev/null) ] && blkid | grep -w btrfs | cut -d: -f1 2>/dev/null 1>&2 # try getting all btrfs filesystems using blkid if available # added on 20240202 by edrulrd
-      then 
+      then
         for fs in $(blkid | grep -w btrfs | cut -d: -f1 | sort -u) # added on 20240202 by edrulrd
         do
           echo "Dumping: "${fs} # added on 20240202 by edrulrd
