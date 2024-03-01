@@ -1,4 +1,4 @@
-cfg2html (7.0.2) UNRELEASED; urgency=low
+cfg2html (7.1.0) UNRELEASED; urgency=low
 
   [ Ralph Roth ]
   * 6.13 upstream
@@ -23,8 +23,9 @@ cfg2html (7.0.2) UNRELEASED; urgency=low
   * Bumped version number to 7.0.0 - details see git changelog
   * 7.0-4 - Debian build for www.cfg2html.com 
   * 7.0.1-12-g842835d@(master)
+  * Build on Debian 12 from 7.1.0 sources
 
- -- ralph <ralph@roth8>  Wed, 11 Oct 2023 17:10:42 +0200
+ -- ralph <ralph@roth9>  Fri, 01 Mar 2024 10:09:10 +0100
 
 cfg2html (6.11) unstable; urgency=low
 
