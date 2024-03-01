@@ -2,11 +2,12 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+7.1.0 (2024-03-01)
+------------------
 
 Changes
 ~~~~~~~
+- Updated Changelog (by Makefile), Version: 7.0.1-24-g13ce981. [roseswe]
 - Bumped year in copyright notice ;) [roseswe]
 - Updated Changelog (by Makefile), Version: 7.0.1-15-g6ca1f33. [roseswe]
 - Shellcheck fix SC2006. [roseswe]
@@ -21,6 +22,9 @@ Changes
 
 Fix
 ~~~
+- Regression chg: beautified script. [roseswe]
+- Should close issue Cleanup of old temporary cfg2html directories is
+  not working well #167. [roseswe]
 - SC2028, closes issue cfg2html/hpux /cfg2html-hpux.sh missing usage
   #176. [roseswe]
 - Typing mistake result in invalid command (Issue #175) [roseswe]
@@ -30,6 +34,7 @@ Fix
 
 Other
 ~~~~~
+- ✅ Add: sshd parameters ✅ Add: flatpak pkgs. [roseswe]
 - Doc: Documented new make feature:  Linux. [roseswe]
 - New changes by Ed Drouillard (#177) [edrulrd]
 
