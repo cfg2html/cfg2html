@@ -278,8 +278,8 @@ beginning with your hostname, e.g.:
 
 Do a "tail test_neu.txt" to see the last successful run command (headlines).
 
-Do a "test_neu.txt.13320" to see the output of last command, this gives you
-often a hint where cfg2html hangs, for example waits for a keystroke etc.
+Do a "test_neu.txt.13320" to see the output of last command, this gives you often
+a hint where cfg2html hangs, for example waits for a keystroke etc.
 
 
 Building cfg2html (Debian/Ubuntu)
@@ -288,8 +288,8 @@ Building cfg2html (Debian/Ubuntu)
 0.)   sudo aptitude install alien fakeroot devscripts lintian gawk
 
 1.)   cd ~/cfg2html/cfg2html/linux/packaging on master [!$]
-      dch -v 7.0.0
-      dch -i
+      dch -v 7.1.0   ### apt install devscripts, 207 newly installed/43.8 MB
+      dch -i         ### here you document your changes, -i increases the version number
 
 2.)   cd ~/cfg2html/cfg2html
       make deb
@@ -301,9 +301,7 @@ Building cfg2html (Debian/Ubuntu)
   | | (_) | |_| | (_) |
   |_|\___/|____/ \___/
 
----------------------------------------------------------------------------
-Proliant (not Ubuntu)
-sysinfo -a
 
+See github issues
 
 /* end */
