@@ -1225,6 +1225,8 @@ then # else skip to next paragraph
     rm -f /tmp/cfg2html-debian.$$
     AddText "Hint: to reinstall this list use:"
     AddText "awk '{print \$1\" install\"}' this_list | dpkg --set-selections" # modified on 20240119 by edrulrd
+    # show packages that are marked as being manually installed # added on 20240303 by edrulrd
+    which apt-mark 2>/dev/null 1>&2 && exec_command "apt-mark showmanual | column -c ${CFG_TEXTWIDTH}" "Manually Installed Packages" # added on 20240303 by edrulrd
     exec_command "dpkg -C" "Misconfigured Packages"
 #   # { changed/added 25.11.2003 (14:29) by Ralph Roth }
     if [ -x /usr/bin/deborphan ] ; then
