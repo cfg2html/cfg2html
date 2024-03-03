@@ -268,7 +268,7 @@ inc_heading_level
 
   DMESG=$(which dmesg 2>/dev/null)         # Added 20201004 by edrulrd, a possible solution could be using the same trick as done in gdha/upgrade-ux#135
   DMIDECODE=$(which dmidecode 2>/dev/null) # Added 20201004 by edrulrd
-  LSCPI=$(which lspci 2>/dev/null)         # Added 20201004 by edrulrd
+  LSPCI=$(which lspci 2>/dev/null)         # Added 20201004 by edrulrd # fixed typo on 20240303 by edrulrd
 
   # It is better to check on a host for the existence of /usr/sbin/esxupdate. Existence of that binary, and its response, will truly indicate an ESX host.
   PhysHost='TRUE'               # General term. Default, and its state is kept beyond this section. Assumed TRUE at the beginning.  TRUE indicates NO   form of Virt Guest.
@@ -369,7 +369,7 @@ inc_heading_level
       if [ "${VIRTterm}" == 'TRUE' ]; then
            case ${VIRTs} in
                     dom0) #
-                          VMdomO='TRUE'
+                          VMdom0='TRUE' # fixed typo on 20240303 by edrulrd
                           VMXEN='TRUE'
                           ;;
                     domU) #
