@@ -292,7 +292,7 @@ inc_heading_level
 
   touch PhysVirt.info_Pt2; chmod 0600 PhysVirt.info_Pt2; chown 0:0 PhysVirt.info_Pt2; sync;sync
 
-  for VIRTs in domo domu kvm paravirt qemu virtio vmware xen; do
+  for VIRTs in dom0 domu kvm paravirt qemu virtio vmware xen; do # fix typo in dom0 # modified on 20240303 by edrulrd
       VIRTterm='unset'                                        # Local value used within the loop.
 
       VIRTci='unset'                                          # /proc/cpuinfo   # These are only used to display state.
