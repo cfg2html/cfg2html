@@ -406,10 +406,9 @@ inc_heading_level
            ESXhost='false'
            VirtMach='TRUE'
            # Determinations are over for ${VIRTs} ... now generate output line.
-           echo "VIRTs(${VIRTs}), VIRTterm (${VIRTterm}):"                                                                                                                  >> PhysVirt.info_Pt2
-           echo "VIRTci(${VIRTci}), VIRTdc(${VIRTdc}), VIRTdf(${VIRTdf}), VIRTdd(${VIRTdd}), VIRTls(${VIRTls})."                                                            >> PhysVirt.info_Pt2
-           echo "PhysHost(${PhysHost}), VirtMach(${VirtMach}), VMdom0(${VMdom0}), VMdomU(${VMdomU}), VMkvm(${VMkvm}), VMKVM(${VMKVM}), VMparavirtkrnl(${VMparavirtkrnl}),"  >> PhysVirt.info_Pt2
-           echo "VMqemu(${VMqemu}), VMvirtio(${VMvirtio}), VMxen(${VMxen}), VMXEN(${VMXEN}), ESXhost(${ESXhost}), VMTver(${VMTver}), VMware(${VMware})."                    >> PhysVirt.info_Pt2
+           echo "VIRTs(${VIRTs}), VIRTterm (${VIRTterm}): VIRTci(${VIRTci}), VIRTdc(${VIRTdc}), VIRTdf(${VIRTdf}), VIRTdd(${VIRTdd}), VIRTls(${VIRTls})."                                                                                                                                                                            >> PhysVirt.info_Pt2 # make more readable # modified on 20240303 by edrulrd
+           echo "PhysHost(${PhysHost}), VirtMach(${VirtMach}), VMdom0(${VMdom0}), VMdomU(${VMdomU}), VMkvm(${VMkvm}), VMKVM(${VMKVM}), VMparavirtkrnl(${VMparavirtkrnl}), VMqemu(${VMqemu}), VMvirtio(${VMvirtio}), VMxen(${VMxen}), VMXEN(${VMXEN}), ESXhost(${ESXhost}), VMTver(${VMTver}), VMware(${VMware})."                    >> PhysVirt.info_Pt2
+           echo                                                                                                                                                                                                                                                                                                                      >> PhysVirt.info_Pt2
       fi
   done
   echo ' ' >> PhysVirt.info_Pt2
