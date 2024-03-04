@@ -269,6 +269,7 @@ inc_heading_level
   DMESG=$(which dmesg 2>/dev/null)         # Added 20201004 by edrulrd, a possible solution could be using the same trick as done in gdha/upgrade-ux#135
   DMIDECODE=$(which dmidecode 2>/dev/null) # Added 20201004 by edrulrd
   LSPCI=$(which lspci 2>/dev/null)         # Added 20201004 by edrulrd # fixed typo on 20240303 by edrulrd
+  JOURNAL=$(which journalctl 2>/dev/null)  # Added 20240303 by edrulrd
 
   # It is better to check on a host for the existence of /usr/sbin/esxupdate. Existence of that binary, and its response, will truly indicate an ESX host.
   PhysHost='TRUE'               # General term. Default, and its state is kept beyond this section. Assumed TRUE at the beginning.  TRUE indicates NO   form of Virt Guest.
@@ -276,6 +277,7 @@ inc_heading_level
 
   # These are flags indicating if anything related to their virtualization-type has been found (or not).
   # Searching for •virtual' by itself is a bad start, as there are numerous exceptions, non-virtualization related. VMdom0= 11false 11 # term was positively found; Xen-related
+  VMdom0='false'                # term was positively found; Xen-related, privileged domain 0 vm # added on 20240303 by edrulrd
   VMdomU='false'                # term was positively found; Xen-related
   VMkvm='false'                 # 'kvm' term was positively found.
   VMKVM='false'                 # KVM-type has been found.
@@ -292,12 +294,13 @@ inc_heading_level
 
   touch PhysVirt.info_Pt2; chmod 0600 PhysVirt.info_Pt2; chown 0:0 PhysVirt.info_Pt2; sync;sync
 
-  for VIRTs in dom0 domu kvm paravirt qemu virtio vmware xen; do # fix typo in dom0 # modified on 20240303 by edrulrd
+  for VIRTs in dom0 domu kvm paravirt qemu virtio vmware xen; do # look for these strings in various places # fix typo in dom0 # modified on 20240303 by edrulrd
       VIRTterm='unset'                                        # Local value used within the loop.
 
       VIRTci='unset'                                          # /proc/cpuinfo   # These are only used to display state.
       VIRTdc='unset'                                          # dmesg command
       VIRTdf='unset'                                          # /var/log/dmesg {the long output}
+      VIRTjn='unset'                                          # journal file if available
       VIRTdd='unset'                                          # dmidecode {the command}
       VIRTls='unset'                                          # /sbin/lspci {the command}
 
@@ -324,6 +327,14 @@ inc_heading_level
                   # This exception catches the one case of installing RHEL/CentOS on a real physical machine.  This IS properly/necessarily nested!
                   VIRTterm='TRUE'
                   VIRTdf='TRUE'
+           fi
+      fi
+
+      if [ -n "${JOURNAL}" ] && [ "$(${JOURNAL} --system --boot 2>/dev/null | grep -i ${VIRTs})" ]; then # added on 20240303 by edrulrd
+           # some systems don't have /var/log/dmesg, so, let's try to use the system journal since bootup instead as another source # added on 20240303 by edrulrd
+           if [ ! "$(${JOURNAL} --system --boot 2>/dev/null | grep 'Booting paravirtualized kernel on bare hardware')" ]; then
+                VIRTterm='TRUE'
+                VIRTjn='TRUE'
            fi
       fi
 
@@ -406,7 +417,7 @@ inc_heading_level
            ESXhost='false'
            VirtMach='TRUE'
            # Determinations are over for ${VIRTs} ... now generate output line.
-           echo "VIRTs(${VIRTs}), VIRTterm (${VIRTterm}): VIRTci(${VIRTci}), VIRTdc(${VIRTdc}), VIRTdf(${VIRTdf}), VIRTdd(${VIRTdd}), VIRTls(${VIRTls})."                                                                                                                                                                            >> PhysVirt.info_Pt2 # make more readable # modified on 20240303 by edrulrd
+           echo "VIRTs(${VIRTs}), VIRTterm (${VIRTterm}): VIRTci(${VIRTci}), VIRTdc(${VIRTdc}), VIRTdf(${VIRTdf}), VIRTjn(${VIRTjn}), VIRTdd(${VIRTdd}), VIRTls(${VIRTls})."                                                                                                                                                         >> PhysVirt.info_Pt2 # make more readable # modified on 20240303 by edrulrd
            echo "PhysHost(${PhysHost}), VirtMach(${VirtMach}), VMdom0(${VMdom0}), VMdomU(${VMdomU}), VMkvm(${VMkvm}), VMKVM(${VMKVM}), VMparavirtkrnl(${VMparavirtkrnl}), VMqemu(${VMqemu}), VMvirtio(${VMvirtio}), VMxen(${VMxen}), VMXEN(${VMXEN}), ESXhost(${ESXhost}), VMTver(${VMTver}), VMware(${VMware})."                    >> PhysVirt.info_Pt2
            echo                                                                                                                                                                                                                                                                                                                      >> PhysVirt.info_Pt2
       fi
