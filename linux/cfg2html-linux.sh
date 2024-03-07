@@ -1647,6 +1647,14 @@ then # else skip to next paragraph
   if [ ${DEBIAN} = "yes" ] ; then
     if [ -f /etc/network/interfaces ] ; then
       exec_command "grep -vE '(^#|^$)' /etc/network/interfaces" "Netconf Settings"
+      if [ -d /etc/network/interfaces.d ] ; then # added on 20240303 by edrulrd
+        for FILE in /etc/network/interfaces.d/* # added on 20240303 by edrulrd
+        do
+          if [ $(cat "${FILE}" 2>/dev/null | grep -vE "'^#|^ *$'" | wc -c) -gt 0 ] ; then # added on 20240303 by edrulrd
+            exec_command "cat "${FILE}" | grep -vE '^#|^ *$'" "${FILE}" # added on 20240303 by edrulrd
+          fi
+        done
+      fi
     fi
   fi
 
