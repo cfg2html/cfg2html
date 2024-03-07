@@ -259,6 +259,7 @@ then # else skip to next paragraph
 paragraph "Linux System:  [${distrib}]"   ## empty? ## FIXME ###
 inc_heading_level
 
+  # Given the existence of the virt-what command, do we still need this section of code? # added on 20240303 by edrulrd
   ###################################################################################################################################################################
   # [20200324] {jcw}  Added section for determining if this is a physical host (Red Hat KVM/xen or VMware ESX) or virtual machine (VM).
   #                   When it is a VMware VM, identify the version of VMware Tools installed, and if that is current and active.
@@ -445,6 +446,14 @@ inc_heading_level
   unset VMdom0 VMdomU VMkvm VMKVM VMparavirtkrnl VMqemu VMvirtio VMxen VMXEN ESXhost VMTver VMware; sync
   ###################################################################################################################################################################
 
+  if [ -x /usr/sbin/virt-what ] && VIRTWHAT="$(/usr/sbin/virt-what)" ; then # moved virt-what adjacent to our code that checks if we're virtual # modified on 20240303 by edrulrd
+    if [ -n "$VIRTWHAT" ] ; then # output generated, therefore not physical  # added on 20240303 by edrulrd
+       exec_command "/usr/sbin/virt-what" "Virtual Machine Status" # changed Check to Status on 20240303 by edrulrd
+    else
+       exec_command "echo 'virt-what: running on bare-metal, or running inside a type of virtual machine that is not known'" "Virtual Machine Status" # added on 20240303 by edrulrd
+    fi
+  fi
+
   if [ -f ${CONFIG_DIR}/systeminfo ] ; then
     exec_command "cat ${CONFIG_DIR}/systeminfo" "System description"
   fi
@@ -484,10 +493,6 @@ inc_heading_level
         exec_command "${TIMEOUTCMD} 20 /usr/bin/virsh list" "virsh Virtualization Support Status"
         exec_command "${TIMEOUTCMD} 20 /usr/bin/virsh sysinfo" "virsh XML Hypervisor Sysinfo"
         AddText "Hint: You may need to view your browser's page source to see the XML tags, or refer to the ASCII report" # xml tags are taken out (at least) by Firefox # modified on 20240119 by edrulrd
-      fi
-
-      if [ -x /usr/sbin/virt-what ] ; then
-        exec_command "/usr/sbin/virt-what" "Virtual Machine Check"
       fi
   ### End changes by Dusan.Baljevic@ieee.org ### 14.05.2014
 
