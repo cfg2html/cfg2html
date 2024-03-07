@@ -422,17 +422,23 @@ inc_heading_level
            echo                                                                                                                                                                                                                                                                                                                      >> PhysVirt.info_Pt2
       fi
   done
-  echo ' ' >> PhysVirt.info_Pt2
+
+  echo "Note: the physical or virtual environment state was determined by searching for each of these case-insensitive strings:"      >> PhysVirt.info_Pt2 # added on 20240303 by edrulrd
+  echo '      "dom0", "domU", "kvm", "paravirt", "qemu", "virtio", "xen", and "vmware"'                                               >> PhysVirt.info_Pt2 # added on 20240303 by edrulrd
+  echo "      from within the following sources:"                                                                                     >> PhysVirt.info_Pt2 # added on 20240303 by edrulrd
+  echo "      /proc/cpuinfo, dmesg command, /var/log/dmesg file, journalctl command, dmidecode command, and the lspci command."       >> PhysVirt.info_Pt2 # added on 20240303 by edrulrd
+  echo "      If the searches failed or if the logs expressly indicated not being virtual, then the system is deemed to be Physical." >> PhysVirt.info_Pt2 # added on 20240303 by edrulrd
+  echo ' '                                                                                                                            >> PhysVirt.info_Pt2
 
   if [ ${PhysHost} == 'TRUE' ]; then
-       echo "This host is Physical, PhysHost=(${PhysHost}); vice Virtual, VirtMach=(${VirtMach})."    >> PhysVirt.info
-       echo ' '                                                                                       >> PhysVirt.info
-       cat PhysVirt.info_Pt2                                                                          >> PhysVirt.info
+       echo "This host is Physical, as PhysHost=(${PhysHost}); and not Virtual, as VirtMach=(${VirtMach})."  >> PhysVirt.info # made more readable # modified on 20240303 by edrulrd
+       echo ' '                                                                                              >> PhysVirt.info
+       cat PhysVirt.info_Pt2                                                                                 >> PhysVirt.info
        exec_command "cat PhysVirt.info" 'Host is Physical.'  ## fixed
   else
-       echo "This host is Virtual:  VirtMach=(${VirtMach}); vice Physical, PhysHost=(${PhysHost})."   >> PhysVirt.info
-       echo ' '                                                                                       >> PhysVirt.info
-       cat PhysVirt.info_Pt2                                                                          >> PhysVirt.info
+       echo "This host is Virtual, as VirtMach=(${VirtMach}); and not Physical, as PhysHost=(${PhysHost})."   >> PhysVirt.info # made more readable # modified on 20240303 by edrulrd
+       echo ' '                                                                                               >> PhysVirt.info
+       cat PhysVirt.info_Pt2                                                                                  >> PhysVirt.info
        exec_command "cat PhysVirt.info" 'Host is Virtual.'
   fi
   /bin/rm -f PhysVirt.info PhysVirt.info_Pt2
