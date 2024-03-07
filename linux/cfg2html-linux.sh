@@ -570,12 +570,13 @@ inc_heading_level
   # free -tl     (instead of free, because it gives some more useful infos, about HighMem and LowMem memory regions (zones))
   # cat /proc/meminfo (in order to get some details of memory usage)
 
+  # ESXHost and /tmp/ProcKernMem.info is not referenced anywhere in our code, so it was commented out # added on 20240303 by edrulrd
   # [20200409] {jcw} Added section for processor, kernel and memory status details
-  ESXHost='false'; [ -e /usr/sbin/esxupdate ] && [ $(rpm -qa | grep -i vmware-esx | wc -l | tr -d' ') -ge 2 ] && ESXHost='TRUE'
-  echo "Identify processor architecture, installed OS architecture, and the type/amount of system memory (best approximation)."                     > /tmp/ProcKernMem.info
-  echo "Note:  Math rounding may result in displaying a slightly smaller number than actually installed/configured (g=GB, m=MB, k=KB, b=bytes)."   >> /tmp/ProcKernMem.info
-  echo "       kcore line is processed from size of '/proc/kcore'; free is processed from 'free' command."                                         >> /tmp/ProcKernMem.info
-  echo "---------------------------------------------------------------------------------------------------------------------------------------"   >> /tmp/ProcKernMem.info
+  #ESXHost='false'; [ -e /usr/sbin/esxupdate ] && [ $(rpm -qa | grep -i vmware-esx | wc -l | tr -d' ') -ge 2 ] && ESXHost='TRUE'
+  #echo "Identify processor architecture, installed OS architecture, and the type/amount of system memory (best approximation)."                     > /tmp/ProcKernMem.info
+  #echo "Note:  Math rounding may result in displaying a slightly smaller number than actually installed/configured (g=GB, m=MB, k=KB, b=bytes)."   >> /tmp/ProcKernMem.info
+  #echo "       kcore line is processed from size of '/proc/kcore'; free is processed from 'free' command."                                         >> /tmp/ProcKernMem.info
+  #echo "---------------------------------------------------------------------------------------------------------------------------------------"   >> /tmp/ProcKernMem.info
 
 
 
