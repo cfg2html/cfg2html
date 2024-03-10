@@ -2028,7 +2028,7 @@ then # else skip to next paragraph
       AddText "See: Modules failing to load at boot time - TID 7005784"
     fi
 
-    if [ "${DEBIAN}" = "no" ] && [ "SLACKWARE" = "no" ] ; then
+    if [ "${DEBIAN}" = "no" ] && [ "${SLACKWARE}" = "no" ] ; then # fixed typo # modified on 20240303 by edrulrd
             which rpm > /dev/null  && exec_command "rpm -qa | grep -e ^k_def -e ^kernel -e k_itanium -e k_smp -e ^linux" "Kernel RPMs" # rar, SUSE+RH+Itanium2
     fi
 
