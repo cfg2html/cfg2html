@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC2034,SC2154 # (note - shellcheck directive needs to be at the very top to be effective over the whole file) # modified on 20240303 by edrulrd
 #
 # @(#) $Id: cfg2html-linux.sh,v 6.69 2023/09/14 07:05:13 ralph Exp $
 # -----------------------------------------------------------------------------------------
@@ -13,7 +14,6 @@ CFGSH=$_  ### CFGSH appears unused. Verify use (or export if used externally).
 # unset "-set -vx" for debugging purpose (use set +vx to disable); NOTE: After the 'exec 2>' statement all debug info will go the errorlog file (*.err)
 # set -vx
 # *vim:numbers:ruler
-# shellcheck disable=SC2034,SC2154
 
 # ---------------------------------------------------------------------------
 # NEW VERSION - v6/github/GPL
@@ -1673,12 +1673,11 @@ then # else skip to next paragraph
 
   ## Added 3/05/08 by krtmrrsn@yahoo.com, Marc Korte, display ethernet
   ##  LAN and route config files for RedHat.
-  if [ ${REDHAT} = "yes" ] ; then
-    ## There will always be at least ifcfg-lo.
+  if [ "${REDHAT}" = "yes" ] ; then
     exec_command "for CfgFile in /etc/sysconfig/network-scripts/ifcfg-*; do printf \"\n\n\$(basename \${CfgFile}):\n\n\"; cat \${CfgFile}; done" "LAN Configuration Files"
     ## Check first that any route-* files exist # modified on 20201005 by edrulrd
     ### # [20200319] {jcw} See if I can put this as a multi-line command.
-    exec_command "if [ $(find /etc/sysconfig/network-scripts/ -name route-* -print |wc -l) -gt 0 ]; then for RouteCfgFile in /etc/sysconfig/network-scripts/route-*; do printf \"\n\n\$(basename \${RouteCfgFile}):\n\n\"; cat \${RouteCfgFile}; done; fi" "Route Configuration Files" # modified on 20201005 by edrulrd
+    exec_command "if [ $(find /etc/sysconfig/network-scripts/ -name "route-*" -print |wc -l) -gt 0 ]; then for RouteCfgFile in /etc/sysconfig/network-scripts/route-*; do printf \"\n\n\$(basename \${RouteCfgFile}):\n\n\"; cat \${RouteCfgFile}; done; fi" "Route Configuration Files" # Shellcheck recommended change # modified on 20240303 by edrulrd
   fi
   ## End Marc Korte display ethernet LAN config files.
 
@@ -2854,15 +2853,16 @@ then # else skip to next paragraph
         /usr/sbin/hpacucli controller all diag file=${temphp}/hpacucli_diag.txt          # Added 2011-09-05 Peter Boysen.
     fi
 
-    disks=`/sbin/fdisk -l`
-    if [ ! -z "${disks}" ] ; then
-        exec_command "/sbin/fdisk -l" "Disk Partitions on Logical Drives"
-    else
-        disks=`cat /proc/partitions | awk '{if($4 ~ /\//)print $4}' |grep -v p`
-        for adisk in ${disks} ; do
-            exec_command "/sbin/fdisk -l /dev/${adisk}" "Disk Partitions - /dev/${adisk}"
-        done
     if [ -x /sbin/fdisk ] ; then # confirm we have fdisk # modified on 20240303 by edrulrd
+      disks=$(/sbin/fdisk -l) # Shellcheck recommended change # modified on 20240303 by edrulrd
+      if [ -n "${disks}" ] ; then # Shellcheck recommended change # modified on 20240303 by edrulrd
+          exec_command "/sbin/fdisk -l" "Disk Partitions on Logical Drives"
+      else
+          disks=$(awk '{if($4 ~ /\//)print $4}' /proc/partitions |grep -v p) # Shellcheck recommended changes # modified on 20240303 by edrulrd
+          for adisk in ${disks} ; do
+              exec_command "/sbin/fdisk -l /dev/${adisk}" "Disk Partitions - /dev/${adisk}"
+          done
+      fi
     fi
 
     ###above partitioning and HPACUCLI is contributed by kgalal@gmail.com
