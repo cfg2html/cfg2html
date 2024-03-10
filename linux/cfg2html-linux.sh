@@ -1636,8 +1636,10 @@ then # else skip to next paragraph
   then
       # exec_command "nmcli nm status" "NetworkManager Status"
       #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org##FIXED## 20150304 by Ralph Roth //  not available on openSUSE 13.2!
+      exec_command "nmcli general status" "NetworkManager status" # added on 20240303 by edrulrd
       exec_command "nmcli device status" "NetworkManager Device Status"   	#20150527 by Ralph Roth
       exec_command "nmcli connection show" "NetworkManager Connections"     	#06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org##FIXED## 20150304 by Ralph Roth
+      exec_command "nmcli network connectivity check" "NetworkManager-reported Internet access status" # added on 20240303 by edrulrd
   fi ## /usr/bin/nmcli
 
   if [ -x /usr/sbin/ethtool ]     ###  22.11.2010, 23:44 modified by Ralph Roth
