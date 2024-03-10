@@ -685,7 +685,7 @@ inc_heading_level
     ## OpenSUSE 12.x # changed 20140213 by Ralph Roth ##BACKPORT##
     exec_command "/usr/bin/systemctl" "Systemd: System and Service Manager"
     exec_command "/usr/bin/systemctl list-units --type service" "Systemd: All Services"
-    exec_command "/usr/bin/systemctl list-unit-files" " Systemd: All Unit Files"
+    exec_command "/usr/bin/systemctl list-unit-files" "Systemd: All Unit Files" # removed extra space in tile # modified on 20240303 by edrulrd
 
     ## new 20140613 by Ralph Roth
     [ -x /usr/bin/journalctl ] && exec_command "/usr/bin/journalctl -b -p 3 --no-pager" "Systemd Journal with Errors and Warnings"
@@ -722,7 +722,7 @@ inc_heading_level
 
   # Added by Dusan Baljevic on 24 December 2017
   if [ -x /usr/bin/wdctl ] ; then
-    exec_command "/usr/bin/wdctl" "Hardware watchdog status"
+    exec_command "/usr/bin/wdctl 2>/dev/null" "Hardware watchdog status" # discard error if not available # modified on 20240303 by edrulrd
   fi
 
   # Added by Dusan Baljevic on 24 December 2017
@@ -1130,7 +1130,7 @@ inc_heading_level
      exec_command "sg_map -x" "Fibre Channel Host Bus Adapters sg_map status"
   fi
 
-  exec_command "ls -l /dev/disk/by-id" "Disk devices by-id" # removed -a (don't need . files?) # modified on 20240202 by edrulrd
+  [ -d /dev/disk/by-id ] && exec_command "ls -l /dev/disk/by-id" "Disk devices by-id" # check if exists first # modified on 20240303 by edrulrd
   ls -ld /sys/block/sd* 2>/dev/null 1>&2 # check to see if we have sd* block devices # added on 20240202 by edrulrd
   if [ $? -eq 0 ]
   then
@@ -1391,7 +1391,7 @@ inc_heading_level
 
     # moved the partition map showing sectors from below to here  # modified on 20240119 by edrulrd
     # for LVM using sed
-    exec_command "/sbin/fdisk -l|sed 's/8e \ Unknown/8e \ LVM/g'" "Disk Partitions (showing sectors)" # modified on 20240119 by edrulrd
+    [ -x /sbin/fdisk ] && exec_command "/sbin/fdisk -l|sed 's/8e \ Unknown/8e \ LVM/g'" "Disk Partitions (showing sectors)" # confirm fdisk is available # modified on 20240303 by edrulrd
 
     #
     # 20201008 following code added by edrulrd
@@ -1536,7 +1536,7 @@ then # else skip to next paragraph
     [ -x /sbin/pvs ] && exec_command "pvs" "Physical Volumes"         # if LVM2 installed       #  07.11.2011, 21:45 modified by Ralph Roth #* rar *#
 
     # WONT WORK WITH HP RAID!
-    LVMFDISK=$(/sbin/fdisk -l | grep "LVM$")
+    [ -x /sbin/fdisk ] && LVMFDISK=$(/sbin/fdisk -l | grep "LVM$") # confirm we have fdisk # modified on 20240303 by edrulrd
 
     if  [ -n "${LVMFDISK}" -o -r /etc/lvmtab -o -r /etc/lvm/lvm.conf ]   # This expression is constant. Did you forget a $ somewhere?
     then # <m>  11.03.2008, 1158 -  Ralph Roth
@@ -2862,6 +2862,7 @@ then # else skip to next paragraph
         for adisk in ${disks} ; do
             exec_command "/sbin/fdisk -l /dev/${adisk}" "Disk Partitions - /dev/${adisk}"
         done
+    if [ -x /sbin/fdisk ] ; then # confirm we have fdisk # modified on 20240303 by edrulrd
     fi
 
     ###above partitioning and HPACUCLI is contributed by kgalal@gmail.com
