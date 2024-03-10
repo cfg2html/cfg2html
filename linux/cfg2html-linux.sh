@@ -501,6 +501,11 @@ inc_heading_level
       fi
   ### End changes by Dusan.Baljevic@ieee.org ### 14.05.2014
 
+  if which xl 2>/dev/null 1>&1 ; then # added Xen virtualization info # added on 20240303 by edrulrd
+    exec_command "xl info" "Xen Host information"
+    exec_command "xl list -n" "Xen Domains list"
+  fi
+
   ### Begin changes by Dusan.Baljevic@ieee.org ### 31.08.2014
       if [ -x /usr/bin/machinectl ] ; then
         exec_command "/usr/bin/machinectl --version" "Systemd Virtual Machine and Container Version"
