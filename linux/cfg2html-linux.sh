@@ -1432,7 +1432,7 @@ inc_heading_level
               AddText "WARNING: use at your own risk!  To restore your partitions use the saved file: ${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk}). Read the man page for sfdisk for usage. (Hint: sfdisk --force /dev/device < file.save)"
             fi
           else
-             AddText "Warning: sfdisk version is too old and sgdisk is not available"
+             [ -x "$(which sfdisk 2>/dev/null)" ] && AddText "Warning: sfdisk version is too old and sgdisk is not available" # check if sfdisk exists # modified on 20240303 by edrulrd
           fi
         fi
       done
