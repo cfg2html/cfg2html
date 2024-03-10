@@ -490,7 +490,12 @@ inc_heading_level
 
   ### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
       if [ -x /usr/bin/virsh ] ; then
-        exec_command "${TIMEOUTCMD} 20 /usr/bin/virsh list" "virsh Virtualization Support Status"
+        exec_command "${TIMEOUTCMD} 20 /usr/bin/virsh list --all" "virsh Virtualization Support Status" # show status of all VMs # modified on 20240303 by edrulrd
+        exec_command "${TIMEOUTCMD} 20 /usr/bin/virsh net-list" "virsh Virtual Network List" # list the virtual networks # added on 20240303 by edrulrd
+        for network in $(${TIMEOUTCMD} 20 /usr/bin/virsh net-list | tail -n +3 | awk '{print $1}') # added on 20240303 by edrulrd
+        do
+          exec_command "${TIMEOUTCMD} 20 /usr/bin/virsh net-info ${network}" "virsh Virtual Network info for ${network}" # show  virtual network status # added on 20240303 by edrulrd
+        done
         exec_command "${TIMEOUTCMD} 20 /usr/bin/virsh sysinfo" "virsh XML Hypervisor Sysinfo"
         AddText "Hint: You may need to view your browser's page source to see the XML tags, or refer to the ASCII report" # xml tags are taken out (at least) by Firefox # modified on 20240119 by edrulrd
       fi
