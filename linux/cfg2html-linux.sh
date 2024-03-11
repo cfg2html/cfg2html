@@ -1674,6 +1674,8 @@ then # else skip to next paragraph
   ## Added 3/05/08 by krtmrrsn@yahoo.com, Marc Korte, display ethernet
   ##  LAN and route config files for RedHat.
   if [ "${REDHAT}" = "yes" ] ; then
+    ## There will always be at least ifcfg-lo. # ... not anymore - CentOS9 stream indicates now deprecated in lieu of nmcli # modified on 20240303 by edrulrd
+    [ $(find /etc/sysconfig/network-scripts/ -type f -name "ifcfg-*" -print 2>/dev/null | wc -l) -gt 0 ] && # check for existence of files # modified on 20240303 by edrulrd
     exec_command "for CfgFile in /etc/sysconfig/network-scripts/ifcfg-*; do printf \"\n\n\$(basename \${CfgFile}):\n\n\"; cat \${CfgFile}; done" "LAN Configuration Files"
     ## Check first that any route-* files exist # modified on 20201005 by edrulrd
     ### # [20200319] {jcw} See if I can put this as a multi-line command.
