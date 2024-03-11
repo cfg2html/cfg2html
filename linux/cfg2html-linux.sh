@@ -1538,12 +1538,11 @@ then # else skip to next paragraph
     # WONT WORK WITH HP RAID!
     [ -x /sbin/fdisk ] && LVMFDISK=$(/sbin/fdisk -l | grep "LVM$") # confirm we have fdisk # modified on 20240303 by edrulrd
 
-    if  [ -n "${LVMFDISK}" -o -r /etc/lvmtab -o -r /etc/lvm/lvm.conf ]   # This expression is constant. Did you forget a $ somewhere?
+    if  [ -n "${LVMFDISK}" -o -r /etc/lvmtab -o -r /etc/lvm/lvm.conf ]
     then # <m>  11.03.2008, 1158 -  Ralph Roth
-        vgdisplay -s > /dev/null 2>&1 #  10032008 modified by Ralph.Roth
+        if [ -n "$(vgdisplay -s 2>/dev/null)" ] ; then #  10032008 modified by Ralph.Roth # let's be sure we have output before saying we're using LVM # modified on 20240303 by edrulrd
         # due to LVM2 (doesn't use /etc/lvmtab anymore), but should be compatible to LVM1; A. Kumpf
-        if [ "$?" = "0" ] ; then
-              AddText "The system file layout is configured using the LVM (Logical Volume Manager)"
+             AddText "The system file layout is configured using the LVM (Logical Volume Manager)"
         # choose between LVM1 and LVM2 because of different syntaxes; A. Kumpf, 21.07.06
              if [ -x "/sbin/lvm" ]; then
                LVM_VER=2
