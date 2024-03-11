@@ -452,6 +452,8 @@ inc_heading_level
     else
        exec_command "echo 'virt-what: running on bare-metal, or running inside a type of virtual machine that is not known'" "Virtual Machine Status" # added on 20240303 by edrulrd
     fi
+  else
+       echo 'To best determine the type of virtual environment this system may be running in, you should consider installing the distribution'\''s "virt-what" package' >&2 # make suggestion in errorlog # added on 20240303 by edrulrd
   fi
 
   if [ -f ${CONFIG_DIR}/systeminfo ] ; then
