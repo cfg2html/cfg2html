@@ -484,7 +484,7 @@ inc_heading_level
       exec_command "${HOSTNAMECTL}" "Hostname settings"
   fi
 
-  [ -x /usr/bin/lsb_release ] && exec_command "/usr/bin/lsb_release -a 2>\/dev\/null" "Linux Standard Base Version" #modified on 20201026 by edrulrd
+  [ -x /usr/bin/lsb_release ] && exec_command "/usr/bin/lsb_release -a 2>/dev/null" "Linux Standard Base Version" #modified on 20201026 and 20240303 by edrulrd
   for i in /etc/*-release
   do
       [ -r ${i} ] && exec_command "cat ${i}" "OS Specific Release Information for (${i})"
@@ -575,7 +575,7 @@ inc_heading_level
 
   if [ "${CFG_LSOFDEL}" != "no" ] # added on 20201026 by edrulrd
   then # else skip to next paragraph # added on 20201026 by edrulrd
-    exec_command "lsof -nP 2>\/dev\/null | grep '(deleted)'" "Files that are open but have been deleted" # modified on 20201026 by edrulrd
+    exec_command "lsof -nP 2>/dev/null | grep '(deleted)'" "Files that are open but have been deleted" # modified on 20201026 and 20240303 by edrulrd
   fi # terminates CFG_LSOFDEL wrapper # added on 20201026 by edrulrd
 
   # In "used memory.swap" section I would add :
