@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC2034,SC2154 # (note - shellcheck directive needs to be at the very top to be effective over the whole file) # modified on 20240303 by edrulrd
 #
 # @(#) $Id: cfg2html-linux.sh,v 6.69 2023/09/14 07:05:13 ralph Exp $
 # -----------------------------------------------------------------------------------------
@@ -13,7 +14,6 @@ CFGSH=$_  ### CFGSH appears unused. Verify use (or export if used externally).
 # unset "-set -vx" for debugging purpose (use set +vx to disable); NOTE: After the 'exec 2>' statement all debug info will go the errorlog file (*.err)
 # set -vx
 # *vim:numbers:ruler
-# shellcheck disable=SC2034,SC2154
 
 # ---------------------------------------------------------------------------
 # NEW VERSION - v6/github/GPL
@@ -259,6 +259,7 @@ then # else skip to next paragraph
 paragraph "Linux System:  [${distrib}]"   ## empty? ## FIXME ###
 inc_heading_level
 
+  # Given the existence of the virt-what command, do we still need this section of code? # added on 20240303 by edrulrd
   ###################################################################################################################################################################
   # [20200324] {jcw}  Added section for determining if this is a physical host (Red Hat KVM/xen or VMware ESX) or virtual machine (VM).
   #                   When it is a VMware VM, identify the version of VMware Tools installed, and if that is current and active.
@@ -268,7 +269,8 @@ inc_heading_level
 
   DMESG=$(which dmesg 2>/dev/null)         # Added 20201004 by edrulrd, a possible solution could be using the same trick as done in gdha/upgrade-ux#135
   DMIDECODE=$(which dmidecode 2>/dev/null) # Added 20201004 by edrulrd
-  LSCPI=$(which lspci 2>/dev/null)         # Added 20201004 by edrulrd
+  LSPCI=$(which lspci 2>/dev/null)         # Added 20201004 by edrulrd # fixed typo on 20240303 by edrulrd
+  JOURNAL=$(which journalctl 2>/dev/null)  # Added 20240303 by edrulrd
 
   # It is better to check on a host for the existence of /usr/sbin/esxupdate. Existence of that binary, and its response, will truly indicate an ESX host.
   PhysHost='TRUE'               # General term. Default, and its state is kept beyond this section. Assumed TRUE at the beginning.  TRUE indicates NO   form of Virt Guest.
@@ -276,6 +278,7 @@ inc_heading_level
 
   # These are flags indicating if anything related to their virtualization-type has been found (or not).
   # Searching for •virtual' by itself is a bad start, as there are numerous exceptions, non-virtualization related. VMdom0= 11false 11 # term was positively found; Xen-related
+  VMdom0='false'                # term was positively found; Xen-related, privileged domain 0 vm # added on 20240303 by edrulrd
   VMdomU='false'                # term was positively found; Xen-related
   VMkvm='false'                 # 'kvm' term was positively found.
   VMKVM='false'                 # KVM-type has been found.
@@ -292,12 +295,13 @@ inc_heading_level
 
   touch PhysVirt.info_Pt2; chmod 0600 PhysVirt.info_Pt2; chown 0:0 PhysVirt.info_Pt2; sync;sync
 
-  for VIRTs in domo domu kvm paravirt qemu virtio vmware xen; do
+  for VIRTs in dom0 domu kvm paravirt qemu virtio vmware xen; do # look for these strings in various places # fix typo in dom0 # modified on 20240303 by edrulrd
       VIRTterm='unset'                                        # Local value used within the loop.
 
       VIRTci='unset'                                          # /proc/cpuinfo   # These are only used to display state.
       VIRTdc='unset'                                          # dmesg command
       VIRTdf='unset'                                          # /var/log/dmesg {the long output}
+      VIRTjn='unset'                                          # journal file if available
       VIRTdd='unset'                                          # dmidecode {the command}
       VIRTls='unset'                                          # /sbin/lspci {the command}
 
@@ -324,6 +328,14 @@ inc_heading_level
                   # This exception catches the one case of installing RHEL/CentOS on a real physical machine.  This IS properly/necessarily nested!
                   VIRTterm='TRUE'
                   VIRTdf='TRUE'
+           fi
+      fi
+
+      if [ -n "${JOURNAL}" ] && [ "$(${JOURNAL} --system --boot 2>/dev/null | grep -i ${VIRTs})" ]; then # added on 20240303 by edrulrd
+           # some systems don't have /var/log/dmesg, so, let's try to use the system journal since bootup instead as another source # added on 20240303 by edrulrd
+           if [ ! "$(${JOURNAL} --system --boot 2>/dev/null | grep 'Booting paravirtualized kernel on bare hardware')" ]; then
+                VIRTterm='TRUE'
+                VIRTjn='TRUE'
            fi
       fi
 
@@ -369,7 +381,7 @@ inc_heading_level
       if [ "${VIRTterm}" == 'TRUE' ]; then
            case ${VIRTs} in
                     dom0) #
-                          VMdomO='TRUE'
+                          VMdom0='TRUE' # fixed typo on 20240303 by edrulrd
                           VMXEN='TRUE'
                           ;;
                     domU) #
@@ -406,28 +418,43 @@ inc_heading_level
            ESXhost='false'
            VirtMach='TRUE'
            # Determinations are over for ${VIRTs} ... now generate output line.
-           echo "VIRTs(${VIRTs}), VIRTterm (${VIRTterm}):"                                                                                                                  >> PhysVirt.info_Pt2
-           echo "VIRTci(${VIRTci}), VIRTdc(${VIRTdc}), VIRTdf(${VIRTdf}), VIRTdd(${VIRTdd}), VIRTls(${VIRTls})."                                                            >> PhysVirt.info_Pt2
-           echo "PhysHost(${PhysHost}), VirtMach(${VirtMach}), VMdom0(${VMdom0}), VMdomU(${VMdomU}), VMkvm(${VMkvm}), VMKVM(${VMKVM}), VMparavirtkrnl(${VMparavirtkrnl}),"  >> PhysVirt.info_Pt2
-           echo "VMqemu(${VMqemu}), VMvirtio(${VMvirtio}), VMxen(${VMxen}), VMXEN(${VMXEN}), ESXhost(${ESXhost}), VMTver(${VMTver}), VMware(${VMware})."                    >> PhysVirt.info_Pt2
+           echo "VIRTs(${VIRTs}), VIRTterm (${VIRTterm}): VIRTci(${VIRTci}), VIRTdc(${VIRTdc}), VIRTdf(${VIRTdf}), VIRTjn(${VIRTjn}), VIRTdd(${VIRTdd}), VIRTls(${VIRTls})."                                                                                                                                                         >> PhysVirt.info_Pt2 # make more readable # modified on 20240303 by edrulrd
+           echo "PhysHost(${PhysHost}), VirtMach(${VirtMach}), VMdom0(${VMdom0}), VMdomU(${VMdomU}), VMkvm(${VMkvm}), VMKVM(${VMKVM}), VMparavirtkrnl(${VMparavirtkrnl}), VMqemu(${VMqemu}), VMvirtio(${VMvirtio}), VMxen(${VMxen}), VMXEN(${VMXEN}), ESXhost(${ESXhost}), VMTver(${VMTver}), VMware(${VMware})."                    >> PhysVirt.info_Pt2
+           echo                                                                                                                                                                                                                                                                                                                      >> PhysVirt.info_Pt2
       fi
   done
-  echo ' ' >> PhysVirt.info_Pt2
+
+  echo "Note: the physical or virtual environment state was determined by searching for each of these case-insensitive strings:"      >> PhysVirt.info_Pt2 # added on 20240303 by edrulrd
+  echo '      "dom0", "domU", "kvm", "paravirt", "qemu", "virtio", "xen", and "vmware"'                                               >> PhysVirt.info_Pt2 # added on 20240303 by edrulrd
+  echo "      from within the following sources:"                                                                                     >> PhysVirt.info_Pt2 # added on 20240303 by edrulrd
+  echo "      /proc/cpuinfo, dmesg command, /var/log/dmesg file, journalctl command, dmidecode command, and the lspci command."       >> PhysVirt.info_Pt2 # added on 20240303 by edrulrd
+  echo "      If the searches failed or if the logs expressly indicated not being virtual, then the system is deemed to be Physical." >> PhysVirt.info_Pt2 # added on 20240303 by edrulrd
+  echo ' '                                                                                                                            >> PhysVirt.info_Pt2
 
   if [ ${PhysHost} == 'TRUE' ]; then
-       echo "This host is Physical, PhysHost=(${PhysHost}); vice Virtual, VirtMach=(${VirtMach})."    >> PhysVirt.info
-       echo ' '                                                                                       >> PhysVirt.info
-       cat PhysVirt.info_Pt2                                                                          >> PhysVirt.info
+       echo "This host is Physical, as PhysHost=(${PhysHost}); and not Virtual, as VirtMach=(${VirtMach})."  >> PhysVirt.info # made more readable # modified on 20240303 by edrulrd
+       echo ' '                                                                                              >> PhysVirt.info
+       cat PhysVirt.info_Pt2                                                                                 >> PhysVirt.info
        exec_command "cat PhysVirt.info" 'Host is Physical.'  ## fixed
   else
-       echo "This host is Virtual:  VirtMach=(${VirtMach}); vice Physical, PhysHost=(${PhysHost})."   >> PhysVirt.info
-       echo ' '                                                                                       >> PhysVirt.info
-       cat PhysVirt.info_Pt2                                                                          >> PhysVirt.info
+       echo "This host is Virtual, as VirtMach=(${VirtMach}); and not Physical, as PhysHost=(${PhysHost})."   >> PhysVirt.info # made more readable # modified on 20240303 by edrulrd
+       echo ' '                                                                                               >> PhysVirt.info
+       cat PhysVirt.info_Pt2                                                                                  >> PhysVirt.info
        exec_command "cat PhysVirt.info" 'Host is Virtual.'
   fi
   /bin/rm -f PhysVirt.info PhysVirt.info_Pt2
   unset VMdom0 VMdomU VMkvm VMKVM VMparavirtkrnl VMqemu VMvirtio VMxen VMXEN ESXhost VMTver VMware; sync
   ###################################################################################################################################################################
+
+  if [ -x /usr/sbin/virt-what ] && VIRTWHAT="$(/usr/sbin/virt-what)" ; then # moved virt-what adjacent to our code that checks if we're virtual # modified on 20240303 by edrulrd
+    if [ -n "$VIRTWHAT" ] ; then # output generated, therefore not physical  # added on 20240303 by edrulrd
+       exec_command "/usr/sbin/virt-what" "Virtual Machine Status" # changed Check to Status on 20240303 by edrulrd
+    else
+       exec_command "echo 'virt-what: running on bare-metal, or running inside a type of virtual machine that is not known'" "Virtual Machine Status" # added on 20240303 by edrulrd
+    fi
+  else
+       echo 'To best determine the type of virtual environment this system may be running in, you should consider installing the distribution'\''s "virt-what" package' >&2 # make suggestion in errorlog # added on 20240303 by edrulrd
+  fi
 
   if [ -f ${CONFIG_DIR}/systeminfo ] ; then
     exec_command "cat ${CONFIG_DIR}/systeminfo" "System description"
@@ -457,7 +484,7 @@ inc_heading_level
       exec_command "${HOSTNAMECTL}" "Hostname settings"
   fi
 
-  [ -x /usr/bin/lsb_release ] && exec_command "/usr/bin/lsb_release -a 2>\/dev\/null" "Linux Standard Base Version" #modified on 20201026 by edrulrd
+  [ -x /usr/bin/lsb_release ] && exec_command "/usr/bin/lsb_release -a 2>/dev/null" "Linux Standard Base Version" #modified on 20201026 and 20240303 by edrulrd
   for i in /etc/*-release
   do
       [ -r ${i} ] && exec_command "cat ${i}" "OS Specific Release Information for (${i})"
@@ -465,15 +492,21 @@ inc_heading_level
 
   ### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
       if [ -x /usr/bin/virsh ] ; then
-        exec_command "${TIMEOUTCMD} 20 /usr/bin/virsh list" "virsh Virtualization Support Status"
+        exec_command "${TIMEOUTCMD} 20 /usr/bin/virsh list --all" "virsh Virtualization Support Status" # show status of all VMs # modified on 20240303 by edrulrd
+        exec_command "${TIMEOUTCMD} 20 /usr/bin/virsh net-list" "virsh Virtual Network List" # list the virtual networks # added on 20240303 by edrulrd
+        for network in $(${TIMEOUTCMD} 20 /usr/bin/virsh net-list | tail -n +3 | awk '{print $1}') # added on 20240303 by edrulrd
+        do
+          exec_command "${TIMEOUTCMD} 20 /usr/bin/virsh net-info ${network}" "virsh Virtual Network info for ${network}" # show  virtual network status # added on 20240303 by edrulrd
+        done
         exec_command "${TIMEOUTCMD} 20 /usr/bin/virsh sysinfo" "virsh XML Hypervisor Sysinfo"
         AddText "Hint: You may need to view your browser's page source to see the XML tags, or refer to the ASCII report" # xml tags are taken out (at least) by Firefox # modified on 20240119 by edrulrd
       fi
-
-      if [ -x /usr/sbin/virt-what ] ; then
-        exec_command "/usr/sbin/virt-what" "Virtual Machine Check"
-      fi
   ### End changes by Dusan.Baljevic@ieee.org ### 14.05.2014
+
+  if which xl 2>/dev/null 1>&1 ; then # added Xen virtualization info # added on 20240303 by edrulrd
+    exec_command "xl info" "Xen Host information"
+    exec_command "xl list -n" "Xen Domains list"
+  fi
 
   ### Begin changes by Dusan.Baljevic@ieee.org ### 31.08.2014
       if [ -x /usr/bin/machinectl ] ; then
@@ -542,26 +575,27 @@ inc_heading_level
 
   if [ "${CFG_LSOFDEL}" != "no" ] # added on 20201026 by edrulrd
   then # else skip to next paragraph # added on 20201026 by edrulrd
-    exec_command "lsof -nP 2>\/dev\/null | grep '(deleted)'" "Files that are open but have been deleted" # modified on 20201026 by edrulrd
+    exec_command "lsof -nP 2>/dev/null | grep '(deleted)'" "Files that are open but have been deleted" # modified on 20201026 and 20240303 by edrulrd
   fi # terminates CFG_LSOFDEL wrapper # added on 20201026 by edrulrd
 
   # In "used memory.swap" section I would add :
   # free -tl     (instead of free, because it gives some more useful infos, about HighMem and LowMem memory regions (zones))
   # cat /proc/meminfo (in order to get some details of memory usage)
 
+  # ESXHost and /tmp/ProcKernMem.info is not referenced anywhere in our code, so it was commented out # added on 20240303 by edrulrd
   # [20200409] {jcw} Added section for processor, kernel and memory status details
-  ESXHost='false'; [ -e /usr/sbin/esxupdate ] && [ $(rpm -qa | grep -i vmware-esx | wc -l | tr -d' ') -ge 2 ] && ESXHost='TRUE'
-  echo "Identify processor architecture, installed OS architecture, and the type/amount of system memory (best approximation)."                     > /tmp/ProcKernMem.info
-  echo "Note:  Math rounding may result in displaying a slightly smaller number than actually installed/configured (g=GB, m=MB, k=KB, b=bytes)."   >> /tmp/ProcKernMem.info
-  echo "       kcore line is processed from size of '/proc/kcore'; free is processed from 'free' command."                                         >> /tmp/ProcKernMem.info
-  echo "---------------------------------------------------------------------------------------------------------------------------------------"   >> /tmp/ProcKernMem.info
+  #ESXHost='false'; [ -e /usr/sbin/esxupdate ] && [ $(rpm -qa | grep -i vmware-esx | wc -l | tr -d' ') -ge 2 ] && ESXHost='TRUE'
+  #echo "Identify processor architecture, installed OS architecture, and the type/amount of system memory (best approximation)."                     > /tmp/ProcKernMem.info
+  #echo "Note:  Math rounding may result in displaying a slightly smaller number than actually installed/configured (g=GB, m=MB, k=KB, b=bytes)."   >> /tmp/ProcKernMem.info
+  #echo "       kcore line is processed from size of '/proc/kcore'; free is processed from 'free' command."                                         >> /tmp/ProcKernMem.info
+  #echo "---------------------------------------------------------------------------------------------------------------------------------------"   >> /tmp/ProcKernMem.info
 
 
 
 
   # 20190828, rr - swapon -s is deprecated, better use --show
   exec_command "free -tml; echo; free -tm; echo; swapon --show; echo; swapon -s" "Used Memory and Swap Summary" #  04.07.2011+05.07.2018 modified by Ralph Roth #* rar *#
-  exec_command "cat /proc/meminfo; echo THP:; cat /sys/kernel/mm/transparent_hugepage/enabled" "Detailed Memory Usage (meminfo)"  # changed 20131218 by Ralph Roth
+  exec_command "cat /proc/meminfo; [ -s /sys/kernel/mm/transparent_hugepage/enabled ] && ( echo THP:; cat /sys/kernel/mm/transparent_hugepage/enabled )" "Detailed Memory Usage (meminfo)"  # changed 20131218 by Ralph Roth # THP not found on Xen host(?) # modified on 20240303 by edrulrd
   exec_command "cat /proc/buddyinfo" "Zoned Buddy Allocator/Memory Fragmentation and Zones" 	#  09.01.2012 Ralph Roth
   AddText "The number on the left is bigger than right (by factor 2)."
   # ripped from Dusan Baljevic ## changed 20131211 by Ralph Roth
@@ -653,7 +687,7 @@ inc_heading_level
     ## OpenSUSE 12.x # changed 20140213 by Ralph Roth ##BACKPORT##
     exec_command "/usr/bin/systemctl" "Systemd: System and Service Manager"
     exec_command "/usr/bin/systemctl list-units --type service" "Systemd: All Services"
-    exec_command "/usr/bin/systemctl list-unit-files" " Systemd: All Unit Files"
+    exec_command "/usr/bin/systemctl list-unit-files" "Systemd: All Unit Files" # removed extra space in tile # modified on 20240303 by edrulrd
 
     ## new 20140613 by Ralph Roth
     [ -x /usr/bin/journalctl ] && exec_command "/usr/bin/journalctl -b -p 3 --no-pager" "Systemd Journal with Errors and Warnings"
@@ -690,7 +724,7 @@ inc_heading_level
 
   # Added by Dusan Baljevic on 24 December 2017
   if [ -x /usr/bin/wdctl ] ; then
-    exec_command "/usr/bin/wdctl" "Hardware watchdog status"
+    exec_command "/usr/bin/wdctl 2>/dev/null" "Hardware watchdog status" # discard error if not available # modified on 20240303 by edrulrd
   fi
 
   # Added by Dusan Baljevic on 24 December 2017
@@ -1098,7 +1132,7 @@ inc_heading_level
      exec_command "sg_map -x" "Fibre Channel Host Bus Adapters sg_map status"
   fi
 
-  exec_command "ls -l /dev/disk/by-id" "Disk devices by-id" # removed -a (don't need . files?) # modified on 20240202 by edrulrd
+  [ -d /dev/disk/by-id ] && exec_command "ls -l /dev/disk/by-id" "Disk devices by-id" # check if exists first # modified on 20240303 by edrulrd
   ls -ld /sys/block/sd* 2>/dev/null 1>&2 # check to see if we have sd* block devices # added on 20240202 by edrulrd
   if [ $? -eq 0 ]
   then
@@ -1225,6 +1259,8 @@ then # else skip to next paragraph
     rm -f /tmp/cfg2html-debian.$$
     AddText "Hint: to reinstall this list use:"
     AddText "awk '{print \$1\" install\"}' this_list | dpkg --set-selections" # modified on 20240119 by edrulrd
+    # show packages that are marked as being manually installed # added on 20240303 by edrulrd
+    which apt-mark 2>/dev/null 1>&2 && exec_command "apt-mark showmanual | column -c ${CFG_TEXTWIDTH}" "Manually Installed Packages" # added on 20240303 by edrulrd
     exec_command "dpkg -C" "Misconfigured Packages"
 #   # { changed/added 25.11.2003 (14:29) by Ralph Roth }
     if [ -x /usr/bin/deborphan ] ; then
@@ -1357,7 +1393,7 @@ inc_heading_level
 
     # moved the partition map showing sectors from below to here  # modified on 20240119 by edrulrd
     # for LVM using sed
-    exec_command "/sbin/fdisk -l|sed 's/8e \ Unknown/8e \ LVM/g'" "Disk Partitions (showing sectors)" # modified on 20240119 by edrulrd
+    [ -x /sbin/fdisk ] && exec_command "/sbin/fdisk -l|sed 's/8e \ Unknown/8e \ LVM/g'" "Disk Partitions (showing sectors)" # confirm fdisk is available # modified on 20240303 by edrulrd
 
     #
     # 20201008 following code added by edrulrd
@@ -1398,7 +1434,7 @@ inc_heading_level
               AddText "WARNING: use at your own risk!  To restore your partitions use the saved file: ${OUTDIR}/${BASEFILE}.partitions.save.$(basename ${HardDisk}). Read the man page for sfdisk for usage. (Hint: sfdisk --force /dev/device < file.save)"
             fi
           else
-             AddText "Warning: sfdisk version is too old and sgdisk is not available"
+             [ -x "$(which sfdisk 2>/dev/null)" ] && AddText "Warning: sfdisk version is too old and sgdisk is not available" # check if sfdisk exists # modified on 20240303 by edrulrd
           fi
         fi
       done
@@ -1502,14 +1538,13 @@ then # else skip to next paragraph
     [ -x /sbin/pvs ] && exec_command "pvs" "Physical Volumes"         # if LVM2 installed       #  07.11.2011, 21:45 modified by Ralph Roth #* rar *#
 
     # WONT WORK WITH HP RAID!
-    LVMFDISK=$(/sbin/fdisk -l | grep "LVM$")
+    [ -x /sbin/fdisk ] && LVMFDISK=$(/sbin/fdisk -l | grep "LVM$") # confirm we have fdisk # modified on 20240303 by edrulrd
 
-    if  [ -n "${LVMFDISK}" -o -r /etc/lvmtab -o -r /etc/lvm/lvm.conf ]   # This expression is constant. Did you forget a $ somewhere?
+    if  [ -n "${LVMFDISK}" -o -r /etc/lvmtab -o -r /etc/lvm/lvm.conf ]
     then # <m>  11.03.2008, 1158 -  Ralph Roth
-        vgdisplay -s > /dev/null 2>&1 #  10032008 modified by Ralph.Roth
+        if [ -n "$(vgdisplay -s 2>/dev/null)" ] ; then #  10032008 modified by Ralph.Roth # let's be sure we have output before saying we're using LVM # modified on 20240303 by edrulrd
         # due to LVM2 (doesn't use /etc/lvmtab anymore), but should be compatible to LVM1; A. Kumpf
-        if [ "$?" = "0" ] ; then
-              AddText "The system file layout is configured using the LVM (Logical Volume Manager)"
+             AddText "The system file layout is configured using the LVM (Logical Volume Manager)"
         # choose between LVM1 and LVM2 because of different syntaxes; A. Kumpf, 21.07.06
              if [ -x "/sbin/lvm" ]; then
                LVM_VER=2
@@ -1607,8 +1642,10 @@ then # else skip to next paragraph
   then
       # exec_command "nmcli nm status" "NetworkManager Status"
       #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org##FIXED## 20150304 by Ralph Roth //  not available on openSUSE 13.2!
+      exec_command "nmcli general status" "NetworkManager status" # added on 20240303 by edrulrd
       exec_command "nmcli device status" "NetworkManager Device Status"   	#20150527 by Ralph Roth
       exec_command "nmcli connection show" "NetworkManager Connections"     	#06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org##FIXED## 20150304 by Ralph Roth
+      exec_command "nmcli network connectivity check" "NetworkManager-reported Internet access status" # added on 20240303 by edrulrd
   fi ## /usr/bin/nmcli
 
   if [ -x /usr/sbin/ethtool ]     ###  22.11.2010, 23:44 modified by Ralph Roth
@@ -1624,17 +1661,26 @@ then # else skip to next paragraph
   if [ ${DEBIAN} = "yes" ] ; then
     if [ -f /etc/network/interfaces ] ; then
       exec_command "grep -vE '(^#|^$)' /etc/network/interfaces" "Netconf Settings"
+      if [ -d /etc/network/interfaces.d ] ; then # added on 20240303 by edrulrd
+        for FILE in /etc/network/interfaces.d/* # added on 20240303 by edrulrd
+        do
+          if [ $(cat "${FILE}" 2>/dev/null | grep -vE "'^#|^ *$'" | wc -c) -gt 0 ] ; then # added on 20240303 by edrulrd
+            exec_command "cat "${FILE}" | grep -vE '^#|^ *$'" "${FILE}" # added on 20240303 by edrulrd
+          fi
+        done
+      fi
     fi
   fi
 
   ## Added 3/05/08 by krtmrrsn@yahoo.com, Marc Korte, display ethernet
   ##  LAN and route config files for RedHat.
-  if [ ${REDHAT} = "yes" ] ; then
-    ## There will always be at least ifcfg-lo.
+  if [ "${REDHAT}" = "yes" ] ; then
+    ## There will always be at least ifcfg-lo. # ... not anymore - CentOS9 stream indicates now deprecated in lieu of nmcli # modified on 20240303 by edrulrd
+    [ $(find /etc/sysconfig/network-scripts/ -type f -name "ifcfg-*" -print 2>/dev/null | wc -l) -gt 0 ] && # check for existence of files # modified on 20240303 by edrulrd
     exec_command "for CfgFile in /etc/sysconfig/network-scripts/ifcfg-*; do printf \"\n\n\$(basename \${CfgFile}):\n\n\"; cat \${CfgFile}; done" "LAN Configuration Files"
     ## Check first that any route-* files exist # modified on 20201005 by edrulrd
     ### # [20200319] {jcw} See if I can put this as a multi-line command.
-    exec_command "if [ $(find /etc/sysconfig/network-scripts/ -name route-* -print |wc -l) -gt 0 ]; then for RouteCfgFile in /etc/sysconfig/network-scripts/route-*; do printf \"\n\n\$(basename \${RouteCfgFile}):\n\n\"; cat \${RouteCfgFile}; done; fi" "Route Configuration Files" # modified on 20201005 by edrulrd
+    exec_command "if [ $(find /etc/sysconfig/network-scripts/ -name "route-*" -print |wc -l) -gt 0 ]; then for RouteCfgFile in /etc/sysconfig/network-scripts/route-*; do printf \"\n\n\$(basename \${RouteCfgFile}):\n\n\"; cat \${RouteCfgFile}; done; fi" "Route Configuration Files" # Shellcheck recommended change # modified on 20240303 by edrulrd
   fi
   ## End Marc Korte display ethernet LAN config files.
 
@@ -1918,7 +1964,7 @@ then # else skip to next paragraph
   [ -f  /opt/compac/cma.conf ] && "grep -vE '^#|^ *$' /opt/compac/cma.conf" "HP Insight Management Agents configuration"
 
   ## ssh
-  [ -f /etc/ssh/sshd_config ] && exec_command "grep -vE '^#|^ *$' /etc/ssh/sshd_config" "sshd config" && exec_command "sshd -T" "All SSHD settings"
+  [ -f /etc/ssh/sshd_config ] && exec_command "grep -vE '^#|^ *$' /etc/ssh/sshd_config" "sshd config" && ( [ -d /run/sshd ] ||  mkdir /run/sshd ) && exec_command "sshd -T" "All sshd settings" # create a /run/sshd directory if sshd is not yet running # modified on 20240303 by edrulrd
   [ -f /etc/ssh/ssh_config ] && exec_command "grep -vE '^#|^ *$' /etc/ssh/ssh_config" "ssh config"
 
   dec_heading_level
@@ -1984,7 +2030,7 @@ then # else skip to next paragraph
       AddText "See: Modules failing to load at boot time - TID 7005784"
     fi
 
-    if [ "${DEBIAN}" = "no" ] && [ "SLACKWARE" = "no" ] ; then
+    if [ "${DEBIAN}" = "no" ] && [ "${SLACKWARE}" = "no" ] ; then # fixed typo # modified on 20240303 by edrulrd
             which rpm > /dev/null  && exec_command "rpm -qa | grep -e ^k_def -e ^kernel -e k_itanium -e k_smp -e ^linux" "Kernel RPMs" # rar, SUSE+RH+Itanium2
     fi
 
@@ -2810,14 +2856,16 @@ then # else skip to next paragraph
         /usr/sbin/hpacucli controller all diag file=${temphp}/hpacucli_diag.txt          # Added 2011-09-05 Peter Boysen.
     fi
 
-    disks=`/sbin/fdisk -l`
-    if [ ! -z "${disks}" ] ; then
-        exec_command "/sbin/fdisk -l" "Disk Partitions on Logical Drives"
-    else
-        disks=`cat /proc/partitions | awk '{if($4 ~ /\//)print $4}' |grep -v p`
-        for adisk in ${disks} ; do
-            exec_command "/sbin/fdisk -l /dev/${adisk}" "Disk Partitions - /dev/${adisk}"
-        done
+    if [ -x /sbin/fdisk ] ; then # confirm we have fdisk # modified on 20240303 by edrulrd
+      disks=$(/sbin/fdisk -l) # Shellcheck recommended change # modified on 20240303 by edrulrd
+      if [ -n "${disks}" ] ; then # Shellcheck recommended change # modified on 20240303 by edrulrd
+          exec_command "/sbin/fdisk -l" "Disk Partitions on Logical Drives"
+      else
+          disks=$(awk '{if($4 ~ /\//)print $4}' /proc/partitions |grep -v p) # Shellcheck recommended changes # modified on 20240303 by edrulrd
+          for adisk in ${disks} ; do
+              exec_command "/sbin/fdisk -l /dev/${adisk}" "Disk Partitions - /dev/${adisk}"
+          done
+      fi
     fi
 
     ###above partitioning and HPACUCLI is contributed by kgalal@gmail.com
