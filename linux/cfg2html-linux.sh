@@ -1,5 +1,8 @@
 #!/bin/bash
-# shellcheck disable=SC2034,SC2154 # (note - shellcheck directive needs to be at the very top to be effective over the whole file) # modified on 20240303 by edrulrd
+# shellcheck disable=SC2034,SC2154
+# (note - shellcheck directive needs to be at the very top to be effective over the whole file) # modified on 20240303 by edrulrd
+# SC2034 - variable appreas to be used
+# SC2154 - variable referenced but not assigned
 #
 # @(#) $Id: cfg2html-linux.sh,v 6.69 2023/09/14 07:05:13 ralph Exp $
 # -----------------------------------------------------------------------------------------
@@ -83,8 +86,8 @@ CFGSH=$_  ### CFGSH appears unused. Verify use (or export if used externally).
      # echo "PATH is:  (${PATH})."  # Debug.
 unset BuiltPath CorePath PathMgmt ScndryPaths ShoptExtglob
 
-DtFmt='+%Y%m%d@%H%M'; DtFmts='+%Y%m%d@%H%M%S' # [20200312] {jcw} Useful date formats. DtFmt appears unused. Verify use (or export if used externally).
-
+DtFmt='+%Y%m%d@%H%M';
+DtFmts='+%Y%m%d@%H%M%S' # [20200312] {jcw} Useful date formats. DtFmt appears unused. Verify use (or export if used externally).
 _VERSION="cfg2html-linux version ${VERSION} "  # this a common stream so we don?t need the "Proliant stuff" anymore
 
 #
@@ -159,9 +162,6 @@ MAILTORALPH="cfg2html&#64;&#104;&#111;&#116;&#109;&#97;&#105;&#108;&#46;&#99;&#1
 # 15-May-2006  Common stream for cfg2html-linux and the Proliant version
 
 
-
-# echo "" # should be a newline, more portable? # rar, 20121230
-
 ## test if user = root
 check_root
 
@@ -208,14 +208,12 @@ identify_linux_distribution
 ####################################################################
 # needs improvement!
 # trap "echo Signal: Aborting!; rm ${HTML_OUTFILE}"  2 13 15
-
 ####################################################################
 
 #
 ######################################################################
 #############################  M A I N  ##############################
 ######################################################################
-
 #
 
 line
@@ -1618,7 +1616,6 @@ then # else skip to next paragraph
       exec_command "zpool history" "ZFS pool history"
   else
       exec_command " " "zpool command" # execute nothing, but allow the N/A message to appear # modified on 20240119 by edrulrd
-
   fi
 
   dec_heading_level
@@ -1632,7 +1629,7 @@ then # else skip to next paragraph
   paragraph "Network Settings"
   inc_heading_level
 
-  if [[ -x /sbin/ifconfig ]]; then
+  if [ -x /sbin/ifconfig ]; then
      exec_command "/sbin/ifconfig" "LAN Interfaces Settings (ifconfig)"    #D011 -- 16. March 2011,  28. Dezember 2011, ER by Heiko Andresen // to avoid error if ifconfig not found
   fi
   exec_command "ip addr" "LAN Interfaces Settings (ip addr)"            #D011 -- 16. March 2011,  28. Dezember 2011, ER by Heiko Andresen
@@ -1902,11 +1899,11 @@ then # else skip to next paragraph
   if [ -n "${RES}" ] ; then
     exec_command "rpcinfo -p " "RPC (Portmapper)"
     # test if mountd running
-    MOUNTD=`rpcinfo -p | awk '/mountd/ {print $5; exit}'`
+    MOUNTD=$(rpcinfo -p | awk '/mountd/ {print $5; exit}')
   #  if [ "${MOUNTD}"="mountd" ] ; then
     if [ -n "${MOUNTD}" ] ; then
       exec_command "rpcinfo -u 127.0.0.1 100003" "NSFD responds to RPC requests"
-      SHOWMOUNT=`which showmount 2>/dev/null`   ## 2007-02-27 Oliver Schwabedissen # added /dev/null # modified on 20240202 by edrulrd
+      SHOWMOUNT=$(which showmount 2>/dev/null)   ## 2007-02-27 Oliver Schwabedissen # added /dev/null # modified on 20240202 by edrulrd
       if [ ${SHOWMOUNT} ] && [ -x ${SHOWMOUNT} ] ; then
         exec_command "${SHOWMOUNT} -a" "Mounted NFS File Systems"
       fi
@@ -1930,7 +1927,7 @@ then # else skip to next paragraph
   #    (exec_command "what /usr/lib/netsvc/yp/yp*; ypwhich" "NIS/Yellow Pages")
 
   # ntpq live sometimes in /usr/bin or /usr/sbin
-  NTPQ=`which ntpq 2>/dev/null` # modified in case ntpq not installed, on 20201004 by edrulrd
+  NTPQ=$(which ntpq 2>/dev/null) # modified in case ntpq not installed, on 20201004 by edrulrd
   # if [ ${NTPQ} ] && [ -x ${NTPQ} ] ; then
   if [ -n "${NTPQ}" -a -x "${NTPQ}" ] ; then      # fixes by Ralph Roth, 180403
     exec_command "${NTPQ} -p" "XNTP Time Protocol Daemon"
@@ -2462,7 +2459,7 @@ fi
 if [ -x /usr/sap/hostctrl/exe/lssap ]
 then
     /usr/sap/hostctrl/exe/lssap -F stdout | grep $(uname -n) | grep -q HDB              ### FIX?: issue #131
-    if [ $? -eq 0 ] ; then
+    if [ "$?" -eq 0 ] ; then  ## warning[SC2046]: Quote this to prevent word splitting.
         # SAP HANA present
         dec_heading_level
         paragraph "SAP HANA Information"
