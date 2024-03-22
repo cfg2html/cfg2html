@@ -533,7 +533,7 @@ inc_heading_level
 
   # [20200407] {jcw} It's funny, the getconf man-page does not even mention the -a argument, nor does `getconf --help` (they are dated back to 2003, though).
   #                  A good reference page is:  www.mkssoftware.com/docs/man1/getconf.1.asp
-  exec_command "getconf -a | sort | column -c ${CFG_TEXTWIDTH}" "System Configuration Variables"   ## at least SLES11, #  14.06.2011, 18:53 modified by Ralph Roth #* rar *#      ## [20200407] {jcw} added sort. # added column # modified on 20240119 by edrulrd
+  which getconf 2>/dev/null 1>&2 && exec_command "getconf -a | sort | column -c ${CFG_TEXTWIDTH}" "System Configuration Variables"   ## at least SLES11, #  14.06.2011, 18:53 modified by Ralph Roth #* rar *#      ## [20200407] {jcw} added sort. # confirm getconf exists # modified on 20240322 by edrulrd
 
   if [ -x /usr/bin/mpstat ] ; then
     exec_command "mpstat 1 5" "MP-Statistics"
@@ -657,10 +657,10 @@ inc_heading_level
   then
 	exec_command "/usr/bin/journalctl --list-boots --no-pager| tail -25" "Last 25 Reboots"  ## changed 20150212 by Ralph Roth
   else
-  	exec_command "last -F| grep reboot | head -25" "Last 25 Reboots"			### RR, 2014-12-19  ##CHANGED##FIXED## 20150212 by Ralph Roth
+    which last 2>/dev/null 1>&2 && exec_command "last -F| grep reboot | head -25" "Last 25 Reboots"			### RR, 2014-12-19  ##CHANGED##FIXED## 20150212 by Ralph Roth # confirm last command is available # modified on 20240322 by edrulrd
   fi
   # common stuff, systemd and old style system-v rc
-  exec_command "last -xF  | grep -E 'system|runlevel' | head -25" "Last 25 runlevel changes or reboots" 	###CHANGED### 20150408 by Ralph Roth # modified on 20201009 by edrulrd
+  which last 2>/dev/null 1>&1 && exec_command "last -xF  | grep -E 'system|runlevel' | head -25" "Last 25 runlevel changes or reboots" 	###CHANGED### 20150408 by Ralph Roth # confirm last command is available # modified on 20240322 by edrulrd
 
   ### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
   #     stderr output from " blame":
@@ -712,7 +712,7 @@ inc_heading_level
     exec_command " grep -v ^# /etc/rc.config.d/* | grep '=[0-9]'" "Runlevel Settings"
   fi
   [ -r /etc/inittab ] && exec_command "awk '!/#|^ *$/ && /initdefault/' /etc/inittab" "default runlevel"
-  exec_command "/sbin/runlevel" "current runlevel"
+  which runlevel 2>/dev/null 1>&2 && exec_command "runlevel" "current runlevel" # confirm runlevel is in path # modified on 20240322 by edrulrd
 
   # Added by Dusan Baljevic on 24 December 2017
   NEEDRESTART=$(which needs-restarting 2>/dev/null)
@@ -1744,7 +1744,7 @@ then # else skip to next paragraph
   fi
 
   exec_command "ip -statistics link" "Kernel Interface table" # replacement for the netstat -i command.  # added on 20240119 by edrulrd
-  exec_command "ss -a | column -c ${CFG_TEXTWIDTH}" "list of all sockets" # replacement for the netstat -a command.  # added on 20240119 by edrulrd
+  which ss 2>/dev/null 1>&2 && exec_command "ss -a | column -c ${CFG_TEXTWIDTH}" "list of all sockets" # replacement for the netstat -a command.  # modified on 20240322 by edrulrd
   # -----------------------------------------------------------------------------
   ## Added 4/07/06 by krtmrrsn@yahoo.com, Marc Korte, probe and display
   ##        kernel interface bonding info.
@@ -1944,7 +1944,7 @@ then # else skip to next paragraph
     exec_command "${CHRONYC} -n tracking" "CHRONY Time Protocol Daemon tracking"
   fi
 
-  exec_command "timedatectl status" "System Time and Date Status"  # Added by Dusan Baljevic on 6 November 2014
+  which timedatectl 2>/dev/null 1>&2 && exec_command "timedatectl status" "System Time and Date Status"  # Added by Dusan Baljevic on 6 November 2014 # modified on 20240322 by edrulrd
 
   which hwclock 2>/dev/null 1>&2 && exec_command "hwclock -r 2>/dev/null" "Time: HWClock" # rr, 20121201 # check for being in the path, but don't show it if is # modified on 20240202 by edrulrd
   [ -f /etc/ntp.conf ] && exec_command "grep  -vE '^#|^ *$' /etc/ntp.conf" "ntp.conf"
@@ -2041,7 +2041,7 @@ then # else skip to next paragraph
     who -b 2>/dev/null > /dev/null && exec_command "who -b" "System boot" #  23.03.2006, 13:18 modified by Ralph Roth
     exec_command "cat /proc/cmdline" "Kernel command line"
 
-    exec_command "getconf GNU_LIBC_VERSION" "libc Version (getconf)"
+    which getconf 2>/dev/null 1>&2 && exec_command "getconf GNU_LIBC_VERSION" "libc Version (getconf)" # confirm get conf exists # modified on 20240322 by edrulrd
 
     if [ -r  /lib/libc.so.5 ]
     then
