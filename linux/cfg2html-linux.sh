@@ -882,16 +882,18 @@ inc_heading_level
 # for user in $(getent passwd|cut -f1 -d:); do echo "### Crontabs for ${user} ####"; crontab -u ${user} -l; done
 # changed 20140212 by Ralph Roth
 
-  ls ${usercron}/* > /dev/null 2>&1 # $usercron variable was not being used # modified on 20240119 by edrulrd
-  if [ $? -eq 0 ]
+  if [ -n "${usercron}" ] && [ "$(find "${usercron}" -type f -print 2>/dev/null | wc -l)" -gt 0 ] # confirm $usercron is set # modified on 20240322 by edrulrd
   then
      exec_command "" "Crontab files:" # fixed title # modified on 20240119 by edrulrd
-	  for FILE in ${usercron}/* # $usercron variable was not being used # modified on 20240119 by edrulrd
-	  do
-		  exec_command "cat ${FILE} | grep -vE '^#|^ *$'" "${usercron}/$(basename ${FILE})" # get rid of blank lines too # modified on 20240119 by edrulrd
-	  done
+     find "${usercron}" -type f -print | while read -r FILE # modified on 20240322 by edrulrd
+     do
+        if [ "$(grep -cvE '^#|^ *$' "${FILE}")" -gt 0 ] # only display message if contents # modified on 20240322 by edrulrd
+        then
+           exec_command "grep -vE '^#|^ *$' ${FILE}" "${FILE}" # get rid of blank lines # modified on 20240322 by edrulrd
+        fi
+     done
   else
-      exec_command "echo 'No user crontab files'" "${usercron}"  # modified on 20240119 by edrulrd
+      echo 'No user crontab files' # modified on 20240322 by edrulrd
   fi
 
   ##
