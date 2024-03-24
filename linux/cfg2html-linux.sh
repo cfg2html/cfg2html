@@ -1897,7 +1897,7 @@ then # else skip to next paragraph
   exec_command "ps -ef|grep -E '[Nn]fsd|[Bb]iod'" "NFSD and BIOD utilization"   ## fixed 2007-02-28 Oliver Schwabedissen
 
   # if portmap not available, do nothing
-  RES=`ps xau | grep [Pp]ortmap`
+  RES=$(pgrep -lx '.*(P|p)ortmap.*|.*rpcbind.*') # check if portmap or rpcbind is running # modified on 20240322 by edrulrd
   if [ -n "${RES}" ] ; then
     exec_command "rpcinfo -p " "RPC (Portmapper)"
     # test if mountd running
@@ -1906,7 +1906,7 @@ then # else skip to next paragraph
     if [ -n "${MOUNTD}" ] ; then
       exec_command "rpcinfo -u 127.0.0.1 100003" "NSFD responds to RPC requests"
       SHOWMOUNT=$(which showmount 2>/dev/null)   ## 2007-02-27 Oliver Schwabedissen # added /dev/null # modified on 20240202 by edrulrd
-      if [ ${SHOWMOUNT} ] && [ -x ${SHOWMOUNT} ] ; then
+      if [ "${SHOWMOUNT}" ] && [ -x "${SHOWMOUNT}" ] ; then
         exec_command "${SHOWMOUNT} -a" "Mounted NFS File Systems"
       fi
       # SUSE
@@ -1919,10 +1919,10 @@ then # else skip to next paragraph
       if [ -f /etc/auto.misc ] ;then
         exec_command "grep -vE '^#|^$' /etc/auto.misc" "NFS Automounter misc Settings"
       fi
-      if [ -f /proc/net/rpc/nfs ] ; then
-        exec_command "nfsstat" "NFS Statistics"
-      fi
     fi # mountd
+    if [ -f /proc/net/rpc/nfs ] || [ "$(which nfsstat 2>/dev/null)" ] ; then # if nfsstat command is available, try to run it
+      nfsstat > "${TMP_DIR}"/cfg2html_nfsstat 2>/dev/null && exec_command "cat ${TMP_DIR}/cfg2html_nfsstat" "NFS Statistics"
+    fi
   fi
 
   #(ypwhich 2>/dev/null>/dev/null) && \
