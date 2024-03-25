@@ -2145,17 +2145,14 @@ then # else skip to next paragraph
     fi
 
     # MiMe: fuer X braucht man Rechte
-    if [ -x /usr/X11R6/bin/xhost ] ; then
-      /usr/X11R6/bin/xhost > /dev/null 2>&1
-      if [ "$?" -eq "0" ] ;
-      then
-        # Gratien D'haese
-        # fix for sshdX11
-        # old command   [ -x /usr/bin/X11/xdpyinfo ] && [ -n "${DISPLAY}" ] && exec_command "/usr/bin/X11/xdpyinfo" "X11"
-        # this will only check if the display is 0 or 1 which is more then enough
-            [ -x /usr/bin/X11/xdpyinfo ] && [ -n "${DISPLAY}" ] && [ `echo ${DISPLAY} | cut -d: -f2 | cut -d. -f1` -le 1 ] && exec_command "/usr/bin/X11/xdpyinfo" "X11"
-            [ -x /usr/bin/X11/fsinfo ] && [ -n "${FONTSERVER}" ] && exec_command "/usr/bin/X11/fsinfo" "Font-Server"
-      fi
+    if [ "$(which xhost 2>/dev/null)" ] # xhost sometimes not in /usr/X11R6/bin # modified on 20240322 by edrulrd
+    then
+      # Gratien D'haese
+      # fix for sshdX11
+      # old command   [ -x /usr/bin/X11/xdpyinfo ] && [ -n "${DISPLAY}" ] && exec_command "/usr/bin/X11/xdpyinfo" "X11"
+      # this will only check if the display is 0 or 1 which is more then enough
+        [ -x /usr/bin/X11/xdpyinfo ] && [ -n "${DISPLAY}" ] && [ "$(echo "${DISPLAY}" | cut -d: -f2 | cut -d. -f1)" -le 1 ] && exec_command "/usr/bin/X11/xdpyinfo" "X11"
+        [ -x /usr/bin/X11/fsinfo ] && [ -n "${FONTSERVER}" ] && exec_command "/usr/bin/X11/fsinfo" "Font-Server"
     fi
 
     [ -x /opt/gnome/bin/gconftool-2 ] &&  exec_command "gconftool-2 -R /system"  "GNOME System Config"  ##  BF=bernhard keppel/110711, 30.11.2010/Ralph Roth
