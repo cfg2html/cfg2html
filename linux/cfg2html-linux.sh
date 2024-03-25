@@ -35,7 +35,7 @@ CFGSH=$_  ### CFGSH appears unused. Verify use (or export if used externally).
 # -  Print env|set, and 'shopt | sort | column -t' for root user.
 # -  Ensure all called functions get the rename of variables from $VAR to ${VAR}.
 # -  Rewrite all `<cmd>` to $(<cmd>).
-# -
+# -  Add the equivalent of "gconftool-2 -R /system"  "GNOME System Config" for newer Gnome systems (i.e. gsettings) # added on 20240322 by edrulrd
 # -
 # -
 #
