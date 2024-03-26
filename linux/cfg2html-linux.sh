@@ -1753,9 +1753,9 @@ then # else skip to next paragraph
   ## Added 4/07/06 by krtmrrsn@yahoo.com, Marc Korte, probe and display
   ##        kernel interface bonding info.
   if [ -e /proc/net/bonding ]; then
-    for BondIF in $(ls -1 /proc/net/bonding)
+    find /proc/net/bonding -type f | while read -r BondIF
     do
-      exec_command "cat /proc/net/bonding/${BondIF}" "Bonded Interfaces: ${BondIF}"
+      exec_command "cat ${BondIF}" "Bonded Interfaces: ${BondIF}"
     done
   fi
   ## End Marc Korte kernel interface bonding addition.
