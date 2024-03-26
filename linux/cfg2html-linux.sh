@@ -363,8 +363,11 @@ inc_heading_level
                 if [ -n "${DMESG}" ] && [ "$(${DMESG} | grep -i vmxnet)" != "" ] || [ -n "${DMIDECODE}" ] && [ "$(${DMIDECODE} | grep -i vmxnet)" != "" ]; then # modified on 20201004 by edrulrd
                      VIRTterm='TRUE'
                 fi
-                # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Have to add options to check sytemctl, too.
-                if rpm -qa 2>/dev/null | grep -i vmware | grep -iq tools || service --status-all 2>&1 | grep -iq vmtoolsd || [ -e /etc/rc.d/init.d/vmware-tools ]; then
+
+                if which rpm 2>/dev/null 1>&2 && rpm -qa 2>/dev/null | grep -i vmware | grep -iq tools ||
+                  ( which service 2>/dev/null 1>&2 && service --status-all 2>&1 | grep -iq vmtoolsd ) ||
+                  ( which systemctl 2>/dev/null 1>&2 && systemctl 2>&1 | grep -iq vmtoolsd ) ||
+                  [ -e /etc/rc.d/init.d/vmware-tools ]; then # check for commands being available # modified on 20240322 by edrulrd
                      # Means vmware-tools (but not something like 'xorg-xll-drv-vmware-10.13.0-2.1') might be installed, which makes it a VMware VM.
                      # MIGHT have to exclude 'xorg-xll-drv-vmware-10.13.0-2.1' and the like from satisfying the check.
                      VIRTterm='TRUE'
