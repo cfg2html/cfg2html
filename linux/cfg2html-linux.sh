@@ -1667,7 +1667,7 @@ then # else skip to next paragraph
       if [ -d /etc/network/interfaces.d ] ; then # added on 20240303 by edrulrd
         for FILE in /etc/network/interfaces.d/* # added on 20240303 by edrulrd
         do
-          if [ "$(grep -cvE "'^#|^ *$'" "${FILE}")" -gt 0 ] ; then # added on 20240303 by edrulrd
+          [ -f "${FILE}" ] && if [ "$(grep -cvE "'^#|^ *$'" "${FILE}")" -gt 0 ] ; then # confirm there is at least one # modified on 20240322 by edrulrd
             exec_command "grep -vE '^#|^ *$' ${FILE}" "${FILE}" # added on 20240303 by edrulrd
           fi
         done
