@@ -315,28 +315,28 @@ inc_heading_level
       fi
 
       # These are only indented this way so as to visually distinguish them; there is no desire/need to if-then-else them!
-      if [ -n "${DMESG}" ] && [ "$(${DMESG} | grep -i ${VIRTs})" ]; then
+      if [ -n "${DMESG}" ] &&  ${DMESG} | grep -iq ${VIRTs} ; then
            # Using the 'dmesg' command is useful for some number of days after the system was last booted;
            # beyond that, the /var/log/dmesg file is a good alternate datapoint.
            # See also https://github.com/cfg2html/cfg2html/issues/153
-           if [ ! "$(${DMESG} | grep 'Booting paravirtualized kernel on bare hardware')" ]; then
+           if ! ${DMESG} | grep -q 'Booting paravirtualized kernel on bare hardware' ; then
                 # This exception catches the one case of installing RHEL/CentOS on a real physical machine.  This IS properly/necessarily nested!
                 VIRTterm='TRUE'
                 VIRTdc='TRUE'
            fi
       fi
 
-      if [ "$(grep -i ${VIRTs} /var/log/dmesg 2>/dev/null)" ]; then
-           if [ ! "$(${DMESG} | grep 'Booting paravirtualized kernel on bare hardware')" ]; then
+      if grep -iq ${VIRTs} /var/log/dmesg 2>/dev/null ; then
+           if ! ${DMESG} | grep -q 'Booting paravirtualized kernel on bare hardware' ; then
                   # This exception catches the one case of installing RHEL/CentOS on a real physical machine.  This IS properly/necessarily nested!
                   VIRTterm='TRUE'
                   VIRTdf='TRUE'
            fi
       fi
 
-      if [ -n "${JOURNAL}" ] && [ "$(${JOURNAL} --system --boot 2>/dev/null | grep -i ${VIRTs})" ]; then # added on 20240303 by edrulrd
+      if [ -n "${JOURNAL}" ] &&  ${JOURNAL} --system --boot 2>/dev/null | grep -iq ${VIRTs} ; then # added on 20240303 by edrulrd
            # some systems don't have /var/log/dmesg, so, let's try to use the system journal since bootup instead as another source # added on 20240303 by edrulrd
-           if [ ! "$(${JOURNAL} --system --boot 2>/dev/null | grep 'Booting paravirtualized kernel on bare hardware')" ]; then
+           if ! ${JOURNAL} --system --boot 2>/dev/null | grep -q 'Booting paravirtualized kernel on bare hardware' ; then
                 VIRTterm='TRUE'
                 VIRTjn='TRUE'
            fi
@@ -364,7 +364,7 @@ inc_heading_level
                      VIRTterm='TRUE'
                 fi
                 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Have to add options to check sytemctl, too.
-                if [ "$(rpm -qa 2>/dev/null | grep -i vmware | grep -i tools)" ] || [ "$(service --status-all 2>&1 | grep -i vmtoolsd)" ] || [ -e /etc/rc.d/init.d/vmware-tools ]; then
+                if rpm -qa 2>/dev/null | grep -i vmware | grep -iq tools || service --status-all 2>&1 | grep -iq vmtoolsd || [ -e /etc/rc.d/init.d/vmware-tools ]; then
                      # Means vmware-tools (but not something like 'xorg-xll-drv-vmware-10.13.0-2.1') might be installed, which makes it a VMware VM.
                      # MIGHT have to exclude 'xorg-xll-drv-vmware-10.13.0-2.1' and the like from satisfying the check.
                      VIRTterm='TRUE'
@@ -2463,7 +2463,7 @@ fi
 # SAP HANA in-depth investigation by Gratien D'haese - 10 May 2016 - issue #109
 if [ -x /usr/sap/hostctrl/exe/lssap ]
 then
-    if [ "$(/usr/sap/hostctrl/exe/lssap -F stdout | grep "$(uname -n)" | grep -q HDB)" ] ; then              ### FIX?: issue #131
+    if /usr/sap/hostctrl/exe/lssap -F stdout | grep "$(uname -n)" | grep -q HDB ; then              ### FIX?: issue #131
         # SAP HANA present
         dec_heading_level
         paragraph "SAP HANA Information"
