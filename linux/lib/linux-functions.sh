@@ -28,13 +28,14 @@ function HostNames {
          echo 'DNS Domainname  ==  <RPM/binary not installed>'
     fi; echo
 
-    echo  "NIS Domainname     = "`domainname -y 2>/dev/null `
-    echo  "Hostname (short)   = "`hostname -s`
-    echo  "Hostname (FQDN)    = "`hostname -f`
-    echo  "Hostname (aliases) = "`hostname -a`
-    echo  "Hostname (domain)  = "`hostname -d`
-    echo  "Hostname (IPaddr)  = "`hostname -i`
-    #echo  "Hostname (all IPs) = "`hostname -I`  ## FIXME, not available under SLES1x
+    which domainname 2>/dev/null 1>&2 &&
+    echo  "NIS Domainname     = $(domainname -y 2>/dev/null)"
+    echo  "Hostname (short)   = $(hostname -s)"
+    echo  "Hostname (FQDN)    = $(hostname -f)"
+    echo  "Hostname (aliases) = $(hostname -a)"
+    echo  "Hostname (domain)  = $(hostname -d)"
+    echo  "Hostname (IPaddr)  = $(hostname -i)"
+    #echo  "Hostname (all IPs) = $(hostname -I)" ## FIXME, not available under SLES1x
 }
 
 function posixversion {
@@ -135,7 +136,7 @@ function identify_linux_distribution {
 
 function topFDhandles {
     echo "Nr.OpenFileHandles  PID  Command+Commandline"
-    (ls /proc/ | awk '{if($1+0==0) print " "; else system("echo `ls /proc/"$1+0"/fd  |wc -l` \t  PID="$1" \t  CMD=`cat /proc/"$1+0"/cmdline` ")}' | sort -nr | head -25) 2> /dev/null
+    (ls /proc/ | awk '{if($1+0==0) print " "; else system("echo $(ls /proc/"$1+0"/fd  |wc -l) \t  PID="$1" \t  CMD=$(cat /proc/"$1+0"/cmdline) ")}' | sort -nr | head -25) 2> /dev/null
 }
 
 function DoSmartInfo {
