@@ -2157,6 +2157,8 @@ then # else skip to next paragraph
 
     [ -x /opt/gnome/bin/gconftool-2 ] &&  exec_command "gconftool-2 -R /system"  "GNOME System Config"  ##  BF=bernhard keppel/110711, 30.11.2010/Ralph Roth
 
+    [ "$(which nvidia-detect 2>/dev/null)" ] &&  exec_command "nvidia-detect" "nvidia driver" # show recommended packages for nvidia GPU # added on 20240322 by edrulrd
+
     dec_heading_level
 
 fi # terminates CFG_ENHANCEMENTS wrapper
