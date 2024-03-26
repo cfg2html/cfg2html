@@ -2568,7 +2568,7 @@ fi
     ##     orcl:/home/oracle/7.3.3.0.0:Y
     ##     leaveup:/home/oracle/7.3.2.1.0:N
 
-    for  DB in $(grep ':' /etc/oratab|grep -v '^#'|grep -v ':N$')                                 #  27.10.2011, 14:58 modified by Ralph Roth #* rar *#
+    grep ':' /etc/oratab | grep -v '^#' | grep -v ':N$' | while IFS= read -r DB   #  27.10.2011, 14:58 modified by Ralph Roth #* rar *# modified per shellcheck SC2013 # modified on 20240322 by edrulrd
          do
            Ora_Home=$(echo "${DB}" | awk -F: '{print $2}')
            Sid=$(echo "${DB}" | awk -F: '{print $1}')
@@ -2986,7 +2986,7 @@ if [ -f "${CONFIG_DIR}"/files ] ; then
         inc_heading_level
         ## . ${CONFIG_DIR}/files -- not needed anymore to be sourced with the fix below/changed format
         ## FILES=`grep -vE '(^#|^ *$)' ${CONFIG_DIR}/files`   ## 25.08.2017 modified by Bernhard Keppel
-        for i in $(grep -v ^# "${CONFIG_DIR}"/files) # suggested fix by John Emmert , 2016/04 ## ${FILE}S
+        grep -v ^# "${CONFIG_DIR}"/files | while IFS= read -r i  # suggested fix by John Emmert , 2016/04 ## ${FILE}S # modified per shellcheck SC2013 # modified on 20240322 by edrulrd
         do
                 if [ -f "${i}" ] ; then
                         exec_command "grep -vE '(^#|^ *$)' ${i}" "Contents of the file: ${i}"
