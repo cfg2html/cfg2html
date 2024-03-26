@@ -2485,6 +2485,7 @@ fi
       dec_heading_level
       paragraph "Serviceguard/SGLX"
       inc_heading_level
+      # shellcheck source=/dev/null # add shellcheck directive to avoid warning SC1090
       . "${SGCONFFILE:=/etc/cmcluster.conf}"   # get env. setting, rar 12.05.2005
       PATH=${PATH}:${SGSBIN}:$SGLBIN
       exec_command "cat ${SGCONFFILE:=/etc/cmcluster.conf}" "Cluster Config Files"
@@ -2945,6 +2946,7 @@ then # else skip to next paragraph
       paragraph "Custom plugins"
 
       # include plugin configuration
+      # shellcheck source=/dev/null # add shellcheck directive to avoid warning SC1090
       . "${CONFIG_DIR}"/plugins
 
 
@@ -2960,6 +2962,7 @@ then # else skip to next paragraph
 
         for CFG2HTML_PLUGIN in ${CFG2HTML_PLUGINS}; do
           if [ -f "${CFG2HTML_PLUGIN_DIR}/${CFG2HTML_PLUGIN}" ]; then
+              # shellcheck source=/dev/null # add shellcheck directive to avoid warning SC1090
               . "${CFG2HTML_PLUGIN_DIR}"/"${CFG2HTML_PLUGIN}"
               exec_command cfg2html_plugin "${CFG2HTML_PLUGINTITLE}"
           else
