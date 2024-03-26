@@ -132,7 +132,7 @@ do
   esac
 done
 
-shift $(($OPTIND - 1))
+shift $((OPTIND - 1))
 # Decrements the argument pointer so it points to next argument.
 
 # linux port
@@ -2276,7 +2276,7 @@ then # else skip to next paragraph
             sleep 1 # to have at least 1 sec difference
             NOWSEC=$(date +%s)
 
-            let DIFFDAYS=$(( (${NOWSEC}-${LASTFULLSEC})/86400 ))  # [20200821] {jcw} added 'let' and removed spaces.
+            DIFFDAYS=$(( (NOWSEC-LASTFULLSEC)/86400 ))  # [20200821] {jcw} added 'let' and removed spaces. # shellcheck: integer arithmetic doesn't need '$' in variables # modified on 20240322 by edrulrd
             if [[ ${DIFFDAYS} -gt 14 ]]; then
                 AddText "Warning: Last full backup is ${DIFFDAYS} days old"
             else
