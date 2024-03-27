@@ -136,7 +136,7 @@ function identify_linux_distribution {
 
 function topFDhandles {
     echo "Nr.OpenFileHandles  PID  Command+Commandline"
-    (ls /proc/ | awk '{if($1+0==0) print " "; else system("echo $(ls /proc/"$1+0"/fd  |wc -l) \t  PID="$1" \t  CMD=$(cat /proc/"$1+0"/cmdline) ")}' | sort -nr | head -25) 2> /dev/null
+    (ls /proc/ | awk '{if($1+0==0) print " "; else system("echo $(ls /proc/"$1+0"/fd | wc -l) \t  PID="$1" \t  CMD=$(strings /proc/"$1+0"/cmdline)")}' | sort -nr | head -25) 2> /dev/null
 }
 
 function DoSmartInfo {
