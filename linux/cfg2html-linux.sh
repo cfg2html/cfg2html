@@ -900,7 +900,7 @@ inc_heading_level
         fi
      done
   else
-      echo 'No user crontab files' # modified on 20240322 by edrulrd
+      AddText 'No user crontab files' # modified on 20240322 by edrulrd
   fi
 
   ##
@@ -1441,7 +1441,7 @@ inc_heading_level
               AddText "WARNING: use at your own risk!  To restore your partitions use the saved file: ${OUTDIR}/${BASEFILE}.partitions.save.$(basename "${HardDisk}"). Read the man page for sfdisk for usage. (Hint: sfdisk --force /dev/device < file.save)"
             fi
           else
-             [ -x "$(which sfdisk 2>/dev/null)" ] && AddText "Warning: sfdisk version is too old and sgdisk is not available" # check if sfdisk exists # modified on 20240303 by edrulrd
+             [ -x "$(which sfdisk 2>/dev/null)" ] && echo "${HardDisk}: Warning: sfdisk version is too old and sgdisk is not available" >> "${ERROR_LOG}" # check if sfdisk exists # modified on 20240303 by edrulrd
           fi
         fi
       done
