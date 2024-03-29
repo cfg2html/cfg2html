@@ -1402,8 +1402,6 @@ inc_heading_level
     # for LVM using sed
     [ -x /sbin/fdisk ] && exec_command "/sbin/fdisk -l|sed 's/8e \ Unknown/8e \ LVM/g'" "Disk Partitions (showing sectors)" # confirm fdisk is available # modified on 20240303 by edrulrd
 
-    #
-    # 20201008 following code added by edrulrd
     # We want to save the partition tables for each of the disks so we can restore them if they get corrupted.
     # With the greatly increased sizes of disks nowadays, on systems with older versions of sfdisk, the data is not saved properly.
     # So, where we can, we'll save the partition tables with sfdisk, and where we can't we'll use sgdisk
@@ -1422,9 +1420,16 @@ inc_heading_level
       do_sgdisk=yes  # do sgdisk if sfdisk is not available but sgdisk is
     fi
 
-    if [ -x "$(which lsblk 2>/dev/null)" ] ; then # added /dev/null # modified on 20240202 by edrulrd
-      for HardDisk in $(lsblk -p | grep "^/" | grep disk | awk '{print $1}') # get the harddrives only eg. /dev/sda, not lv's etc.
-      do
+    if [ -x "$(which lsblk 2>/dev/null)" ] ; then # use lsblk to get our disks, which might get us a few extras # modified on 20240322 by edrulrd
+      Diskdevs=$(lsblk -p | grep "^/" | grep disk | "${AWKCMD}" '{print $1}') # get the block devices, but only those marked as disk eg. /dev/sda, not lv's etc.
+    else
+      if [ -x "$(which "${SMARTCTL}" 2>/dev/null)" ] ; then # if lsblk not available, use smartctl instead to get only disk devices # modified on 20240322 by edrulrd
+        Diskdevs=$("${SMARTCTL}" --scan | "${AWKCMD}" '{print $1}') # only use drives smartctl knows about # modified on 20240322 by edrulrd
+      fi
+    fi
+    echo "${Diskdevs}" | while read -r HardDisk
+    do
+      if [ -n "$HardDisk" ] ; then
         if [ -x "$(which sgdisk 2>/dev/null)" ] && [ "${do_sgdisk}" = "yes" ] ; then # added /dev/null # modified on 20240322 by edrulrd
           sgdisk --backup="${OUTDIR}/${BASEFILE}.partitions.save.$(basename "${HardDisk}")" "${HardDisk}" && # don't proceed if sgdisk fails # modified on 20240119 by edrulrd
           if [ -s "${OUTDIR}/${BASEFILE}.partitions.save.$(basename "${HardDisk}")" ] # ignore empty files # added on 20240119 by edrulrd
@@ -1432,6 +1437,7 @@ inc_heading_level
             exec_command "ls -l ${OUTDIR}/${BASEFILE}.partitions.save.$(basename "${HardDisk}")" "SGDisk Partition specification for ${HardDisk}" # modified on 20240119 by edrulrd
             AddText "WARNING: use at your own risk!  To restore your partitions use the saved file: ${OUTDIR}/${BASEFILE}.partitions.save.$(basename "${HardDisk}"). Read the man page for sgdisk for usage. (Hint: sgdisk --load-backup=${OUTDIR}/${BASEFILE}.partitions.save.$(basename "${HardDisk}") ${HardDisk}"
           fi # added on 20240119 by edrulrd
+          [ ! -s "${OUTDIR}/${BASEFILE}.partitions.save.$(basename "${HardDisk}")" ] && rm -f "${OUTDIR}/${BASEFILE}.partitions.save.$(basename "${HardDisk}")" # remove empty file # added on 20240322 by edrulrd
         else
           if [ "${do_sfdisk}" = "yes" ] ; then
             sfdisk -d "${HardDisk}" > "${OUTDIR}"/"${BASEFILE}".partitions.save."$(basename "${HardDisk}")" && # don't proceed if sfdisk fails # modified on 20240119 by edrulrd
@@ -1440,12 +1446,13 @@ inc_heading_level
               exec_command "cat ${OUTDIR}/${BASEFILE}.partitions.save.$(basename "${HardDisk}")" "SFDisk Partition specification for ${HardDisk}" # modified on 20240119 by edrulrd
               AddText "WARNING: use at your own risk!  To restore your partitions use the saved file: ${OUTDIR}/${BASEFILE}.partitions.save.$(basename "${HardDisk}"). Read the man page for sfdisk for usage. (Hint: sfdisk --force /dev/device < file.save)"
             fi
+            [ ! -s "${OUTDIR}/${BASEFILE}.partitions.save.$(basename "${HardDisk}")" ] && rm -f "${OUTDIR}/${BASEFILE}.partitions.save.$(basename "${HardDisk}")" # remove empty file # added on 20240322 by edrulrd
           else
              [ -x "$(which sfdisk 2>/dev/null)" ] && echo "${HardDisk}: Warning: sfdisk version is too old and sgdisk is not available" >> "${ERROR_LOG}" # check if sfdisk exists # modified on 20240303 by edrulrd
           fi
         fi
-      done
-    fi # end of code added by edrulrd
+      fi
+    done
 
     #*#
     #*# Alexander De Bernard 20100310
