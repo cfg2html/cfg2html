@@ -2078,6 +2078,7 @@ then # else skip to next paragraph
             which rpm > /dev/null  && exec_command "rpm -qi glibc" "libc6 Version (RPM)" # rar, SUSE+RH
     fi
 
+    [ -x /sbin/ldconfig ] && # confirm ldconfig is available  # modified on 20240322 by edrulrd
     exec_command "/sbin/ldconfig -vN  2>/dev/null" "Run-time link bindings" ### changed 20130730 by Ralph Roth # modified on 20240119 by edrulrd # removed column cmd(too messy) # modified on 20240202 by edrulrd
 
     # MiMe: SUSE patched kernel params into /proc
