@@ -130,6 +130,10 @@ function identify_linux_distribution {
         grep -q SUSE /etc/os-release && SUSE=yes
     fi
 
+    if [ "$(uname -a | grep -ic synology)" -gt 0 ] ; then # a Synology NAS # added on 20240322 by edrulrd
+        distrib="$(uname -a | awk '{print $(NF-1) " " $NF }')"
+    fi
+
     ### TODO: ####
     # AWS backport from cfg2html 2.81 #
 }
