@@ -1911,7 +1911,7 @@ then # else skip to next paragraph
   exec_command "ps -ef|grep -E '[Nn]fsd|[Bb]iod'" "NFSD and BIOD utilization"   ## fixed 2007-02-28 Oliver Schwabedissen
 
   # if portmap not available, do nothing
-  RES=$(pgrep -lx '.*(P|p)ortmap.*|.*rpcbind.*') # check if portmap or rpcbind is running # modified on 20240322 by edrulrd
+  RES=$(pgrep -flx '.*(P|p)ortmap.*|.*rpcbind.*') # check if portmap or rpcbind is running # modified on 20240322 by edrulrd
   if [ -n "${RES}" ] ; then
     exec_command "rpcinfo -p " "RPC (Portmapper)"
     # test if mountd running
