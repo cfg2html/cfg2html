@@ -188,8 +188,7 @@ function mcat {
 function ProgStuff {
     for i in libtoolize libtool automake autoconf autoheader g++ gcc make flex sed
     do
-        echo
-        (which "${i}" 2> /dev/null) && (echo -n "${i}: ";${i} --version | head -1)  #  09.01.2008, 14:49 modified by Ralph Roth
+        (which "${i}" 2> /dev/null) && (echo -n "${i}: ";${i} --version | head -1; echo)  #  09.01.2008, 14:49 modified by Ralph Roth
     done
 }
 

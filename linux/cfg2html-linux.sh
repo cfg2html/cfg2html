@@ -1733,7 +1733,7 @@ then # else skip to next paragraph
       exec_command "netstat -M" "Masqueraded sessions"
     fi
     if [ -e /proc/net/ip_conntrack ]; then
-      exec_command "cat /proc/net/ip_conntrack" "Masqueraded sessions"
+      exec_command "cat /proc/net/ip_conntrack | column -t" "Masqueraded sessions" # show in table format to make more readable # modified on 20240322 by edrulrd
     fi
     exec_command "netstat -an" "list of all sockets"
   fi  ## netstat
@@ -2192,13 +2192,13 @@ then # else skip to next paragraph
     [ -x /usr/bin/flatpak ] && exec_command "/usr/bin/flatpak list" "Flatpak packages installed" # +26.02.2024, rr
 
     if [ -d /usr/local/bin ] ; then
-      exec_command "ls -lisa /usr/local/bin" "Files in /usr/local/bin"
+      exec_command "ls -lisa /usr/local/bin | column -t" "Files in /usr/local/bin" # show in columns # modified on 20240322 by edrulrd
     fi
     if [ -d /usr/local/sbin ] ; then
-      exec_command "ls -lisa /usr/local/sbin" "Files in /usr/local/sbin"
+      exec_command "ls -lisa /usr/local/sbin | column -t" "Files in /usr/local/sbin"
     fi
     if [ -d /opt ] ; then
-      exec_command "ls -lisa /opt" "Files in /opt"
+      exec_command "ls -lisa /opt | column -t" "Files in /opt"
     fi
 
 ############ Samba and Swat ########################
