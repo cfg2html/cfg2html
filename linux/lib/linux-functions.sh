@@ -407,7 +407,7 @@ function DoPATHList {
     for Directory in $(/bin/echo ${LISTPATH} |
         sed 's/:/ /g');
         do
-          find ${Directory} -executable \( -type f -o -type l \) -print 2>\/dev\/null |
+          find "${Directory}" -executable \( -type f -o -type l \) -xtype f -print 2>/dev/null | # when a link, ensure the target is a file # modified on 20240322 by edrulrd
           sort |
           while read Filename;
             do
