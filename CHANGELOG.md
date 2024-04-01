@@ -140,7 +140,7 @@ Other
 
   * chg: dev: add -f option to pgrep
 - Checked all Differential ShellCheck throws warnings about unused
-  variables or wrong written variables #180 warnings, lokks so far good.
+  variables or wrong written variables #180 warnings, looks so far good.
   [roseswe]
 - Additional proposed changes (#179) [edrulrd]
 
