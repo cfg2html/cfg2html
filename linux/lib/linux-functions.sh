@@ -3,7 +3,7 @@
 # SC2034 - variable appears to be used
 # SC2148 - we are shell agnostic
 # SC2016 - Don't complain about single quotes in awk command
-# @(#) $Id: linux-functions.sh,v 6.15 2020/06/17 21:24:05 ralph Exp $
+# @(#) $Id: linux-functions.sh,v 6.18 2024/04/01 20:23:23 ralph Exp $
 #     Further modified by Joe Wulf:  20200402@1737.
 # -------------------------------------------------------------------------
 # vim:ts=8:sw=4:sts=4
@@ -47,7 +47,7 @@ function posixversion {
     #echo "POSIX Version:  \c"; getconf POSIX_VERSION
     #echo "POSIX Version:  \c"; getconf POSIX2_VERSION
     #echo "X/OPEN Version: \c"; getconf XOPEN_VERSION
-    echo "LANG setting:   ""${LANG}"
+    echo "LANG setting:   ${LANG}"
     [ -r /etc/sysconfig/i18n ] && cat /etc/sysconfig/i18n
 }
 
@@ -195,12 +195,12 @@ function ProgStuff {
 function display_ext_fs_param {
     #function used in FILESYS added 2011.09.02 by Peter Boysen
     # fixes, changed 20140924 by Ralph Roth
-    # function extended to display filesystem paramaters on all ext2, 3 or 4 filesystems, whether they are mounted or not # modified on 20240119 by edrulrd
+    # function extended to display filesystem parameters on all ext2, 3 or 4 filesystems, whether they are mounted or not # modified on 20240119 by edrulrd
     if [ "$(which lsblk 2>/dev/null)" ] && lsblk -o PATH 2>/dev/null 1>&2 # added on 20240119 by edrulrd # old versions don't have PATH option # modified on 20240202 by edrulrd
     then
       for fs in $(lsblk -ln -o PATH,FSTYPE | grep -w "ext[2-4]" | awk '{print $1}') # added on 20240119 by edrulrd
       do
-        echo "Dumping: ""${fs}" # added on 20240119 by edrulrd
+        echo "Dumping: ${fs}" # added on 20240119 by edrulrd
         dumpe2fs -h "${fs}"  2>/dev/null   ## -> dumpe2fs 1.41.3 (12-Oct-2008) # added on 20240119 by edrulrd
       done
     else
@@ -208,14 +208,14 @@ function display_ext_fs_param {
       then
         for fs in $(blkid | grep -wE 'ext[2-4]' | cut -d: -f1 | sort -u) # added on 20240202 by edrulrd
         do
-          echo "Dumping: ""${fs}" # added on 20240202 by edrulrd
+          echo "Dumping: ${fs}" # added on 20240202 by edrulrd
           dumpe2fs -h "${fs}"  2>/dev/null   ## -> dumpe2fs 1.41.3 (12-Oct-2008) # added on 20240202 by edrulrd
         done
       else
         echo "Hint: lsblk and/or blkid commands are old or not available, showing mounted filesystems only" # added on 20240119 by edrulrd # modified on 20240202 by edrulrd
         grep -w "ext[2-4]" /proc/mounts | awk '{print $1}' | sort -u | while read -r fs # if we don't have blk cmds, only check mounted filesystems # modified on 20240119 by edrulrd
         do
-          echo "Dumping: ""${fs}"
+          echo "Dumping: ${fs}"
           dumpe2fs -h "${fs}"  2> /dev/null   ## -> dumpe2fs 1.41.3 (12-Oct-2008)
           ##TODO## better: tune2fs -l  ??? rr, 20140929
           echo
@@ -262,7 +262,7 @@ function display_btrfs_fs_param {
     then
       for fs in $(lsblk -ln -o PATH,FSTYPE | grep -w btrfs | awk '{print $1}') # added on 20240202 by edrulrd
       do
-        echo "Dumping: ""${fs}" # added on 20240202 by edrulrd
+        echo "Dumping: ${fs}" # added on 20240202 by edrulrd
         btrfs inspect-internal dump-super "${fs}" # print superblock summary info # added on 20240202 by edrulrd
         echo
       done
@@ -271,7 +271,7 @@ function display_btrfs_fs_param {
       then
         for fs in $(blkid | grep -w btrfs | cut -d: -f1 | sort -u) # added on 20240202 by edrulrd
         do
-          echo "Dumping: ""${fs}" # added on 20240202 by edrulrd
+          echo "Dumping: ${fs}" # added on 20240202 by edrulrd
           btrfs inspect-internal dump-super "${fs}" # print superblock summary info # added on 20240202 by edrulrd
           echo
         done
@@ -279,7 +279,7 @@ function display_btrfs_fs_param {
         echo "Hint: lsblk and/or blkid commands are old or not available, showing mounted filesystems only" # added on 20240202 by edrulrd
         grep -w btrfs /proc/mounts | awk '{print $1}' | sort -u | while read -r fs # if we don't have blk cmds, only check mounted filesystems # added on 20240202 by edrulrd
         do
-          echo "Dumping: ""${fs}" # added on 20240202 by edrulrd
+          echo "Dumping: ${fs}" # added on 20240202 by edrulrd
           btrfs inspect-internal dump-super "${fs}" # print superblock summary info # added on 20240202 by edrulrd
           echo
         done

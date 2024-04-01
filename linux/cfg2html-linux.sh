@@ -9,7 +9,7 @@
 # SC2155 - Declare and assign separately to avoid masking return values
 
 #
-# @(#) $Id: cfg2html-linux.sh,v 6.69 2023/09/14 07:05:13 ralph Exp $
+# @(#) $Id: cfg2html-linux.sh,v 6.72 2024/04/01 20:23:22 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2024 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
 #     Further modified by Joe Wulf:  20200407@1432.
@@ -223,18 +223,18 @@ identify_linux_distribution
 
 line
 echo "Starting:          ${_VERSION}"
-echo "Path to cfg2html:  ""$0"
-echo "HTML Output File:  ""${HTML_OUTFILE}"
-echo "Text Output File:  ""${TEXT_OUTFILE}"
-echo "Partitions:        ""${OUTDIR}"/"${BASEFILE}".partitions.save
-echo "Errors logged to:  ""${ERROR_LOG}"
+echo "Path to cfg2html:  $0"
+echo "HTML Output File:  ${HTML_OUTFILE}"
+echo "Text Output File:  ${TEXT_OUTFILE}"
+echo "Partitions:        ${OUTDIR}/${BASEFILE}.partitions.save"
+echo "Errors logged to:  ${ERROR_LOG}"
 # echo "Commandline:        ${*}"            ## for issue #154, seems not to be exported?
 
 # [20200312] {jcw} Helpful docs for [ .vs. [[ at:
 #            https://unix.stackexchange.com/questions/32210/why-does-parameter-expansion-with-spaces-without-quotes-work-inside-double-brack
-[[ -f ${CONFIG_DIR}/local.conf ]] && { echo "Local config      ""${CONFIG_DIR}"/local.conf "$(grep -vc -E '(^#|^$)' "${CONFIG_DIR}"/local.conf) lines"; }
+[[ -f ${CONFIG_DIR}/local.conf ]] && { echo "Local config      ${CONFIG_DIR}"/local.conf "$(grep -vc -E '(^#|^$)' "${CONFIG_DIR}"/local.conf) lines"; }
 
-echo "Started at        ""${DATEFULL}"
+echo "Started at        ${DATEFULL}"
 echo "WARNING           USE AT YOUR OWN RISK!!! :-))           <<<<<"
 line
 
@@ -248,7 +248,7 @@ else
 fi
 
 # 2nd one for starting.
-${_logger} "2nd Start of cfg2html-linux ${VERSION}"
+${_logger} "2nd Start of cfg2html-linux ${VERSION}!"
 open_html
 inc_heading_level
 
@@ -1667,7 +1667,7 @@ then # else skip to next paragraph
       for i in ${LANS}
       do
         # netstat is now (2023) also deprecated, see issue #166
-        exec_command "/usr/sbin/ethtool ${i} 2>/dev/null; /usr/sbin/ethtool -i ${i}" "Ethernet Settings for Interface ""${i}"
+        exec_command "/usr/sbin/ethtool ${i} 2>/dev/null; /usr/sbin/ethtool -i ${i}" "Ethernet Settings for Interface ${i}"
       done; unset i
   fi
 
