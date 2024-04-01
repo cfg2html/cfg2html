@@ -2,6 +2,206 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+Changes
+~~~~~~~
+- Removed some double quotes. Small changes. [roseswe]
+- Updated Changelog (by Makefile), Version: 7.1.0-0-g52e2869. [roseswe]
+
+Other
+~~~~~
+- Code updates and shellcheck fixes (#181) [edrulrd]
+
+  * chg: fix: don't assume crontabs folder exists
+
+  files affected:
+  - linux/cfg2html-linux.sh
+
+  Synology NAS's don't have a standard crontabs file.
+  Confirm it exists before  processing.
+
+  Fix shellcheck errors in that section
+
+  * chg: fix: test for presence of commands
+
+  files affected:
+  - linux/cfg2html-linux.sh
+
+  Some programs don't exist on a Synology NAS even
+  after installing Community-available packages to
+  add missing commands:
+  - getconf
+  - last
+  - runlevel
+  - ss
+  - timedatectl
+
+  Don't generate error messages for them
+
+  * chg: fix: check for rpcbind in addition to the portmapper
+
+  files affected:
+  - linux/cfg2html-linux.sh
+
+  In addition to checking for rpcbind in case portmapper isn't running,
+  some systems don't use /proc/net/rpc/nfs when NFS is being used,
+  so if the nfsstat command is available, try to run it to get client
+  statistics if pertinent
+
+  * chg: dev: xhost command at other locations in the path
+
+  * add new Todo about gsettings info
+
+  * chg: usr: show recommended nvidia GPU packages if applicable
+
+  * chg: dev: massive shellcheck update
+
+  * fix: check for file existence prior to its contents
+
+  * chg: dev: shellcheck: do bulk file writes instead of individually
+
+  * chg: dev: shellcheck: variable references within $(())
+
+  * chg: dev: shellcheck: dont depend on -n checking in expression testing
+
+  * chg: dev: shellcheck: /proc/net/bonding code change
+
+  * chg: dev: shellcheck: add directives for potentially unavailable source files
+
+  * chg: dev: shellcheck: read lines rather than words from files
+
+  * chg: usr: added systemctl check for vmtoolsd
+
+  * chg: fix: check for missing domainname command
+
+  files affected:
+  - linux/lib/linux-functions.sh
+
+  Adjust for missing domainname and
+  begin to fix shellcheck errors
+
+  * chg: usr: minor adjustments to log messages
+
+  * chg: fix: adjustment for null character in /proc/<pid>/cmdline
+
+  files affected:
+  - linux/lib/linux-functions.sh
+
+  function affected:
+  - topFDhandles
+
+  It was found that the null character \000, or (^@) was appended to
+  the text in /proc/<pid>/cmdline in some cases. For each affected
+  process id, this caused an error message in the journal of the form:
+
+  BASH_ERR: internal_warning [ (11161)"bash" -> ...  CMD=$(cat /proc/9673/cmdline)" ] sh: command substitution: ignored null byte in input
+
+  To resolve the issue, the "cat" command was substituted with "strings".
+
+  * chg: dev: ensure ldconfig command is available
+
+  * chg: dev: fall back to using smartctl if lsblk not available
+
+  files affected:
+  - linux/cfg2html-linux.sh
+
+  When saving the partition tables, the lsblk command finds additional
+  "disk" eg. flash drives, that smartctl doesn't see.  But if lsblk is
+  not available, then we'll use  smartctl --scan if it is available.
+
+  * chg: dev: ensure /sbin and /usr/sbin are in the initial path
+
+  files affected:
+  - linux/etc/default.conf
+
+  When the program is run from cron, commands may not be found
+  if /sbin and/or /usr/sbin have not been added to cron's path.
+
+  * chg: dev: shellcheck - default.conf clean-up
+
+  * chg: fix: don't show directories in the PATH listing
+
+  files affected:
+  - linux/lib/linux-functions.sh
+
+  When listing executable files for entries in the PATH, don't show
+  links from directories such as /bin, /sbin, /usr/bin/X11 to other
+  directories.
+
+  Fix shellcheck errors in that section
+
+  * chg: usr: add distribution information for Synology NAS support
+
+  * chg: dev: shellcheck: updates in linux-functions.sh
+
+  * chg: usr: pretty-up output from a few commands
+
+  * chg: dev: add -f option to pgrep
+- Checked all Differential ShellCheck throws warnings about unused
+  variables or wrong written variables #180 warnings, lokks so far good.
+  [roseswe]
+- Additional proposed changes (#179) [edrulrd]
+
+  * add manually installed packages
+
+  * fix typos in virtual machine determination code
+
+  * make virt machine determination more readable
+
+  * fix 2nd typo in virt machine determination code
+
+  * also check the system journal for virtual machine status
+
+  * explain virtual/physical state determination
+
+  * move virt-what in proximity to virt/phys system determination
+
+  * show /etc/network/interfaces.d/* contents
+
+  * comment unused code !cosmetic
+
+  * chg: show all defined vm's with virsh, and virtual network info
+
+  * chg: show NetworkManager status, and availabilty status of the Internet
+
+  * chg: show Xen host and running guests
+
+  * fix: shellcheck detected typo
+
+  * chg: file /sys/kernel/mm/transparent_hugepage/enabled not always present
+
+  * chg: reduce messages to errorlog
+
+  * fix: don't issue Warning message if sfdisk not available
+
+  * chg: adjust modified code for shellcheck
+
+  * fix: Redhat moving to NetworkManager from ifcfg files
+
+  * fix: opensuse reported using LVM when none were defined
+
+  * chg: make suggestion in errorlog of installing the virt-what package if not installed
+
+  * chg: fix: "sshd -T" assumes sshd service is running
+
+  files affected:
+  - linux/cfg2html-linux.sh
+
+  It was found during testing that if the openssh server wasn't running,
+  that "sshd -T" would fail with error:
+  "Missing privilege separation directory: /run/sshd"
+  To resolve the issue, we simple create the /run/sshd directory.
+
+  * chg: dev: removed exta backslashes !cosmetic
+- Function display_xfs_fs_param   TODO: Needs re-write on Debian 12 (at
+  least) [roseswe]
+- 📖 DOC: Enhanced for Debian builds. [roseswe]
+- For Debian builds bumped the version number to 7.1. [Ralph Roth
+  (Debian)]
+
+
 7.1.0 (2024-03-01)
 ------------------
 
