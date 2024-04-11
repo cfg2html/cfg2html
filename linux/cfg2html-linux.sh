@@ -706,7 +706,7 @@ inc_heading_level
     ## This may report NOTHING on RHEL 3+4 ##
     [ -x /sbin/chkconfig ] && exec_command "/sbin/chkconfig" "Services Startup"  ## chkconfig -A // SLES // xinetd missing
     [ -x /sbin/chkconfig ] && exec_command "/sbin/chkconfig --list" "Services Runlevel" # rar, fixed 2805-2005 for FC4
-    [ -x /sbin/chkconfig ] && exec_command "/sbin/chkconfig -l --deps" "Services Runlevel and Dependencies" #*# Alexander De Bernardi 25.02.2011
+    [ -x /sbin/chkconfig ] && exec_command "/sbin/chkconfig -l --deps 2>/dev/null" "Services Runlevel and Dependencies" #*# Alexander De Bernardi 25.02.2011 # discard if error # modified on 20240411 by edrulrd
     [ -x /usr/sbin/service ] && exec_command "/usr/sbin/service --status-all 2> /dev/null" "Services - Status"   #  09.11.2011/12022013 by Ralph Roth #* rar *#
     [ -x  /usr/sbin/sysv-rc-conf ] && exec_command " /usr/sbin/sysv-rc-conf --list" "Services Runlevel" # rr, 1002-2008
 
