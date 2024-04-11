@@ -1859,7 +1859,7 @@ then # else skip to next paragraph
   [ -r /etc/bind/named.boot ] && exec_command "grep -v '^;' /etc/named.boot"  "DNS/Named"
 
   if [ -s /etc/dnsmasq.conf ] ; then
-     exec_command "cat /etc/dnsmasq.conf | grep -vE '^#|^ *$'; systemctl status dnsmasq" "DNSMASQ" # removed commented and blank lines # modified on 20240119 by edrulrd
+     exec_command "cat /etc/dnsmasq.conf | grep -vE '^#|^ *$'; which systemctl 2>/dev/null 1>&2 && systemctl status dnsmasq" "DNSMASQ" # check for systemctl before checking status # modified on 20240411 by edrulrd
   fi
 
   if [ -s /etc/nscd.conf ] ; then
