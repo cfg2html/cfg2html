@@ -600,7 +600,7 @@ inc_heading_level
 
 
   # 20190828, rr - swapon -s is deprecated, better use --show
-  exec_command "free -tml; echo; free -tm; echo; swapon --show; echo; swapon -s" "Used Memory and Swap Summary" #  04.07.2011+05.07.2018 modified by Ralph Roth #* rar *#
+  exec_command "free -tml; echo; free -tm; echo; swapon --show 2>/dev/null ; echo; swapon -s" "Used Memory and Swap Summary" #  04.07.2011+05.07.2018 modified by Ralph Roth #* rar *# discard error msg if --show n/a # modified on 20240411 by edrulrd
   exec_command "cat /proc/meminfo; [ -s /sys/kernel/mm/transparent_hugepage/enabled ] && ( echo THP:; cat /sys/kernel/mm/transparent_hugepage/enabled )" "Detailed Memory Usage (meminfo)"  # changed 20131218 by Ralph Roth # THP not found on Xen host(?) # modified on 20240303 by edrulrd
   exec_command "cat /proc/buddyinfo" "Zoned Buddy Allocator/Memory Fragmentation and Zones" 	#  09.01.2012 Ralph Roth
   AddText "The number on the left is bigger than right (by factor 2)."
