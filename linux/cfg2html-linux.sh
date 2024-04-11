@@ -497,7 +497,7 @@ inc_heading_level
   done; unset i
 
   ### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
-      if [ -x /usr/bin/virsh ] ; then
+      if [ -x /usr/bin/virsh ] && virsh list 2>/dev/null 1>&2 ; then # process virsh commands if the libvirtd daemon is available # modified on 20240411 by edrulrd
         exec_command "${TIMEOUTCMD} 20 /usr/bin/virsh list --all" "virsh Virtualization Support Status" # show status of all VMs # modified on 20240303 by edrulrd
         exec_command "${TIMEOUTCMD} 20 /usr/bin/virsh net-list" "virsh Virtual Network List" # list the virtual networks # added on 20240303 by edrulrd
         for network in $(${TIMEOUTCMD} 20 /usr/bin/virsh net-list | tail -n +3 | awk '{print $1}') # added on 20240303 by edrulrd
