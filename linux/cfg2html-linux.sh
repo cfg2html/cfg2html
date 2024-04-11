@@ -1651,7 +1651,7 @@ then # else skip to next paragraph
   exec_command "ip addr" "LAN Interfaces Settings (ip addr)"            #D011 -- 16. March 2011,  28. Dezember 2011, ER by Heiko Andresen
   exec_command "ip -s l" "Detailed NIC Statistics"                      #07.11.2011, 21:33 modified by Ralph Roth #* rar *#
   # nmcli not available on SLES11##FIXED## 20150304 by Ralph Roth
-  if [ -x /usr/bin/nmcli ]
+  if [ -x /usr/bin/nmcli ] && nmcli general 2>/dev/null 1>&2 # check for newer version # modified on 20240411 by edrulrd
   then
       # exec_command "nmcli nm status" "NetworkManager Status"
       #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org##FIXED## 20150304 by Ralph Roth //  not available on openSUSE 13.2!
@@ -1659,6 +1659,13 @@ then # else skip to next paragraph
       exec_command "nmcli device status" "NetworkManager Device Status"   	#20150527 by Ralph Roth
       exec_command "nmcli connection show" "NetworkManager Connections"     	#06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org##FIXED## 20150304 by Ralph Roth
       exec_command "nmcli network connectivity check" "NetworkManager-reported Internet access status" # added on 20240303 by edrulrd
+  else
+      if [ -x /usr/bin/nmcli ] && nmcli nm 2>/dev/null 1>&2 # check for older version # modified on 20240411 by edrulrd
+      then
+         exec_command "nmcli -p nm" "NetworkManager status" # added on 20240411 by edrulrd
+         exec_command "nmcli -p dev" "NetworkManager Device Status" # added on 20240411 by edrulrd
+         exec_command "nmcli -p con" "NetworkManager Connections" # added on 20240411 by edrulrd
+      fi
   fi ## /usr/bin/nmcli
 
   if [ -x /usr/sbin/ethtool ]     ###  22.11.2010, 23:44 modified by Ralph Roth
