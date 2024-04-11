@@ -327,7 +327,7 @@ inc_heading_level
       fi
 
       if grep -iq ${VIRTs} /var/log/dmesg 2>/dev/null ; then
-           if ! ${DMESG} | grep -q 'Booting paravirtualized kernel on bare hardware' ; then
+           if ! grep -q 'Booting paravirtualized kernel on bare hardware' /var/log/dmesg 2>/dev/null ; then # check the file for the string # modified on 20240411 by edrulrd
                   # This exception catches the one case of installing RHEL/CentOS on a real physical machine.  This IS properly/necessarily nested!
                   VIRTterm='TRUE'
                   VIRTdf='TRUE'
