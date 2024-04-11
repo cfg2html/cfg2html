@@ -1984,7 +1984,7 @@ then # else skip to next paragraph
   [ -f  /opt/compac/cma.conf ] && "grep -vE '^#|^ *$' /opt/compac/cma.conf" "HP Insight Management Agents configuration"
 
   ## ssh
-  [ -f /etc/ssh/sshd_config ] && exec_command "grep -vE '^#|^ *$' /etc/ssh/sshd_config" "sshd config" && ( [ -d /run/sshd ] ||  mkdir /run/sshd ) && exec_command "sshd -T" "All sshd settings" # create a /run/sshd directory if sshd is not yet running # modified on 20240303 by edrulrd
+  [ -f /etc/ssh/sshd_config ] && exec_command "grep -vE '^#|^ *$' /etc/ssh/sshd_config" "sshd config" && ( [ -d /run/sshd ] ||  mkdir -p /run/sshd ) && exec_command "sshd -T" "All sshd settings" # create a /run/sshd directory (and /run too if not present) if sshd is not yet running # modified on 20240411 by edrulrd
   [ -f /etc/ssh/ssh_config ] && exec_command "grep -vE '^#|^ *$' /etc/ssh/ssh_config" "ssh config"
 
   dec_heading_level
