@@ -327,7 +327,7 @@ inc_heading_level
       fi
 
       if grep -iq ${VIRTs} /var/log/dmesg 2>/dev/null ; then
-           if ! ${DMESG} | grep -q 'Booting paravirtualized kernel on bare hardware' ; then
+           if ! grep -q 'Booting paravirtualized kernel on bare hardware' /var/log/dmesg 2>/dev/null ; then # check the file for the string # modified on 20240411 by edrulrd
                   # This exception catches the one case of installing RHEL/CentOS on a real physical machine.  This IS properly/necessarily nested!
                   VIRTterm='TRUE'
                   VIRTdf='TRUE'
@@ -497,7 +497,7 @@ inc_heading_level
   done; unset i
 
   ### Begin changes by Dusan.Baljevic@ieee.org ### 13.05.2014
-      if [ -x /usr/bin/virsh ] ; then
+      if [ -x /usr/bin/virsh ] && virsh list 2>/dev/null 1>&2 ; then # process virsh commands if the libvirtd daemon is available # modified on 20240411 by edrulrd
         exec_command "${TIMEOUTCMD} 20 /usr/bin/virsh list --all" "virsh Virtualization Support Status" # show status of all VMs # modified on 20240303 by edrulrd
         exec_command "${TIMEOUTCMD} 20 /usr/bin/virsh net-list" "virsh Virtual Network List" # list the virtual networks # added on 20240303 by edrulrd
         for network in $(${TIMEOUTCMD} 20 /usr/bin/virsh net-list | tail -n +3 | awk '{print $1}') # added on 20240303 by edrulrd
@@ -509,7 +509,7 @@ inc_heading_level
       fi
   ### End changes by Dusan.Baljevic@ieee.org ### 14.05.2014
 
-  if which xl 2>/dev/null 1>&1 ; then # added Xen virtualization info # added on 20240303 by edrulrd
+  if which xl 2>/dev/null 1>&2 ; then # added Xen virtualization info # added on 20240303 by edrulrd
     exec_command "xl info" "Xen Host information"
     exec_command "xl list -n" "Xen Domains list"
   fi
@@ -600,7 +600,7 @@ inc_heading_level
 
 
   # 20190828, rr - swapon -s is deprecated, better use --show
-  exec_command "free -tml; echo; free -tm; echo; swapon --show; echo; swapon -s" "Used Memory and Swap Summary" #  04.07.2011+05.07.2018 modified by Ralph Roth #* rar *#
+  exec_command "free -tml; echo; free -tm; echo; swapon --show 2>/dev/null ; echo; swapon -s" "Used Memory and Swap Summary" #  04.07.2011+05.07.2018 modified by Ralph Roth #* rar *# discard error msg if --show n/a # modified on 20240411 by edrulrd
   exec_command "cat /proc/meminfo; [ -s /sys/kernel/mm/transparent_hugepage/enabled ] && ( echo THP:; cat /sys/kernel/mm/transparent_hugepage/enabled )" "Detailed Memory Usage (meminfo)"  # changed 20131218 by Ralph Roth # THP not found on Xen host(?) # modified on 20240303 by edrulrd
   exec_command "cat /proc/buddyinfo" "Zoned Buddy Allocator/Memory Fragmentation and Zones" 	#  09.01.2012 Ralph Roth
   AddText "The number on the left is bigger than right (by factor 2)."
@@ -706,7 +706,7 @@ inc_heading_level
     ## This may report NOTHING on RHEL 3+4 ##
     [ -x /sbin/chkconfig ] && exec_command "/sbin/chkconfig" "Services Startup"  ## chkconfig -A // SLES // xinetd missing
     [ -x /sbin/chkconfig ] && exec_command "/sbin/chkconfig --list" "Services Runlevel" # rar, fixed 2805-2005 for FC4
-    [ -x /sbin/chkconfig ] && exec_command "/sbin/chkconfig -l --deps" "Services Runlevel and Dependencies" #*# Alexander De Bernardi 25.02.2011
+    [ -x /sbin/chkconfig ] && exec_command "/sbin/chkconfig -l --deps 2>/dev/null" "Services Runlevel and Dependencies" #*# Alexander De Bernardi 25.02.2011 # discard if error # modified on 20240411 by edrulrd
     [ -x /usr/sbin/service ] && exec_command "/usr/sbin/service --status-all 2> /dev/null" "Services - Status"   #  09.11.2011/12022013 by Ralph Roth #* rar *#
     [ -x  /usr/sbin/sysv-rc-conf ] && exec_command " /usr/sbin/sysv-rc-conf --list" "Services Runlevel" # rr, 1002-2008
 
@@ -1421,7 +1421,7 @@ inc_heading_level
     fi
 
     if [ -x "$(which lsblk 2>/dev/null)" ] ; then # use lsblk to get our disks, which might get us a few extras # modified on 20240322 by edrulrd
-      Diskdevs=$(lsblk -p | grep "^/" | grep disk | "${AWKCMD}" '{print $1}') # get the block devices, but only those marked as disk eg. /dev/sda, not lv's etc.
+      Diskdevs=$(lsblk -p 2>/dev/null | grep "^/" | grep disk | "${AWKCMD}" '{print $1}') # get the block devices, but only those marked as disk eg. /dev/sda, not lv's etc. # del errors if -p not availabe # modified on 20240411 by edrulrd
     else
       if [ -x "$(which "${SMARTCTL}" 2>/dev/null)" ] ; then # if lsblk not available, use smartctl instead to get only disk devices # modified on 20240322 by edrulrd
         Diskdevs=$("${SMARTCTL}" --scan | "${AWKCMD}" '{print $1}') # only use drives smartctl knows about # modified on 20240322 by edrulrd
@@ -1651,7 +1651,7 @@ then # else skip to next paragraph
   exec_command "ip addr" "LAN Interfaces Settings (ip addr)"            #D011 -- 16. March 2011,  28. Dezember 2011, ER by Heiko Andresen
   exec_command "ip -s l" "Detailed NIC Statistics"                      #07.11.2011, 21:33 modified by Ralph Roth #* rar *#
   # nmcli not available on SLES11##FIXED## 20150304 by Ralph Roth
-  if [ -x /usr/bin/nmcli ]
+  if [ -x /usr/bin/nmcli ] && nmcli general 2>/dev/null 1>&2 # check for newer version # modified on 20240411 by edrulrd
   then
       # exec_command "nmcli nm status" "NetworkManager Status"
       #06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org##FIXED## 20150304 by Ralph Roth //  not available on openSUSE 13.2!
@@ -1659,6 +1659,13 @@ then # else skip to next paragraph
       exec_command "nmcli device status" "NetworkManager Device Status"   	#20150527 by Ralph Roth
       exec_command "nmcli connection show" "NetworkManager Connections"     	#06.11.2014, 20:34 added by Dusan Baljevic dusan.baljevic@ieee.org##FIXED## 20150304 by Ralph Roth
       exec_command "nmcli network connectivity check" "NetworkManager-reported Internet access status" # added on 20240303 by edrulrd
+  else
+      if [ -x /usr/bin/nmcli ] && nmcli nm 2>/dev/null 1>&2 # check for older version # modified on 20240411 by edrulrd
+      then
+         exec_command "nmcli -p nm" "NetworkManager status" # added on 20240411 by edrulrd
+         exec_command "nmcli -p dev" "NetworkManager Device Status" # added on 20240411 by edrulrd
+         exec_command "nmcli -p con" "NetworkManager Connections" # added on 20240411 by edrulrd
+      fi
   fi ## /usr/bin/nmcli
 
   if [ -x /usr/sbin/ethtool ]     ###  22.11.2010, 23:44 modified by Ralph Roth
@@ -1852,7 +1859,7 @@ then # else skip to next paragraph
   [ -r /etc/bind/named.boot ] && exec_command "grep -v '^;' /etc/named.boot"  "DNS/Named"
 
   if [ -s /etc/dnsmasq.conf ] ; then
-     exec_command "cat /etc/dnsmasq.conf | grep -vE '^#|^ *$'; systemctl status dnsmasq" "DNSMASQ" # removed commented and blank lines # modified on 20240119 by edrulrd
+     exec_command "cat /etc/dnsmasq.conf | grep -vE '^#|^ *$'; which systemctl 2>/dev/null 1>&2 && systemctl status dnsmasq" "DNSMASQ" # check for systemctl before checking status # modified on 20240411 by edrulrd
   fi
 
   if [ -s /etc/nscd.conf ] ; then
@@ -1977,7 +1984,7 @@ then # else skip to next paragraph
   [ -f  /opt/compac/cma.conf ] && "grep -vE '^#|^ *$' /opt/compac/cma.conf" "HP Insight Management Agents configuration"
 
   ## ssh
-  [ -f /etc/ssh/sshd_config ] && exec_command "grep -vE '^#|^ *$' /etc/ssh/sshd_config" "sshd config" && ( [ -d /run/sshd ] ||  mkdir /run/sshd ) && exec_command "sshd -T" "All sshd settings" # create a /run/sshd directory if sshd is not yet running # modified on 20240303 by edrulrd
+  [ -f /etc/ssh/sshd_config ] && exec_command "grep -vE '^#|^ *$' /etc/ssh/sshd_config" "sshd config" && ( [ -d /run/sshd ] ||  mkdir -p /run/sshd ) && exec_command "sshd -T" "All sshd settings" # create a /run/sshd directory (and /run too if not present) if sshd is not yet running # modified on 20240411 by edrulrd
   [ -f /etc/ssh/ssh_config ] && exec_command "grep -vE '^#|^ *$' /etc/ssh/ssh_config" "ssh config"
 
   dec_heading_level
