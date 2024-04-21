@@ -1421,7 +1421,7 @@ inc_heading_level
     fi
 
     if [ -x "$(which lsblk 2>/dev/null)" ] ; then # use lsblk to get our disks, which might get us a few extras # modified on 20240322 by edrulrd
-      Diskdevs=$(lsblk -p 2>/dev/null | grep "^/" | grep disk | "${AWKCMD}" '{print $1}') # get the block devices, but only those marked as disk eg. /dev/sda, not lv's etc. # del errors if -p not availabe # modified on 20240411 by edrulrd
+      Diskdevs=$(lsblk -p 2>/dev/null | grep "^/" | grep disk | "${AWKCMD}" '{print $1}') # get the block devices, but only those marked as disk eg. /dev/sda, not lv's etc. # del errors if -p not available # modified on 20240411 by edrulrd
     else
       if [ -x "$(which "${SMARTCTL}" 2>/dev/null)" ] ; then # if lsblk not available, use smartctl instead to get only disk devices # modified on 20240322 by edrulrd
         Diskdevs=$("${SMARTCTL}" --scan | "${AWKCMD}" '{print $1}') # only use drives smartctl knows about # modified on 20240322 by edrulrd
@@ -1856,6 +1856,7 @@ then # else skip to next paragraph
   if [ -f /etc/resolv.conf ] ; then
      exec_command "grep -vE '^#|^ *$' /etc/resolv.conf;echo; ( [ -f /etc/nsswitch.conf ] &&  grep -vE '^#|^ *$' /etc/nsswitch.conf)" "DNS & Names"
   fi
+  which resolvectl 2>/dev/null 1>&2 && exec_command "resolvectl status" "DNS Resolvectl" # check systemd-resolved.service managed name resolution # added on 20240421 by edrulrd
   [ -r /etc/bind/named.boot ] && exec_command "grep -v '^;' /etc/named.boot"  "DNS/Named"
 
   if [ -s /etc/dnsmasq.conf ] ; then
