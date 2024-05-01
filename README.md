@@ -12,18 +12,24 @@ This includes the collection of cron and at, installed hardware, installed softw
 
 ## Where to get cfg2html
 
-The first versions of cfg2html were written for HP-UX. Meanwhile the cfg2html HP-UX stream has been ported to all major *NIX platforms and small embedded systems. cfg2html works on Linux, HP-UX, SunOS, AIX etc. The HP-UX version is now deprecated!
+The first versions of cfg2html were written for HP-UX. Subsequently, the cfg2html HP-UX stream was ported to all major *NIX platforms and small embedded systems. cfg2html works on Linux, HP-UX, SunOS, AIX etc. The original HP-UX version is now deprecated.
 
-See our GitHub Source development tree <https://github.com/cfg2html/cfg2html> and clone it to your system via:
+See our GitHub Source development tree at <https://github.com/cfg2html/cfg2html>.
 
-    git clone git@github.com:cfg2html/cfg2html.git
+From there, you may download the zip file at <https://github.com/cfg2html/cfg2html/archive/refs/heads/master.zip> to your Downloads folder.  Once extracted, one way to run the program is simply to run the cfg2html script from the un-zipped high-level folder.
+
+Alternatively, you may wish to clone it to your system with git via:
+
+    git clone https://github.com/cfg2html/cfg2html.git
     cd cfg2html
     make help
+
+Running the make command will modify the source code to identify the latest patch level in a generated installable package for use by dnf/yum, apt, zypper, etc. for installation of the program.
 
 NOTE:  You need an annotated git tag on your local build system, else the build will fail.
 git describe --long should output something like "7.0.1-4-g6cef5f2"
 
-If you do not want to build cfg2html by your own, we have pre-build installations that you can download from <http://www.cfg2html.com> and also from the github release page <https://github.com/cfg2html/cfg2html/releases>
+If you do not want to build cfg2html on your own, we have pre-built installations that you can download from <http://www.cfg2html.com> and also from the github release page <https://github.com/cfg2html/cfg2html/releases>
 
 ## Issue Tracker
 
