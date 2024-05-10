@@ -2,16 +2,87 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+7.1.1 (2024-05-10)
+------------------
 
 Changes
 ~~~~~~~
+- Updated the changelog. [roseswe]
+- Updated Changelog (by Makefile), Version: 7.1.0-8-g84c3a1e. [roseswe]
 - Removed some double quotes. Small changes. [roseswe]
 - Updated Changelog (by Makefile), Version: 7.1.0-0-g52e2869. [roseswe]
 
 Other
 ~~~~~
+- Proposed change to README.md (#184) [Ralph Roth, edrulrd]
+
+  * chg: dev: confirm presence of the  libvirtd daemon for virsh cmds
+
+  * chg: dev: confirm "chkconfig -l" option is available
+
+  * chg: dev: confirm "lsblk -p" option is available
+
+  * chg: dev: check for different nmcli versions
+
+  * chg: dev: check for systemctl cmd availability
+
+  * chg: dev: create /run if necessary
+
+  * chg: dev: fix typo
+
+  * chg: dev: swapon --show fails on older systems
+
+  * chg: fix: check dmesg file instead of dmesg buffer twice
+
+  * chg: usr: add DNS resolution if using systemd-resolved.service
+
+  * chg: usr: README.md doc improvement
+
+  ---------
+- Bumped Debian Changelog to 7.1.1. [Ralph Roth (Debian)]
+- Minor update to cfg2html (#183) [Ralph Roth, edrulrd]
+
+  * chg: dev: confirm presence of the  libvirtd daemon for virsh cmds
+
+  * chg: dev: confirm "chkconfig -l" option is available
+
+  * chg: dev: confirm "lsblk -p" option is available
+
+  * chg: dev: check for different nmcli versions
+
+  * chg: dev: check for systemctl cmd availability
+
+  * chg: dev: create /run if necessary
+
+  * chg: dev: fix typo
+
+  * chg: dev: swapon --show fails on older systems
+
+  * chg: fix: check dmesg file instead of dmesg buffer twice
+
+  * chg: usr: add DNS resolution if using systemd-resolved.service
+
+  ---------
+- Clean up .err msgs for CentOS6 and fix Phys/Virt dmesg file checking
+  (#182) [edrulrd]
+
+  * chg: dev: confirm presence of the  libvirtd daemon for virsh cmds
+
+  * chg: dev: confirm "chkconfig -l" option is available
+
+  * chg: dev: confirm "lsblk -p" option is available
+
+  * chg: dev: check for different nmcli versions
+
+  * chg: dev: check for systemctl cmd availability
+
+  * chg: dev: create /run if necessary
+
+  * chg: dev: fix typo
+
+  * chg: dev: swapon --show fails on older systems
+
+  * chg: fix: check dmesg file instead of dmesg buffer twice
 - Code updates and shellcheck fixes (#181) [edrulrd]
 
   * chg: fix: don't assume crontabs folder exists
@@ -140,7 +211,7 @@ Other
 
   * chg: dev: add -f option to pgrep
 - Checked all Differential ShellCheck throws warnings about unused
-  variables or wrong written variables #180 warnings, looks so far good.
+  variables or wrong written variables #180 warnings, lokks so far good.
   [roseswe]
 - Additional proposed changes (#179) [edrulrd]
 
