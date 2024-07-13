@@ -1,7 +1,7 @@
 #!/bin/sh
 # (c) 2002 Michael Meifert mailto:mime@dk3hg.inka.de
 #
-# run this script as root from cron on the maschine to collect data
+# run this script as root from cron on the machine to collect data
 # make sure to setup the key's to login with ssh, without password
 #
 
@@ -9,7 +9,7 @@
 #
 
 # name of remote collector
-CFG2HTML="cfg2html_linux" # make shure the script is in your PATH
+CFG2HTML="cfg2html_linux" # make sure the script is in your PATH
 TMP=/tmp
 USER=bak
 COLLECTOR=machine.domain
@@ -24,12 +24,12 @@ PATH2COLLECTOR=home/bak/cfg2html
 #
 #########  nothing to configure below  ########## i hope :-)
 #
-HOSTNAME=`hostname`
+HOSTNAME=$(hostname)
 cd $TMP
 
 # test if main server reachable
-LINE=`$PINGCOMMAND $COLLECTOR`
-if [ `echo ${LINE} | grep -c "100..packet.loss"` -gt 0 ]
+LINE=$($PINGCOMMAND $COLLECTOR)
+if [ $(echo ${LINE} | grep -c "100..packet.loss") -gt 0 ]
   then
     sel=1
     logger "$COLLECTOR unreachable"
@@ -51,7 +51,7 @@ if [ "$SCRIPTREMOTE" = "yes" ] ;then
   scp $USER@$COLLECTOR:/$PATH2COLLECTOR/$CFG2HTML .
   # now collect the systeminfo
   ./$CFG2HTML
-else 
+else
   $CFG2HTML
 fi
 

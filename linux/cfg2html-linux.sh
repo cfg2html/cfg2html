@@ -456,10 +456,10 @@ inc_heading_level
     if [ -n "$VIRTWHAT" ] ; then # output generated, therefore not physical  # added on 20240303 by edrulrd
        exec_command "/usr/sbin/virt-what" "Virtual Machine Status" # changed Check to Status on 20240303 by edrulrd
     else
-       exec_command "echo 'virt-what: running on bare-metal, or running inside a type of virtual machine that is not known'" "Virtual Machine Status" # added on 20240303 by edrulrd
+       exec_command "echo NOTE: 'virt-what: running on bare-metal, or running inside a type of virtual machine that is not known!'" "Virtual Machine Status" # added on 20240303 by edrulrd
     fi
   else
-       echo 'To best determine the type of virtual environment this system may be running in, you should consider installing the distribution'\''s "virt-what" package' >&2 # make suggestion in errorlog # added on 20240303 by edrulrd
+       AddText 'NOTE: To best determine the type of virtual environment this system may be running in, you should consider installing the distribution'\''s "virt-what" package' >&2 # make suggestion in errorlog # added on 20240303 by edrulrd//10.05.2024 Ralph Roth
   fi
 
   if [ -f "${CONFIG_DIR}"/systeminfo ] ; then
@@ -663,7 +663,7 @@ inc_heading_level
 
   if [ -x /usr/bin/journalctl ]
   then
-	exec_command "/usr/bin/journalctl --list-boots --no-pager| tail -25" "Last 25 Reboots"  ## changed 20150212 by Ralph Roth
+	  exec_command "/usr/bin/journalctl --list-boots --no-pager 2>/dev/null | tail -25" "Last 25 Reboots"  ## changed 20150212+10.05.2024 by Ralph Roth
   else
     which last 2>/dev/null 1>&2 && exec_command "last -F | grep reboot | head -25" "Last 25 Reboots"			### RR, 2014-12-19  ##CHANGED##FIXED## 20150212 by Ralph Roth # confirm last command is available # modified on 20240322 by edrulrd
   fi
@@ -696,7 +696,7 @@ inc_heading_level
     exec_command "/usr/bin/systemctl list-unit-files" "Systemd: All Unit Files" # removed extra space in tile # modified on 20240303 by edrulrd
 
     ## new 20140613 by Ralph Roth
-    [ -x /usr/bin/journalctl ] && exec_command "/usr/bin/journalctl -b -p 3 --no-pager" "Systemd Journal with Errors and Warnings"
+    [ -x /usr/bin/journalctl ] && exec_command "/usr/bin/journalctl -b -p 3 --no-pager 2>/dev/null" "Systemd Journal with Errors and Warnings"
 
     if [ "${ARCH}" = "yes" ] || [ "${DEBIAN}" = "yes" ] ; then   ## M.Weiller, LUG-Ottobrunn.de, 2013-02-04 ## OpenSUSE also and SLES12? # found to be supported on Debian too # modified on 20240119 by edrulrd
       exec_command "/usr/bin/systemctl --failed" "Systemd: Failed Units"

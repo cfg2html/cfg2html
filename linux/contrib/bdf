@@ -1,11 +1,12 @@
 #!/bin/bash
 
-# @(#) $Id: bdf,v 6.14 2020/04/28 14:15:37 ralph Exp $
+# @(#) $Id: bdf,v 6.16 2024/06/13 09:56:03 ralph Exp $
 # --=-----------------------------------------------------------------------=---
-# (c) 1997 - 2021 by Ralph Roth  -*- http://rose.rult.at -*-
+# (c) 1997-2024 by Ralph Roth  -*- http://rose.rult.at -*-
 
 
-## not sure if this ever worked on Linux? 24.05.2017 by Ralph 
+## not sure if this ever worked on Linux? 24.05.2017 by Ralph
+## maybe add -l and/or grep for tmpfs and virtual file systems?
 
 my_bdf() {
     # bdf summary for HPUX, Ralph Roth, 5-feb-2001
