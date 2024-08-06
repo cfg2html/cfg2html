@@ -1,4 +1,31 @@
-cfg2html (7.1.1) UNRELEASED; urgency=low
+cfg2html (7.1.2) UNRELEASED; urgency=low
+
+  * Bumped version number to 7.0.0 - details see git changelog
+  * 7.0-4 - Debian build for www.cfg2html.com
+  * 7.0.1-12-g842835d@(master)
+  * Build on Debian 12 from 7.1.0 sources
+  * Build on Debian 12 (7.1.1)
+
+  [ Ralph (ZOS 17.1) ]
+  * Build on ZorisOS 17.1, small cosmetic changes (7.1.2)
+
+  [ Ralph Roth ]
+  * 7.1.2 (trimmed a bit the changelog)....
+
+ -- Ralph Roth <cfg2html@hotmail.com>  Sat, 13 Jul 2024 16:24:41 +0200
+
+cfg2html (6.41) unstable; urgency=low
+
+  [ ralph ]
+  * Bumped version number of the Debian ChangeLog using dch (Debian8) to 6.34.2. Build on upstream version: 6.34.2-2-g85ba063@(master)
+  * Applied upstream changes. Upstream is at 6.34.8
+  * Upstream (github) is now at 6.35.1
+  * small fixes
+  * Bumped version to 6.41.1 (all fixes and enhancements applied from github)
+  * Bumped version to 6.44.1 (all fixes and enhancements applied from github) - Jan. 2022
+
+
+cfg2html (6.13) unstable; urgency=low
 
   [ Ralph Roth ]
   * 6.13 upstream
@@ -11,22 +38,6 @@ cfg2html (7.1.1) UNRELEASED; urgency=low
   * Bumped Version number from 6.30 to 6.31 (github)
   * Bumped to 6.31/6.33
   * tagged as 6.33 release. Changed DH_COMPAT from 5 to 9
-
-  [ ralph ]
-  * Bumped version number of the Debian ChangeLog using dch (Debian8) to 6.34.2. Build on upstream version: 6.34.2-2-g85ba063@(master)
-  * Applied upstream changes. Upstream is at 6.34.8
-  * Upstream (github) is now at 6.35.1
-  * small fixes 
-  * Bumped version to 6.41.1 (all fixes and enhancements applied from github)
-  * Bumped version to 6.44.1 (all fixes and enhancements applied from github) - Jan. 2022
-   
-  * Bumped version number to 7.0.0 - details see git changelog
-  * 7.0-4 - Debian build for www.cfg2html.com 
-  * 7.0.1-12-g842835d@(master)
-  * Build on Debian 12 from 7.1.0 sources
-  * Build on Debian 12 (7.1.1)
-
- -- ralph <ralph@roth9>  Wed, 24 Apr 2024 13:46:14 +0200
 
 cfg2html (6.11) unstable; urgency=low
 
