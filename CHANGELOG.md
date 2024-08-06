@@ -7,8 +7,14 @@ Changelog
 
 Changes
 ~~~~~~~
+- Added comments, nicer+formatted output. [roseswe]
+- Updated Changelog (by Makefile), Version: 7.1.1-2-gbd70c78. [roseswe]
 - Small enhancements. [roseswe]
 - Updated Changelog (by Makefile), Version: 7.1.1-0-g15b3501. [roseswe]
+
+Fix
+~~~
+- Debian build dependencies. [roseswe]
 
 
 7.1.1 (2024-05-10)
