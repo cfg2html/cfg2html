@@ -42,14 +42,11 @@ CFGSH=$_  ### CFGSH appears unused. Verify use (or export if used externally).
 # -  Rewrite all `<cmd>` to $(<cmd>).
 # -  Add the equivalent of "gconftool-2 -R /system"  "GNOME System Config" for newer Gnome systems (i.e. gsettings) # added on 20240322 by edrulrd
 # -
-# -
 #
 
 # {jcw} Done:
 # -  Accomplished massive rename of variables from $VAR to ${VAR}.
 # -  Rewrite all `<cmd>` to $(<cmd>). # modified on 20240322 by edrulrd
-# -
-# -
 # -
 #
 
@@ -156,7 +153,7 @@ MAILTORALPH="cfg2html&#64;&#104;&#111;&#116;&#109;&#97;&#105;&#108;&#46;&#99;&#1
 # History
 #####################################################################
 # 28-jan-1999  initial creation, based on get_config, check_config
-#              nickel, snapshoot, vim and a idea from a similar
+#              nickel, snapshot, vim and a idea from a similar
 #              script i have seen on-site.
 #####################################################################
 # 11-Mar-2001  initial creation for Debian GNU Linux i386
@@ -1269,7 +1266,7 @@ then # else skip to next paragraph
     # show packages that are marked as being manually installed # added on 20240303 by edrulrd
     which apt-mark 2>/dev/null 1>&2 && exec_command "apt-mark showmanual | column -c ${CFG_TEXTWIDTH}" "Manually Installed Packages" # added on 20240303 by edrulrd
     exec_command "dpkg -C" "Misconfigured Packages"
-#   # { changed/added 25.11.2003 (14:29) by Ralph Roth }
+    ## { changed/added 25.11.2003 (14:29) by Ralph Roth }
     if [ -x /usr/bin/deborphan ] ; then
       exec_command "deborphan" "Orphaned Packages"
       AddText "Hint: deborphan | xargs aptitude -y purge"   # rar, 16.02.04
@@ -1284,6 +1281,9 @@ then # else skip to next paragraph
       AddText "cat this_list | debconf-set-selections -v "
       exec_command "/usr/bin/debconf-get-selections" "Debian Package Configuration Values"
     fi
+    # seems we don't have anything like rpm -qa --last, so here is an workaround:
+    exec_command "grep -E ' install | upgrade ' /var/log/dpkg.log | awk '{print $3, $1, $2, $4}' | tail -30"  "Last installed or upgraded packages" # rr, 27.09.2024
+
   fi
   # end Debian
 
