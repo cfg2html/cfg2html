@@ -1,7 +1,8 @@
 # @(#) $Id: cfg2html,v 6.47 2024/02/15 07:09:40 ralph Exp $
+# shellcheck disable=SC1073,SC2034,SC2148,SC2154
 
 # -------------------------------------------------------------------------
-# This is the wrapper for cfg2html for LINUX and HP-UX
+# This is the wrapper for cfg2html for LINUX; *NIX and HP-UX - therefor now SheBang!
 # CFG2HTML - license: see GPL v3
 # -------------------------------------------------------------------------
 # The cfg2html is developed on https://github.com/cfg2html/cfg2html
@@ -34,7 +35,7 @@ rm -f /tmp/cfg2html.respawn # get rid of the temporary lock as soon as possible
 # this CVS id is also used by the Makefiles to get the version number!
 # may be obsoleted by git tag --describe or git describe handling?
 PRODUCT="Config to HTML - cfg2html"
-CVS="$Id: cfg2html,v 7.1.0 2024/02/15 07:09:40 ralph Exp $"
+CVS="$Id: cfg2html,v 7.1.2 2024/09/27 07:09:40 ralph Exp $"     ## Hardcoded..... yet, any ideas?
 PROGRAM=$(echo ${CVS}|cut -f2 -d" "|cut -f1 -d,)
 VERSION=$(echo ${CVS}|cut -f3 -d" ")
 RELEASE_DATE="2024-01-15"	## YYYY-MM-DD ?!
