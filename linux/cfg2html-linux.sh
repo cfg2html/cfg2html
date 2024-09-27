@@ -1282,7 +1282,7 @@ then # else skip to next paragraph
       exec_command "/usr/bin/debconf-get-selections" "Debian Package Configuration Values"
     fi
     # seems we don't have anything like rpm -qa --last, so here is an workaround:
-    exec_command "grep -E ' install | upgrade ' /var/log/dpkg.log | awk '{print $3, $1, $2, $4}' | tail -30"  "Last installed or upgraded packages" # rr, 27.09.2024
+    exec_command "grep -E ' install | upgrade ' /var/log/dpkg.log | awk '{print \$3, \$1, \$2, \$4}' | tail -30"  "Last installed or upgraded packages" # rr, 27.09.2024
 
   fi
   # end Debian
