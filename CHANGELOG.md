@@ -7,6 +7,7 @@ Changelog
 
 Changes
 ~~~~~~~
+- Updated Changelog (by Makefile), Version: 7.1.1-5-gb380491. [roseswe]
 - Added comments, nicer+formatted output. [roseswe]
 - Updated Changelog (by Makefile), Version: 7.1.1-2-gbd70c78. [roseswe]
 - Small enhancements. [roseswe]
@@ -14,7 +15,15 @@ Changes
 
 Fix
 ~~~
+- Regression. [roseswe]
+- ShellCheck, VersionNumber. [roseswe]
+- Timeout is in coreutils. [roseswe]
 - Debian build dependencies. [roseswe]
+
+Other
+~~~~~
+- Add: Debian last debs installed/updated. [roseswe]
+- ChangeLog updated. [roseswe]
 
 
 7.1.1 (2024-05-10)
