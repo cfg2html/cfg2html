@@ -2,7 +2,7 @@
 # shellcheck disable=SC1073,SC2034,SC2148,SC2154
 
 # -------------------------------------------------------------------------
-# This is the wrapper for cfg2html for LINUX; *NIX and HP-UX - therefor now SheBang!
+# This is the wrapper for cfg2html for LINUX; *NIX and HP-UX - therefore no SheBang!
 # CFG2HTML - license: see GPL v3
 # -------------------------------------------------------------------------
 # The cfg2html is developed on https://github.com/cfg2html/cfg2html
@@ -104,7 +104,7 @@ i=2030
 # date sanity check. complains if cfg2html is too old, must be adjusted every year to fit
 #
 
-while [ ${i} -gt 2023 ]   ## where we want to stop, complains if older than two years
+while [ ${i} -gt 2024 ]   ## where we want to stop, complains if older than two years
 do
     [ ${YEAR} -gt ${i} ] && OLD=${OLD}" very"
     # echo ${i} - ${OLD}
