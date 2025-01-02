@@ -1,6 +1,10 @@
 # I hope these variable are replaced by the make process .... ##TODO##FIXME## 20150212 by Ralph Roth
 %define rpmrelease .git202409280559
 
+%if 0%{?rpmrelease} != 0
+%define gittag -%(c=%{rpmrelease}; echo ${c:1})
+%endif
+
 ### Work-around the fact that OpenSUSE/SLES _always_ defined both :-/
 %if 0%{?sles_version} == 0
 %undefine sles_version
@@ -12,13 +16,13 @@
 
 Name:		cfg2html
 Version: 7.1.2
-Release:	1%{?dist}
+Release:	1%{?rpmrelease}%{?dist}
 Summary:	Config2HTML is a tool to collect system information in HTML and ASCII format
 
 Group:		Applications/File
 License:	GPL-3.0-or-later
 URL:		http://www.cfg2html.com/
-Source: cfg2html-7.1.2.tar.gz
+Source: cfg2html-%{version}%{?gittag}.tar.gz
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:	noarch
 
@@ -30,7 +34,7 @@ Conflicts:	cfg2html-linux
 Swiss army knife script for the System Administrators as it was primarily written to get the necessary information to plan an update, or to perform basic trouble shooting or performance analysis.
 
 %prep
-%setup -q -n cfg2html-7.1.2
+%setup -q -n cfg2html-%{version}%{gittag}
 
 
 %build
@@ -60,7 +64,8 @@ Swiss army knife script for the System Administrators as it was primarily writte
 
 %changelog
 * Tue Dec 31 2024 Frank Crawford <frank@crawford.emu.id.au> - 7.1.2-1
-   - upstream update
+  - upstream update
+  - clean up spec file
 
 * Thu Jan 05 2023 Frank Crawford <frank@crawford.emu.id.au> - 6.43
   - SPDX licences update
