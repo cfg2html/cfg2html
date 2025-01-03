@@ -1,20 +1,29 @@
-# @(#) $Id: sun_os_versions.txt,v 1.3 2013-10-07 22:01:59 ralph Exp $
+# @(#) $Id: sun_os_versions.txt,v 1.5 2025/01/03 07:27:34 ralph Exp $
 # -------------------------------------------------------------------------
 # vim:ts=8:sw=4:sts=4 -*- coding: utf-8 -*- http://rose.rult.at/ - Ralph Roth
+# Markdown
 
 
-Overview of Oracle SunOS versions and cfg2html scripts:
------------------------------------------------------------------------------
+# Overview of Oracle SunOS Versions and cfg2html Scripts
 
-Solaris 2.1 	(SunOS 5.1)		Has to be tested and evaluated. Feedback and enhancements welcome!
-Solaris 2.2 	(SunOS 5.2)		cfg2html-sun_1.14r1.8
-Solaris 2.5.1 	(SunOS 5.5.1)		cfg2html_solaris-1.6.4
-Solaris 2.6 	(SunOS 5.6)		cfg2html_sun-2-1(beta)
-Solaris 7 	(SunOS 5.7)
-Solaris 8 	(SunOS 5.8)
-Solaris 9 	(SunOS 5.9)
-Solaris 10 	(SunOS 5.10)
-Solaris 11 	(SunOS 5.11)		Nov. 2011
------------------------------------------------------------------------------
+| Solaris Version | SunOS Version  | cfg2html Script                    | Notes                          |
+|------------------|----------------|------------------------------------|--------------------------------|
+| Solaris 2.1      | SunOS 5.1      | Has to be tested and evaluated.   | Feedback and enhancements welcome! |
+| Solaris 2.2      | SunOS 5.2      | cfg2html-sun_1.14r1.8             |                                |
+| Solaris 2.5.1    | SunOS 5.5.1    | cfg2html_solaris-1.6.4            |                                |
+| Solaris 2.6      | SunOS 5.6      | cfg2html_sun-2-1(beta)            |                                |
+| Solaris 7        | SunOS 5.7      |                                    |                                |
+| Solaris 8        | SunOS 5.8      |                                    |                                |
+| Solaris 9        | SunOS 5.9      |                                    |                                |
+| Solaris 10       | SunOS 5.10     |                                    |                                |
+| Solaris 11       | SunOS 5.11     |                                    | Released November 2011        |
+| Solaris 11.1     | SunOS 5.11.1   |                                    | First update of Solaris 11    |
+| Solaris 11.2     | SunOS 5.11.2   |                                    | Introduced Kernel Zones       |
+| Solaris 11.3     | SunOS 5.11.3   |                                    | Further improvements in networking and storage |
+| Solaris 11.4     | SunOS 5.11.4   |                                    | Latest long-term support release |
+| Solaris 12       | Unreleased     |                                    | Announced but not officially released yet |
+| OpenSolaris      | Various        |                                    | Community-driven continuation of Solaris |
+| illumos          | Various        |                                    | Derivative of OpenSolaris      |
 
-See also: https://en.wikipedia.org/wiki/Sun_Solaris
+See also: [Wikipedia - Sun Solaris](https://en.wikipedia.org/wiki/Sun_Solaris)
+
