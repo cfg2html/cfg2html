@@ -7,6 +7,30 @@ Changelog
 
 Changes
 ~~~~~~~
+- Changed copyright(year), cleanup. [roseswe]
+
+Fix
+~~~
+- Wrong chmod file bdf. [Ralph Roth (Debian)]
+
+Other
+~~~~~
+- Update to RPM spec file for latest requirements (#186) [Frank
+  Crawford]
+
+  * Update spec for with current BuildRequires and Requires
+
+  * Add a gittag macro to automate usage
+- Bump date check to avoid OLD msg, and comment edit (#185) [Ed
+  Drouillard]
+
+
+7.1.2 (2024-09-27)
+------------------
+
+Changes
+~~~~~~~
+- Updated Changelog (by Makefile), Version: 7.1.1-11-gcb4386e. [roseswe]
 - Updated Changelog (by Makefile), Version: 7.1.1-5-gb380491. [roseswe]
 - Added comments, nicer+formatted output. [roseswe]
 - Updated Changelog (by Makefile), Version: 7.1.1-2-gbd70c78. [roseswe]
