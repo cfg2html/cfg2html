@@ -1,7 +1,7 @@
 # I hope these variable are replaced by the make process .... ##TODO##FIXME## 20150212 by Ralph Roth
 %define rpmrelease .git202409280559
 
-%if 0%{?rpmrelease} != 0
+%if %{?rpmrelease:1}%{!?rpmrelease:0}
 %define gittag -%(c=%{rpmrelease}; echo ${c:1})
 %endif
 
