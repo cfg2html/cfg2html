@@ -1,5 +1,9 @@
 # I hope these variable are replaced by the make process .... ##TODO##FIXME## 20150212 by Ralph Roth
-%define rpmrelease .git202310050913
+%define rpmrelease .git202409280559
+
+%if 0%{?rpmrelease} != 0
+%define gittag -%(c=%{rpmrelease}; echo ${c:1})
+%endif
 
 ### Work-around the fact that OpenSUSE/SLES _always_ defined both :-/
 %if 0%{?sles_version} == 0
@@ -11,27 +15,26 @@
 %undefine __brp_mangle_shebangs
 
 Name:		cfg2html
-Version: 7.01
+Version: 7.1.2
 Release:	1%{?rpmrelease}%{?dist}
 Summary:	Config2HTML is a tool to collect system information in HTML and ASCII format
 
 Group:		Applications/File
 License:	GPL-3.0-or-later
 URL:		http://www.cfg2html.com/
-Source: cfg2html-6.43-git202301050913.tar.gz
-#Source1:	%%{name}.cron
+Source: cfg2html-%{version}%{?gittag}.tar.gz
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:	noarch
 
-#BuildRequires:
-Requires:	bash gawk psmisc
+BuildRequires:	make
+Requires:	bash gawk psmisc crontabs
 Conflicts:	cfg2html-linux
 
 %description
 Swiss army knife script for the System Administrators as it was primarily written to get the necessary information to plan an update, or to perform basic trouble shooting or performance analysis.
 
 %prep
-%setup -q -n cfg2html-6.16-git201312020913
+%setup -q -n cfg2html-%{version}%{gittag}
 
 
 %build
@@ -40,7 +43,6 @@ Swiss army knife script for the System Administrators as it was primarily writte
 %install
 %{__rm} -rf %{buildroot}
 %{__make} -C linux install DESTDIR="%{buildroot}"
-#%{__install} -Dp -m0644 %{name}.cron %{buildroot}%{_sysconfdir}/cron.d/%{name}
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -61,6 +63,10 @@ Swiss army knife script for the System Administrators as it was primarily writte
 
 
 %changelog
+* Tue Dec 31 2024 Frank Crawford <frank@crawford.emu.id.au> - 7.1.2-1
+  - upstream update
+  - clean up spec file
+
 * Thu Jan 05 2023 Frank Crawford <frank@crawford.emu.id.au> - 6.43
   - SPDX licences update
   - Fix up comments
