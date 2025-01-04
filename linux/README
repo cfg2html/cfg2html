@@ -133,12 +133,25 @@ How to apply the Patches/Diffs?
 ---------------------------------------------------------------------------
 
 Extending `cfg2html` is a straightforward process accomplished by crafting small
-scripts and configuring them as plugins located in the `/etc/cfg2html/plugins`
-directory. The possibilities within your plugin are virtually limitless, with the
+scripts and configuring them as plugins as defined in the `/etc/cfg2html/plugins`
+file. The possibilities within your plugin are virtually limitless, with the
 entire stdout content being incorporated into the output file.
 
+WARNING: be particularly careful to ensure that only root can write to /etc/cfg2html/plugins
+along with the other plugin directories and files
+as each configured script will be run as root when cfg2html is run when Plugins are enabled (-P).
+
 To ensure seamless integration of your script as a `cfg2html` plugin, adhere to
-the following two essential guidelines:
+the following two essential guidelines, A and B.  The following assumes the
+cfg2html script resides within /usr/local/src/cfg2html.
+
+A: In the /etc/cfg2html/plugins file, define the following 2 variables (examples shown):
+
+CFG2HTML_PLUGIN_DIR=/usr/local/src/cfg2html/linux/contrib/plugins  # The location of the plugins' repository
+CFG2HTML_PLUGINS="bdf"                            # a space-separated list of plugin scripts to run, or "all"
+
+B: Create each plugin script file specified in $CFG2HTML_PLUGINS in directory $CFG2HTML_PLUGIN_DIR.
+You can use the /usr/local/src/cfg2html/linux/contrib/plugins/templateplugin file as a model:
 
 1. Define your desired paragraph title by assigning it to a variable named `CFG2HTML_PLUGINTITLE`.
 2. Execute all of your program's logic within a function aptly named "cfg2html_plugin."
