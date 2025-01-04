@@ -32,13 +32,12 @@ cfg2html creates a nice HTML and plain ASCII documentation. If you are missing
 something, let us know it!
 
 The newest versions are downloadable at:
-  - http://come.to/cfg2html (all stuff)
   - www.cfg2html.com (only new betas)
 
-To get a new version visit:         http://come.to/cfg2html
+To get a new version visit:         www.cfg2html.com
 And subscribe to the cfg2html mailing list
 
-Original HPUX Version:  Ralph Roth, ROSE SWE, http://come.to/rose_swe
+Original HPUX Version:  Ralph Roth, ROSE SWE, http://rose.rult.at
 
 INSTALLING
 
@@ -148,9 +147,9 @@ Example:  ./cfg2html_hpux.sh -ALbt -o/tmp/hp     to collect EVERYTHING
                                   |___/
 ------------------------------------------------------------------
 
-For security reasons it is better to store the HTML and ASCII files in a
-safe place where only root user have access. Then remove the files from
-your file system.
+For security reasons it is better to store the HTML and ASCII files in a safe
+place where only root user have access. Then remove the files from your file
+system.
 
 
  ____       _       _     _
@@ -256,12 +255,8 @@ You can contact me (Ralph Roth) the following ways
 
 1.) I have the following accounts:
 
-ICQ:    	22 11 20 58   (rose_swe)
-AIM:    	rose69swe (69 is the year of my birth :)
 MSN:    	cfg2html//rose_swe
 Yahoo:  	rose_swe
-IRC:    	rose_swe, r0se_swe on #virus
-Jabber/Org:	cfg2html@jabber.org
 
 
 2.) Email: I do spam filtering with various tools, so put only me in the
@@ -292,12 +287,12 @@ major bug was fixed.
 - A bump in Micro (normally characters like a,b,c) usually means bug fixes
 or in-house releases (no public releases).
 
-These numbers go from 0-99, and are not necessarily continuous or
-monotonically increasing (but they are increasing). What you consider major
-and what I consider major are probably two different things. It is possible
-that there will be no changes between final release candidate and release.
-Sometimes due to the nature of the changes a release will be marked
-development. This usually means some core functionality was changed.
+These numbers go from 0-99, and are not necessarily continuous or monotonically
+increasing (but they are increasing). What you consider major and what I consider
+major are probably two different things. It is possible that there will be no
+changes between final release candidate and release. Sometimes due to the nature
+of the changes a release will be marked development. This usually means some core
+functionality was changed.
 
 To keep thing easier, the HP-UX releases have now the date (YYYYMMDD) in the
 archives names. I also renamed the .sd to .depot The "B." is now omitted

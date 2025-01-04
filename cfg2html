@@ -38,11 +38,11 @@ PRODUCT="Config to HTML - cfg2html"
 CVS="$Id: cfg2html,v 7.1.2 2024/09/27 07:09:40 ralph Exp $"     ## Hardcoded..... yet, any ideas?
 PROGRAM=$(echo ${CVS}|cut -f2 -d" "|cut -f1 -d,)
 VERSION=$(echo ${CVS}|cut -f3 -d" ")
-RELEASE_DATE="2024-01-15"	## YYYY-MM-DD ?!
+RELEASE_DATE="2025-01-02"	## YYYY-MM-DD ?!
 OS="$(uname)"
 OS="$(echo ${OS} | tr 'A-Z' 'a-z' | sed -e 's/-//')"
 CFG_CMDLINE=$*
-COPYRIGHT="Copyright (C) 1999-2024 by ROSE SWE, Dipl.-Ing. Ralph Roth"
+COPYRIGHT="Copyright (C) 1999-2025 by ROSE SWE, Dipl.-Ing. Ralph Roth"
 LANG="C"
 LANG_ALL="C"            # [20200310] {jcw} added LC_COLLATE.
 LC_COLLATE="POSIX"
@@ -97,8 +97,7 @@ MYPATH=$(dirname $(type $0 | awk '{print $NF}')) # see issue #18
 
 ### new date check ###
 
-YEAR=$(date +%Y)    ## current year, e.g. 2016
-# YEAR=2018 # for debugging set it into the future
+YEAR=$(date +%Y)    ## current year, e.g. 2016, for debugging set it into the future
 OLD=""
 i=2030
 # date sanity check. complains if cfg2html is too old, must be adjusted every year to fit
