@@ -722,7 +722,7 @@ inc_heading_level
   # Added by Dusan Baljevic on 24 December 2017
   NEEDRESTART=$(which needs-restarting 2>/dev/null)
   if [ -n "${NEEDRESTART}" ] && [ -x "${NEEDRESTART}" ] ; then
-      exec_command "${NEEDRESTART}" "Report running processes that have been updated and need restart"
+      exec_command "${NEEDRESTART} 2>/dev/null" "Report running processes that have been updated and need to be restarted" # modified on 20250208 by edrulrd
   fi
 
   # Added by Dusan Baljevic on 24 December 2017
@@ -1733,7 +1733,7 @@ then # else skip to next paragraph
     fi
 
     exec_command "netstat -s" "Summary statistics for each protocol"
-    exec_command "netstat -i" "Kernel Interface table"
+    exec_command "netstat -i | column -t" "Kernel Interface table"
     # MiMe: iptables since 2.4.x
     # MiMe: iptable_nat realisiert dabei das Masquerading
     # MiMe: Details stehen in /proc/net/ip_conntrack
@@ -1752,7 +1752,7 @@ then # else skip to next paragraph
 
   if [ "$(which ss 2>/dev/null)" ] # check if the command is in the program's path # added on 20240119 by edrulrd
   then
-    exec_command "ss -planeto" "TCP Listening Sockets Statistics" # changed 20131211 by Ralph Roth # modified on 20240119 by edrulrd
+    exec_command "ss -planeto 2>/dev/null" "TCP Listening Sockets Statistics" # changed 20131211 by Ralph Roth # modified on 20250209 by edrulrd
     exec_command "ss -planeuo" "UDP Listening Sockets Statistics" # UDP and listening? :) # modified on 20240119 by edrulrd
   fi # ss
   if [ "$(which pminfo 2>/dev/null)" ] # check if the command is in the program's path # Added on 20240119 by edrulrd
@@ -1861,7 +1861,7 @@ then # else skip to next paragraph
   [ -r /etc/bind/named.boot ] && exec_command "grep -v '^;' /etc/named.boot"  "DNS/Named"
 
   if [ -s /etc/dnsmasq.conf ] ; then
-     exec_command "cat /etc/dnsmasq.conf | grep -vE '^#|^ *$'; which systemctl 2>/dev/null 1>&2 && systemctl status dnsmasq" "DNSMASQ" # check for systemctl before checking status # modified on 20240411 by edrulrd
+     exec_command "cat /etc/dnsmasq.conf | grep -vE '^#|^ *$'; which systemctl 2>/dev/null 1>&2 && systemctl status dnsmasq 2>&1" "DNSMASQ" # check for systemctl before checking status # modified on 20250209 by edrulrd
   fi
 
   if [ -s /etc/nscd.conf ] ; then
