@@ -1273,7 +1273,21 @@ then # else skip to next paragraph
     fi
     exec_command "dpkg -l" "Detailed list of installed Packages"
     AddText "$(dpkg --version|grep program)"
-    exec_command "grep -vE '^#|^ *$' /etc/apt/sources.list" "Package Source repositories" # modified on 20240119 by edrulrd
+
+    if [ -f /etc/apt/sources.list ] ; then
+      exec_command "grep -vE '^#|^ *$' /etc/apt/sources.list" "Package Source repositories" # modified on 20240119 by edrulrd
+    else
+      if [ -d /etc/apt/sources.list.d ] ; then
+        exec_command "" "Package Source repositories:" # added on 20250210 by edrulrd
+        for FILE in /etc/apt/sources.list.d/* # added on 20250210 by edrulrd
+        do
+          [ -f "${FILE}" ] && if [ "$(grep -cvE "'^#|^ *$'" "${FILE}")" -gt 0 ] ; then # confirm there is at least one # added on 20250210 by edrulrd
+            exec_command "grep -vE '^#|^ *$' ${FILE}" "${FILE}" # added on 20250210 by edrulrd
+          fi
+        done
+      fi
+    fi
+
     [ -x /usr/bin/dpigs ] && exec_command "/usr/bin/dpigs -H" "Largest installed packages" # added -H # modified on 20240119 by edrulrd
     if [ -x /usr/bin/debconf-get-selections ]; then
       AddText "Debian Settings"
