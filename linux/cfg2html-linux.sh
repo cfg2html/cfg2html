@@ -1273,7 +1273,21 @@ then # else skip to next paragraph
     fi
     exec_command "dpkg -l" "Detailed list of installed Packages"
     AddText "$(dpkg --version|grep program)"
-    exec_command "grep -vE '^#|^ *$' /etc/apt/sources.list" "Package Source repositories" # modified on 20240119 by edrulrd
+
+    if [ -f /etc/apt/sources.list ] ; then
+      exec_command "grep -vE '^#|^ *$' /etc/apt/sources.list" "Package Source repositories" # modified on 20240119 by edrulrd
+    else
+      if [ -d /etc/apt/sources.list.d ] ; then
+        exec_command "" "Package Source repositories:" # added on 20250210 by edrulrd
+        for FILE in /etc/apt/sources.list.d/* # added on 20250210 by edrulrd
+        do
+          [ -f "${FILE}" ] && if [ "$(grep -cvE "'^#|^ *$'" "${FILE}")" -gt 0 ] ; then # confirm there is at least one # added on 20250210 by edrulrd
+            exec_command "grep -vE '^#|^ *$' ${FILE}" "${FILE}" # added on 20250210 by edrulrd
+          fi
+        done
+      fi
+    fi
+
     [ -x /usr/bin/dpigs ] && exec_command "/usr/bin/dpigs -H" "Largest installed packages" # added -H # modified on 20240119 by edrulrd
     if [ -x /usr/bin/debconf-get-selections ]; then
       AddText "Debian Settings"
@@ -2115,7 +2129,23 @@ then # else skip to next paragraph
 
     if [ -x /sbin/sysctl ] ; then ##  11.01.2010, 10:44 modified by Ralph Roth
       exec_command "/sbin/sysctl -a 2> /dev/null | sort -u | column -c ${CFG_TEXTWIDTH}" "Configured Kernel variables at runtime"  ## rr, 20120212 # added column # modified on 20240119 by edrulrd
-      exec_command "cat /etc/sysctl.conf | sort -u |grep -v -e ^# -e ^$" "Configured Kernel variables in /etc/sysctl.conf" # minor title change # modified on 20240119 by edrulrd
+      # check for multiple locations for settings as per sysctl.conf manpage
+      if [ "$(cat /etc/sysctl.d/*.conf  \
+                  /run/sysctl.d/*.conf \
+                  /usr/local/lib/sysctl.d/*.conf \
+                  /usr/lib/sysctl.d/*.conf \
+                  /lib/sysctl.d/*.conf \
+                  /etc/sysctl.conf 2> /dev/null |
+             grep -c -vE "^( |	)*#|^( |	)*$" )" -gt 0 ] ; then # any uncoomented settings exist? # added on 20250208 by edrulrd
+         exec_command "cat /etc/sysctl.d/*.conf \
+                           /run/sysctl.d/*.conf \
+                           /usr/local/lib/sysctl.d/*.conf \
+                           /usr/lib/sysctl.d/*.conf \
+                           /lib/sysctl.d/*.conf \
+                           /etc/sysctl.conf 2> /dev/null |
+                       grep -vE '^( |	)*#|^( |	)*$' |
+                       sort -t= -u -k 1,1" "Configured Kernel variables in sysctl.conf files" # get the 1st setting found in the files # modified on 20250208 by edrulrd
+      fi
     fi
 
     # Added by Dusan Baljevic on 15 July 2013
