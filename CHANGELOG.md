@@ -2,19 +2,87 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+7.1.3 (2025-02-15)
+------------------
 
 Changes
 ~~~~~~~
+- Cleanup of sunos tree/dox. [roseswe]
+- Updated Changelog (by Makefile), Version: 7.1.2-4-g66ff097. [roseswe]
 - Changed copyright(year), cleanup. [roseswe]
 
 Fix
 ~~~
+- Adjust physical/virtual checking to try to avoid false positives
+  (#193) [Ed Drouillard]
+
+  - We now give the kernal message "Booting paravirtualized
+    kernel" more weight.  If this message is issued, it should definitively
+    indicate whether or not the system is running on bare hardware.  We scan the
+    journal and/or the kernel ring buffer for this message.  If this message is
+    not issued, then these information sources could still generate incorrect
+    physical/virtual status.  Since there are many reasons why particular
+    strings could be found in the journal or the kernel ring buffer, we now
+    produce a message indicating the possibility of issuing a false conclusion
+    so the sysadmin can determine for themselves if the system is virtual or
+    running on bare hardware.  Be particularly suspicious if the only sources
+    that identify a system as being virtual is identified by only the journal
+    and/or the kernel ring buffers (i.e., dmesg sources).
+  - After looking for this special string in the journal, etc., we look for
+    indications of being virtual by scanning various other locations for
+    particular strings, eg. xen, kvm, vmware, etc.  There is the possibility
+    that these strings could be found as substrings.  To avoid these potential
+    false positives, we now look for these designated strings surrounded by
+    blank space.
+  - The output of the virt-what command is a good source of supplemental
+    information, particularly for Xen systems, as the host and domains (guests)
+    appear to issue similar journal/dmesg messages, thus always being classified
+    as virtual.  virt-what indicates either xen-dom0 or xen-domU to differentiate
+    between hosts and guests respectively on these systems.
+- Should now work with multi-queue scheduler. [roseswe]
+- Old URLs fixed. Messenger fixed. [roseswe]
 - Wrong chmod file bdf. [Ralph Roth (Debian)]
 
 Other
 ~~~~~
+- Bumped Debian Version Number to 7.1.3, updated therefore some files.
+  [roseswe]
+- Apt/sources.list migrating to apt/sources.list.d and add other sources
+  for syctl.conf settings (#192) [Ed Drouillard]
+
+  * chg: adjust the output of a few commands !minor
+
+  - put the output of the netstat -i command in columns
+
+  - get rid of error messages issued by needs-restarting
+
+  - get rid of error messages issued by ss
+
+  - show error messages issued by systemctl status dnsmasq
+
+  * chg: include other potential sources for installation packages
+
+  - packages may also be stored in directory /etc/apt/sources.list.d
+
+  * chg: include other files that set kernel variables
+
+  - manpage for sysctl.conf references several locations
+
+  * fix shellcheck warning
+- Update to linux README wrt Plugins (#189) [Ed Drouillard]
+
+  * bump date check to avoid OLD msg, and comment edit
+
+  * linux plugin documentation enhancement
+- Fix for incorrect RPM if macro (#188) [Frank Crawford]
+
+  * Update spec for with current BuildRequires and Requires
+
+  * Add a gittag macro to automate usage
+
+  * Fix incorrect rpm macro
+
+  * Correct fix for macro
 - Update to RPM spec file for latest requirements (#186) [Frank
   Crawford]
 
