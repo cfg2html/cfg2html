@@ -295,7 +295,7 @@ inc_heading_level
 
   touch PhysVirt.info_Pt2; chmod 0600 PhysVirt.info_Pt2; chown 0:0 PhysVirt.info_Pt2; sync;sync
 
-  for VIRTs in dom0 domu kvm paravirt qemu virtio vmware xen; do # look for these strings in various places # fix typo in dom0 # modified on 20240303 by edrulrd
+  for VIRTs in paravirtualized dom0 domu kvm qemu virtio vmware xen; do # look for these strings in various places # fix typo in dom0 # modified on 20250207 by edrulrd
       VIRTterm='unset'                                        # Local value used within the loop.
 
       VIRTci='unset'                                          # /proc/cpuinfo   # These are only used to display state.
@@ -305,50 +305,85 @@ inc_heading_level
       VIRTdd='unset'                                          # dmidecode {the command}
       VIRTls='unset'                                          # /sbin/lspci {the command}
 
-      # These are only indented this way so as to visually distinguish them; there is no desire/need to if-then-else them!
-      if  grep -iq "${VIRTs}" /proc/cpuinfo ; then
-           VIRTterm='TRUE'
-           VIRTci='TRUE'
+      # Check for paravirtualized message first as a definitive indication.
+      # And check the journalctl command first since it can go back to boot time.
+      if [ -n "${JOURNAL}" ] &&  ${JOURNAL} --system --boot 2>/dev/null | grep -iq -m 1 -E '(^|[[:blank:]])'"${VIRTs}"'([[:blank:]]|$)' ; then # modified on 20250207 by edrulrd
+        if [ "${VIRTs}" == 'paravirtualized' ]; then # added on 20250207 by edrulrd
+          if ${JOURNAL} --system --boot 2>/dev/null | grep -iq -m 1 'Booting paravirtualized kernel' ; then # added on 20250207 by edrulrd
+             if ! ${JOURNAL} --system --boot 2>/dev/null | grep -iq -m 1 'Booting paravirtualized kernel on bare hardware' ; then # modified on 20250207 by edrulrd
+               VIRTterm='TRUE'
+               VIRTjn='TRUE'
+             fi # added on 20250207 by edrulrd
+          fi
+        else # not paravirtualized # added on 20250207 by edrulrd
+           if  [ ${VMparavirtkrnl} != 'TRUE' ]; then  # only set as virtual if we've not found the paravirtualized kernel message # added on 20250207 by edrulrd
+             VIRTterm='TRUE' # added on 20250207 by edrulrd
+             VIRTjn='TRUE' # added on 20250207 by edrulrd
+             # Since the ${VIRTs} string could be in the journal for several different reasons which do not imply being in a VM or not, issue a note # added on 20250212 by edrulrd
+             echo "VIRTs(${VIRTs}): False result?: $(${JOURNAL} --system --boot 2>/dev/null | grep -i -m 1 -E '(^|[[:blank:]])'"${VIRTs}"'([[:blank:]]|$)')" >> PhysVirt.info_Pt2 # added on 20250212 by edrulrd
+           fi # added on 20250207 by edrulrd
+        fi # added on 20250207 by edrulrd
       fi
 
-      # These are only indented this way so as to visually distinguish them; there is no desire/need to if-then-else them!
-      if [ -n "${DMESG}" ] &&  ${DMESG} | grep -iq ${VIRTs} ; then
-           # Using the 'dmesg' command is useful for some number of days after the system was last booted;
-           # beyond that, the /var/log/dmesg file is a good alternate datapoint.
-           # See also https://github.com/cfg2html/cfg2html/issues/153
-           if ! ${DMESG} | grep -q 'Booting paravirtualized kernel on bare hardware' ; then
-                # This exception catches the one case of installing RHEL/CentOS on a real physical machine.  This IS properly/necessarily nested!
-                VIRTterm='TRUE'
-                VIRTdc='TRUE'
-           fi
+      # Check the dmesg command
+      if [ -n "${DMESG}" ] &&  ${DMESG} | grep -iq -m 1 -E '(^|[[:blank:]])'"${VIRTs}"'([[:blank:]]|$)'; then # modified on 20250207 by edrulrd
+        if [ "${VIRTs}" == 'paravirtualized' ]; then # added on 20250207 by edrulrd
+          # Using the 'dmesg' command is useful for some number of days after the system was last booted;
+          # beyond that, the /var/log/dmesg file is a good alternate datapoint.
+          # See also https://github.com/cfg2html/cfg2html/issues/153
+          if ${DMESG} | grep  -iq -m 1 'Booting paravirtualized kernel' ; then # added on 20250207 by edrulrd
+            if ! ${DMESG} | grep -iq -m 1 'Booting paravirtualized kernel on bare hardware' ; then # modified on 20250207 by edrulrd
+              VIRTterm='TRUE'
+              VIRTdc='TRUE'
+            fi # added on 20250207 by edrulrd
+          fi
+        else # not paravirtualized # added on 20250207 by edrulrd
+          if [ ${VMparavirtkrnl} != 'TRUE' ]; then # only set as virtual if we've not found the paravirtualized kernel message # added on 20250207 by edrulrd
+            VIRTterm='TRUE' # added on 20250207 by edrulrd
+            VIRTdc='TRUE' # added on 20250207 by edrulrd
+            # Since the ${VIRTs} string could be in the kernel ring buffer for several different reasons which do not imply being in a VM or not, issue a note # added on 20250212 by edrulrd
+            echo "VIRTs(${VIRTs}): False result?: $(${DMESG} | grep -i -m 1 -E '(^|[[:blank:]])'"${VIRTs}"'([[:blank:]]|$)')" >> PhysVirt.info_Pt2 # added on 20250212 by edrulrd
+          fi # added on 20250207 by edrulrd
+        fi # added on 20250207 by edrulrd
       fi
 
-      if grep -iq ${VIRTs} /var/log/dmesg 2>/dev/null ; then
-           if ! grep -q 'Booting paravirtualized kernel on bare hardware' /var/log/dmesg 2>/dev/null ; then # check the file for the string # modified on 20240411 by edrulrd
-                  # This exception catches the one case of installing RHEL/CentOS on a real physical machine.  This IS properly/necessarily nested!
-                  VIRTterm='TRUE'
-                  VIRTdf='TRUE'
-           fi
+      # Check the /var/log/dmesg file
+      if grep -iq -m 1 -E '(^|[[:blank:]])'"${VIRTs}"'([[:blank:]]|$)' /var/log/dmesg 2>/dev/null ; then # modified on 20250207 by edrulrd
+        if [ "${VIRTs}" == 'paravirtualized' ]; then # added on 20250207 by edrulrd
+          if grep -iq -m 1 'Booting paravirtualized kernel' /var/log/dmesg 2>/dev/null ; then # added on 20250207 by edrulrd
+            if ! grep -iq -m 1 'Booting paravirtualized kernel on bare hardware' /var/log/dmesg 2>/dev/null ; then # modified on 20250207 by edrulrd
+              VIRTterm='TRUE'
+              VIRTdf='TRUE'
+            fi
+          fi
+        else # not paravirtualized # added on 20250207 by edrulrd
+          if [ ${VMparavirtkrnl} != 'TRUE' ]; then # only set as virtual if we've not found the paravirtualized kernel message # added on 20250207 by edrulrd
+            VIRTterm='TRUE' # added on 20250207 by edrulrd
+            VIRTdf='TRUE' # added on 20250207 by edrulrd
+            # Since the ${VIRTs} string could be in the kernel ring buffer for several different reasons which do not imply being in a VM or not, issue a note # added on 20250212 by edrulrd
+            echo "VIRTs(${VIRTs}): False result?: $(grep -i -m 1 -E '(^|[[:blank:]])'"${VIRTs}"'([[:blank:]]|$)' /var/log/dmesg 2>/dev/null)" >> PhysVirt.info_Pt2 # added on 20250212 by edrulrd
+          fi # added on 20250207 by edrulrd
+        fi # added on 20250207 by edrulrd
       fi
 
-      if [ -n "${JOURNAL}" ] &&  ${JOURNAL} --system --boot 2>/dev/null | grep -iq ${VIRTs} ; then # added on 20240303 by edrulrd
-           # some systems don't have /var/log/dmesg, so, let's try to use the system journal since bootup instead as another source # added on 20240303 by edrulrd
-           if ! ${JOURNAL} --system --boot 2>/dev/null | grep -q 'Booting paravirtualized kernel on bare hardware' ; then
-                VIRTterm='TRUE'
-                VIRTjn='TRUE'
-           fi
+      # Check /proc/cpuinfo
+      if grep  -iq -m 1 -E '(^|[[:blank:]])'"${VIRTs}"'([[:blank:]]|$)' /proc/cpuinfo ; then # modified on 20250207 by edrulrd
+        VIRTterm='TRUE'
+        VIRTci='TRUE'
       fi
 
-      if [ -n "${DMIDECODE}" ] && [ "$(${DMIDECODE} | grep -i ${VIRTs})" != "" ]; then # modified on 20201004 by edrulrd
-           # Value is established up above.
-           VIRTterm='TRUE'
-           VIRTdd='TRUE'
+      # Check the dmidecode command
+      if [ -n "${DMIDECODE}" ] && [ "$(${DMIDECODE} | grep -i -m 1 -E '(^|[[:blank:]])'"${VIRTs}"'([[:blank:]]|$)')" != "" ]; then # modified on 20250207 by edrulrd
+        # Value is established up above.
+        VIRTterm='TRUE'
+        VIRTdd='TRUE'
       fi
 
-      if [ -n "${LSPCI}" ] && [ "$(${LSPCI} -v | grep -i ${VIRTs})" != "" ]; then # modified on 20201004 by edrulrd
-           # Value is established up above; '-v' to lscpi command provides verbosity.
-           VIRTterm='TRUE'
-           VIRTls='TRUE'
+      # Check the lspci -v command
+      if [ -n "${LSPCI}" ] && [ "$(${LSPCI} -v | grep -i -m 1 -E '(^|[[:blank:]])'"${VIRTs}"'([[:blank:]]|$)')" != "" ]; then # modified on 20250207 by edrulrd
+        # Value is established up above; '-v' to lscpi command provides verbosity.
+        VIRTterm='TRUE'
+        VIRTls='TRUE'
       fi
 
       # Very VMware-based; determine if this is an ESX or a VM, and then use that clue to get and later display the version of VMwareTools (if it can be found).
@@ -357,7 +392,7 @@ inc_heading_level
                 # Is one way to determine it.
                 ESXhost='TRUE'
            else
-                if [ -n "${DMESG}" ] && [ "$(${DMESG} | grep -i vmxnet)" != "" ] || [ -n "${DMIDECODE}" ] && [ "$(${DMIDECODE} | grep -i vmxnet)" != "" ]; then # modified on 20201004 by edrulrd
+                if [ -n "${DMESG}" ] && [ "$(${DMESG} | grep -i -m 1 vmxnet)" != "" ] || [ -n "${DMIDECODE}" ] && [ "$(${DMIDECODE} | grep -i -m 1 vmxnet)" != "" ]; then # modified on 20250207 by edrulrd
                      VIRTterm='TRUE'
                 fi
 
@@ -395,9 +430,7 @@ inc_heading_level
                           VMkvm='TRUE'
                           VMKVM='TRUE'
                           ;;
-                paravirt) #
-                          # Have to do further checks first before just giving in to this one.
-                          # "$(dmesg | grep -i paravirt)" != 'booting paravirtualized kernel on'
+                paravirtualized) # modified on 20250207 by edrulrd
                           VMparavirtkrnl='TRUE'
                           ;;
                     qemu) #
@@ -421,16 +454,16 @@ inc_heading_level
            ESXhost='false'
            VirtMach='TRUE'
            # Determinations are over for ${VIRTs} ... now generate output line.
-           ( echo "VIRTs(${VIRTs}), VIRTterm (${VIRTterm}): VIRTci(${VIRTci}), VIRTdc(${VIRTdc}), VIRTdf(${VIRTdf}), VIRTjn(${VIRTjn}), VIRTdd(${VIRTdd}), VIRTls(${VIRTls})."
+           ( echo "VIRTs(${VIRTs}), VIRTterm (${VIRTterm}): VIRTjn(${VIRTjn}), VIRTdc(${VIRTdc}), VIRTdf(${VIRTdf}), VIRTci(${VIRTci}), VIRTdd(${VIRTdd}), VIRTls(${VIRTls})." # modified on 20250210 by edrulrd
            echo "PhysHost(${PhysHost}), VirtMach(${VirtMach}), VMdom0(${VMdom0}), VMdomU(${VMdomU}), VMkvm(${VMkvm}), VMKVM(${VMKVM}), VMparavirtkrnl(${VMparavirtkrnl}), VMqemu(${VMqemu}), VMvirtio(${VMvirtio}), VMxen(${VMxen}), VMXEN(${VMXEN}), ESXhost(${ESXhost}), VMTver(${VMTver}), VMware(${VMware})."
            echo ) >> PhysVirt.info_Pt2 # make more readable # modified on 20240303 by edrulrd
       fi
   done
 
   ( echo "Note: the physical or virtual environment state was determined by searching for each of these case-insensitive strings:"
-  echo '      "dom0", "domU", "kvm", "paravirt", "qemu", "virtio", "xen", and "vmware"'
+  echo '      "paravirtualized", "dom0", "domU", "kvm", "qemu", "virtio", "xen", and "vmware"' # modified on 20250207 by edrulrd
   echo "      from within the following sources:"
-  echo "      /proc/cpuinfo, dmesg command, /var/log/dmesg file, journalctl command, dmidecode command, and the lspci command."
+  echo "      journalctl command, dmesg command, /var/log/dmesg file, /proc/cpuinfo, dmidecode command, and the lspci command." # modified on 20250210 by edrulrd
   echo "      If the searches failed or if the logs expressly indicated not being virtual, then the system is deemed to be Physical."
   echo ' ' ) >> PhysVirt.info_Pt2 # modified on 20240322 by edrulrd
 
