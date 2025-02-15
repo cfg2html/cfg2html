@@ -1,4 +1,11 @@
-cfg2html (7.1.2) UNRELEASED; urgency=low
+cfg2html (7.1.4) UNRELEASED; urgency=medium
+
+  * Having problem with the Debian build system/process
+  * This is 7.1.4 
+
+ -- Ralph (ZOS 17) <cfg2html@hotmail.com>  Sat, 15 Feb 2025 23:39:25 +0100
+
+cfg2html (7.1.3) unstable; urgency=low
 
   * Bumped version number to 7.0.0 - details see git changelog
   * 7.0-4 - Debian build for www.cfg2html.com
@@ -7,12 +14,16 @@ cfg2html (7.1.2) UNRELEASED; urgency=low
   * Build on Debian 12 (7.1.1)
 
   [ Ralph (ZOS 17.1) ]
-  * Build on ZorisOS 17.1, small cosmetic changes (7.1.2)
+  * Build on ZorinOS 17.1, small cosmetic changes (7.1.2)
 
   [ Ralph Roth ]
   * 7.1.2 (trimmed a bit the changelog)....
 
- -- Ralph Roth <cfg2html@hotmail.com>  Sat, 13 Jul 2024 16:24:41 +0200
+  [ Ralph (ZOS 17) ]
+  * 7.1.3 See for details the git ChangeLog
+  * Bumped version number to 7.1.3
+
+ -- Ralph (ZOS 17) <cfg2html@hotmail.com>  Sat, 15 Feb 2025 23:03:14 +0100
 
 cfg2html (6.41) unstable; urgency=low
 
