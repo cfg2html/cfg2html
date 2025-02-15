@@ -2130,14 +2130,13 @@ then # else skip to next paragraph
     if [ -x /sbin/sysctl ] ; then ##  11.01.2010, 10:44 modified by Ralph Roth
       exec_command "/sbin/sysctl -a 2> /dev/null | sort -u | column -c ${CFG_TEXTWIDTH}" "Configured Kernel variables at runtime"  ## rr, 20120212 # added column # modified on 20240119 by edrulrd
       # check for multiple locations for settings as per sysctl.conf manpage
-      if [ $(cat /etc/sysctl.d/*.conf  \
-                 /run/sysctl.d/*.conf \
-                 /usr/local/lib/sysctl.d/*.conf \
-                 /usr/lib/sysctl.d/*.conf \
-                 /lib/sysctl.d/*.conf \
-                 /etc/sysctl.conf 2> /dev/null |
-             grep -vE "^( |	)*#|^( |	)*$" |
-             wc -l) -gt 0 ] ; then # any uncommented settings exist? # added on 20250208 by edrulrd
+      if [ "$(cat /etc/sysctl.d/*.conf  \
+                  /run/sysctl.d/*.conf \
+                  /usr/local/lib/sysctl.d/*.conf \
+                  /usr/lib/sysctl.d/*.conf \
+                  /lib/sysctl.d/*.conf \
+                  /etc/sysctl.conf 2> /dev/null |
+             grep -c -vE "^( |	)*#|^( |	)*$" )" -gt 0 ] ; then # any uncoomented settings exist? # added on 20250208 by edrulrd
          exec_command "cat /etc/sysctl.d/*.conf \
                            /run/sysctl.d/*.conf \
                            /usr/local/lib/sysctl.d/*.conf \
