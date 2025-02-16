@@ -988,6 +988,10 @@ then # else skip to next paragraph
 paragraph "Hardware"
 inc_heading_level
 
+  GPU_INFO=$(hwinfo --gfxcard)
+  exec_command "echo \"${GPU_INFO}\"" "GPU Details"
+
+
   RAM=$(awk -F': *' '/MemTotal/ {print $2}' /proc/meminfo)
   # RAM=`cat /proc/meminfo | grep MemTotal | awk -F\: '{print $2}' | awk -F\  '{print $1 " " $2}'`
   exec_command "echo ${RAM}" "Physical Memory"
