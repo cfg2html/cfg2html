@@ -259,6 +259,16 @@ then # else skip to next paragraph
 paragraph "Linux System:  [${distrib}]"   ## empty? ## FIXME ###
 inc_heading_level
 
+  # If systemd-detect-virt is available, let's just use it instead of checking multiple possible sources
+  SYSDETECT=$(which systemd-detect-virt 2>/dev/null)  # Added 20250209 by edrulrd
+  if [ -n "${SYSDETECT}" ] && [ -x "${SYSDETECT}" ] ; then
+    if ! "${SYSDETECT}" > /dev/null 2>&1 ; then # RC != 0 -> physical server
+      exec_command "${SYSDETECT}" 'Host is Physical.'
+    else
+      exec_command "${SYSDETECT}" 'Host is Virtual.'
+    fi
+  else #check several potential sources for determining virtualization status
+
   # Given the existence of the virt-what command, do we still need this section of code? # added on 20240303 by edrulrd
   ###################################################################################################################################################################
   # [20200324] {jcw}  Added section for determining if this is a physical host (Red Hat KVM/xen or VMware ESX) or virtual machine (VM).
@@ -481,6 +491,7 @@ inc_heading_level
   /bin/rm -f PhysVirt.info PhysVirt.info_Pt2
   unset VMdom0 VMdomU VMkvm VMKVM VMparavirtkrnl VMqemu VMvirtio VMxen VMXEN ESXhost VMTver VMware; sync
   ###################################################################################################################################################################
+  fi
 
   if [ -x /usr/sbin/virt-what ] && VIRTWHAT="$(/usr/sbin/virt-what)" ; then # moved virt-what adjacent to our code that checks if we're virtual # modified on 20240303 by edrulrd
     if [ -n "$VIRTWHAT" ] ; then # output generated, therefore not physical  # added on 20240303 by edrulrd
