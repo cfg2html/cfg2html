@@ -11,7 +11,7 @@
 %endif
 ### Recently in CentOS8, RHEL8, etc, rpmbuild's macros now check for a proper shebang (#!) in the 1st line
 ### of the scripts.  Since our scripts are callable by bash, and ksh, we don't have a shebang in our
-### scripts. This disables that checking.  #modifed on 20201115 by edrulrd
+### scripts. This disables that checking.  #modified on 20201115 by edrulrd
 %undefine __brp_mangle_shebangs
 
 Name:		cfg2html
@@ -27,7 +27,7 @@ BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:	noarch
 
 BuildRequires:	make
-Requires:	bash gawk psmisc crontabs
+Requires:	bash gawk psmisc (crontabs or cron or cronnie or anacron)
 Conflicts:	cfg2html-linux
 
 %description
@@ -63,6 +63,9 @@ Swiss army knife script for the System Administrators as it was primarily writte
 
 
 %changelog
+* 21.02.2025 Ralph Roth
+  - fixes for cron(tab) - 7.1.4
+  
 * Tue Dec 31 2024 Frank Crawford <frank@crawford.emu.id.au> - 7.1.2-1
   - upstream update
   - clean up spec file
