@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html,v 6.47 2024/02/15 07:09:40 ralph Exp $
+# @(#) $Id: cfg2html,v 6.49 2025/02/21 16:10:26 ralph Exp $
 # shellcheck disable=SC1073,SC2034,SC2148,SC2154
 
 # -------------------------------------------------------------------------
@@ -35,10 +35,10 @@ rm -f /tmp/cfg2html.respawn # get rid of the temporary lock as soon as possible
 # this CVS id is also used by the Makefiles to get the version number!
 # may be obsoleted by git tag --describe or git describe handling?
 PRODUCT="Config to HTML - cfg2html"
-CVS="$Id: cfg2html,v 7.1.2 2024/09/27 07:09:40 ralph Exp $"     ## Hardcoded..... yet, any ideas?
+CVS="$Id: cfg2html,v 7.1.4 2025/02/21 16:10:26 ralph Exp $"     ## Hardcoded..... yet, any ideas?
 PROGRAM=$(echo ${CVS}|cut -f2 -d" "|cut -f1 -d,)
 VERSION=$(echo ${CVS}|cut -f3 -d" ")
-RELEASE_DATE="2025-01-02"	## YYYY-MM-DD ?!
+RELEASE_DATE="2025-02-21"	## YYYY-MM-DD ?!
 CFG_CMDLINE=$*
 COPYRIGHT="Copyright (C) 1999-2025 by ROSE SWE, Dipl.-Ing. Ralph Roth"
 LANG="C"
@@ -46,8 +46,7 @@ LANG_ALL="C"            # [20200310] {jcw} added LC_COLLATE.
 LC_COLLATE="POSIX"
 LC_MESSAGE="C"
 OS="$(uname)"
-OS="$(echo ${OS} | tr 'A-Z' 'a-z' | sed -e 's/-//')"
-
+OS="$(echo ${OS} | tr 'A-Z' 'a-z' | sed -e 's/-//')"  ## see also mr/issue #196
 ## maybe we should skip the root check if the command line option -h or -? is passed?
 if  [ "$(whoami)" != "root" -a "$1" != "-h" ]
 then

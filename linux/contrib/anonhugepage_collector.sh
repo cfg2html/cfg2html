@@ -1,4 +1,4 @@
-# @(#) $Id: anonhugepage_collector.sh,v 6.4 2021/03/17 13:50:32 ralph Exp $
+# @(#) $Id: anonhugepage_collector.sh,v 6.5 2025/02/20 09:07:13 ralph Exp $
 # -------------------------------------------------------------------------
 # vim:ts=8:sw=4:sts=4
 # atom:set fileencoding=utf8 fileformat=unix filetype=shell tabstop=2 expandtab:
@@ -7,6 +7,7 @@
 # Collector that shows all processes that had allocated anon huge pages
 
 # Might be broken with openSUSE 15.x and SLES 15.x
+# 20.02.2025 - SLES15 SP5++ -> HANA: SAP strongly recommends to disable Transparent Huge Pages (THP) on all HANA servers (should be [never] or [madvise] (15SP5++) , see also SAP Note 1954788, 2031375 + 2131662(2025)
 
 echo "THP/Huge Pages Overview (/proc/meminfo)"
 grep Huge /proc/meminfo

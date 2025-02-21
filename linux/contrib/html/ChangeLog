@@ -1,66 +1,40 @@
-commit ec5a3741f7e0a7cfabf1da26596b828e6d7270fd
-Author: roseswe <3810660+roseswe@users.noreply.github.com>
-Date:   Sat Feb 18 12:48:07 2023 +0100
+2025-02-20  Ralph (ZOS 17)  <ralph@p16s23z>
 
-    chg: MakeIndex - ShellCheck fixes
+	* allhosts.htm, info.htm, make_index.sh:
+	Version 7.1.4 - updates for modern browsers
 
-commit dba5d84463cd16fcbdda67dbbd28cb878524167e
-Author: roseswe <3810660+roseswe@users.noreply.github.com>
-Date:   Thu Dec 8 19:20:11 2022 +0100
+2023-02-18  Ralph (ZOS 17)  <ralph@p16s23z>
 
-    chg: Copyright changed to 2023 :-)
+	* make_index.sh: Shell
 
-commit 7bc30e986789264c41d9eca1f4bc257311956c18
-Author: roseswe <3810660+roseswe@users.noreply.github.com>
-Date:   Mon Jun 27 12:57:31 2022 +0200
+	* allhosts.htm, info.htm, make_index.sh: allhosts_shellchecked
 
-    chg: Small changes for upcoming SUSE Hackweek
+2022-12-28  Ralph (ZOS 17)  <ralph@p16s23z>
 
-commit b1eed31a2a9d9cc95bc7e1a6f1f2eff84d98935d
-Author: roseswe <3810660+roseswe@users.noreply.github.com>
-Date:   Thu Oct 29 16:42:37 2020 +0100
+	* make_index.sh: copyright bumped
 
-    1 Fixes for make_index.sh (see issue #144) package
-    2 Fixes for regression in cfg2html-linux and crontab collecting
+2020-10-29  Ralph (ZOS 17)  <ralph@p16s23z>
 
-commit a30de2b3fa0ec028f40f2e4031e2dd52172a8590
-Author: roseswe <3810660+roseswe@users.noreply.github.com>
-Date:   Wed Mar 21 19:16:12 2018 +0100
+	* allhosts.htm, info.htm, make_index.sh:
+	Fixes for make_index.sh (see issue #144)
+	Fixes for regression in cfg2html-linux and crontab collecting
 
-    chg: Fixed shell script indent/beautified them
+2020-06-17  Ralph (ZOS 17)  <ralph@p16s23z>
 
-commit aec7f4d3d70c287679158d906301fed675228f90
-Author: roseswe <rose_swe#y!>
-Date:   Thu Jan 4 23:28:55 2018 +0100
+	* make_index.sh: Freezde before merging JW changes
 
-    CVS keyword bumped to major version 6.33
+2018-01-04  Ralph (ZOS 17)  <ralph@p16s23z>
 
-commit 354ba3f303ff980ae4aef9c99bd35bb832bedece
-Author: Ralph Roth <rose_swe@yahoo.com>
-Date:   Thu Jan 4 23:06:22 2018 +0100
+	* allhosts.htm, info.htm, make_index.sh: all_hosts
 
-    Small changes, mainly spelling errors
+2013-11-29  Ralph (ZOS 17)  <ralph@p16s23z>
 
-commit 8c2cbac78d2fe000a78e3ad0551bd3eb5f068131
-Author: Ralph Roth <rroth@suse.com>
-Date:   Mon Oct 7 08:39:34 2013 +0200
+	* allhosts.htm, info.htm, make_index.sh: Checked in
 
-    CVS keywords, spelling/typos, small comments added
+2013-09-12  Ralph (ZOS 17)  <ralph@p16s23z>
 
-commit f78a1230b5a28c097ad4d326b64fc187b706b5ad
-Author: Ralph Roth <rroth@suse.com>
-Date:   Thu Apr 18 13:25:23 2013 +0200
+	* allhosts.htm, info.htm, make_index.sh:
+	Initial 6.10.1 import from GIT Hub, 12.09.2013
 
-    find . -name *.sh -exec chmod +x {} \;
+	* allhosts.htm, info.htm, make_index.sh: New file.
 
-commit 1e6e8cf254f65d77a23d6c7addb91d48949b78fb
-Author: Ralph Roth <rroth@suse.com>
-Date:   Thu Apr 18 12:58:33 2013 +0200
-
-    chmod Errors?
-
-commit 378f85349da2b219c626bee67aaa982b223b68a6
-Author: Gratien D'haese <gratien.dhaese@gmail.com>
-Date:   Mon Mar 25 16:40:19 2013 +0100
-
-    initial import of the linux version of cfg2html
