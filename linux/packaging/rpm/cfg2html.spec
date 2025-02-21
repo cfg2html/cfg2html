@@ -61,11 +61,14 @@ Swiss army knife script for the System Administrators as it was primarily writte
 %{_localstatedir}/log/cfg2html/
 %{_sbindir}/cfg2html
 
+## !! error: bad date in %changelog: 21.02.2025 Ralph Roth
+## The correct format should be `Day Mon DD YYYY` (e.g., `Fri Feb 21 2025`)
 
 %changelog
-* 21.02.2025 Ralph Roth
-  - fixes for cron(tab) - 7.1.4
-  
+* Fri Feb 21 2025 Ralph Roth <cfg2html@hotmail.com> - 7.1.4
+  - fixes for cron(tab)
+  - fix for the RPM changelog
+
 * Tue Dec 31 2024 Frank Crawford <frank@crawford.emu.id.au> - 7.1.2-1
   - upstream update
   - clean up spec file
