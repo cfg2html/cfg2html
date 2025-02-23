@@ -27,7 +27,7 @@ BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:	noarch
 
 BuildRequires:	make
-Requires:	bash gawk psmisc (crontabs or cron or cronnie or anacron)
+Requires:	bash gawk psmisc (crontabs or cron or cronie or anacron)
 Conflicts:	cfg2html-linux
 
 %description
