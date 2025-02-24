@@ -999,9 +999,9 @@ then # else skip to next paragraph
 paragraph "Hardware"
 inc_heading_level
 
-  GPU_INFO=$(hwinfo --gfxcard)
-  exec_command "echo \"${GPU_INFO}\"" "GPU Details"
-
+  # /usr/share/cfg2html/cfg2html-linux.sh: line 1002: hwinfo: command not found // 24.02.2025, rr # issuse #191
+  [ -x /usr/sbin/hwinfo ] && GPU_INFO=$(hwinfo --gfxcard) && exec_command "echo \"${GPU_INFO}\"" "GPU Details"
+  [ -x /usr/bin/inxi ] && exec_command "inxi -x --full" "Hardware Details (inxi)" # 24.02.2025, Ralph Roth # issuse #191
 
   RAM=$(awk -F': *' '/MemTotal/ {print $2}' /proc/meminfo)
   # RAM=`cat /proc/meminfo | grep MemTotal | awk -F\: '{print $2}' | awk -F\  '{print $1 " " $2}'`
@@ -1956,11 +1956,14 @@ then # else skip to next paragraph
           exec_command "/usr/sbin/postconf -h mail_version" "Postfix Version"
           ;;
         *sendmail)
-          exec_command "${MTA} -d0.1 < /dev/null | grep Version ; grep ^DZ /etc/mail/sendmail.cf" "Sendmail version"
-          SMARTHOST=$(grep -e "^DS" /etc/mail/sendmail.cf | sed s/^DS//g)
+          if [ -r /etc/mail/sendmail.cf ]  ## hopefully a fix for: grep: /etc/mail/sendmail.cf: No such file or directory - 24.02.2025, rr
+          then
+            exec_command "${MTA} -d0.1 < /dev/null | grep Version ; grep ^DZ /etc/mail/sendmail.cf" "Sendmail Version"
+            SMARTHOST=$(grep -e "^DS" /etc/mail/sendmail.cf | sed s/^DS//g)
+            #  From cfg2html-hpux
+            exec_command "cat $(grep -e '^Kmailertable' /etc/mail/sendmail.cf | cut -d ' ' -f 4 | sed s/\.db//) /dev/null | grep -vE '^#|^ *$'" "Sendmail Mailertable"
+          fi
           exec_command "echo '\$Z' |/usr/sbin/sendmail -bt -d0.1; echo Smart Relay Host=${SMARTHOST}" "Detailed Sendmail Configuration"   # From cfg2html-hpux
-          #  From cfg2html-hpux
-          exec_command "cat $(grep -e '^Kmailertable' /etc/mail/sendmail.cf | cut -d ' ' -f 4 | sed s/\.db//) /dev/null | grep -vE '^#|^ *$'" "Sendmail Mailertable"
           ;;
         *exim?) # added on 20240202 by edrulrd
           exec_command "${MTA} --version | grep version" "Sendmail version ($MTA)" # added on 20240202 by edrulrd
