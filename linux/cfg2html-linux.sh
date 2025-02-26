@@ -1000,8 +1000,8 @@ paragraph "Hardware"
 inc_heading_level
 
   # /usr/share/cfg2html/cfg2html-linux.sh: line 1002: hwinfo: command not found // 24.02.2025, rr # issuse #191
-  [ -x /usr/sbin/hwinfo ] && GPU_INFO=$(hwinfo --gfxcard) && exec_command "echo \"${GPU_INFO}\"" "GPU Details"
-  [ -x /usr/bin/inxi ] && exec_command "inxi -x --full" "Hardware Details (inxi)" # 24.02.2025, Ralph Roth # issuse #191
+  [ -x /usr/sbin/hwinfo ] && exec_command "hwinfo --gfxcard" "GPU Details" # modified on 20250226 by edrulrd
+  [ -x /usr/bin/inxi ] && exec_command "inxi -x --full -c0" "Hardware Details (inxi)" # 24.02.2025, Ralph Roth # issuse #191 # modified on 20250226 by edrulrd
 
   RAM=$(awk -F': *' '/MemTotal/ {print $2}' /proc/meminfo)
   # RAM=`cat /proc/meminfo | grep MemTotal | awk -F\: '{print $2}' | awk -F\  '{print $1 " " $2}'`
