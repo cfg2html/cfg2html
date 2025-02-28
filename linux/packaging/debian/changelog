@@ -1,7 +1,7 @@
 cfg2html (7.1.4) UNRELEASED; urgency=medium
 
   * Having problem with the Debian build system/process
-  * This is 7.1.4 
+  * This is 7.1.4
 
  -- Ralph (ZOS 17) <cfg2html@hotmail.com>  Sat, 15 Feb 2025 23:39:25 +0100
 
@@ -27,7 +27,6 @@ cfg2html (7.1.3) unstable; urgency=low
 
 cfg2html (6.41) unstable; urgency=low
 
-  [ ralph ]
   * Bumped version number of the Debian ChangeLog using dch (Debian8) to 6.34.2. Build on upstream version: 6.34.2-2-g85ba063@(master)
   * Applied upstream changes. Upstream is at 6.34.8
   * Upstream (github) is now at 6.35.1
@@ -35,6 +34,7 @@ cfg2html (6.41) unstable; urgency=low
   * Bumped version to 6.41.1 (all fixes and enhancements applied from github)
   * Bumped version to 6.44.1 (all fixes and enhancements applied from github) - Jan. 2022
 
+ -- Ralph Issue 199 <cfg2html@hotmail.com>  Sat, 18 Jun 2020 21:03:14 +0100
 
 cfg2html (6.13) unstable; urgency=low
 
@@ -49,6 +49,8 @@ cfg2html (6.13) unstable; urgency=low
   * Bumped Version number from 6.30 to 6.31 (github)
   * Bumped to 6.31/6.33
   * tagged as 6.33 release. Changed DH_COMPAT from 5 to 9
+
+ -- Ralph Issue 199 <cfg2html@hotmail.com>  Sat, 18 Jun 2015 21:03:14 +0100
 
 cfg2html (6.11) unstable; urgency=low
 

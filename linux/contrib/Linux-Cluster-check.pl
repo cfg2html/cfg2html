@@ -1,5 +1,7 @@
-#!/usr/bin/env perl
-#
+#!/usr/bin/perl
+# https://www.debian.org/doc/debian-policy/ch-files.html#scripts   !/usr/bin/env perl
+# Issue#199 - W: cfg2html: incorrect-path-for-interpreter /usr/bin/env perl != /usr/bin/perl [usr/share/cfg2html/contrib/Linux-Cluster-check.pl]
+
 # Description: Linux Cluster status verification
 #              Results are displayed on stdout or redirected to a file
 #
@@ -22,7 +24,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# There are not many comments throught the script and that
+# There are not many comments through the script and that
 # is not best practices for writing good code. However,
 # I view this script as a learning tool for system administrators
 # too so lack of comments is partially left as an exercise.

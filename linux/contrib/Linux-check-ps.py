@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# Issue:199 - W: cfg2html: unusual-interpreter /usr/bin/python [usr/share/cfg2html/contrib/Linux-check-ps.py]
 
 # Description: Check Linux processes by type
 #              Results are displayed on stdout or redirected to a file

@@ -1,7 +1,8 @@
-#!/usr/bin/env perl
+#!/usr/bin/perl
+#Issue:199 #!/usr/bin/env perl
 # Source: http://www.circlingcycle.com.au/Unix-sources/Linux-check-IO-scheduler-and-discard-support.pl.txt
 #
-# @(#) $Id: Linux-check-IO-scheduler-and-discard-support.pl,v 6.2 2016/05/31 08:18:29 ralph Exp $ 
+# @(#) $Id: Linux-check-IO-scheduler-and-discard-support.pl,v 6.3 2025/02/28 18:04:52 ralph Exp $
 # -------------------------------------------------------------------------
 #
 # Description: Basic check if I/O scheduler and discard option on Linux servers
@@ -10,9 +11,9 @@
 # Last Update:  24 July 2014
 # Designed by:  Dusan U. Baljevic (dusan.baljevic@ieee.org)
 # Coded by:     Dusan U. Baljevic (dusan.baljevic@ieee.org)
-# 
+#
 # Copyright 2006-2014 Dusan Baljevic
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -28,8 +29,8 @@
 #
 # The script has been developed over several hectic days, so errors
 # (although not planned) might exist. Please use with care.
-# 
-# There are not many comments throught the script and that
+#
+# There are not many comments through the script and that
 # is not best practices for writing good code. However,
 # I view this script as a learning tool for system administrators
 # too so lack of comments is partially left as an exercise.
@@ -72,8 +73,8 @@ if ( open( LSBK, "lsblk -io KNAME,TYPE,SCHED,ROTA,DISC-GRAN,DISC-MAX |" ) ) {
        #
        # For "real" disk devices, an example:
        #
-       # cat /sys/block/sda/queue/scheduler 
-       # noop anticipatory [deadline] cfq  
+       # cat /sys/block/sda/queue/scheduler
+       # noop anticipatory [deadline] cfq
        #
        my $DTYPE = $LSLN[1];
        if ( "$DTYPE" eq "disk" ) {

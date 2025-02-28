@@ -1,5 +1,5 @@
 # I hope these variable are replaced by the make process .... ##TODO##FIXME## 20150212 by Ralph Roth
-%define rpmrelease .git202409280559
+%define rpmrelease .git202502281559
 
 %if %{?rpmrelease:1}%{!?rpmrelease:0}
 %define gittag -%(c=%{rpmrelease}; echo ${c:1})
@@ -27,7 +27,7 @@ BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:	noarch
 
 BuildRequires:	make
-Requires:	bash gawk psmisc (crontabs or cron or cronie or anacron)
+Requires:	bash gawk psmisc (crontabs or cron or cronie or anacron) coreutils
 Conflicts:	cfg2html-linux
 
 %description

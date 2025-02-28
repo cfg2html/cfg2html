@@ -1,7 +1,7 @@
-#!/usr/bin/sh
+#!/bin/bash
 ## needs maybe tweaks for HP-UX, AIX or Solaris?
 #######################################################################
-# @(#) $Id: make_index.sh,v 6.17 2023/02/18 11:42:27 ralph Exp $
+# @(#) $Id: make_index.sh,v 6.19 2025/02/28 18:04:52 ralph Exp $
 
 # Revision 6.14  2020/10/29 13:19:54  ralph
 # Fixes for make_index.sh (see issue #144)
@@ -39,7 +39,7 @@ OUT=index.htm
 echo "Make_Index for Cfg2Html (Linux, HP-UX and *nix)"
 echo "-------------------------------------------------------------------------"
 echo "Make_Index creates an index of your cfg2html collected hosts files"
-echo "\$Id: make_index.sh,v 6.17 2023/02/18 11:42:27 ralph Exp $"
+echo "\$Id: make_index.sh,v 6.19 2025/02/28 18:04:52 ralph Exp $"
 echo ""
 
 cat >$OUT<<EOF

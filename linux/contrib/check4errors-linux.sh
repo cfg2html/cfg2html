@@ -1,7 +1,8 @@
-# @(#) $Id: check4errors-linux.sh,v 6.19 2021/03/17 13:50:33 ralph Exp $
-# $Header: /home/cvs/cfg2html/cfg2html_git/linux/contrib/check4errors-linux.sh,v 6.19 2021/03/17 13:50:33 ralph Exp $
+#!/bin/bash
+# @(#) $Id: check4errors-linux.sh,v 6.22 2025/02/28 18:04:52 ralph Exp $
+# $Header: /home/cvs/cfg2html_cvs/cfg2html_git/linux/contrib/check4errors-linux.sh,v 6.22 2025/02/28 18:04:52 ralph Exp $
 # --=---------------------------------------------------------------------=---
-# Written and (c) 1997 - 2021 by Ralph Roth  -*- http://rose.rult.at -*-
+# Written and (c) 1997-2025 by Ralph Roth  -*- http://rose.rult.at -*-
 
 # Like the "check for error" script for HP-UX, this script tries to detect some
 # errors or system misconfiguration. Must be run as root of course!
@@ -9,6 +10,7 @@
 LANG=C
 
 ## ----------------------------------------------------------------------------- ##
+# shellcheck disable=SC2196
 /usr/bin/last -xF | egrep "reboot|shutdown|runlevel|system"|tail
 
 ## ----------------------------------------------------------------------------- ##

@@ -1,8 +1,9 @@
-#!/usr/bin/env perl
+#!/usr/bin/perl
+#Issue:199#!/usr/bin/env perl
 
 # Program:     Linux-audit-account-password-hashing.pl
 #
-# Description: Linux account password hashing checks 
+# Description: Linux account password hashing checks
 #              Results are displayed on stdout or can be redirected to a file
 #
 # If you obtain this script via Web, convert it to Unix format. For example:
@@ -11,9 +12,9 @@
 # Last Update:  30 May 2014
 # Designed by:  Dusan U. Baljevic (dusan.baljevic@ieee.org)
 # Coded by:     Dusan U. Baljevic (dusan.baljevic@ieee.org)
-# 
+#
 # Copyright 2014 Dusan Baljevic
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -52,7 +53,7 @@
 #
 # user4:$1$6tAaCsfx$E2amS8ko4ks1lxz7izSL//:16156::::::
 #
-# Blowfish hashing account on Suse 11 
+# Blowfish hashing account on Suse 11
 #
 # user5:$2y$05$Z4taSkam70Vc9mMqtrAby25ixpstvJUf49gqzPtjhkscGgu4Zvd6c:15894:0:120:7:::
 #
@@ -81,7 +82,7 @@ my %PWHASHARR = ( "1", "hashing-algorithm=MD5",
                  "6",  "hashing-algorithm=SHA-512",
                );
 
-# String lengths for encrypted part of the pasword string
+# String lengths for encrypted part of the password string
 #
 my %PWLEN     = ( "1",  "22",
                   "2a", "53",
@@ -93,7 +94,7 @@ my %PWLEN     = ( "1",  "22",
 my @entry           = ();
 my $SHADOW          = "/etc/shadow";
 my $SHADOWBCK       = "/etc/shadow-";
-my @SHADOWDIFF      = (); 
+my @SHADOWDIFF      = ();
 my $passwdarr       = q{};
 my $pwdhash         = q{};
 my $LOGINDEFS       = '/etc/login.defs';
@@ -179,7 +180,7 @@ if ( "$pwdhash" ) {
 
 run \"authconfig --passalgo=sha512 --update\"\n";
     print "Set \"CRYPT=SHA512\" in \"$SUSEDEFPASSWD\"\n";
-    print "Modify \"password\" line in \"$UBUNTUDEFPASSWD\" 
+    print "Modify \"password\" line in \"$UBUNTUDEFPASSWD\"
 Set \"ENCRYPT_METHOD SHA512\" in \"$LOGINDEFS\"\n";
 }
 
@@ -235,7 +236,7 @@ if ( -s "$SHADOWBCK" ) {
     open my $bfile, "$SHADOWBCK" or die "Couldn't open $SHADOWBCK: $!";
     while (my $link = <$bfile>) {
         chomp $link;
-        next if exists $shadiff{$link}; 
+        next if exists $shadiff{$link};
         push(@SHADOWDIFF, "$link\n");
     }
     close $bfile;
@@ -253,9 +254,9 @@ print "\nINFO: Hashing algorithm per username:\n";
 while ( @entry = getpwent ) {
     my @pwx = `passwd -S $entry[0] 2>&1 | awk NF`;
     push(@PASA, "@pwx");
-   
-    my $pwhash = q{}; 
-    if ( grep(/^\$/, $entry[1]) ) { 
+
+    my $pwhash = q{};
+    if ( grep(/^\$/, $entry[1]) ) {
         my @passwdarr = split(/\$/, $entry[1]);
         $pwhash = $passwdarr[$#passwdarr];
         if ( $#passwdarr eq 3 ) {
@@ -290,7 +291,7 @@ while ( @entry = getpwent ) {
 "PASS: Correct length of encrypted password string for user \"$entry[0]\" ($PWLEN{$passwdarr[1]} for $PWHASHARR{$passwdarr[1]})\n";
         }
 
-        if ( ! ( $pwhash =~ /^[a-zA-Z0-9\.\/]+$/ ) ) { 
+        if ( ! ( $pwhash =~ /^[a-zA-Z0-9\.\/]+$/ ) ) {
             print "ERROR: Invalid characters in hashed password string \"$pwhash\"\n";
         }
     } else {
@@ -303,7 +304,7 @@ while ( @entry = getpwent ) {
             }
         }
         else {
-            if ( ! grep(/!|\*/, $entry[1]) ) { 
+            if ( ! grep(/!|\*/, $entry[1]) ) {
                 print "\n$entry[0]: hashing-algorithm=DES\n";
 
                 if ( length($entry[1]) ne $DESLENGTH ) {
@@ -311,12 +312,12 @@ while ( @entry = getpwent ) {
                 } else {
                    print "PASS: Correct length of encrypted password string for user $entry[0] ($DESLENGTH)\n";
                 }
-            } 
+            }
             $pwhash = $entry[1];
         }
 
         if ( $pwhash =~ /^[a-zA-Z0-9\.\/]/ ) {
-            if ( ! ( $pwhash =~ /^[a-zA-Z0-9\.\/]+$/ ) ) { 
+            if ( ! ( $pwhash =~ /^[a-zA-Z0-9\.\/]+$/ ) ) {
                 print "ERROR: Invalid characters in hashed password string \"$pwhash\"\n";
              } else {
                 print "PASS: Valid characters in hashed password string\n";
@@ -329,7 +330,7 @@ my @pwdsa = `passwd -Sa 2>/dev/null`;
 if ( "@pwdsa" ) {
     print "\nINFO Password status (\"passwd -Sa\")\n\n";
     print @pwdsa;
-} 
+}
 else {
     if ( "@PASA" ) {
         print "\nINFO Password status (\"passwd -S\")\n\n";
