@@ -75,7 +75,7 @@ CONFIG_DIR="/etc/${PROGRAM}"
 VAR_DIR="/var/log/${PROGRAM}"
 
 VERBOSE=
-DEBUG=
+[[ -n "${DEBUG}" ]] || DEBUG=  # don't turn off DEBUG if we've turned it on externally (eg. cron) # modified on 20250215 by edrulrd
 
 # If cfg2html is installed in a directory not in the PATH ## menguyj@yahoo.fr add 06.03.2012
 MYPATH=$(dirname $(type $0 | awk '{print $NF}')) # see issue #18

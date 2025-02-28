@@ -149,13 +149,15 @@ restore:
 	@echo "Nothing to do."
 endif
 
+### copy the local.conf file to the same directory as default.conf,
+### then set /etc/cfg2html/local.conf from it.
 install-config:
 	@echo -e "\033[1m== Installing configuration ==\033[0;0m"
 	install -d -m0700 $(DESTDIR)$(sysconfdir)/cfg2html/
 	-[[ ! -e $(DESTDIR)$(datadir)/cfg2html/etc/default.conf ]] && \
 		install -Dp -m0600 etc/default.conf $(DESTDIR)$(datadir)/cfg2html/etc/default.conf
-	-[[ ! -e $(DESTDIR)$(sysconfdir)/cfg2html/local.conf ]] && \
-		install -Dp -m0600 etc/local.conf $(DESTDIR)$(sysconfdir)/cfg2html/local.conf
+	-[[ ! -e $(DESTDIR)$(datadir)/cfg2html/etc/local.conf ]] && \
+		install -Dp -m0600 etc/local.conf $(DESTDIR)$(datadir)/cfg2html/etc/local.conf
 	-[[ ! -e $(DESTDIR)$(sysconfdir)/cfg2html/plugins ]] && \
 		install -Dp -m0600 plugins $(DESTDIR)$(sysconfdir)/cfg2html/plugins
 	-[[ ! -e $(DESTDIR)$(sysconfdir)/cfg2html/systeminfo ]] && \

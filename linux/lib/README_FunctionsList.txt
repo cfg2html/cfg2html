@@ -50,6 +50,10 @@
 
 # @(#) $Id: linux-functions.sh,v 6.14 2017/11/15 13:52:01 ralph Exp $
 # Common functions for the Linux part of cfg2html
+# is_which_available, is_cnf_available, and replacement which function added on 20250215 by edrulrd
+  function is_which_available
+  function is_cnf_available
+  function which
   function HostNames
   function posixversion
   function identify_linux_distribution

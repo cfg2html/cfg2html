@@ -44,6 +44,10 @@ Swiss army knife script for the System Administrators as it was primarily writte
 %{__rm} -rf %{buildroot}
 %{__make} -C linux install DESTDIR="%{buildroot}"
 
+# Post install procedure called at end of package installation # added on 20250222 by edrulrd
+%post
+%{_sourcedir}/linux/cfg2html.postinst
+
 %clean
 %{__rm} -rf %{buildroot}
 

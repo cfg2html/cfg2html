@@ -37,6 +37,7 @@ function usage {
   echo "    -V      disable: Collecting VMWare log files and settings" # added on 20240119 by edrulrd
   echo "    -A      disable: Altiris ADL agent log files and settings"
   echo "    -w arg  adjust the width of the section separators in the generated ASCII file and allow for columnar output" # added on 20240119 by edrulrd
+  echo "    -W      enable:  generate a message in the errorlog of executable commands which are not found on the system" # added on 20250216 by edrulrd
   echo "    -T      enable:  trace timings in output (txt, html and err)"
   echo "    -p      enable:  collecting the system's log files particularly if on an HP Proliant Server"
   echo "    -P      enable:  cfg2html plugin architecture"

@@ -14,7 +14,7 @@ systems.
 .SH SYNOPSIS
 
 .B cfg2html
-.RB [ \-hvsOxkHnflzcSaVAeLwpPo210T]
+.RB [ \-hvsOxkHnflzcSaVAeLwWpPo210T]
 .IR option ...
 .br
 
@@ -148,6 +148,22 @@ By default, the command that was executed in each section to generate the inform
 By default, the section separators in the generated text file is 74 characters long.  Since many commands generate output wider than this, this option allows the separator width to be adjusted.  In addition, specifying this option allows some columnar output to use the specified width to obtain more columns of output, shortening the report.
 During testing, an optimal screen width was found to be approximately 300 to 350.  e.g. -w 350
 .TP
+.B \-W
+Most of the commands needed by cfg2html to generate useful information are installed by default on all Linux systems.
+Inevitably, some commands may not be available because they might have been considered optional.
+The program generally just bypasses and ignores commands that are not installed on the system.
+Activating this option will generate a list of the commands that attempt to be found using the "which" command but did not find installed.
+This option provides systems administrators the ability to evaluate the need or desire to install any missing software.
+The list will be found in the Error log.
+
+If systems administrators decide that they do not wish to be reminded of particular commands being missing, they can be added to an exclusion list in /etc/cfg2html/local.conf.  This file is not over-written when cfg2html is re-installed.
+Hint:  If cfg2html is planned to be installed on multiple systems and you have site-wide default settings, you could do the following:
+1) Untar the source file to your preferred location, eg. /usr/local/src/.
+2) Define the settings you desire in the default.conf file or the local.conf file residing in .../cfg2html/linux/etc/default.conf, or in .../cfg2html/linux/etc/local.conf, respectively, (with the latter being preferable).  Note, that both of these files are re-set back to their original settings when the program is untar'ed again, so you may want to save a separate copy of your default settings.
+[Extra hint: you may wish to include your tailored config files in /etc/cfg2html/files.  See above.]
+3) Next, run the make command, followed by the package manager's installation program (apt, dnf, zypper, ...) to install cfg2html with your systems'-wide defaults.
+4) Then, you will only need to make any additional, specific-system adjustments in /etc/cfg2html/local.conf on each host.
+.TP
 .B \-p
 enable collecting the system's Log files.  If running on an HP PROLIANT SERVER, collect additional relevant logs.
 .TP
@@ -214,16 +230,20 @@ Contains the main linux script along with other supporting files
 The system description you can update
 
 .TP
-.B /etc/cfg2html/files
-The contents of the files listed will be collected into the report
+.B /usr/share/cfg2html/etc/default.conf
+Is the master configuration file that sets the default settings.
+
+.TP
+.B /usr/share/cfg2html/etc/local.conf
+Overrides settings in the master configuration file.  This file and the master config file are over-written each time cfg2html is re-installed.
 
 .TP
 .B /etc/cfg2html/local.conf
-Can contain local switch over-rides and local variable definitions
-.br
-See
-.B /usr/share/cfg2html/etc/default.conf
-for default settings
+Can contain local switch over-rides and local variable definitions.  This file will not be over-written when cfg2html is re-installed, if present.
+
+.TP
+.B /etc/cfg2html/files
+The uncommented contents of the files listed will be collected into the report
 
 .TP
 .B /usr/share/man/man8/cfg2html.8.gz
@@ -243,7 +263,7 @@ the generated documentation in ASCII form
 
 .TP
 .B <hostname>.err
-error logfile (if any errors are generated)
+error logfile (if any errors are generated).  It will also contain output from the -W option if used.
 
 .TP
 .B <hostname>.partitions.save
