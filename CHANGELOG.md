@@ -2,6 +2,132 @@ Changelog
 =========
 
 
+7.2.0 (2025-02-28)
+------------------
+
+Changes
+~~~~~~~
+- Update shebangs to /bin/bash and adjust file permissions for scripts
+  fix: should fix the first warnings found by Debian lintian, see issue
+  Debian package definition needs rework #199. [roseswe]
+- New -W option - generate a list of supported, but not-installed
+  commands (#200) [Ed Drouillard]
+
+  - enabling the -W option will generate in the Error log, a list of all
+    commands that the "which" command tests for and finds them not
+    present in the path.  This provides a means for the systems administrator
+    to decide if each command listed might be worthwhile seeing the output of,
+    were it to be installed.
+  - If it is installed, this enhancement uses the "command-not-found" command to
+    identify what package would likely provide the missing command if it is
+    in its database.
+  - Because this command may identify commands that the systems administrator
+    knows is not going to be desired to be installed on the system, rather than
+    be notified each time that the program is run when this option is turned on,
+    the command can be added into an exclusion list in /etc/cfg2html/local.conf.
+  - Given the likelihood that there may be other changes to the local.conf file,
+    it will no longer be over-written when cfg2html is re-installed.
+
+  fix: Do not overwrite the /etc/cfg2html/local.conf file if it exists
+
+  - When the program source was run through the make command and then installed
+    with the debian or rpm package managers, it would over-write the locally
+    defined settings saved in the /etc/cfg2html/local.conf file.  Now, the
+    local file is created only if it didn't exist prior to installation.
+  - The copy of the file is created at post-installation time by running the
+    new script cfg2html.postinst
+
+  chg: allow DEBUG variable to be set externally !minor
+
+  - The DEBUG variable was set to null at each invocation.  The value of the
+    variable is now left unchanged if it is already set.  Setting it to any
+    value turns it on.
+
+  fix: Adjust trap exit when "Error" function called
+
+  - The intention of the Error function as stated was to exit the program when
+    if was called.  As it was, the function would issue a message saying that
+    it was aborting the program, but then actually simply returned to where it
+    was issued from and continued running the script.  This has been adjusted
+    to actually terminate the program when the function is called.
+
+  chg: fix shellcheck issues !minor
+- Bump version to 7.1.4 and update release date to 2025-02-21; various
+  HTML and script improvements chg: Updated make_index package.
+  [roseswe]
+- Update version to 7.1.4 and clarify changelog entry. [roseswe]
+
+Fix
+~~~
+- Update hardware information retrieval in cfg2html-linux.sh to handle
+  missing commands add: inxi, should close enhancement:  hardware/grafic
+  card details #191. [roseswe]
+- Another typo. see edrulrd comment on issue rpm spec broken? #197.
+  [roseswe]
+- Small regression in the changelog. [roseswe]
+- Update cfg2html.spec to fix cron requirements, rpm spec broken? #197
+  (works for me/openSUSE) [roseswe]
+
+Other
+~~~~~
+- Adjust hwinfo and inxi to make more readable (#198) [Ed Drouillard]
+
+  Thanks Ed! I hope we can now close #191 :-)
+- Broken in AIX, if using a UTF-8 locale (#196) [ConstantMown]
+
+  AFAIK the options are:
+  - move the OS detection after setting locale
+  - use "tr '[:upper:]' '[:lower:'" instead of "tr '[A-Z]' '[a-z]'"
+- Gpu info (#195) [M. Daahir]
+
+  May needs a re-write?
+  1.) check if command is installed
+  2.) Output might be garbled
+- Use systemd-detect-virt to determine if physical or virtual (#194) [Ed
+  Drouillard]
+
+  * fix: Adjust physical/virtual checking to try to avoid false positives
+
+  - We now give the kernal message "Booting paravirtualized
+    kernel" more weight.  If this message is issued, it should definitively
+    indicate whether or not the system is running on bare hardware.  We scan the
+    journal and/or the kernel ring buffer for this message.  If this message is
+    not issued, then these information sources could still generate incorrect
+    physical/virtual status.  Since there are many reasons why particular
+    strings could be found in the journal or the kernel ring buffer, we now
+    produce a message indicating the possibility of issuing a false conclusion
+    so the sysadmin can determine for themselves if the system is virtual or
+    running on bare hardware.  Be particularly suspicious if the only sources
+    that identify a system as being virtual is identified by only the journal
+    and/or the kernel ring buffers (i.e., dmesg sources).
+  - After looking for this special string in the journal, etc., we look for
+    indications of being virtual by scanning various other locations for
+    particular strings, eg. xen, kvm, vmware, etc.  There is the possibility
+    that these strings could be found as substrings.  To avoid these potential
+    false positives, we now look for these designated strings surrounded by
+    blank space.
+  - The output of the virt-what command is a good source of supplemental
+    information, particularly for Xen systems, as the host and domains (guests)
+    appear to issue similar journal/dmesg messages, thus always being classified
+    as virtual.  virt-what indicates either xen-dom0 or xen-domU to differentiate
+    between hosts and guests respectively on these systems.
+
+  * chg: Use systemd command to determine if running on bare hardware
+
+  - The systemd package has a command called "systemd-detect-virt" which gives
+    as output "none" if running on bare hardware, and the type of VM, if running
+    in a virtual or container environment.  If this command is available,
+    we'll use it in lieu of checking several other sources.
+
+
+7.1.4 (2025-02-15)
+------------------
+
+Changes
+~~~~~~~
+- Updated Changelog (by Makefile), Version: 7.1.2-14-g35d0ab6. [roseswe]
+
+
 7.1.3 (2025-02-15)
 ------------------
 
