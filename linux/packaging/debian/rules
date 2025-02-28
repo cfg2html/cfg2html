@@ -67,8 +67,9 @@ binary-indep: build
 		debian/cfg2html/etc/cfg2html/ \
 		debian/cfg2html/etc/cron.d/ \
 		debian/cfg2html/usr/sbin/ \
-		debian/cfg2html/usr/share/cfg2html/etc/cfg2html \
+		debian/cfg2html/usr/share/cfg2html/etc/ \
 		debian/cfg2html/var/log/cfg2html/
+# 		debian/cfg2html/usr/share/cfg2html/etc/cfg2html  # last cfg2html directory removed as it is not used # modified on 20250221 by edrulrd
 
 
 	if [ $$(basename $$(pwd)) = "BUILD" ]; then \
@@ -84,7 +85,7 @@ binary-indep: build
        # This triggers issue #35 on the SUSE OBS environment ....
        # [   77s] cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/cfg2html/
        # [   77s] cp: cannot stat `etc/default.conf': No such file or directory
-       # This still appears to be broken, as on Ubuntu systems, it should go into # modified on 20201114 by edrulrd
+       # This still appears to be broken, as on Ubuntu systems, it should go into # modified on 20201114 by edrulrd # fixed above on 20250221 by edrulrd
        # /usr/share/cfg2html/etc when installed and not into /usr/share/cfg2html/etc/cfg2html
        # If SUSE needs it where it was, we can put it in both places
 	#cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/cfg2html
@@ -92,7 +93,7 @@ binary-indep: build
 	if [ $$(basename $$(pwd)) = "BUILD" ]; then \
 	    cp -av linux/etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/ ; \
 	    cp -av linux/systeminfo     debian/cfg2html/etc/cfg2html/ ; \
-	    cp -av linux/etc/local.conf debian/cfg2html/etc/cfg2html/ ; \
+	    cp -av linux/etc/local.conf debian/cfg2html/usr/share/cfg2html/etc/ ; \
 	    cp -av ./cfg2html debian/cfg2html/usr/sbin/ ; \
 	    cp -av linux/cfg2html-linux.sh debian/cfg2html/usr/share/cfg2html/ ; \
 	    cp -avLr linux/lib debian/cfg2html/usr/share/cfg2html/ ; \
@@ -101,7 +102,7 @@ binary-indep: build
 	else  \
 	    cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/ ; \
 	    cp -av systeminfo       debian/cfg2html/etc/cfg2html/ ; \
-	    cp -av etc/local.conf   debian/cfg2html/etc/cfg2html/ ; \
+	    cp -av etc/local.conf   debian/cfg2html/usr/share/cfg2html/etc/ ; \
 	    cp -av ../cfg2html debian/cfg2html/usr/sbin/ ; \
 	    cp -av cfg2html-linux.sh debian/cfg2html/usr/share/cfg2html/ ; \
 	    cp -avLr lib debian/cfg2html/usr/share/cfg2html/ ; \
@@ -157,6 +158,9 @@ binary-indep: build
 #	dh_perl
 	dh_shlibdeps
 	dh_gencontrol
+#   The next 2 statements set up the post install procedure.  # added on 20250222 by edrulrd
+	cp -av linux/cfg2html.postinst debian/cfg2html/DEBIAN/postinst 2>/dev/null || \
+	cp -av cfg2html.postinst       debian/cfg2html/DEBIAN/postinst
 	dh_md5sums
 	dh_builddeb
 

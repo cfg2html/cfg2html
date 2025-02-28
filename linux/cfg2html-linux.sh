@@ -96,7 +96,7 @@ _VERSION="cfg2html-linux version ${VERSION} "  # this a common stream so we don?
 # getopt
 #
 
-while getopts ":o:shxOcSTflzkenaHLvhpPAV2:10w:" Option   ##  -T -0 -1 -2 backported from HPUX # added new options -x and -O and removed the need for an argument on -A, also added -w, -z  and -V # modified on 20240119 by edrulrd
+while getopts ":o:shxOcSTflzkenaHLvhpPAV2:10w:W" Option   ##  -T -0 -1 -2 backported from HPUX # added new options -x and -O and removed the need for an argument on -A, also added -w, -z  and -V, added -W # modified on 20250215 by edrulrd
 do
   case ${Option} in
     o     ) OUTDIR=${OPTARG};;
@@ -119,6 +119,7 @@ do
     A     ) CFG_ALTIRISAGENTFILES="no";;
     L     ) CFG_STINLINE="no";;
     w     ) CFG_TEXTWIDTH="${OPTARG}";; # override the default width in the generated .txt file for section titles # added on 20240119 by edrulrd
+    W     ) CFG_WHICHHUNT="yes";; # Log any commands that the which command cannot find into the Err log file # added on 20250215 by edrulrd
     p     ) CFG_HPPROLIANTSERVER="yes";;
     P     ) CFG_PLUGINS="yes";;
     2     ) CFG_DATE="_"$(date +"${OPTARG}") ;;
@@ -186,6 +187,24 @@ DATEFULL=$(date "+%Y-%m-%d@%H:%M:%S") # ISO8601 compliant date and time string
 
 # [20200311] {jcw} My comment; this restarts the process from within this same shell; all errors now go to the named log file.
 exec 2> "${ERROR_LOG}"
+
+# Special which command processing to log commands that are not installed on the system. (-W option) # added on 20250215 by edrulrd
+# --------------------------------------------------------------------------------------------------
+# The "which" command is called in this script in a few different ways, probably for historical reasons.
+# 1) Sometimes the which command is simply called as "which programname".
+#    In this case, there is no sub-shell involved and the program just runs in the shell's execution
+#    environment which allows variables to be modified and passed to other execution environments.
+# 2) Another way the "which" command is called is as "var=$(which programname)".
+#    In this case, a subshell environment is created and variables in the main shell environment cannot be adjusted.  Read, yes, modified, no.
+# Our new "which" command processing makes use of some variables to reduce the clutter generated in the error log.  So, this
+# simply means that these variables need to be set up and properly set before the which command is called from a subshell environment.
+# This explains why we issue the next 2 commands - one that should always be on the system, and another which no one is likely to have.
+# Their purpose is to set some variables appropriately for all subsequent "which" command calls.
+# Finally, these 2 commands need to be executed after the environment that this program uses has been set up (ie. after the exec call above),
+# otherwise, messages get lost.
+NONSENSECMD=deliberatelynotfound # Use this as a command that we know won't be found to do command-not-found setup, and don't report on it in the new function # added on 20250215 by edrulrd
+which date             > /dev/null 2>/dev/null  # execute a command that is always likely to be found on the system - to set up special which command processing # added on 20250215 by edrulrd
+which "${NONSENSECMD}" > /dev/null 2>/dev/null  # execute any command that is not likely to be found on the system - ditto # added on 20250215 by edrulrd
 
 if [ ! -f "${HTML_OUTFILE}" ]; then
      line
