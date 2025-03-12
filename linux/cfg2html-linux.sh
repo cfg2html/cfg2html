@@ -12,7 +12,7 @@
 # @(#) $Id: cfg2html-linux.sh,v 6.72 2024/04/01 20:23:22 ralph Exp $
 # -----------------------------------------------------------------------------------------
 # (c) 1997-2025 by Ralph Roth  -*- http://rose.rult.at -*-  Coding: ISO-8859-15
-#     Further modified by Joe Wulf:  20200407@1432.
+
 
 #  If you change this script, please mark your changes with for example
 #  ## <username> and send your diffs from the actual version to my mail
@@ -1581,7 +1581,7 @@ inc_heading_level
 
     if [ -x /usr/sbin/kdumptool ]
     then
-         ##CHANGED##FIXED## 20150304 by Ralph Roth
+         ##CHANGED##FIXED## 20150304 by Ralph Roth || TODO: SLES15SP6 no dump_config, find_kernel, print_target anymore
 	 exec_command "/usr/sbin/kdumptool dump_config; echo; /usr/sbin/kdumptool find_kernel; echo; /usr/sbin/kdumptool print_target" "Kdump Status (kdumptool)"
     else
       if [ -x "$(which kdumpctl 2>/dev/null)" ] ; then # modified on 20201009 by edrulrd # added /dev/null # modified on 20240202 by edrulrd
@@ -2448,7 +2448,8 @@ then
   inc_heading_level
   exec_command "ps -ef | grep -E 'puppetmaster[d]|puppet maste[r]'" "Active Puppet Master (prior to version 5)"
   exec_command "ps -ef | grep -E 'puppet[d]'" "Active Puppet Client (prior to version 5)"
-  exec_command "puppetca -l -a" "Puppet certificates (prior to version 5)"
+  # fix? 12.03.2025 modified by Ralph Roth
+  which puppetca 2> /dev/null && exec_command "puppetca -l -a" "Puppet certificates (prior to version 5)"
   exec_command "ps -ef | grep -E 'puppetserve[r]'" "Active Puppet Master (version 5)"
   exec_command "ps -ef | grep -E 'puppet agen[t]'" "Active Puppet Client (version 5)"
   exec_command "${PUPPETEXE} ca list --all" "Puppet certificates (version 5)"
@@ -2521,7 +2522,7 @@ if [ -s "${SSSDCONF}" ] ; then
     paragraph "System Security Services Daemon (SSSD)"
     inc_heading_level
     exec_command "cat ${SSSDCONF}" "SSSD configuration"
-    exec_command "realm list" "List enrollments in realms"
+    exec_command "realm list" "List enrollments in realms"  ## TODO: check if realm is installed/might not be installed!
     [ -x /usr/bin/systemctl ] && exec_command "/usr/bin/systemctl status sssd" "Systemd SSSD status"
     exec_command "getent passwd" "List all users"  ## Fix-Typing mistake result in invalid command (Issue #175)
     exec_command "getent group" "List all groups"
