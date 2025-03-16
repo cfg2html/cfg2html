@@ -5,10 +5,6 @@
 %define gittag -%(c=%{rpmrelease}; echo ${c:1})
 %endif
 
-%if 0%{?rpmrelease} != 0
-%define gittag -%(c=%{rpmrelease}; echo ${c:1})
-%endif
-
 ### Work-around the fact that OpenSUSE/SLES _always_ defined both :-/
 %if 0%{?sles_version} == 0
 %undefine sles_version
