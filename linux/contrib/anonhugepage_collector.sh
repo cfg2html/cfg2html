@@ -30,9 +30,10 @@ do
 
     #echo $KBAM
     # maybe /proc/$PID/numa_maps is useful for further details??
-    if [ -n ${KBAM} ]
+    if [ -n "${KBAM}" ]
     then
-      echo "${KBAM}  (${PID})  " $(cat /proc/$PID/cmdline)
+      ## ./anonhugepage_collector.sh: line 35: warning: command substitution: ignored null byte in input
+      echo "${KBAM}  (${PID})   $(cat /proc/$PID/cmdline| tr '\0' ' ')"
     fi
   fi # vanished meanwhile?
 done | sort -nur | awk ' { sum += $1; print $0; } END { printf "\n%d kb total anon huge pages\n", sum } ' 2>/dev/null

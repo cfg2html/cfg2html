@@ -6,6 +6,7 @@ do
   echo $i": "$(cat $i)|grep -E "noop|none"
 done
 
+exit 0
 # -----------------------------------------------------------------------------
 
 # Another approach:
@@ -24,3 +25,7 @@ done
 
 # 3.)
 # /bin/lsblk -o 'NAME,KNAME,MAJ:MIN,FSTYPE,LABEL,RO,RM,MODEL,SIZE,OWNER,GROUP,MODE,ALIGNMENT,MIN-IO,OPT-IO,PHY-SEC,LOG-SEC,ROTA,SCHED,MOUNTPOINT' | grep -v "/snap/"
+
+# openSUSE 15.6:
+# /sys/devices/pci0000:00/0000:00:17.0/ata2/host1/target1:0:0/1:0:0:0/block/sda/queue/scheduler: none mq-deadline kyber [bfq]
+# /sys/devices/pci0000:00/0000:00:1d.0/0000:04:00.0/nvme/nvme0/nvme0n1/queue/scheduler: [none] mq-deadline kyber bfq
