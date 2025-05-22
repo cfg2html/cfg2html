@@ -1,3 +1,4 @@
+# shellcheck disable=SC2148
 # @(#) $Id: shell-functions.sh,v 6.10.1.1 2013-09-12 16:13:15 ralph Exp $
 #     Further modified by Joe Wulf:  20200321@1658.
 # -------------------------------------------------------------------------
@@ -10,8 +11,14 @@ function line {
 function _banner {
     typeset txt="$*"
     BANNER_EXE=$(which banner 2>/dev/null)
-    [[ -z "${BANNER_EXE}" ]] && BANNER_EXE=echo
-    ${BANNER_EXE} "$txt"
+    BANNER_EXE_saved="${BANNER_EXE}"
+    TOILET_EXE=$(which toilet 2>/dev/null) # check for availability of TOIlet as it can handle more than 10 chars # added on 20250521 by edrulrd
+    [[ -n "${TOILET_EXE}" ]] && BANNER_EXE="${TOILET_EXE} -w ${CFG_TEXTWIDTH}" || { [[ -z "${BANNER_EXE}" ]] && BANNER_EXE="echo"; }
+    # if banner is going to be used, check to see if there are more than 10 characters to process. If so, use echo instead # added on 20250521 by edrulrd
+    if [[ "${BANNER_EXE}" == "${BANNER_EXE_saved}" ]] && [[ ${#txt} -ge 11 ]]; then
+       BANNER_EXE="echo"
+    fi
+    ${BANNER_EXE} "${txt}"
 }
 
 function check_root {
