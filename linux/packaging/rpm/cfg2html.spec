@@ -28,10 +28,14 @@ BuildArch:	noarch
 
 BuildRequires:	make
 Requires:	bash gawk psmisc coreutils
-%if 0%{?rhel} > 7
-Requires:	crontabs or cron or cronie or anacron
-%else
+%if 0%{?rhel}
+%if 0%{?rhel} < 8
 Requires:	crontabs
+%else
+Requires:	crontabs or cron or cronie or anacron
+%endif
+%else
+Requires:	crontabs or cron or cronie or anacron
 %endif
 Conflicts:	cfg2html-linux
 
