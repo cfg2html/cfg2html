@@ -34,11 +34,17 @@ rm -f /tmp/cfg2html.respawn # get rid of the temporary lock as soon as possible
 
 # this CVS id is also used by the Makefiles to get the version number!
 # may be obsoleted by git tag --describe or git describe handling?
+# -----------------------------------------------------------------------------
 PRODUCT="Config to HTML - cfg2html"
-CVS="$Id: cfg2html,v 7.1.4 2025/02/21 16:10:26 ralph Exp $"     ## Hardcoded..... yet, any ideas?
-PROGRAM=$(echo ${CVS}|cut -f2 -d" "|cut -f1 -d,)
-VERSION=$(echo ${CVS}|cut -f3 -d" ")
-RELEASE_DATE="2025-02-21"	## YYYY-MM-DD ?!
+CVS="$Identifier: cfg2html,v 7.2.1 ralph Exp $"     ## Hardcoded..... yet, any ideas? Linux Makefile uses field #3 for version number.
+#PROGRAM=$(echo ${CVS}|cut -f2 -d" "|cut -f1 -d,)
+PROGRAM="cfg2html"
+#VERSION=$(echo ${CVS}|cut -f3 -d" ")
+VERSION="7.2.1"
+RELEASE_DATE="2025-03-16"	## YYYY-MM-DD ?!
+# -----------------------------------------------------------------------------
+
+
 CFG_CMDLINE=$*
 COPYRIGHT="Copyright (C) 1999-2025 by ROSE SWE, Dipl.-Ing. Ralph Roth"
 LANG="C"
