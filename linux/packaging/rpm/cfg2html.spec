@@ -27,7 +27,16 @@ BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:	noarch
 
 BuildRequires:	make
-Requires:	bash gawk psmisc (crontabs or cron or cronie or anacron) coreutils
+Requires:	bash gawk psmisc coreutils
+%if 0%{?rhel}
+%if 0%{?rhel} < 8
+Requires:	crontabs
+%else
+Requires:	crontabs or cron or cronie or anacron
+%endif
+%else
+Requires:	crontabs or cron or cronie or anacron
+%endif
 Conflicts:	cfg2html-linux
 
 %description
@@ -43,6 +52,10 @@ Swiss army knife script for the System Administrators as it was primarily writte
 %install
 %{__rm} -rf %{buildroot}
 %{__make} -C linux install DESTDIR="%{buildroot}"
+
+%if "%{_sbindir}" == "%{_bindir}"
+mv %{buildroot}/usr/sbin %{buildroot}/usr/bin
+%endif
 
 # Post install procedure called at end of package installation # added on 20250222 by edrulrd
 %post
