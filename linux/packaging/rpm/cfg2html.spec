@@ -1,5 +1,5 @@
 # I hope these variable are replaced by the make process .... ##TODO##FIXME## 20150212 by Ralph Roth
-%define rpmrelease .git202502281559
+%define rpmrelease .git202505281559
 
 %if %{?rpmrelease:1}%{!?rpmrelease:0}
 %define gittag -%(c=%{rpmrelease}; echo ${c:1})
@@ -15,7 +15,7 @@
 %undefine __brp_mangle_shebangs
 
 Name:		cfg2html
-Version: 7.1.2
+Version: 7.2.0
 Release:	1%{?rpmrelease}%{?dist}
 Summary:	Config2HTML is a tool to collect system information in HTML and ASCII format
 
@@ -28,11 +28,13 @@ BuildArch:	noarch
 
 BuildRequires:	make
 Requires:	bash gawk psmisc coreutils
+
 %if 0%{?rhel} > 0 && 0%{?rhel} < 8
 Requires:	crontabs
 %else
 Requires:	(crontabs or cron or cronie or anacron)
 %endif
+
 Conflicts:	cfg2html-linux
 
 %description
@@ -78,6 +80,10 @@ mv %{buildroot}/usr/sbin %{buildroot}/usr/bin
 ## The correct format should be `Day Mon DD YYYY` (e.g., `Fri Feb 21 2025`)
 
 %changelog
+* Sun May 25 2025 Ralph Roth <cfg2html@hotmail.com> - 7.2.0
+  - fixes+regression for cron(tab)
+  - #204 & #205
+
 * Fri Feb 21 2025 Ralph Roth <cfg2html@hotmail.com> - 7.1.4
   - fixes for cron(tab)
   - fix for the RPM changelog
