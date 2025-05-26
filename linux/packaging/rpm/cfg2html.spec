@@ -28,16 +28,11 @@ BuildArch:	noarch
 
 BuildRequires:	make
 Requires:	bash gawk psmisc coreutils
-### RPM does not support the `or` keyword in the `Requires:` field
-%if 0%{?rhel}
-%if 0%{?rhel} < 8
+
+%if 0%{?rhel} > 0 && 0%{?rhel} < 8
 Requires:	crontabs
 %else
-Requires:	crontabs or cron or cronie or anacron
-%endif
-%else
-###Requires:	crontabs or cron or cronie or cronie-anacron or anacron
-Requires: cronie
+Requires:	(crontabs or cron or cronie or anacron)
 %endif
 
 Conflicts:	cfg2html-linux
