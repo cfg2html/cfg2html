@@ -1,6 +1,7 @@
 # I hope these variable are replaced by the make process .... ##TODO##FIXME## 20150212 by Ralph Roth
 %define rpmrelease .git202505281559
 
+# can this lead to an empty string?
 %if %{?rpmrelease:1}%{!?rpmrelease:0}
 %define gittag -%(c=%{rpmrelease}; echo ${c:1})
 %endif
@@ -9,6 +10,7 @@
 %if 0%{?sles_version} == 0
 %undefine sles_version
 %endif
+
 ### Recently in CentOS8, RHEL8, etc, rpmbuild's macros now check for a proper shebang (#!) in the 1st line
 ### of the scripts.  Since our scripts are callable by bash, and ksh, we don't have a shebang in our
 ### scripts. This disables that checking.  #modified on 20201115 by edrulrd
@@ -82,7 +84,8 @@ mv %{buildroot}/usr/sbin %{buildroot}/usr/bin
 %changelog
 * Sun May 25 2025 Ralph Roth <cfg2html@hotmail.com> - 7.2.0
   - fixes+regression for cron(tab)
-  - #204 & #205
+  - Issues: #204 & #205
+  - 27.05.2025 - both issued fixed for openSUSE 15.6 and Fedora 42
 
 * Fri Feb 21 2025 Ralph Roth <cfg2html@hotmail.com> - 7.1.4
   - fixes for cron(tab)
