@@ -2,6 +2,81 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+Changes
+~~~~~~~
+- Bump version to 7.2.1 and update changelog for new upstream release.
+  [roseswe]
+- Update changelog for cron(tab) fixes; clarify issues #204 & #205.
+  [roseswe]
+- Update documentation and shell scripts for consistency and clarity.
+  [roseswe]
+- Update rpmrelease and version to 7.2.0; fix cron(tab) regression #204
+  and  #205 Might break other distro now... [roseswe]
+- Adjust linux _banner function (#203) [Ed Drouillard]
+
+  - If it is installed, the banner command has the limitation that it only accepts 10
+    characters as input.  If it is installed, the toilet command provides similar
+    functionality and provides a width option.  If the string length is greater than
+    10 characters, and toilet is not available, then we will just echo out the text
+    as standard text and not in block letters.  This only affects the generated .txt file.
+- Runs now also on openSUSE 15.6. [roseswe]
+- Updated to reflect 2025. [roseswe]
+- First try to consolidate the various READMEs. [roseswe]
+- Updated DevTree and added EoS. [roseswe]
+- Tring to simplify the versioning of cfg2html - may introduce building
+  bugs. [roseswe]
+- Pushed to Version 7.2.0 to indicate the major source code changes.
+  [roseswe]
+- Updated Changelog (by Makefile), Version: 7.2.0-0-g040ee85. [roseswe]
+
+Fix
+~~~
+- Compensate when the "which" command is a function (#208) (#209) [Ed
+  Drouillard]
+
+  - On Redhat-based systems, the which command is now a function.
+    Thanks to jeevad87 for identifying bug and fix.
+- Update comments and add checks for command availability in cfg2html-
+  linux.sh (kdump, realm, puppetca) [roseswe]
+
+Other
+~~~~~
+- Merge branch 'master' of github.com:cfg2html/cfg2html. [roseswe]
+
+  * 'master' of github.com:cfg2html/cfg2html:
+    fix: compensate when the "which" command is a function (#208) (#209)
+    chg: update changelog for cron(tab) fixes; clarify issues #204 & #205
+    Updated fix for RHEL7 (#207)
+- Updated fix for RHEL7 (#207) [Frank Crawford, Gratien D'haese]
+
+  * Add a gittag macro to automate usage
+
+  * Fix bad merge
+
+  * Update for issues with sbin/bin merge in Fedora F42
+
+  * Fix cfg2html.spec
+
+  * Fix to RPM spec
+
+  ---------
+- #207 fix spec file for RPM build. [gdha]
+- Fix for Fedora F42 bin/sbin merge and for RHEL7 (#204) [Frank
+  Crawford]
+
+  * Add a gittag macro to automate usage
+
+  * Fix bad merge
+
+  * Update for issues with sbin/bin merge in Fedora F42
+
+  * Fix cfg2html.spec
+- Add: HW details for Raspberry PI plus fixing error message. [roseswe]
+
+
 7.2.0 (2025-02-28)
 ------------------
 
