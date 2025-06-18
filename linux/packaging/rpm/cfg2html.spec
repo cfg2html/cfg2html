@@ -17,7 +17,7 @@
 %undefine __brp_mangle_shebangs
 
 Name:		cfg2html
-Version: 7.2.0
+Version: 7.2.1
 Release:	1%{?rpmrelease}%{?dist}
 Summary:	Config2HTML is a tool to collect system information in HTML and ASCII format
 
@@ -29,6 +29,7 @@ BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:	noarch
 
 BuildRequires:	make
+## timeout is provided by coreutils
 Requires:	bash gawk psmisc coreutils
 
 %if 0%{?rhel} > 0 && 0%{?rhel} < 8
