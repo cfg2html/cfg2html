@@ -11,10 +11,10 @@
 # Common functions for the Linux part of cfg2html
 # [20200310] {jcw} Closed up blank lines.
 
-# The following 3 functions pertain to the new -W option, which lists cfg2html' supported programs that aren't available on this system # added Feb 2015 by edrulrd
+# The following 3 functions pertain to the new -W option, which lists cfg2html' supported programs that aren't available on this system # added Feb 2025 by edrulrd
 
 # is the which command available?
-SYSWHICH=$(which which | head -1) # remember the normal "which" executable || see issue#208
+SYSWHICH=$(type -P  which | head -1) # remember the normal "which" executable # Fix for issue #208. Thanks jeevad87. # modified Jun 16, 2025 by edrulrd
 whichcheckcount=0 # Initialize this before this function is defined
 
 function is_which_available { # added on 20250215 by edrulrd
