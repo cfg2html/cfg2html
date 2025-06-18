@@ -1019,9 +1019,10 @@ paragraph "Hardware"
 inc_heading_level
 
   # /usr/share/cfg2html/cfg2html-linux.sh: line 1002: hwinfo: command not found // 24.02.2025, rr # issuse #191
-  [ -x /usr/sbin/hwinfo ] && exec_command "hwinfo --gfxcard" "GPU Details" # modified on 20250226 by edrulrd
+  [ -x /usr/sbin/hwinfo ] && exec_command "/usr/sbin/hwinfo --gfxcard" "GPU Details" # modified on 20250226 by edrulrd
   [ -x /usr/bin/inxi ] && exec_command "inxi -x --full -c0" "Hardware Details (inxi)" # 24.02.2025, Ralph Roth # issuse #191 # modified on 20250226 by edrulrd
   [ -x /usr/bin/raspinfo ] && exec_command "/usr/bin/raspinfo" "Raspberry Pi Details" # 17.03.2025, Ralph Roth
+  # NOTE: raspinfo dumpes the file raspinfo.txt to the current directory. So it is discussable if this is a benefit, annoyance or a "bug".
 
   RAM=$(awk -F': *' '/MemTotal/ {print $2}' /proc/meminfo)
   # RAM=`cat /proc/meminfo | grep MemTotal | awk -F\: '{print $2}' | awk -F\  '{print $1 " " $2}'`

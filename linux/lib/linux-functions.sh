@@ -14,7 +14,7 @@
 # The following 3 functions pertain to the new -W option, which lists cfg2html' supported programs that aren't available on this system # added Feb 2015 by edrulrd
 
 # is the which command available?
-SYSWHICH=$(which which | head -1) # remember the normal "which" executable
+SYSWHICH=$(which which | head -1) # remember the normal "which" executable || see issue#208
 whichcheckcount=0 # Initialize this before this function is defined
 
 function is_which_available { # added on 20250215 by edrulrd
