@@ -2,11 +2,13 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+7.2.1 (2025-06-18)
+------------------
 
 Changes
 ~~~~~~~
+- Bump version to 7.2.1 in cfg2html.spec. [roseswe]
+- Updated Changelog (by Makefile), Version: 7.2.0-19-g59a2a10. [roseswe]
 - Bump version to 7.2.1 and update changelog for new upstream release.
   [roseswe]
 - Update changelog for cron(tab) fixes; clarify issues #204 & #205.
