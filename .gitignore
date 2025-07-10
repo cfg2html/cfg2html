@@ -21,10 +21,10 @@ linux/packaging/rpm/cfg2html.spec.orig
 #
 # from make/Makefile
 #
-cfg2html-6*git*.tar.gz
-cfg2html-6*git*.noarch.rpm
-cfg2html-7*git*.tar.gz
-cfg2html-7*git*.noarch.rpm
+cfg2html-6*.tar.gz
+cfg2html-6*.noarch.rpm
+cfg2html-7*.tar.gz
+cfg2html-7*.noarch.rpm
 cfg2html*.deb
 #
 # rest

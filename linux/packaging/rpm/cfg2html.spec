@@ -32,8 +32,13 @@ BuildRequires:	make
 ## timeout is provided by coreutils
 Requires:	bash gawk psmisc coreutils
 
+# Processing Dependency: (crontabs or cron or cronie or anacron) for package: cfg2html-7.2.3.2.gc456634-1.git202506231632.noarch
+# seems MLS7.9/RHEl7.9 handles this as a one package, because of: Package cronie-1.4.11-25.el7_9.x86_64 already installed and latest version
+# also the if < 8 seems not to work....
 %if 0%{?rhel} > 0 && 0%{?rhel} < 8
-Requires:	crontabs
+# so we have RHEL 2.1 to 7.9
+#Requires:	crontabs
+Requires: cronie
 %else
 Requires:	(crontabs or cron or cronie or anacron)
 %endif
