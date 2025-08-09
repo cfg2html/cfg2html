@@ -1,0 +1,69 @@
+sfdisk: /dev/vdb: does not contain a recognized partition table
+lled with:
+apt install sysvbanner
+2025-08-06 15:16:02 Command 'toilet' not found, but can be installed with:
+apt install toilet
+2025-08-06 15:16:02 Command 'banner' not found, but can be installed with:
+apt install sysvbanner
+2025-08-06 15:16:02 Command 'toilet' not found, but can be installed with:
+apt install toilet
+2025-08-06 15:16:02 Command 'cpupower' not found, but can be installed with:
+apt install linux-cpupower
+2025-08-06 15:16:02 Command 'xl' not found, but can be installed with:
+apt install xen-utils-common
+2025-08-06 15:16:30 Command 'tuned-adm' not found, but can be installed with:
+apt install tuned
+2025-08-06 15:16:30 Command 'numactl' not found, but can be installed with:
+apt install numactl
+2025-08-06 15:16:33 Command 'hwinfo' not found, but can be installed with:
+apt install hwinfo
+2025-08-06 15:16:33 Command 'lshw' not found, but can be installed with:
+apt install lshw
+2025-08-06 15:16:33 Command 'lsdev' not found, but can be installed with:
+apt install procinfo
+2025-08-06 15:16:33 lshal: command not found
+2025-08-06 15:16:33 Command 'systool' not found, but can be installed with:
+apt install sysfsutils
+2025-08-06 15:16:33 Command 'sg_scan' not found, but can be installed with:
+apt install sg3-utils
+2025-08-06 15:16:33 Command 'sg_map' not found, but can be installed with:
+apt install sg3-utils
+2025-08-06 15:16:34 Command 'setserial' not found, but can be installed with:
+apt install setserial
+stderr output from "/usr/bin/sensors":
+    No sensors found!
+    Make sure you loaded all the kernel drivers you need.
+    Try sensors-detect to find out which these are.
+2025-08-06 15:16:34 Command 'libtool' not found, but can be installed with:
+apt install libtool-bin
+2025-08-06 15:16:34 Command 'flex' not found, but can be installed with:
+apt install flex
+2025-08-06 15:16:35 Command 'sgdisk' not found, but can be installed with:
+apt install gdisk
+2025-08-06 15:16:35 Command 'sgdisk' not found, but can be installed with:
+apt install gdisk
+2025-08-06 15:16:35 kdumpctl: command not found
+2025-08-06 15:16:35 Command 'lkcd' not found, did you mean:
+  command 'lbcd' from deb lbcd
+Try: apt install <deb name>
+2025-08-06 15:16:36 Command 'zfs' not found, but can be installed with:
+apt install zfs-fuse
+2025-08-06 15:16:36 Command 'zpool' not found, but can be installed with:
+apt install zfs-fuse
+2025-08-06 15:16:36 Command 'netstat' not found, but can be installed with:
+apt install net-tools
+2025-08-06 15:16:36 Command 'pminfo' not found, but can be installed with:
+apt install pcp
+2025-08-06 15:16:36 Command 'resolvectl' not found, but can be installed with:
+apt install systemd-resolved
+2025-08-06 15:16:36 Command 'ntpq' not found, but can be installed with:
+apt install ntpsec
+2025-08-06 15:16:37 Command 'chronyc' not found, but can be installed with:
+apt install chrony
+2025-08-06 15:16:37 Command 'bootctl' not found, but can be installed with:
+apt install systemd-boot-tools
+2025-08-06 15:16:37 nvidia-detect: command not found
+2025-08-06 15:16:38 Command 'borgmatic' not found, but can be installed with:
+apt install borgmatic
+2025-08-06 15:16:38 Command 'puppet' not found, but can be installed with:
+apt install puppet-agent

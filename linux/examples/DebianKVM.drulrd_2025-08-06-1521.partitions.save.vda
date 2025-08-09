@@ -1,0 +1,8 @@
+label: dos
+label-id: 0xdcaf9e59
+device: /dev/vda
+unit: sectors
+sector-size: 512
+
+/dev/vda1 : start=        2048, size=    65439744, type=83, bootable
+/dev/vda2 : start=    65443840, size=     7956480, type=82
