@@ -96,9 +96,9 @@ clean:
 validate:
 	@echo -e "\033[1m== Validating scripts and configuration ==\033[0;0m"
 	find etc/  -name '*.conf' | xargs bash -n
-	find lib/ plugins/ -name '*.sh' | xargs bash -n
+	find lib/ -name '*.sh' | xargs bash -n
 	bash -n $(cfg2htmlbin)
-	find . -name '*.sh' | xargs bash -n
+	find . -name '*.sh' -o -name 'plugins' | xargs bash -n
 ### Fails to work on RHEL4
 #	find -L . -type l
 
