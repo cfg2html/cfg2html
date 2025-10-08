@@ -1,6 +1,8 @@
 # @(#) $Id: cfg2html-SunOS.sh,v 1.5 2014/05/20 10:41:38 dusan Exp dusan $
 # -----------------------------------------------------------------------------------------
-# (c) 1997-2023 by Ralph Roth  -*- http://rose.rult.at -*-
+# (c) 1997-2025 by Ralph Roth  -*- http://rose.rult.at -*-
+# shellcheck disable=SC2329
+
 
 #  If you change this script, please mark your changes with for example
 #  ## <username> and send your diffs from the actual version to my mail
@@ -13,11 +15,11 @@ CFGSH=$_
 
 # ---------------------------------------------------------------------------
 # NEW VERSION - v6/github/GPL
-#        __       ____  _     _             _       
-#   ___ / _| __ _|___ \| |__ | |_ _ __ ___ | |     
+#        __       ____  _     _             _
+#   ___ / _| __ _|___ \| |__ | |_ _ __ ___ | |
 #  / __| |_ / _` | __) | '_ \| __| '_ ` _ \| |_____
 # | (__|  _| (_| |/ __/| | | | |_| | | | | | |_____
-#  \___|_|  \__, |_____|_| |_|\__|_| |_| |_|_|     
+#  \___|_|  \__, |_____|_| |_|\__|_| |_| |_|_|
 #           |___/
  #####  #     # #     # #######  #####
 #       #     # # #   # #     # #
@@ -78,7 +80,7 @@ else
    OUTDIR=$(pwd)
 fi
 
-_VERSION="cfg2html-SunOS version $VERSION "  
+_VERSION="cfg2html-SunOS version $VERSION "
 
 usage() {
    echo "  Usage: $(basename $0) [OPTION]"
@@ -194,7 +196,8 @@ VERSION_=$(echo $VERSION/$RECHNER|tr " " "_")
 typeset -i HEADL=0                      # Headinglevel
 
 # Catch interrupts and handle them
-#
+# False Positive! !SC2329! - This function is never invoked. Check usage (or ignored if invoked indirectly).
+
 INTERRUPT_HANDLER() {
    trap "" 1 2 3 9 15
    printf "\nWARN: Interrupt received. Terminating program and cleaning up...\n"
@@ -237,7 +240,7 @@ echo "HTML Output File  "$HTML_OUTFILE
 echo "Text Output File  "$TEXT_OUTFILE
 echo "Errors logged to  "$ERROR_LOG
 [[ -f $CONFIG_DIR/local.conf ]] && {
-    echo "Local config      "$CONFIG_DIR/local.conf "( $(egrep -v '(^#|^$)' $CONFIG_DIR/local.conf | wc -l) lines)"
+    echo "Local config      "$CONFIG_DIR/local.conf "( $(grep -Ev '(^#|^$)' $CONFIG_DIR/local.conf | wc -l) lines)"
     }
 
 echo "Started at        "$DATEFULL
@@ -309,9 +312,9 @@ then # else skip to next paragraph
 
    exec_command "locale" "locale specific information"
 
-   exec_command "ulimit -a" "System ulimit" 
+   exec_command "ulimit -a" "System ulimit"
 
-   exec_command "getconf -a" "System kernel configuration"   
+   exec_command "getconf -a" "System kernel configuration"
 
    exec_command "mpstat $STATCNT" "Multiprocessor Statistics"
 
@@ -358,9 +361,9 @@ then # else skip to next paragraph
 
    exec_command "crle" "Runtime linking environment"
 
-   exec_command "ctstat -v -a" "System contracts" 
+   exec_command "ctstat -v -a" "System contracts"
 
-   exec_command "ps -e -o ruser,pid,args | awk ' (($1+1) > 1) {print \$0;} '" "Processes without named owner" 
+   exec_command "ps -e -o ruser,pid,args | awk ' (($1+1) > 1) {print \$0;} '" "Processes without named owner"
    AddText "The output should be empty!"
 
    exec_command "lockstat sleep 10" "Kernel lock and profiling statistics"
@@ -376,7 +379,7 @@ then # else skip to next paragraph
    if [ "$OSREV" -ge 9 ] ; then
       exec_command "echo "::memstat" | mdb -k" "Memory distribution"
    fi
-       
+
   exec_command "ps -efl | sort -nr | head -25" "Top load processes"
 
   exec_command "ps -e -o 'vsz pid ruser time args' |sort -nr|head -25" "Top memory consuming processes"
@@ -525,13 +528,13 @@ then # else skip to next paragraph
         export NODENAME
         echo "VCS node: $NODENAME state: $(hasys -state $NODENAME |awk '{print \$1}')"
       done
-   fi 
+   fi
 
    # Check for VCS Software #
    $PLUGIN/VCS_plugin.sh check
    if [ $? ]; then
       #Exited 0, VCS is found. Run the Script#
-   
+
       # Check the VCS Application Version #
       exec_command "$PLUGIN/VCS_plugin.sh version" "VCS Version"
 
@@ -799,11 +802,11 @@ then # else skip to next paragraph
    paragraph "Software"
    inc_heading_level
 
-   exec_command "prodreg browse" "Solaris Product Registry database" 
+   exec_command "prodreg browse" "Solaris Product Registry database"
 
-   exec_command "pkginfo" "Solaris SVR4 package status" 
+   exec_command "pkginfo" "Solaris SVR4 package status"
 
-   exec_command "pkg list" "Solaris 11 Image Packaging System package status" 
+   exec_command "pkg list" "Solaris 11 Image Packaging System package status"
 
    exec_command "showrev -p" "Solaris SVR4 patches installed"
 
@@ -965,7 +968,7 @@ EOF
    exec_command "quotacheck -a -v" "Disk quota check"
 
    exec_command "croinfo" "Chassis, Receptacle and Occupant info"
- 
+
    exec_command "diskinfo -v | nawk NF" "Diskinfo"
 
    dec_heading_level
@@ -990,8 +993,9 @@ then # else skip to next paragraph
 
    exec_command "netstat -s" "Summary statistics for each protocol"
 
+# Fix 08.10.2025 by PK
+# an other possible workaround would be timeout....  The timeout command comes with the file/gnu-coreutils pkg which, as far as I can tell, is not installed by default on each server
    exec_command "tcpstat -c 1 60" "Tcpstat"
-
    exec_command "ipstat -c 1 60" "Ipstat"
 
    exec_command "arp -a" "ARP table"
@@ -1015,7 +1019,7 @@ then # else skip to next paragraph
    exec_command "iblinkinfo" "Infiniband link status"
 
    exec_command "ibcheckstate" "Infiniband check status"
-   
+
    exec_command "apconfig -v" "Alternate Pathing status"
 
    exec_command "apconfig -N" "Alternate Pathing for networks"
@@ -1092,7 +1096,7 @@ then # else skip to next paragraph
    exec_command "tcpdchk -a" "Tcpd warnings"
 
    [ -f /etc/hosts.allow ] && exec_command "egrep -v ^# /etc/hosts.allow" "/etc/hosts.allow"
-  
+
    [ -f /etc/hosts.deny ] && exec_command "egrep -v ^# /etc/hosts.deny" "/etc/hosts.deny"
 
    if [ -f /etc/gated.conf ] ; then
@@ -1185,7 +1189,7 @@ if [ "$CFG_PASSWD" != "no" ] ; then
 
    exec_command "cat /etc/passwd" "/etc/passwd"
 
-   for pw in $(awk -F: '{print $6}' /etc/passwd | sort | uniq) 
+   for pw in $(awk -F: '{print $6}' /etc/passwd | sort | uniq)
    do
       if [ -f "$pw/.rhosts" ] ; then
          exec_command "cat $pw/.rhosts" "$pw/.rhosts"
@@ -1436,9 +1440,9 @@ then # else skip to next paragraph
    [ -f /etc/sapconf ] && exec_command "cat /etc/sapconf" "Local configured SAP R3 instances"
 
    if [ -s /etc/oratab ] ; then    # exists and >0
-      exec_command "egrep -v ^# /etc/oratab " "Configured Oracle DB startups in /etc/oratab" 
+      exec_command "egrep -v ^# /etc/oratab " "Configured Oracle DB startups in /etc/oratab"
 
-      for DB in $(grep ':' /etc/oratab|egrep -v '^#|:N$') 
+      for DB in $(grep ':' /etc/oratab|egrep -v '^#|:N$')
       do
          Ora_Home=$(echo $DB | awk -F: '{print $2}')
          Sid=$(echo $DB | awk -F: '{print $1}')
@@ -1457,7 +1461,7 @@ then # else skip to next paragraph
    exec_command "aide -v" "AIDE status"
 
    exec_command "twadmin --print-cfgfile" "Tripwire status"
- 
+
 dec_heading_level
 fi
 # terminates CFG_APPLICATIONS wrapper
@@ -1467,9 +1471,9 @@ fi
 #
 paragraph "System logs"
 inc_heading_level
-exec_command "cat /etc/syslog.conf" "/etc/syslog.conf" 
+exec_command "cat /etc/syslog.conf" "/etc/syslog.conf"
 
-exec_command "cat /etc/logadm.conf" "Logadm master config /etc/logadm.conf" 
+exec_command "cat /etc/logadm.conf" "Logadm master config /etc/logadm.conf"
 
 for LFILE in /etc/logadm.d/*.conf
 do
@@ -1482,14 +1486,14 @@ NFSLOG="/etc/nfs/nfslog.conf"
 
 exec_command "cat /var/adm/messages" "/var/adm/messages"
 
-exec_command "dmesg" "dmesg logfile" 
+exec_command "dmesg" "dmesg logfile"
 
-exec_command "fmdump -m -v" "Fault Management log" 
+exec_command "fmdump -m -v" "Fault Management log"
 
 dec_heading_level
 
 #
-# execute Mail Transfer Agent check 
+# execute Mail Transfer Agent check
 #
 paragraph "Standard Mail Transfer Agents"
 inc_heading_level
@@ -1513,7 +1517,7 @@ do
 
       exec_command "qshape" "Postfix queue shape"
    fi
- 
+
    if [ "$( echo $LLINE | grep -i smtp:sendmail)" ]; then
       AddText "MTA is seemingly Sendmail"
 
@@ -1540,19 +1544,19 @@ fi
 dec_heading_level
 
 #
-# execute banners check 
+# execute banners check
 #
 paragraph "Banners"
 inc_heading_level
 
 exec_command "cat /etc/motd" "/etc/motd"
 
-exec_command "cat /etc/issue" "Generic banner /etc/issue" 
+exec_command "cat /etc/issue" "Generic banner /etc/issue"
 
 dec_heading_level
 
 #
-# execute FTP check 
+# execute FTP check
 #
 paragraph "FTP Services"
 inc_heading_level
@@ -1570,14 +1574,14 @@ done
 dec_heading_level
 
 #
-# execute Explorer check 
+# execute Explorer check
 #
 paragraph "Explorer - diagnostic collector"
 inc_heading_level
 
-exec_command "cat /etc/opt/SUNWexplo/default/explorer" "/etc/opt/SUNWexplo/default/explorer" 
+exec_command "cat /etc/opt/SUNWexplo/default/explorer" "/etc/opt/SUNWexplo/default/explorer"
 
-exec_command "cat /etc/explorer/default/explorer" "/etc/explorer/default/explorer" 
+exec_command "cat /etc/explorer/default/explorer" "/etc/explorer/default/explorer"
 
 dec_heading_level
 
@@ -1596,7 +1600,7 @@ then # else skip to next paragraph
 
     for cfgplugin in $CFG2HTML_PLUGINS; do
        if [ -x "${PLUGIN}/$CFG2HTML_PLUGIN" ]; then
-          exec_command "${PLUGIN}/$CFG2HTML_PLUGIN" "${PLUGIN}/$CFG2HTML_PLUGIN" 
+          exec_command "${PLUGIN}/$CFG2HTML_PLUGIN" "${PLUGIN}/$CFG2HTML_PLUGIN"
        else
           AddText "Configured plugin $CFG2HTML_PLUGIN not found in $PLUGIN"
        fi
