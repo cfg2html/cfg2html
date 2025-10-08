@@ -990,9 +990,9 @@ then # else skip to next paragraph
 
    exec_command "netstat -s" "Summary statistics for each protocol"
 
-   exec_command "tcpstat -c 1" "Tcpstat"
+   exec_command "tcpstat -c 1 60" "Tcpstat"
 
-   exec_command "ipstat -c 1" "Ipstat"
+   exec_command "ipstat -c 1 60" "Ipstat"
 
    exec_command "arp -a" "ARP table"
 
