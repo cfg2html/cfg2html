@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # Issue:199 - W: cfg2html: unusual-interpreter /usr/bin/python [usr/share/cfg2html/contrib/Linux-check-ps.py]
 
 # Description: Check Linux processes by type
@@ -38,11 +37,11 @@ def main(argv):
    try:
       opts, args = getopt.getopt(argv,"h")
    except getopt.GetoptError:
-      print 'Linux-check-ps.py [-h]'
+      print('Linux-check-ps.py [-h]')
       sys.exit(1)
    for opt, arg in opts:
       if opt == '-h':
-         print 'Linux-check-ps.py [-h]'
+         print('Linux-check-ps.py [-h]')
          sys.exit()
 
 if __name__ == "__main__":
@@ -104,30 +103,30 @@ retval = p.wait()
 
 if retval == 0:
     if len(lsleep) > 1:
-        print "INFO: Processes in interruptible sleep"
-        print ''.join(lsleep)
+        print("INFO: Processes in interruptible sleep")
+        print(''.join(lsleep))
 
     if len(lunsleep) > 1:
-        print "INFO: Processes in uninterruptible sleep (usually I/O issue)"
-        print ''.join(lunsleep)
+        print("INFO: Processes in uninterruptible sleep (usually I/O issue)")
+        print(''.join(lunsleep))
 
     if len(lrun) > 1:
-        print "INFO: Processes in runnable state"
-        print ''.join(lrun)
+        print("INFO: Processes in runnable state")
+        print(''.join(lrun))
 
     if len(lpage) > 1:
-        print "INFO: Paging processes (should not be seen since the 2.6.xx kernel)"
-        print ''.join(lpage)
+        print("INFO: Paging processes (should not be seen since the 2.6.xx kernel)")
+        print(''.join(lpage))
 
     if len(ldead) > 1:
-        print "INFO: Dead processes"
-        print ''.join(ldead)
+        print("INFO: Dead processes")
+        print(''.join(ldead))
 
     if len(lzombie) > 1:
-        print "INFO: Defunct (zombie) processes"
-        print ''.join(lzombie)
+        print("INFO: Defunct (zombie) processes")
+        print(''.join(lzombie))
 else:
-    print "ERROR: Command failed:", myprocess
+    print("ERROR: Command failed:", myprocess)
     exit(1)
 
 exit(0)
