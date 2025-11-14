@@ -1,0 +1,23 @@
+#!/bin/bash
+#
+# Name: postinst
+#
+# Purpose: automatically run commands in the package manager after
+#          cfg2html has been installed (tested using apt, dnf, and zypper).
+#          Debian and Redhat-based systems are supported.
+#          This script copies the model "local.conf" file from
+#          /usr/share/cfg2html/etc/local.conf into
+#          /etc/cfg2html/local.conf, but only if it doesn't already exist.
+#
+# Author: Ed Drouillard (edrulrd) on Feb 22, 2025
+#
+
+echo "Running post install script"
+
+[[   -d /etc/cfg2html/ ]] &&
+[[ ! -e /etc/cfg2html/local.conf ]] &&
+[[   -e /usr/share/cfg2html/etc/local.conf ]] &&
+echo "Setting /etc/cfg2html/local.conf" &&
+cp -av /usr/share/cfg2html/etc/local.conf /etc/cfg2html/
+
+exit 0
