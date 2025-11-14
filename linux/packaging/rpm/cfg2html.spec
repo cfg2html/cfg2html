@@ -65,7 +65,12 @@ mv %{buildroot}/usr/sbin %{buildroot}/usr/bin
 
 # Post install procedure called at end of package installation # added on 20250222 by edrulrd
 %post
-%{_sourcedir}/linux/cfg2html.postinst
+[[   -d /etc/cfg2html/ ]] &&
+[[ ! -e /etc/cfg2html/local.conf ]] &&
+[[   -e /usr/share/cfg2html/etc/local.conf ]] &&
+echo "Setting /etc/cfg2html/local.conf" &&
+cp -av /usr/share/cfg2html/etc/local.conf /etc/cfg2html/
+
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -88,6 +93,9 @@ mv %{buildroot}/usr/sbin %{buildroot}/usr/bin
 ## The correct format should be `Day Mon DD YYYY` (e.g., `Fri Feb 21 2025`)
 
 %changelog
+* Fri Nov 14 2025 Gratien Dhaese <gratien.dhaese@gmailcom> - 7.2.1
+  - move the postinstall script into the spec file #231
+
 * Sun May 25 2025 Ralph Roth <cfg2html@hotmail.com> - 7.2.0
   - fixes+regression for cron(tab)
   - Issues: #204 & #205
