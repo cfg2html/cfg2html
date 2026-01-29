@@ -1,4 +1,4 @@
-# $Header: /home/cvs/cfg2html_cvs/cfg2html_git/linux/contrib/get_io_scheduler.sh,v 6.6 2025/02/20 09:07:13 ralph Exp $
+# $Header: /home/cvs/cfg2html_cvs/cfg2html_git/linux/contrib/get_io_scheduler.sh,v 6.7 2026/01/29 12:59:27 ralph Exp $
 
 # devices: Works for pre 6.x, 5.x Kernels? (no multi-queue scheduler)
 for i in $(find /sys/devices/  /sys/block | grep /queue/scheduler)

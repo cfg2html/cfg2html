@@ -1,5 +1,5 @@
 #!/bin/bash
-# @(#) $Id: anonhugepage_collector.sh,v 6.6 2025/02/28 18:04:52 ralph Exp $
+# @(#) $Id: anonhugepage_collector.sh,v 6.7 2026/01/29 12:59:27 ralph Exp $
 # -------------------------------------------------------------------------
 # vim:ts=8:sw=4:sts=4
 # atom:set fileencoding=utf8 fileformat=unix filetype=shell tabstop=2 expandtab:
