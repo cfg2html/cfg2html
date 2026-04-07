@@ -108,12 +108,12 @@ i=2030
 # date sanity check. complains if cfg2html is too old, must be adjusted every year to fit
 #
 
-while [ ${i} -gt 2024 ]   ## where we want to stop, complains if older than two years
+while [ ${i} -gt 2026 ]   ## where we want to stop, complains if older than two years
 do
     [ ${YEAR} -gt ${i} ] && OLD=${OLD}" very"
     # echo ${i} - ${OLD}
     ((i=(i-1)))
-    [ "${OLD}" != "" ] && echo "WARNING! This version of cfg2html is ${OLD} old!  Update ASAP!"
+    [ "${OLD}" != "" ] && echo "WARNING! This version of cfg2html is${OLD} old!  Update ASAP!"
 done
 
 
