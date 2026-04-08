@@ -232,6 +232,8 @@ rpm: dist
 		--define "_rpmdir %(pwd)" $(name)-$(distversion).tar.gz
 
 deb: dist cron doc
+# Stop if 'dh_testdir' is missing
+	$(if $(shell command -v dh_testdir),,$(error WARNING: dh_testdir not found, debhelper package probably not installed))
 	@echo -e "\033[1m== Building DEB package $(name)-$(distversion) ==\033[0;0m"
 	cp -r packaging/debian/ .
 	chmod 755 debian/rules

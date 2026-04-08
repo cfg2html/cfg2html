@@ -43,6 +43,8 @@ rpm:
 	make -C linux rpm
 
 deb:
+# Stop if 'dh_testdir' is missing
+	$(if $(shell command -v dh_testdir),,$(error WARNING dh_testdir not found, debhelper package probably not installed))
 	make -C linux deb
 
 clean:
