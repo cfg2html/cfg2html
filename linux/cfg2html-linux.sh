@@ -1343,18 +1343,19 @@ then # else skip to next paragraph
     exec_command "dpkg -l" "Detailed list of installed Packages"
     AddText "$(dpkg --version|grep program)"
 
+    if [ -f /etc/apt/sources.list ] || [ -d /etc/apt/sources.list.d ] ; then # modified on 20260409 by edrulrd
+      exec_command "" "Package Source repositories:" # added on 20250210 by edrulrd
+    fi # modified on 20260409 by edrulrd
     if [ -f /etc/apt/sources.list ] ; then
-      exec_command "grep -vE '^#|^ *$' /etc/apt/sources.list" "Package Source repositories" # modified on 20240119 by edrulrd
-    else
-      if [ -d /etc/apt/sources.list.d ] ; then
-        exec_command "" "Package Source repositories:" # added on 20250210 by edrulrd
-        for FILE in /etc/apt/sources.list.d/* # added on 20250210 by edrulrd
-        do
-          [ -f "${FILE}" ] && if [ "$(grep -cvE "'^#|^ *$'" "${FILE}")" -gt 0 ] ; then # confirm there is at least one # added on 20250210 by edrulrd
-            exec_command "grep -vE '^#|^ *$' ${FILE}" "${FILE}" # added on 20250210 by edrulrd
-          fi
-        done
-      fi
+      exec_command "grep -vE '^#|^ *$' /etc/apt/sources.list" "/etc/apt/sources.list" # modified on 20260409 by edrulrd
+    fi
+    if [ -d /etc/apt/sources.list.d ] ; then
+      for FILE in /etc/apt/sources.list.d/* # added on 20250210 by edrulrd
+      do
+        [ -f "${FILE}" ] && if [ "$(grep -cvE "'^#|^ *$'" "${FILE}")" -gt 0 ] ; then # confirm there is at least one # added on 20250210 by edrulrd
+          exec_command "grep -vE '^#|^ *$' ${FILE}" "${FILE}" # added on 20250210 by edrulrd
+        fi
+      done
     fi
 
     [ -x /usr/bin/dpigs ] && exec_command "/usr/bin/dpigs -H" "Largest installed packages" # added -H # modified on 20240119 by edrulrd
