@@ -1343,7 +1343,7 @@ then # else skip to next paragraph
     exec_command "dpkg -l" "Detailed list of installed Packages"
     AddText "$(dpkg --version|grep program)"
 
-    if [ -f /etc/apt/sources.list -o -d /etc/apt/sources.list.d ] ; then # modified on 20260409 by edrulrd
+    if [ -f /etc/apt/sources.list ] || [ -d /etc/apt/sources.list.d ] ; then # modified on 20260409 by edrulrd
       exec_command "" "Package Source repositories:" # added on 20250210 by edrulrd
     fi # modified on 20260409 by edrulrd
     if [ -f /etc/apt/sources.list ] ; then
