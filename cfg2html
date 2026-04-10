@@ -1,4 +1,4 @@
-# @(#) $Id: cfg2html,v 6.49 2025/02/21 16:10:26 ralph Exp $
+# @(#) $Id: cfg2html,v 6.50 2026/04/10 07:16:58 ralph Exp $
 # shellcheck disable=SC1073,SC2034,SC2148,SC2154
 
 # -------------------------------------------------------------------------
@@ -40,13 +40,13 @@ CVS="$Identifier: cfg2html,v 7.2.3 ralph Exp $"     ## Hardcoded..... yet, any i
 #PROGRAM=$(echo ${CVS}|cut -f2 -d" "|cut -f1 -d,)
 PROGRAM="cfg2html"
 #VERSION=$(echo ${CVS}|cut -f3 -d" ")
-VERSION="7.2.3"
-RELEASE_DATE="2025-07-10"	## YYYY-MM-DD ?!
+VERSION="7.2.4"     ## _VERSION_  (can be incremented by verinc)
+RELEASE_DATE="2026-04-10"	## YYYY-MM-DD ?!
 # -----------------------------------------------------------------------------
 
 
 CFG_CMDLINE=$*
-COPYRIGHT="Copyright (C) 1999-2025 by ROSE SWE, Dipl.-Ing. Ralph Roth"
+COPYRIGHT="Copyright (C) 1999-2026 by ROSE SWE, Dipl.-Ing. Ralph Roth"
 LANG="C"
 LANG_ALL="C"            # [20200310] {jcw} added LC_COLLATE.
 LC_COLLATE="POSIX"
