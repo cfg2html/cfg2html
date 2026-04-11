@@ -84,18 +84,23 @@ changelog:
 	# HINT: git config gitchangelog.rc-path /home/ralph/bin/_.gitchangelog.rc
 	##was: gitchangelog > CHANGELOG.md
 	gitchangelog $(shell git describe --tags --abbrev=0)..HEAD > CHANGELOG.md
+	git add CHANGELOG.md
+	@# Use a shell variable here so it picks up the change from verinc
+	V=$$(grep '^VERSION=' cfg2html | cut -d'"' -f2); \
 	git commit -s -m "chg: Updated Changelog (by Makefile), Version: $(shell git describe --long)/$(VERSION)" CHANGELOG.md
 	#cat CHANGELOG.md
 
 # 3. Tag that specific commit with the new version
 tag:
-	@echo "Tagging version $(VERSION)..."
-	@if git rev-parse $(VERSION) >/dev/null 2>&1; then \
-		git tag -d $(VERSION); \
-		git push origin :refs/tags/$(VERSION); \
+	@# Re-read the version from the file to get the NEW value from verinc
+	$(eval NEW_VERSION := $(shell grep '^VERSION=' cfg2html | cut -d'"' -f2))
+	@echo "Tagging new version $(NEW_VERSION)..."
+	@if git rev-parse $(NEW_VERSION) >/dev/null 2>&1; then \
+		git tag -d $(NEW_VERSION); \
+		git push origin :refs/tags/$(NEW_VERSION); \
 	fi
-	git tag -a $(VERSION) -m "Release version $(VERSION)"
-	git push origin $(VERSION) --force
+	git tag -a $(NEW_VERSION) -m "Release version $(NEW_VERSION)"
+	git push origin $(NEW_VERSION) --force
 # 	@echo "Detected Version in script: $(VERSION)"
 # 	@if git rev-parse $(VERSION) >/dev/null 2>&1; then \
 # 		echo "Tag $(VERSION) already exists locally. Replacing..."; \
