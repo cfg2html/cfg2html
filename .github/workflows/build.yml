@@ -1,0 +1,54 @@
+name: Build and Release Packages
+# 2026-04-11 - initial version by Ralph Roth
+
+on:
+  push:
+    #tags:
+    #  - '[0-9]+.[0-9]+.[0-9]+*' # Triggers on tags like 7.2.4
+    branches:
+      - feature/release-automation
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Important for 'git describe' to work
+
+      - name: Install Build Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y debhelper devscripts rpm build-essential
+
+      - name: Build Debian Package
+        run: make deb
+
+      - name: Build RPM Package
+        run: make rpm
+
+      - name: Create Source Tarball
+        run: |
+          VERSION=$(grep '^VERSION=' cfg2html | cut -d'"' -f2)
+          tar -czvf cfg2html-${VERSION}.tar.gz . --exclude=.git
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-packages
+          path: |
+            linux/*.deb
+            linux/*.rpm
+            *.tar.gz
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            linux/*.deb
+            linux/*.rpm
+            *.tar.gz
+          body_path: CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

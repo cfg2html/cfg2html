@@ -6,6 +6,8 @@
 # IMPORTANT: You need an annotated git tag on your local build system, else the build will fail
 #            (at least using openSUSE).   Maybe a workaround could: git checkout master?
 
+.PHONY: changelog tag verinc help depot Linux rpm deb clean sunos bsd aix-rpm aix-dist
+
 product = cfg2html
 #TODO:# release = shell (git describe --long) ??  ## 6.33-6-g48d4c01
 
@@ -26,6 +28,9 @@ help:
 	@echo "|    AIX:   \"make aix-dist\"                |"
 	@echo "|                                          |"
 	@echo "|    changelog: build CHANGELOG-md         |"
+	@echo "|    verinc: increment version in script   |"
+	@echo "|    tag: create annotated git tag         |"
+	@echo "|    release: perform full release process |"
 	@echo "+------------------------------------------+"
 	@echo ""
 	@echo "IMPORTANT: You need an annotated git tag on your local build system"
@@ -62,9 +67,47 @@ aix-rpm:
 aix-dist:
 	make -C aix dist
 
+# Extract version from the VERSION="X.Y.Z" line in the cfg2html script
+VERSION := $(shell grep '^VERSION=' cfg2html | cut -d'"' -f2)
+# Calculate the release suffix (e.g., 0-gaf1c3e8)
+RELEASE := $(shell git describe --tags --long 2>/dev/null | cut -d'-' -f2,3 || echo "0-unknown")
+
+.PHONY: changelog tag verinc release
+
+# 1. Increment version in the script
+verinc:
+	@echo "Current version: $(VERSION)"
+	verinc -v cfg2html
+
+# 2. Update changelog and commit it
 changelog:
 	# HINT: git config gitchangelog.rc-path /home/ralph/bin/_.gitchangelog.rc
 	gitchangelog > CHANGELOG.md
-	git commit -s -m "chg: Updated Changelog (by Makefile), Version: $(shell git describe --long)" CHANGELOG.md
+	git commit -s -m "chg: Updated Changelog (by Makefile), Version: $(shell git describe --long)/$(VERSION)" CHANGELOG.md
 	#cat CHANGELOG.md
+
+# 3. Tag that specific commit with the new version
+tag:
+	@echo "Tagging version $(VERSION)..."
+	@if git rev-parse $(VERSION) >/dev/null 2>&1; then \
+		git tag -d $(VERSION); \
+		git push origin :refs/tags/$(VERSION); \
+	fi
+	git tag -a $(VERSION) -m "Release version $(VERSION)"
+	git push origin $(VERSION) --force
+# 	@echo "Detected Version in script: $(VERSION)"
+# 	@if git rev-parse $(VERSION) >/dev/null 2>&1; then \
+# 		echo "Tag $(VERSION) already exists locally. Replacing..."; \
+# 		git tag -d $(VERSION); \
+# 	fi
+# 	@echo "Creating annotated tag: $(VERSION)"
+# 	git tag -a $(VERSION) -m "Release version $(VERSION)"
+# 	@echo "Force-pushing tag to origin..."
+# 	git push origin $(VERSION) --force
+
+
+# 4. Do everything in one go
+release: verinc changelog tag
+	@echo "Release process completed. New version: $(VERSION), Release suffix: $(RELEASE)"
+	#@echo "Don't forget to push the changes and tags to the remote repository!"
 
