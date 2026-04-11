@@ -40,7 +40,8 @@ jobs:
       - name: Create Source Tarball
         run: |
           VERSION=$(grep '^VERSION=' cfg2html | cut -d'"' -f2)
-          tar -czvf cfg2html-${VERSION}.tar.gz . --exclude=.git
+          ## tar -czvf cfg2html-${VERSION}.tar.gz . --exclude=.git
+          git archive --format=tar.gz --prefix=cfg2html-${VERSION}/ -o cfg2html-${VERSION}.tar.gz HEAD
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v5
