@@ -2,6 +2,73 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+Changes
+~~~~~~~
+- Changes for upcoming 7.3.4 release. [roseswe]
+
+
+7.2.4 (2026-04-10)
+------------------
+
+Changes
+~~~~~~~
+- Bumped version number for upcoming 7.2.4 release. [roseswe]
+- Bump version to 7.2.3 in changelog. [roseswe]
+- Updated Changelog (by Makefile), Version: 7.2.3-0-g78b7514. [roseswe]
+
+Fix
+~~~
+- Debian source repositories can be in more than one location (#218) [Ed
+  Drouillard]
+
+  * fix: Debian source repositories can be in more than one location
+  * fix: shellcheck warning
+- Update script headers to reflect version changes and improve
+  documentation. [roseswe]
+- Update copyright year to 2025 and refine code formatting in cfg2html-
+  SunOS.sh (issue #211) [roseswe]
+- Stop tcpstat & ipstat after count runs (#212) [Peter Klausner,
+  pklausner]
+
+  These two calls don't terminate on
+  SunOS 5.11 11.4.0.15.0 sun4v sparc sun4v:
+
+  tcpstat -c 1
+  ipstat -c 1
+
+  Tweaked the calls to collect 60 seconds of data.
+  See https://github.com/cfg2html/cfg2html/issues/211
+- Proposed resolution to issue #202 (#210) [Ed Drouillard]
+
+  * fix: proposed resolution to issue #202
+
+  * fix: Minor linux Makefile adjustment !minor
+
+  - plugins is a regular file, not a directory in the find command
+- + chg: update version to 7.2.3 in cfg2html and cfg2html.spec (Issue
+  #205); refine .gitignore entries. [roseswe]
+
+Other
+~~~~~
+- Add check to debian-related Makefiles to test for dependencis, and
+  adjust test for being old (#217) [Ed Drouillard]
+
+  * fix: flag dependency in Makefiles for debhelper package utils if missing on Debian systems
+
+  * fix: update Year to avoid Warning message
+- Issue 231 - move postinstall script into post section of rpm spec file
+  (#214) [Gratien D'haese]
+
+  * #231 move cfg2html.postinst into spec file
+
+  * #231 move cfg2html.postinst into spec file
+- Stale.yml is obsolete in favor of workflows/close-stale-issues.yml.
+  [gdha]
+
+
 7.2.1 (2025-06-18)
 ------------------
 
