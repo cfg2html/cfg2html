@@ -1,0 +1,96 @@
+# .github/workflows/build.yml
+# -------------------------------------------------------------------------------------------------
+# 2026-04-11 - initial version by Ralph Roth
+# GitHub Action to automate RPM/DEB/Tarball builds and releases for cfg2html
+# -------------------------------------------------------------------------------------------------
+
+name: Build and Release Packages
+
+on:
+  push:
+    branches:
+      - feature/release-automation  # Current test branch
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+*'     # Standard versioning tags
+
+env:
+  # Opt into Node.js 24 to stay ahead of the June 2026 deprecation deadline
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0 # Required for git-describe to see history/tags
+
+      - name: Get Version
+        id: vars
+        run: |
+          # Extract version and save it for later steps
+          V_NUM=$(grep '^VERSION=' cfg2html | cut -d'"' -f2)
+          echo "VERSION=$V_NUM" >> $GITHUB_OUTPUT
+
+      - name: Install Build Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y debhelper devscripts rpm build-essential
+
+      - name: Build Debian Package
+        run: make deb
+
+      - name: Build RPM Package
+        run: make rpm
+
+      - name: Debug File Locations
+        run: |
+          echo "Checking root directory:"
+          ls -F
+          echo "Checking linux directory:"
+          ls -F linux/
+
+      - name: Create Source Tarball
+        run: |
+          VERSION=$(grep '^VERSION=' cfg2html | cut -d'"' -f2)
+          ## tar -czvf cfg2html-${VERSION}.tar.gz . --exclude=.git
+          ## Better to use git archive to ensure we only include tracked files and maintain correct directory structure:
+          ## or: tar --exclude=.git --exclude=*.tar.gz --exclude=*.deb --exclude=*.rpm -czf cfg2html-${VERSION}.tar.gz .
+          #git archive --format=tar.gz --prefix=cfg2html-${VERSION}/ -o cfg2html-${VERSION}.tar.gz HEAD
+
+          git archive --format=tar.gz --prefix=cfg2html-${{ steps.vars.outputs.VERSION }}/ -o cfg2html-${{ steps.vars.outputs.VERSION }}.tar.gz HEAD
+
+          ## Why did the previous run show Node.js 20 warnings again?
+          ## The warning appeared for actions/upload-artifact@v5 because
+          ## GitHub's internal "Check" happens before our environment
+          ## variable is fully processed. You can safely ignore it—the v5
+          ## actions are already built to be Node 24 compatible.
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v5
+        with:
+          name: build-packages
+          # Search both root and linux folder for packages
+          path: |
+            *.deb
+            *.rpm
+            linux/*.deb
+            linux/*.rpm
+            ##*.tar.gz
+            # ^ DO NOT use *.tar.gz here, or it will find the long-named one too!
+            cfg2html-${{ steps.vars.outputs.VERSION }}.tar.gz
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            *.deb
+            *.rpm
+            linux/*.deb
+            linux/*.rpm
+            cfg2html-${{ steps.vars.outputs.VERSION }}.tar.gz
+          body_path: CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

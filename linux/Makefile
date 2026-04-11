@@ -1,6 +1,9 @@
 # @(#) $Id: Makefile,v 6.20 2023/02/15 11:10:05 ralph Exp $
 # -------------------------------------------------------------------------
-# vim:ts=8:sw=4:sts=4
+# vim:ts=4:sw=4:sts=4
+# Makefile to create HP-UX software depot, AIX, FreeBSD, SunOS or Linux .DEB and .RPM packages etc.
+# -------------------------------------------------------------------------
+# -*- coding: utf-8, LF/Unix -*-
 
 # In some dists (e.g. Ubuntu) bash is not the default shell. Statements like
 #   cp -a etc/cfg2html/{mappings,templates} ...
@@ -214,9 +217,15 @@ dist: clean validate man rewrite $(name)-$(distversion).tar.gz restore
 
 $(name)-$(distversion).tar.gz:
 	@echo -e "\033[1m== Building archive $(name)-$(distversion) ==\033[0;0m"
+	# Temporary fix for testing github actions, or do we need this permanently? (ref: HEAD)
+	# WAS:
+
+	#	git checkout $(git_branch) ; \
+	#	git ls-tree -r --name-only --full-tree $(git_branch) | grep -v -E '(^bin|^hpux|^doc|^aix|^bsd|^sunos)' | \
+	#		tar -czf $(name)-$(distversion).tar.gz --transform='s,^,$(name)-$(distversion)/,S' --files-from=-
+
 	cd .. ; \
-	git checkout $(git_branch) ; \
-	git ls-tree -r --name-only --full-tree $(git_branch) | grep -v -E '(^bin|^hpux|^doc|^aix|^bsd|^sunos)' | \
+	git ls-tree -r --name-only --full-tree HEAD| grep -v -E '(^bin|^hpux|^doc|^aix|^bsd|^sunos)' | \
 		tar -czf $(name)-$(distversion).tar.gz --transform='s,^,$(name)-$(distversion)/,S' --files-from=-
 
 Linux:
@@ -225,11 +234,14 @@ Linux:
 rpm: dist
 	@echo -e "\033[1m== Building RPM package $(name)-$(distversion) ==\033[0;0m"
 	cd .. ; \
-	rpmbuild -tb  \
+	rpmbuild -tb --nodeps \
 		--define "_rpmfilename %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm" \
 		--define "_sourcedir %(pwd)" \
 		--define "debug_package %{nil}" \
 		--define "_rpmdir %(pwd)" $(name)-$(distversion).tar.gz
+	# To keep your workspace clean after a build, you might want to add a line to your rpm: target
+	# that deletes that temporary long-named tarball once rpmbuild is finished:
+	rm -f ../cfg2html-$(shell git describe --long).tar.gz
 
 deb: dist cron doc
 # Stop if 'dh_testdir' is missing
@@ -241,6 +253,8 @@ deb: dist cron doc
 	fakeroot dh_install
 	fakeroot debian/rules binary
 	-rm -rf debian/
+	# Clean up the long-named temporary tarball
+	rm -f ../$(name)-$(distversion).tar.gz
 
 pacman: BUILD_DIR = /tmp/cfg2html-$(distversion)
 pacman: dist
