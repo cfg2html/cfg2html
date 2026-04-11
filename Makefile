@@ -30,6 +30,7 @@ help:
 	@echo "|    changelog: build CHANGELOG-md         |"
 	@echo "|    verinc: increment version in script   |"
 	@echo "|    tag: create annotated git tag         |"
+	@echo "|    dist: create source tarball (Linux)   |"
 	@echo "|    release: perform full release process |"
 	@echo "+------------------------------------------+"
 	@echo ""
@@ -46,6 +47,10 @@ Linux:
 
 rpm:
 	make -C linux rpm
+
+.PHONY: dist
+dist:
+	$(MAKE) -C linux dist
 
 deb:
 # Stop if 'dh_testdir' is missing
@@ -113,6 +118,6 @@ tag:
 
 
 # 4. Do everything in one go
-release: verinc changelog tag
+release: verinc changelog dist tag
 	@V=$$(grep '^VERSION=' cfg2html | cut -d'"' -f2); \
 	echo "Release process completed. New version: $$V"
