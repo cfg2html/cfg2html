@@ -236,6 +236,9 @@ rpm: dist
 		--define "_sourcedir %(pwd)" \
 		--define "debug_package %{nil}" \
 		--define "_rpmdir %(pwd)" $(name)-$(distversion).tar.gz
+	# To keep your workspace clean after a build, you might want to add a line to your rpm: target
+	# that deletes that temporary long-named tarball once rpmbuild is finished:
+  	rm -f ../cfg2html-$(shell git describe --long).tar.gz
 
 deb: dist cron doc
 # Stop if 'dh_testdir' is missing
