@@ -82,7 +82,8 @@ verinc:
 # 2. Update changelog and commit it
 changelog:
 	# HINT: git config gitchangelog.rc-path /home/ralph/bin/_.gitchangelog.rc
-	gitchangelog > CHANGELOG.md
+	##was: gitchangelog > CHANGELOG.md
+	gitchangelog $(shell git describe --tags --abbrev=0)..HEAD > CHANGELOG.md
 	git commit -s -m "chg: Updated Changelog (by Makefile), Version: $(shell git describe --long)/$(VERSION)" CHANGELOG.md
 	#cat CHANGELOG.md
 
