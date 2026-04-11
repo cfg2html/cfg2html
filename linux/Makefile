@@ -1,24 +1,26 @@
-# @(#) $Id: Makefile,v 6.20 2023/02/15 11:10:05 ralph Exp $
+# @(#) $Id: Makefile,v 6.20 2026/04/11 ralph Exp $
 # -------------------------------------------------------------------------
 # vim:ts=4:sw=4:sts=4
 # Makefile to create HP-UX software depot, AIX, FreeBSD, SunOS or Linux .DEB and .RPM packages etc.
 # -------------------------------------------------------------------------
 # -*- coding: utf-8, LF/Unix -*-
 
-# In some dists (e.g. Ubuntu) bash is not the default shell. Statements like
+# In some distros (e.g. Ubuntu) bash is not the default shell.
+# Statements like
 #   cp -a etc/cfg2html/{mappings,templates} ...
-# assumes bash. So its better to set SHELL
+# assumes bash.
+# So its better to set SHELL
 
 SHELL=/bin/bash
 
 DESTDIR =
 OFFICIAL =
 
-### Get version from Config 2 HTML itself
+### SINGLE SOURCE OF TRUTH: Get version from the main script
 cfg2htmlbin = ../cfg2html
 name = cfg2html
-version := $(shell awk '/^CVS=/ { print $$3}' $(cfg2htmlbin))
-version := $(shell git describe --long|tr "-" ".")
+# Extract directly from the script to avoid git-describe drift
+distversion := $(shell grep '^VERSION=' $(cfg2htmlbin) | cut -d'"' -f2)
 
 ### Get the branch information from git
 ifeq ($(OFFICIAL),)
@@ -29,7 +31,7 @@ git_ref := $(shell git symbolic-ref -q HEAD)
 git_branch = $(lastword $(subst /, ,$(git_ref)))
 endif
 else
-git_branch = cfg2html-$(version)
+git_branch = cfg2html-$(distversion)
 endif
 git_branch ?= master
 
@@ -46,16 +48,12 @@ localstatedir = /var
 specfile = packaging/rpm/$(name).spec
 dscfile = packaging/debian/$(name).dsc
 
-# Old way: distversion := $(shell git describe --long)
-# New way: Read it directly from the source of truth
-distversion := $(shell grep '^VERSION=' ../cfg2html | cut -d'"' -f2)
-##distversion = $(version)
+# OBS related variables
 debrelease = 0
 rpmrelease = %nil
 obsproject = home:gdha
-obspackage = $(name)-$(version)
+obspackage = $(name)-$(distversion)
 ifeq ($(OFFICIAL),)
-    distversion = $(version)-git$(date)
     debrelease = 0git$(date)
     rpmrelease = .git$(date)
     obsproject = home:gdha
@@ -68,7 +66,7 @@ else
 T := rpm
 endif
 
-.PHONY: doc
+.PHONY: doc clean help validate install uninstall dist rpm deb obs
 
 all:
 	@echo "Nothing to build. Use \`make help' for more information."
@@ -98,15 +96,12 @@ clean:
 	make -C doc clean
 	rm -rf ../$(name).cron
 
-### You can call 'make validate' directly from your .git/hooks/pre-commit script
 validate:
 	@echo -e "\033[1m== Validating scripts and configuration ==\033[0;0m"
 	find etc/  -name '*.conf' | xargs bash -n
 	find lib/ -name '*.sh' | xargs bash -n
 	bash -n $(cfg2htmlbin)
 	find . -name '*.sh' -o -name 'plugins' | xargs bash -n
-### Fails to work on RHEL4
-#	find -L . -type l
 
 man:
 	@echo -e "\033[1m== Prepare manual ==\033[0;0m"
@@ -130,17 +125,19 @@ rewrite:
 	cp -f $(cfg2htmlbin) $(cfg2htmlbin).orig
 	sed -i.orig \
 		-e 's#^Source:.*#Source: $(name)-$(distversion).tar.gz#' \
-		-e 's#^Version:.*#Version: $(version)#' \
+		-e 's#^Version:.*#Version: $(distversion)#' \
 		-e 's#^%define rpmrelease.*#%define rpmrelease $(rpmrelease)#' \
 		-e 's#^%setup.*#%setup -q -n $(name)-$(distversion)#' \
 		$(specfile)
 	sed -i.orig \
-		-e 's#^Version:.*#Version: $(version)-$(debrelease)#' \
+		-e 's#^Version:.*#Version: $(distversion)-$(debrelease)#' \
 		$(dscfile)
 	sed -i.orig \
 		-e 's#^VERSION=.*#VERSION=$(distversion)#' \
 		-e 's#^RELEASE_DATE=.*#RELEASE_DATE="$(release_date)"#' \
 		$(cfg2htmlbin)
+	@# PURE SYNC: Ensure Debian changelog matches the script version
+	sed -i '1s/([^)]*)/($(distversion))/' packaging/debian/changelog
 
 restore:
 	@echo -e "\033[1m== Restoring $(specfile), $(dscfile) and $(cfg2htmlbin) ==\033[0;0m"
@@ -150,10 +147,11 @@ restore:
 else
 rewrite:
 	@echo "Nothing to do."
-
 restore:
 	@echo "Nothing to do."
 endif
+
+# ... [install targets ] ...
 
 ### copy the local.conf file to the same directory as default.conf,
 ### then set /etc/cfg2html/local.conf from it.
@@ -220,13 +218,7 @@ dist: clean validate man rewrite $(name)-$(distversion).tar.gz restore
 
 $(name)-$(distversion).tar.gz:
 	@echo -e "\033[1m== Building archive $(name)-$(distversion) ==\033[0;0m"
-	# Temporary fix for testing github actions, or do we need this permanently? (ref: HEAD)
-	# WAS:
-
-	#	git checkout $(git_branch) ; \
-	#	git ls-tree -r --name-only --full-tree $(git_branch) | grep -v -E '(^bin|^hpux|^doc|^aix|^bsd|^sunos)' | \
-	#		tar -czf $(name)-$(distversion).tar.gz --transform='s,^,$(name)-$(distversion)/,S' --files-from=-
-
+	# Using HEAD to ensure CI compatibility with detached HEAD states
 	cd .. ; \
 	git ls-tree -r --name-only --full-tree HEAD| grep -v -E '(^bin|^hpux|^doc|^aix|^bsd|^sunos)' | \
 		tar -czf $(name)-$(distversion).tar.gz --transform='s,^,$(name)-$(distversion)/,S' --files-from=-
@@ -242,12 +234,10 @@ rpm: dist
 		--define "_sourcedir %(pwd)" \
 		--define "debug_package %{nil}" \
 		--define "_rpmdir %(pwd)" $(name)-$(distversion).tar.gz
-	# To keep your workspace clean after a build, you might want to add a line to your rpm: target
-	# that deletes that temporary long-named tarball once rpmbuild is finished:
-	rm -f ../cfg2html-$(shell git describe --long).tar.gz
+	# Clean up the long-named temporary tarball
+	rm -f ../$(name)-$(distversion).tar.gz
 
 deb: dist cron doc
-# Stop if 'dh_testdir' is missing
 	$(if $(shell command -v dh_testdir),,$(error WARNING: dh_testdir not found, debhelper package probably not installed))
 	@echo -e "\033[1m== Building DEB package $(name)-$(distversion) ==\033[0;0m"
 	cp -r packaging/debian/ .
@@ -259,6 +249,8 @@ deb: dist cron doc
 	# Clean up the long-named temporary tarball
 	rm -f ../$(name)-$(distversion).tar.gz
 
+# ... [pacman and obs targets remain unchanged] ...
+############################################################################################
 pacman: BUILD_DIR = /tmp/cfg2html-$(distversion)
 pacman: dist
 	@echo -e "\033[1m== Building Pacman package $(name)-$(distversion) ==\033[0;0m"

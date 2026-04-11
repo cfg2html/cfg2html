@@ -1,12 +1,14 @@
-cfg2html (7.2.4) UNRELEASED; urgency=medium
+cfg2html (7.2.6) UNRELEASED; urgency=medium
 
   * Having problem with the Debian build system/process
   * Bumped version to 7.2.0 after massive commit by Ed (#200) and Ralph (#199)
   * New upstream release. Fixes around SPEC files (#205, #204, #199, #197)
   * Versionnumber bumped to 7.2.3
   * Many upstream fixes, so its time to release it as 7.2.4
+  * Automated CI/CD build chain
+  * 
 
- -- Ralph (ZOS 17) <ralph@p16s23z>  Fri, 10 Apr 2026 09:21:10 +0200
+ -- Ralph (ZOS 17) <ralph@p16s23z>  Sat, 11 Apr 2026 18:34:38 +0200
 
 cfg2html (7.1.3) unstable; urgency=low
 
