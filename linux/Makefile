@@ -1,6 +1,9 @@
 # @(#) $Id: Makefile,v 6.20 2023/02/15 11:10:05 ralph Exp $
 # -------------------------------------------------------------------------
-# vim:ts=8:sw=4:sts=4
+# vim:ts=4:sw=4:sts=4
+# Makefile to create HP-UX software depot, AIX, FreeBSD, SunOS or Linux .DEB and .RPM packages etc.
+# -------------------------------------------------------------------------
+# -*- coding: utf-8, LF/Unix -*-
 
 # In some dists (e.g. Ubuntu) bash is not the default shell. Statements like
 #   cp -a etc/cfg2html/{mappings,templates} ...
@@ -250,6 +253,8 @@ deb: dist cron doc
 	fakeroot dh_install
 	fakeroot debian/rules binary
 	-rm -rf debian/
+	# Clean up the long-named temporary tarball
+	rm -f ../$(name)-$(distversion).tar.gz
 
 pacman: BUILD_DIR = /tmp/cfg2html-$(distversion)
 pacman: dist
