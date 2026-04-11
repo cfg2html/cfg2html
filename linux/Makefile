@@ -214,9 +214,16 @@ dist: clean validate man rewrite $(name)-$(distversion).tar.gz restore
 
 $(name)-$(distversion).tar.gz:
 	@echo -e "\033[1m== Building archive $(name)-$(distversion) ==\033[0;0m"
+	# Temporary fix for testing github actions, or do we need this permanently? (ref: HEAD)
+	# WAS:
+
+	#	git checkout $(git_branch) ; \
+	#	git ls-tree -r --name-only --full-tree $(git_branch) | grep -v -E '(^bin|^hpux|^doc|^aix|^bsd|^sunos)' | \
+	#		tar -czf $(name)-$(distversion).tar.gz --transform='s,^,$(name)-$(distversion)/,S' --files-from=-
+
 	cd .. ; \
 	git checkout $(git_branch) ; \
-	git ls-tree -r --name-only --full-tree $(git_branch) | grep -v -E '(^bin|^hpux|^doc|^aix|^bsd|^sunos)' | \
+	git ls-tree -r --name-only --full-tree HEAD| grep -v -E '(^bin|^hpux|^doc|^aix|^bsd|^sunos)' | \
 		tar -czf $(name)-$(distversion).tar.gz --transform='s,^,$(name)-$(distversion)/,S' --files-from=-
 
 Linux:
