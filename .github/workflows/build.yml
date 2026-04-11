@@ -58,7 +58,7 @@ jobs:
           ## Better to use git archive to ensure we only include tracked files and maintain correct directory structure:
           ## or: tar --exclude=.git --exclude=*.tar.gz --exclude=*.deb --exclude=*.rpm -czf cfg2html-${VERSION}.tar.gz .
           #git archive --format=tar.gz --prefix=cfg2html-${VERSION}/ -o cfg2html-${VERSION}.tar.gz HEAD
-          
+
           git archive --format=tar.gz --prefix=cfg2html-${{ steps.vars.outputs.VERSION }}/ -o cfg2html-${{ steps.vars.outputs.VERSION }}.tar.gz HEAD
 
           ## Why did the previous run show Node.js 20 warnings again?
@@ -77,7 +77,8 @@ jobs:
             *.rpm
             linux/*.deb
             linux/*.rpm
-            *.tar.gz
+            ##*.tar.gz
+            # ^ DO NOT use *.tar.gz here, or it will find the long-named one too!
             cfg2html-${{ steps.vars.outputs.VERSION }}.tar.gz
 
       - name: Create GitHub Release
