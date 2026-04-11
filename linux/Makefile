@@ -222,7 +222,6 @@ $(name)-$(distversion).tar.gz:
 	#		tar -czf $(name)-$(distversion).tar.gz --transform='s,^,$(name)-$(distversion)/,S' --files-from=-
 
 	cd .. ; \
-	git checkout $(git_branch) ; \
 	git ls-tree -r --name-only --full-tree HEAD| grep -v -E '(^bin|^hpux|^doc|^aix|^bsd|^sunos)' | \
 		tar -czf $(name)-$(distversion).tar.gz --transform='s,^,$(name)-$(distversion)/,S' --files-from=-
 
@@ -232,7 +231,7 @@ Linux:
 rpm: dist
 	@echo -e "\033[1m== Building RPM package $(name)-$(distversion) ==\033[0;0m"
 	cd .. ; \
-	rpmbuild -tb  \
+	rpmbuild -tb --nodeps \
 		--define "_rpmfilename %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm" \
 		--define "_sourcedir %(pwd)" \
 		--define "debug_package %{nil}" \
