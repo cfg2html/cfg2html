@@ -46,7 +46,10 @@ localstatedir = /var
 specfile = packaging/rpm/$(name).spec
 dscfile = packaging/debian/$(name).dsc
 
-distversion = $(version)
+# Old way: distversion := $(shell git describe --long)
+# New way: Read it directly from the source of truth
+distversion := $(shell grep '^VERSION=' ../cfg2html | cut -d'"' -f2)
+##distversion = $(version)
 debrelease = 0
 rpmrelease = %nil
 obsproject = home:gdha
