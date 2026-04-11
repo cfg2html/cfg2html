@@ -36,11 +36,11 @@ rm -f /tmp/cfg2html.respawn # get rid of the temporary lock as soon as possible
 # may be obsoleted by git tag --describe or git describe handling?
 # -----------------------------------------------------------------------------
 PRODUCT="Config to HTML - cfg2html"
-CVS="$Identifier: cfg2html,v 7.2.8 ralph Exp $"     ## Hardcoded..... yet, any ideas? Linux Makefile uses field #3 for version number. -> _VERSION_
+CVS="$Identifier: cfg2html,v 7.2.9 ralph Exp $"     ## Hardcoded..... yet, any ideas? Linux Makefile uses field #3 for version number. -> _VERSION_
 #PROGRAM=$(echo ${CVS}|cut -f2 -d" "|cut -f1 -d,)
 PROGRAM="cfg2html"
 #VERSION=$(echo ${CVS}|cut -f3 -d" ")
-VERSION="7.2.8"     ## _VERSION_  (can be incremented by verinc)
+VERSION="7.2.9"     ## _VERSION_  (can be incremented by verinc)
 RELEASE_DATE="2026-04-10"	## YYYY-MM-DD ?!
 # -----------------------------------------------------------------------------
 
