@@ -1,9 +1,5 @@
 (unreleased)
 ------------
-
-Changes
-~~~~~~~
-- Version bumped fix: workaround using sed for  Debian version
-  numbering. [roseswe]
+- Add: Added dist target (back again) [roseswe]
 
 
