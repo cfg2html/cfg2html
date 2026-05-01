@@ -81,6 +81,7 @@ RELEASE := $(shell git describe --tags --long 2>/dev/null | cut -d'-' -f2,3 || e
 
 # 1. Increment version in the script
 verinc:
+  # verinc: Increment version in cfg2html script using verinc tool - https://github.com/roseswe/verinc
 	@echo "Current version: $(VERSION)"
 	verinc -v cfg2html
 

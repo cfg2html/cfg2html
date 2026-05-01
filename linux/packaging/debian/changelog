@@ -1,4 +1,4 @@
-cfg2html (7.2.9) UNRELEASED; urgency=medium
+cfg2html (7.3.1) UNRELEASED; urgency=medium
 
   * Having problem with the Debian build system/process
   * Bumped version to 7.2.0 after massive commit by Ed (#200) and Ralph (#199)
