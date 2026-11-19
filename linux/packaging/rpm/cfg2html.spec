@@ -17,7 +17,7 @@
 %undefine __brp_mangle_shebangs
 
 Name:		cfg2html
-Version: 7.2.1
+Version: 7.3.1
 Release:	1%{?rpmrelease}%{?dist}
 Summary:	Config2HTML is a tool to collect system information in HTML and ASCII format
 
